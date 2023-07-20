@@ -1,0 +1,9 @@
+Single page GitHub Pages 404 error:
+
+https://github.com/rafgraph/spa-github-pages
+
+https://stackoverflow.com/questions/63462828/404-error-on-refresh-with-spa-react-router-app-in-github-pages
+
+Node.js error "error:0308010C:digital envelope routines::unsupported"
+
+https://stackoverflow.com/questions/69692842/error-message-error0308010cdigital-envelope-routinesunsupported
