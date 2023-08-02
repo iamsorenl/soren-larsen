@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/soren-larsen/static/css/main.073c9b0a.css",
-    "main.js": "/soren-larsen/static/js/main.8ca22a39.js",
-    "static/js/787.77da2f6a.chunk.js": "/soren-larsen/static/js/787.77da2f6a.chunk.js",
-    "static/media/logo.svg": "/soren-larsen/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/soren-larsen/index.html",
-    "main.073c9b0a.css.map": "/soren-larsen/static/css/main.073c9b0a.css.map",
-    "main.8ca22a39.js.map": "/soren-larsen/static/js/main.8ca22a39.js.map",
-    "787.77da2f6a.chunk.js.map": "/soren-larsen/static/js/787.77da2f6a.chunk.js.map"
+    "main.css": "/static/css/main.073c9b0a.css",
+    "main.js": "/static/js/main.de5ab03a.js",
+    "static/js/787.77da2f6a.chunk.js": "/static/js/787.77da2f6a.chunk.js",
+    "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/index.html",
+    "main.073c9b0a.css.map": "/static/css/main.073c9b0a.css.map",
+    "main.de5ab03a.js.map": "/static/js/main.de5ab03a.js.map",
+    "787.77da2f6a.chunk.js.map": "/static/js/787.77da2f6a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.8ca22a39.js"
+    "static/js/main.de5ab03a.js"
   ]
 }
