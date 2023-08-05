@@ -1,161 +1,117 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Stack from '@mui/material/Stack';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 
-// Define your custom theme
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#2196f3', // Custom primary color
-        },
-        // Add other customizations to the theme as needed
-    },
-    // Add other theme settings as needed
+const drawerWidth = 240;
+
+const theme = createTheme();
+
+const Root = styled('div')({
+    display: 'flex',
 });
 
-// Styled AppBar to customize the styles
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
-    // Add custom styles here if needed
-}));
+const StyledAppBar = styled(AppBar)({
+    zIndex: theme.zIndex.drawer + 1,
+});
 
-// Styled Typography to customize the styles
-const StyledTypography = styled(Typography)(({ theme }) => ({
+const StyledDrawer = styled(Drawer)({
+    width: drawerWidth,
+    flexShrink: 0,
+});
+
+const StyledDrawerPaper = styled('div')({
+    width: drawerWidth,
+});
+
+const StyledDrawerHeader = styled('div')({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+});
+
+const StyledMain = styled('main')({
     flexGrow: 1,
-    // Add custom styles here if needed
-}));
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+});
 
 function Navbar() {
-    const [drawerActivate, setDrawerActivate] = useState(false);
-    const [drawer, setDrawer] = useState(false);
+    const [open, setOpen] = useState(false);
 
-    const handleResize = () => {
-        if (window.innerWidth <= 600) {
-            setDrawerActivate(true);
-        } else {
-            setDrawerActivate(false);
-        }
-    };
-
-    // Debounce the resize event to avoid unnecessary rendering
-    const debounceResize = (func, delay) => {
-        let timer;
-        return function () {
-            clearTimeout(timer);
-            timer = setTimeout(func, delay);
-        };
-    };
-
-    // Check the initial screen width when the component mounts
-    useEffect(() => {
-        const checkInitialWidth = () => {
-            if (window.innerWidth <= 600) {
-                setDrawerActivate(true);
-            }
-        };
-
-        checkInitialWidth(); // Call the function on mount
-        const debouncedResize = debounceResize(handleResize, 200); // Adjust the delay as needed
-        window.addEventListener('resize', debouncedResize);
-
-        return () => {
-            window.removeEventListener('resize', debouncedResize);
-        };
-    }, []);
-
-    // Small Screens
-    const createDrawer = () => {
-        return (
-            <div>
-                <StyledAppBar>
-                    <Toolbar>
-                        <Stack direction="row" alignItems="center" gap={2}>
-                            <MenuIcon onClick={() => setDrawer(true)} />
-                            <StyledTypography color="inherit" variant="h6">
-                                Soren Larsen
-                            </StyledTypography>
-                        </Stack>
-                    </Toolbar>
-                </StyledAppBar>
-
-                <SwipeableDrawer
-                    open={drawer}
-                    onClose={() => setDrawer(false)}
-                    onOpen={() => setDrawer(true)}
-                >
-                    <div
-                        tabIndex={0}
-                        role="button"
-                        onClick={() => setDrawer(false)}
-                        onKeyDown={() => setDrawer(false)}
-                    >
-                        <List sx={{ width: 200 }}>
-                            {/* Use the custom styles here */}
-                            <ListItem key={1} button divider>
-                                Option 1
-                            </ListItem>
-                            <ListItem key={2} button divider>
-                                Option 2
-                            </ListItem>
-                            <ListItem key={3} button divider>
-                                Option 3
-                            </ListItem>
-                        </List>
-                    </div>
-                </SwipeableDrawer>
-            </div>
-        );
-    };
-
-    // Larger Screens
-    const destroyDrawer = () => {
-        return (
-            <StyledAppBar>
-                <Toolbar>
-                    <StyledTypography variant="h6" color="inherit">
-                        Soren Larsen
-                    </StyledTypography>
-                    <Stack direction="row" alignItems="center" gap={2}>
-                        {/* Use the custom styles here */}
-                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
-                            About
-                        </Typography>
-                        {/* Use the custom styles here */}
-                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
-                            Resume
-                        </Typography>
-                        {/* Use the custom styles here */}
-                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
-                            Skills
-                        </Typography>
-                        {/* Use the custom styles here */}
-                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
-                            Projects
-                        </Typography>
-                        {/* Use the custom styles here */}
-                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
-                            Experience
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
-                            Contact
-                        </Typography>
-                    </Stack>
-                </Toolbar>
-            </StyledAppBar>
-        );
+    const handleToggleDrawer = () => {
+        setOpen((o) => !o);
     };
 
     return (
         <ThemeProvider theme={theme}>
-            <div>
-                {drawerActivate ? createDrawer() : destroyDrawer()}
-            </div>
+            <Root>
+                <CssBaseline />
+                <StyledAppBar position="fixed">
+                    <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleToggleDrawer}
+                            edge="start"
+                            sx={{ marginRight: 2 }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap>
+                            Soren Larsen
+                        </Typography>
+                    </Toolbar>
+                </StyledAppBar>
+                <StyledDrawer
+                    variant="persistent"
+                    anchor="top"
+                    open={open}
+                    classes={{ paper: StyledDrawerPaper }}
+                >
+                    <StyledDrawerHeader>
+                        <IconButton onClick={handleToggleDrawer}>
+                            {theme.direction === 'ltr' ? (
+                                <ChevronLeftIcon />
+                            ) : (
+                                <ChevronRightIcon />
+                            )}
+                        </IconButton>
+                    </StyledDrawerHeader>
+                    <List>
+                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                            <ListItemButton key={text}>
+                                <ListItemIcon>
+                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </StyledDrawer>
+                <StyledMain>
+                    <StyledDrawerHeader />
+                </StyledMain>
+            </Root>
         </ThemeProvider>
     );
 }
