@@ -7,8 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import Stack from '@mui/material/Stack';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
 // Define your custom theme
 const theme = createTheme({
@@ -21,20 +20,15 @@ const theme = createTheme({
     // Add other theme settings as needed
 });
 
-const useStyles = makeStyles((theme) => ({
-    // Define your custom styles here
-    list: {
-        width: 200,
-    },
-    padding: {
-        paddingRight: 30,
-        cursor: 'pointer',
-    },
-    sideBarIcon: {
-        padding: 0,
-        color: 'white',
-        cursor: 'pointer',
-    },
+// Styled AppBar to customize the styles
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+    // Add custom styles here if needed
+}));
+
+// Styled Typography to customize the styles
+const StyledTypography = styled(Typography)(({ theme }) => ({
+    flexGrow: 1,
+    // Add custom styles here if needed
 }));
 
 function Navbar() {
@@ -75,20 +69,20 @@ function Navbar() {
         };
     }, []);
 
-    const classes = useStyles(); // Get the custom styles using makeStyles
-
     // Small Screens
     const createDrawer = () => {
         return (
             <div>
-                <AppBar>
+                <StyledAppBar>
                     <Toolbar>
                         <Stack direction="row" alignItems="center" gap={2}>
                             <MenuIcon onClick={() => setDrawer(true)} />
-                            <Typography color="inherit" variant="h6">Soren Larsen</Typography>
+                            <StyledTypography color="inherit" variant="h6">
+                                Soren Larsen
+                            </StyledTypography>
                         </Stack>
                     </Toolbar>
-                </AppBar>
+                </StyledAppBar>
 
                 <SwipeableDrawer
                     open={drawer}
@@ -101,30 +95,48 @@ function Navbar() {
                         onClick={() => setDrawer(false)}
                         onKeyDown={() => setDrawer(false)}
                     >
-                        <List className={classes.list}> {/* Use the custom styles here */}
-                            <ListItem key={1} button divider> Option 1 </ListItem>
-                            <ListItem key={2} button divider> Option 2 </ListItem>
-                            <ListItem key={3} button divider> Option 3 </ListItem>
+                        <List sx={{ width: 200 }}>
+                            {/* Use the custom styles here */}
+                            <ListItem key={1} button divider>
+                                Option 1
+                            </ListItem>
+                            <ListItem key={2} button divider>
+                                Option 2
+                            </ListItem>
+                            <ListItem key={3} button divider>
+                                Option 3
+                            </ListItem>
                         </List>
                     </div>
                 </SwipeableDrawer>
             </div>
         );
-    }
+    };
 
     // Larger Screens
     const destroyDrawer = () => {
         return (
-            <AppBar>
+            <StyledAppBar>
                 <Toolbar>
-                    <Typography variant="h6" style={{ flexGrow: 1 }} color="inherit">Soren Larsen</Typography>
-                    <Typography variant="subtitle1" className={classes.padding} color="inherit">OPTION 1</Typography> {/* Use the custom styles here */}
-                    <Typography variant="subtitle1" className={classes.padding} color="inherit">OPTION 2</Typography> {/* Use the custom styles here */}
-                    <Typography variant="subtitle1" className={classes.padding} color="inherit">OPTION 3</Typography> {/* Use the custom styles here */}
+                    <StyledTypography variant="h6" color="inherit">
+                        Soren Larsen
+                    </StyledTypography>
+                    {/* Use the custom styles here */}
+                    <Typography variant="subtitle1" sx={{ paddingRight: 30, cursor: 'pointer' }} color="inherit">
+                        OPTION 1
+                    </Typography>
+                    {/* Use the custom styles here */}
+                    <Typography variant="subtitle1" sx={{ paddingRight: 30, cursor: 'pointer' }} color="inherit">
+                        OPTION 2
+                    </Typography>
+                    {/* Use the custom styles here */}
+                    <Typography variant="subtitle1" sx={{ paddingRight: 30, cursor: 'pointer' }} color="inherit">
+                        OPTION 3
+                    </Typography>
                 </Toolbar>
-            </AppBar>
+            </StyledAppBar>
         );
-    }
+    };
 
     return (
         <ThemeProvider theme={theme}>
