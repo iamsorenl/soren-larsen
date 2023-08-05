@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -13,7 +14,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import DescriptionIcon from '@mui/icons-material/Description';
+import BuildIcon from '@mui/icons-material/Build';
+import WorkIcon from '@mui/icons-material/Work';
+import BusinessIcon from '@mui/icons-material/Business';
 import MailIcon from '@mui/icons-material/Mail';
 
 const drawerWidth = 240;
@@ -41,6 +46,7 @@ const StyledDrawerHeader = styled('div')({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 });
@@ -55,8 +61,19 @@ const StyledMain = styled('main')({
     marginLeft: -drawerWidth,
 });
 
+const CenteredListItemButton = styled(ListItemButton)({
+    display: 'flex',
+    justifyContent: 'center',
+    '& .MuiListItemIcon-root': {
+        minWidth: 'auto',
+    },
+    '& .MuiListItemText-root': {
+        textAlign: 'center',
+    },
+});
+
 function Navbar() {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
     const handleToggleDrawer = () => {
         setOpen((o) => !o);
@@ -90,21 +107,24 @@ function Navbar() {
                 >
                     <StyledDrawerHeader>
                         <IconButton onClick={handleToggleDrawer}>
-                            {theme.direction === 'ltr' ? (
-                                <ChevronLeftIcon />
-                            ) : (
-                                <ChevronRightIcon />
-                            )}
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </IconButton>
                     </StyledDrawerHeader>
                     <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItemButton key={text}>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
+                        {[
+                            { text: 'About', icon: <AccountBoxIcon /> },
+                            { text: 'Resume', icon: <DescriptionIcon /> },
+                            { text: 'Skills', icon: <BuildIcon /> },
+                            { text: 'Projects', icon: <WorkIcon /> },
+                            { text: 'Experience', icon: <BusinessIcon /> },
+                            { text: 'Contact', icon: <MailIcon /> },
+                        ].map((item) => (
+                            <CenteredListItemButton key={item.text}>
+                                <Stack direction='row' alignItems='center' spacing={0.5}>
+                                    <ListItemIcon>{item.icon}</ListItemIcon>
+                                    <ListItemText primary={item.text} />
+                                </Stack>
+                            </CenteredListItemButton>
                         ))}
                     </List>
                 </StyledDrawer>
