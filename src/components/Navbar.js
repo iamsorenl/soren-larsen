@@ -121,18 +121,31 @@ function Navbar() {
                     <StyledTypography variant="h6" color="inherit">
                         Soren Larsen
                     </StyledTypography>
-                    {/* Use the custom styles here */}
-                    <Typography variant="subtitle1" sx={{ paddingRight: 30, cursor: 'pointer' }} color="inherit">
-                        OPTION 1
-                    </Typography>
-                    {/* Use the custom styles here */}
-                    <Typography variant="subtitle1" sx={{ paddingRight: 30, cursor: 'pointer' }} color="inherit">
-                        OPTION 2
-                    </Typography>
-                    {/* Use the custom styles here */}
-                    <Typography variant="subtitle1" sx={{ paddingRight: 30, cursor: 'pointer' }} color="inherit">
-                        OPTION 3
-                    </Typography>
+                    <Stack direction="row" alignItems="center" gap={2}>
+                        {/* Use the custom styles here */}
+                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
+                            About
+                        </Typography>
+                        {/* Use the custom styles here */}
+                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
+                            Resume
+                        </Typography>
+                        {/* Use the custom styles here */}
+                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
+                            Skills
+                        </Typography>
+                        {/* Use the custom styles here */}
+                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
+                            Projects
+                        </Typography>
+                        {/* Use the custom styles here */}
+                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
+                            Experience
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ cursor: 'pointer' }} color="inherit">
+                            Contact
+                        </Typography>
+                    </Stack>
                 </Toolbar>
             </StyledAppBar>
         );
