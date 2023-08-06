@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,8 +14,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MailIcon from '@mui/icons-material/Mail';
-
-const theme = createTheme();
+import theme from '../theme';
 
 const Root = styled('div')({
     display: 'flex',
@@ -45,7 +44,7 @@ const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
     paddingTop: theme.spacing(2.5),
     paddingBottom: theme.spacing(2.5),
     '& .MuiListItemIcon-root': {
-        color: 'white',
+        color: "#e8eaf6",
         minWidth: 'auto',
     },
     '&:hover': {
