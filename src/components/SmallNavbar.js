@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, ThemeProvider } from '@mui/material/styles';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
@@ -20,19 +20,18 @@ import BuildIcon from '@mui/icons-material/Build';
 import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MailIcon from '@mui/icons-material/Mail';
-import theme from '../styles';
 
 const drawerWidth = 240;
 
+const theme = createTheme();
+
 const Root = styled('div')({
     display: 'flex',
-    backgroundColor: '#dfd5a5',
 });
 
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
+const StyledAppBar = styled(AppBar)({
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: theme.palette.one.main,
-}));
+});
 
 const StyledDrawer = styled(Drawer)({
     width: drawerWidth,

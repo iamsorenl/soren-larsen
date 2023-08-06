@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, ThemeProvider } from '@mui/material/styles';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,17 +14,16 @@ import BuildIcon from '@mui/icons-material/Build';
 import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MailIcon from '@mui/icons-material/Mail';
-import theme from '../styles';
+
+const theme = createTheme();
 
 const Root = styled('div')({
     display: 'flex',
-    backgroundColor: '#dfd5a5',
 });
 
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
+const StyledAppBar = styled(AppBar)({
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: theme.palette.one.main,
-}));
+});
 
 const RightAlignedStack = styled(Stack)({
     marginLeft: 'auto',
@@ -55,7 +54,6 @@ const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 function LargeNavbar() {
-
     const handleButtonClick = (text) => {
         console.log(`Large Clicked on: ${text}`);
     };

@@ -1,20 +1,13 @@
 import './App.css';
+//import ProjectCard from './components/ProjectCard';
 import Navbar from './components/Navbar';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+//import Container from '@mui/material/Container';
+//import Grid from '@mui/material/Grid';
 
 function App() {
-
   return (
-    <div className="App" style={{ position: 'relative', minHeight: '100vh' }}>
+    <div className="App">
       <Navbar />
-      <div style={{ position: 'absolute', top: '64px', left: 0, right: 0 }}>
-        <Container>
-          <Typography>
-            poop
-          </Typography>
-        </Container>
-      </div>
     </div>
   );
 }
