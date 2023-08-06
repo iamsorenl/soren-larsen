@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,16 +14,17 @@ import BuildIcon from '@mui/icons-material/Build';
 import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MailIcon from '@mui/icons-material/Mail';
-
-const theme = createTheme();
+import theme from '../styles';
 
 const Root = styled('div')({
     display: 'flex',
+    backgroundColor: '#dfd5a5',
 });
 
-const StyledAppBar = styled(AppBar)({
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
-});
+    backgroundColor: theme.palette.one.main,
+}));
 
 const RightAlignedStack = styled(Stack)({
     marginLeft: 'auto',
@@ -54,6 +55,11 @@ const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 function LargeNavbar() {
+
+    const handleButtonClick = (text) => {
+        console.log(`Large Clicked on: ${text}`);
+    };
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -65,7 +71,7 @@ function LargeNavbar() {
                         </Typography>
                         <RightAlignedStack direction="row">
                             {menuItems.map((item) => (
-                                <CustomListItemButton key={item.text}>
+                                <CustomListItemButton key={item.text} onClick={() => handleButtonClick(item.text)}>
                                     <Stack direction="row" alignItems="center" spacing={0.5}>
                                         <ListItemIcon>{item.icon}</ListItemIcon>
                                         <ListItemText primary={item.text} />
