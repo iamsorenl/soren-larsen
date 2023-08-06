@@ -20,10 +20,6 @@ const Root = styled('div')({
     display: 'flex',
 });
 
-const StyledAppBar = styled(AppBar)({
-    zIndex: theme.zIndex.drawer + 1,
-});
-
 const RightAlignedStack = styled(Stack)({
     marginLeft: 'auto',
     marginRight: theme.spacing(2), // Add some margin on the right for better spacing
@@ -61,7 +57,7 @@ function LargeNavbar() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Root>
-                <StyledAppBar position="fixed">
+                <AppBar position="fixed">
                     <Toolbar>
                         <Typography variant="h6" noWrap>
                             Soren Larsen
@@ -77,7 +73,7 @@ function LargeNavbar() {
                             ))}
                         </RightAlignedStack>
                     </Toolbar>
-                </StyledAppBar>
+                </AppBar>
             </Root>
         </ThemeProvider>
     );

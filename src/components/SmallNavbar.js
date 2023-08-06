@@ -9,8 +9,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -35,29 +33,30 @@ const StyledAppBar = styled(AppBar)({
 const StyledDrawer = styled(Drawer)({
     width: drawerWidth,
     flexShrink: 0,
+    minHeight: 0,
 });
 
 const StyledDrawerPaper = styled('div')({
     width: drawerWidth,
+    minHeight: 0,
 });
 
 const StyledDrawerHeader = styled('div')({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 });
 
 const StyledMain = styled('main')({
     flexGrow: 1,
-    padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
+    height: 0,
 });
 
 const CenteredListItemButton = styled(ListItemButton)({
@@ -109,9 +108,6 @@ function SmallNavbar() {
                     classes={{ paper: StyledDrawerPaper }}
                 >
                     <StyledDrawerHeader>
-                        <IconButton onClick={handleToggleDrawer}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                        </IconButton>
                     </StyledDrawerHeader>
                     <List>
                         {[

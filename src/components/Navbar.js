@@ -6,7 +6,7 @@ function Navbar() {
     const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth <= 960);
 
     const handleResize = () => {
-        setIsScreenSmall(window.innerWidth <= 1280);
+        setIsScreenSmall(window.innerWidth <= 960);
     };
 
     useEffect(() => {
