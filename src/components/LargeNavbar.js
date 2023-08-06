@@ -25,23 +25,33 @@ const StyledAppBar = styled(AppBar)({
     zIndex: theme.zIndex.drawer + 1,
 });
 
-const CenteredListItemButton = styled(ListItemButton)({
-    display: 'flex',
-    justifyContent: 'center',
-    '& .MuiListItemIcon-root': {
-        minWidth: 'auto',
-    },
-    '& .MuiListItemText-root': {
-        textAlign: 'center',
-    },
-});
-
 const RightAlignedStack = styled(Stack)({
     marginLeft: 'auto',
     marginRight: theme.spacing(2), // Add some margin on the right for better spacing
     position: 'fixed',
     right: 0,
 });
+
+const menuItems = [
+    { text: 'About', icon: <AccountBoxIcon /> },
+    { text: 'Resume', icon: <DescriptionIcon /> },
+    { text: 'Skills', icon: <BuildIcon /> },
+    { text: 'Projects', icon: <WorkIcon /> },
+    { text: 'Experience', icon: <BusinessIcon /> },
+    { text: 'Contact', icon: <MailIcon /> },
+];
+
+const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
+    paddingTop: theme.spacing(2.5),
+    paddingBottom: theme.spacing(2.5),
+    '& .MuiListItemIcon-root': {
+        color: 'white',
+        minWidth: 'auto',
+    },
+    '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+    },
+}));
 
 function LargeNavbar() {
     return (
@@ -53,55 +63,15 @@ function LargeNavbar() {
                         <Typography variant="h6" noWrap>
                             Soren Larsen
                         </Typography>
-                        <RightAlignedStack direction="row" spacing={2}>
-                            <CenteredListItemButton>
-                                <Stack direction="row" alignItems="center" spacing={0.5}>
-                                    <ListItemIcon style={{ color: 'white' }}>
-                                        <AccountBoxIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="About" />
-                                </Stack>
-                            </CenteredListItemButton>
-                            <CenteredListItemButton>
-                                <Stack direction="row" alignItems="center" spacing={0.5}>
-                                    <ListItemIcon style={{ color: 'white' }}>
-                                        <DescriptionIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Resume" />
-                                </Stack>
-                            </CenteredListItemButton>
-                            <CenteredListItemButton>
-                                <Stack direction="row" alignItems="center" spacing={0.5}>
-                                    <ListItemIcon style={{ color: 'white' }}>
-                                        <BuildIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Skills" />
-                                </Stack>
-                            </CenteredListItemButton>
-                            <CenteredListItemButton>
-                                <Stack direction="row" alignItems="center" spacing={0.5}>
-                                    <ListItemIcon style={{ color: 'white' }}>
-                                        <WorkIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Projects" />
-                                </Stack>
-                            </CenteredListItemButton>
-                            <CenteredListItemButton>
-                                <Stack direction="row" alignItems="center" spacing={0.5}>
-                                    <ListItemIcon style={{ color: 'white' }}>
-                                        <BusinessIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Experience" />
-                                </Stack>
-                            </CenteredListItemButton>
-                            <CenteredListItemButton>
-                                <Stack direction="row" alignItems="center" spacing={0.5}>
-                                    <ListItemIcon style={{ color: 'white' }}>
-                                        <MailIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Contact" />
-                                </Stack>
-                            </CenteredListItemButton>
+                        <RightAlignedStack direction="row">
+                            {menuItems.map((item) => (
+                                <CustomListItemButton key={item.text}>
+                                    <Stack direction="row" alignItems="center" spacing={0.5}>
+                                        <ListItemIcon>{item.icon}</ListItemIcon>
+                                        <ListItemText primary={item.text} />
+                                    </Stack>
+                                </CustomListItemButton>
+                            ))}
                         </RightAlignedStack>
                     </Toolbar>
                 </StyledAppBar>
