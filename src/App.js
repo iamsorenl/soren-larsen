@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
+import Body from './components/Body';
 import { ThemeProvider } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+//import Typography from '@mui/material/Typography';
 import theme from './theme';
 
 function App() {
@@ -11,11 +12,7 @@ function App() {
       <div className="App">
         <Navbar />
         <div style={{ marginTop: '64px' }}>
-          {/* 64px is the height of the Navbar. Adjust this value based on your Navbar's height */}
-          <Typography variant="h6" style={{ color: 'white' }}>
-            This is some white text below the Navbar.
-          </Typography>
-          {/* Your other components can also be added here */}
+          <Body />
         </div>
       </div>
     </ThemeProvider>
