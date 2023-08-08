@@ -11,16 +11,16 @@ function Body() {
                     <AboutCard />
                 </Grid>
                 <Grid item xs={12}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>xs=12</Box>
+                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
                 </Grid>
                 <Grid item xs={4}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>xs=4</Box>
+                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
                 </Grid>
                 <Grid item xs={4}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>xs=4</Box>
+                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
                 </Grid>
                 <Grid item xs={4}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>xs=4</Box>
+                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
                 </Grid>
             </Grid>
         </Box>
