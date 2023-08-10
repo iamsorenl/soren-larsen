@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import AboutCard from './AboutCard';
+import CardLayout from './CardLayout';
 
 function Body() {
     return (
@@ -11,16 +12,7 @@ function Body() {
                     <AboutCard />
                 </Grid>
                 <Grid item xs={12}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
-                </Grid>
-                <Grid item xs={4}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
-                </Grid>
-                <Grid item xs={4}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
-                </Grid>
-                <Grid item xs={4}>
-                    <Box sx={{ bgcolor: 'lightgray', p: 2, textAlign: 'center', mt: 2 }}>placeholder</Box>
+                    <CardLayout />
                 </Grid>
             </Grid>
         </Box>

@@ -9,10 +9,10 @@ const theme = createTheme({
             contrastText: colors.indigo[50],
         },
         secondary: {
-            main: colors.lightBlue[400],
-            light: colors.lightBlue[200],
-            dark: colors.lightBlue[600],
-            contrastText: colors.lightBlue[50],
+            main: '#3d5afe',
+            light: '#536dfe',
+            dark: '#304ffe',
+            contrastText: '#8c9eff',
         },
         background: {
             default: '#000000',
