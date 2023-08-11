@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 
 const CardComponent = () => {
     return (
-        <Card>
+        <Card sx={{ width: '100%', border: '1px solid #ccc', mb: 1 }}>
             <CardContent>
                 <Typography variant="h6">Card Title</Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" color="text.secondary">
                     This is a sample card content.
                 </Typography>
             </CardContent>
@@ -20,15 +20,16 @@ const CardComponent = () => {
 
 const CardLayout = () => {
     return (
-        <Container maxWidth="lg">
-            <Grid container spacing={3}>
+        <Container maxWidth="xl" sx={{ margin: 0, padding: 0 }}>
+            <Grid container spacing={1}>
                 {/* Column of Cards */}
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={8}>
+                    <CardComponent />
+                    <CardComponent />
                     <CardComponent />
                 </Grid>
-
                 {/* Duplicate the Column of Cards in a Row */}
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={4}>
                     <CardComponent />
                 </Grid>
             </Grid>
