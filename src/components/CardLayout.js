@@ -1,22 +1,8 @@
 import React from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-
-const CardComponent = () => {
-    return (
-        <Card sx={{ width: '100%', border: '1px solid #ccc', mb: 1 }}>
-            <CardContent>
-                <Typography variant="h6">Card Title</Typography>
-                <Typography variant="body2" color="text.secondary">
-                    This is a sample card content.
-                </Typography>
-            </CardContent>
-        </Card>
-    );
-};
+import ProjectCard from './ProjectCard';
+import projectsData from '../data/projects'; // Assuming this is the path to your projects.json file
 
 const CardLayout = () => {
     return (
@@ -24,13 +10,21 @@ const CardLayout = () => {
             <Grid container spacing={1}>
                 {/* Column of Cards */}
                 <Grid item xs={12} md={8}>
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
+                    {projectsData.map((project, index) => (
+                        <ProjectCard
+                            key={index}
+                            cardLink={project.link}
+                            cardTitle={project.title}
+                            startDate={project.startDate}
+                            endDate={project.endDate}
+                            description={project.description}
+                            tools={project.tools}
+                        />
+                    ))}
                 </Grid>
                 {/* Duplicate the Column of Cards in a Row */}
                 <Grid item xs={12} md={4}>
-                    <CardComponent />
+                    {/* You can add more cards or other content here */}
                 </Grid>
             </Grid>
         </Container>

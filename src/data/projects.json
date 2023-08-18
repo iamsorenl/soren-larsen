@@ -3,6 +3,7 @@
         "title": "Messaging Service",
         "startDate": "March 2023",
         "endDate": "June 2023",
+        "link": "https://gitfront.io/r/iamsorenl/TbpzioKijiha/Messaging-Service/",
         "description": "I took on the unique challenge of building a messaging app, similar to that of Discord or Slack, not just once, but three times using Kotlin, Swift, and React Native. This involved developing separate versions of the app in each language, showcasing my versatility and adaptability across different mobile development ecosystems. Throughout the development process, I practiced thorough testing to ensure the reliability and functionality of the apps. To achieve this, I employed testing frameworks such as Barista for Kotlin, XCTest for Swift, and Jest for React Native. Through rigorous testing, I evaluated the user interface and functionality, ensuring a seamless and high-quality user experience across all three implementations. This project highlighted my ability to not only develop applications in multiple languages but also to rigorously test and optimize them for robustness, delivering exceptional performance in each platform.",
         "tools": [
             "Kotlin",
@@ -17,6 +18,7 @@
         "title": "ParkMe",
         "startDate": "January 2023",
         "endDate": "March 2023",
+        "link": "https://gitfront.io/r/iamsorenl/3GNVBXrchghV/ParkMe/",
         "description": "As the product owner of the ParkMe team, I spearheaded the development of our mobile app. By leveraging the combination of Flutter, Node.js, Typescript, TSOA, and PostgreSQL, my team crafted an app that empowers users to list their private spots for rent or find and rent available spots listed by other users. In this pivotal role, I not only oversaw the product roadmap but also took charge of prioritizing features that aligned with the vision and goals of the service. By effectively managing resource allocation and providing the development team with essential information and tools, I ensured the creation of a highly functional and user-friendly product. Additionally, I made significant programming contributions to the app. One notable accomplishment was setting up the team's Google Cloud account and integrating essential APIs such as Google Maps and address autocomplete into our product. By doing so, we provided seamless location-based services, allowing users to easily navigate and find parking spots with accurate mapping capabilities. Furthermore, I made substantial contributions to the backend development by writing the necessary backend routes for rental transactions.",
         "tools": [
             "Dart",
@@ -31,6 +33,7 @@
         "title": "HTTP Server",
         "startDate": "October 2022",
         "endDate": "December 2022",
+        "link": "https://gitfront.io/r/iamsorenl/nmB54YoNBezS/Principles-of-Computer-Systems-Design/",
         "description": "I designed and implemented a high-performance, multithreaded HTTP server using the C programming language. The server incorporated a simplified HTTP protocol, complete with codes for essential responses such as 200, 201, 404, and 500. Leveraging socket programming techniques, I ensured reliable and efficient communication between the server and clients. To ensure optimal performance and thread safety, I implemented threadsafe operations for essential HTTP methods such as GET, PUT, and HEAD. This involved carefully managing concurrent access to shared resources and handling potential race conditions. In addition to core functionalities, I implemented robust byte parsing for handling and processing requests. This enabled efficient extraction and interpretation of data from the requests, facilitating seamless communication and accurate responses between the server and clients. To enhance usability and flexibility, the server allowed for a user-specified number of working threads, enabling customizable resource utilization. Moreover, I incorporated an audit log file, which captured important server events and client interactions, providing a valuable tool for debugging and monitoring.",
         "tools": [
             "C",
@@ -43,6 +46,7 @@
         "title": "Email Service",
         "startDate": "July 2022",
         "endDate": "July 2022",
+        "link": "https://gitfront.io/r/iamsorenl/watXvfgwYEzr/Email-Service/",
         "description": "I developed a comprehensive email system utilizing the versatile tech stack of React, Node.js, Express, PostgreSQL, and Material UI. The system's core functionalities encompass sending and receiving emails, allowing users to navigate through various mailboxes such as the inbox, sent folder, and custom folders. Additionally, users can create personalized mailboxes to suit their specific needs, enhancing organization and customization options.",
         "tools": [
             "React.js",
@@ -56,6 +60,7 @@
         "title": "NLP Sentiment Analysis",
         "startDate": "March 2022",
         "endDate": "June 2022",
+        "link": "https://gitfront.io/r/iamsorenl/4viJLvCh4wdj/NLP-Sentiment-Analysis/",
         "description": "I collaborated as a member of a dedicated team on an NLP project with the objective of enhancing sentiment analysis accuracy in text data. Through our collective efforts, we leveraged advanced machine learning techniques, such as RNNs and LSTMs, to capture contextual information and long-term dependencies within the text. The project encompassed various tasks, including data preprocessing, model development utilizing Python and Keras, and training and evaluation on diverse datasets like IMDB. This experience not only fortified my skills in NLP, machine learning, and model optimization but also highlighted the value of collaborative peer programming and teamwork in achieving our goals.",
         "tools": [
             "Python",

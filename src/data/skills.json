@@ -1,0 +1,49 @@
+{
+    "languages": [
+        "Python",
+        "C",
+        "C++",
+        "Swift",
+        "Kotlin",
+        "Java",
+        "Javascript",
+        "Dart",
+        "Typescript",
+        "HTML",
+        "CSS",
+        "SQL",
+        "Haskell"
+    ],
+    "frameworksDatabases": [
+        "React",
+        "React Native",
+        "Flutter",
+        "Express.js",
+        "Node.js",
+        "PostgreSQL"
+    ],
+    "developerTools": [
+        "Git/GitHub",
+        "Jira",
+        "Figma",
+        "Docker",
+        "Jest",
+        "Barista/Espresso",
+        "Postman"
+    ],
+    "certifications": [
+        "ForAllSecure: Mayhem Certified",
+        "AI For Everyone by DeepLearning.AI"
+    ],
+    "softSkills": [
+        "Effective Communication",
+        "Agile Adaptability",
+        "Collaborative Teamwork",
+        "Strategic Time Management",
+        "Rigorous Attention to Detail",
+        "User-Centric Customer Service",
+        "Problem Solving",
+        "Leadership",
+        "Emotional Intelligence"
+    ]
+}
