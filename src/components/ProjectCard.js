@@ -8,10 +8,10 @@ import Link from '@mui/material/Link';
 
 const ProjectCard = ({ cardTitle, startDate, endDate, description, tools, cardLink }) => {
     return (
-        <Card sx={{ width: '100%', border: '1px solid #ccc', mb: 1 }}>
+        <Card sx={{ width: '100%', border: '1px solid #ccc', mb: 1, borderRadius: '16px' }}>
             <CardContent>
                 <Typography variant="h6">{cardTitle}</Typography>
-                <Link href={cardLink} underline="hover" color="inherit" variant="body2">
+                <Link href={cardLink} underline="hover" color="inherit" variant="body2" sx={{ display: 'block', wordWrap: 'break-word' }}>
                     {cardLink}
                 </Link>
                 <Stack direction="row" spacing={1}>
@@ -19,8 +19,8 @@ const ProjectCard = ({ cardTitle, startDate, endDate, description, tools, cardLi
                     <Typography variant="body2">{"-"}</Typography>
                     <Typography variant="body2">{endDate}</Typography>
                 </Stack>
-                <CardAccordions title="Description" content={description} />
-                <CardAccordions title="Tools" content={tools.join(', ')} />
+                <CardAccordions title="Description" content={description} sx={{ borderRadius: '16px', marginBottom: '8px' }} />
+                <CardAccordions title="Tools" content={tools.join(', ')} sx={{ borderRadius: '16px', marginBottom: '8px' }} />
             </CardContent>
         </Card>
     );
