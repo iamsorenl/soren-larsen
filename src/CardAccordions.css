@@ -1,0 +1,36 @@
+.custom-accordion {
+    border-radius: 12px;
+    box-shadow: none;
+
+    &:before {
+        display: none;
+    }
+
+    &.Mui-expanded {
+        margin: 0;
+    }
+}
+
+.custom-summary {
+    display: flex;
+    align-items: center;
+    border-bottom: none;
+    background-color: transparent;
+    position: relative;
+    padding-left: 36px;
+}
+
+.expand-icon {
+    transition: transform 0.3s;
+}
+
+.expand-icon.expanded {
+    transform: rotate(180deg);
+}
+
+.custom-details {
+    display: block;
+    border-radius: 0 0 12px 12px;
+    padding: 8px 16px;
+    background-color: rgba(0, 0, 0, 0.03);
+}

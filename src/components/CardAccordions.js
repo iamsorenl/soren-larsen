@@ -4,6 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
+import '../CardAccordions.css';
 
 const CardAccordions = ({ title, content }) => {
     const [expanded, setExpanded] = useState(false);
@@ -16,35 +17,18 @@ const CardAccordions = ({ title, content }) => {
         <Accordion
             expanded={expanded}
             onChange={handleAccordionChange}
-            sx={{
-                borderRadius: '12px',
-                boxShadow: 'none',
-                '&:before': {
-                    display: 'none',
-                },
-                '&.Mui-expanded': {
-                    margin: '0',
-                },
-            }}
+            classes={{ root: 'custom-accordion' }}
         >
             <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
                 aria-controls={`${title}-content`}
                 id={`${title}-header`}
-                sx={{
-                    borderBottom: 'none',
-                    backgroundColor: 'transparent',
-                }}
+                classes={{ root: 'custom-summary' }}
             >
+                <ExpandMoreIcon className={`expand-icon ${expanded ? 'expanded' : ''}`} />
                 <Typography variant="subtitle1">{title}</Typography>
             </AccordionSummary>
             <AccordionDetails
-                sx={{
-                    display: 'block',
-                    borderRadius: '0 0 12px 12px',
-                    padding: '8px 16px',
-                    backgroundColor: expanded ? 'rgba(0, 0, 0, 0.03)' : 'transparent',
-                }}
+                classes={{ root: 'custom-details' }}
             >
                 <Typography variant="body2">{content}</Typography>
             </AccordionDetails>
