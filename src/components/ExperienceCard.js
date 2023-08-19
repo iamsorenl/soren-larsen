@@ -10,7 +10,7 @@ const ExperienceCard = () => {
     return (
         <Card sx={{ width: '100%', border: '1px solid #ccc', mb: 1, borderRadius: '16px' }}>
             <CardContent>
-                <Typography variant="h5">Experiences</Typography>
+                <Typography variant="h5" align="center">Experience</Typography>
                 {experiences.map((experience, index) => (
                     <CardAccordions
                         key={index}

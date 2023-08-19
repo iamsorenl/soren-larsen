@@ -11,7 +11,7 @@ const ProjectsCard = () => {
     return (
         <Card sx={{ width: '100%', border: '1px solid #ccc', mb: 1, borderRadius: '16px' }}>
             <CardContent>
-                <Typography variant="h5">Projects</Typography>
+                <Typography variant="h5" align="center">Projects</Typography>
                 {projectsData.map((project, index) => (
                     <CardAccordions
                         key={index}

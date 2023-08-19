@@ -3,8 +3,9 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Body from './components/Body';
 import { ThemeProvider } from '@mui/material/styles';
-//import Typography from '@mui/material/Typography';
 import theme from './theme';
+
+import LargeRoundedCard from './components/LargeRoundedCard';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Navbar />
         <div style={{ marginTop: '64px' }}>
           <Body />
+          <LargeRoundedCard />
         </div>
       </div>
     </ThemeProvider>
