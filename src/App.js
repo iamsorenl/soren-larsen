@@ -5,8 +5,6 @@ import Body from './components/Body';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 
-import LargeRoundedCard from './components/LargeRoundedCard';
-
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -14,7 +12,6 @@ function App() {
         <Navbar />
         <div style={{ marginTop: '64px' }}>
           <Body />
-          <LargeRoundedCard />
         </div>
       </div>
     </ThemeProvider>

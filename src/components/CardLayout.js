@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import ProjectCard from './ProjectCard';
-import ExperienceCard from './ExperienceCard';
+//import ExperienceCard from './ExperienceCard';
 
 const CardLayout = () => {
     return (
@@ -12,7 +12,6 @@ const CardLayout = () => {
             </Grid>
             {/* Duplicate the Column of Cards in a Row */}
             <Grid item xs={12} md={6}>
-                <ExperienceCard />
             </Grid>
         </Grid>
     );

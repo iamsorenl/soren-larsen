@@ -15,10 +15,10 @@ const imageUrls = [aiSuit, graduate, surf];
 const AboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [nextImageIndex, setNextImageIndex] = useState(1);
-    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth <= 1200);
+    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth <= 1208);
 
     const handleResize = () => {
-        setIsScreenSmall(window.innerWidth <= 1200);
+        setIsScreenSmall(window.innerWidth <= 1208);
     };
 
     useEffect(() => {
@@ -27,10 +27,8 @@ const AboutCard = () => {
             setNextImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
         }, 30000); // Change image every 30 seconds
 
-        // Add event listener to handle window resize
         window.addEventListener('resize', handleResize);
 
-        // Clean up the event listener when the component unmounts
         return () => {
             clearInterval(interval);
             window.removeEventListener('resize', handleResize);
@@ -39,39 +37,39 @@ const AboutCard = () => {
 
     const backgroundImageStyle = {
         backgroundImage: `url(${imageUrls[currentImageIndex]})`,
-        transition: 'background-image 2s', // Apply the CSS transition
+        transition: 'background-image 2s',
     };
 
     return (
-        <Card sx={{ borderRadius: '16px' }}>
+        <Card sx={{ borderRadius: '16px', backgroundColor: 'primary.main', color: 'primary.contrastText', }}>
             <Box display="flex">
                 <Stack direction={isScreenSmall ? 'column' : 'row'} alignItems={isScreenSmall ? 'center' : 'stretch'}>
-                    {/* Left side (Image) */}
                     <CardMedia
                         component="div"
                         sx={{
-                            width: '300px',
-                            height: '300px',
-                            borderRadius: '16px', // Rounded all the way around
-                            minWidth: '300px', // Ensure fixed size even when shrunk
+                            width: '350px',
+                            height: '350px',
+                            borderRadius: '16px',
+                            minWidth: '350px',
                             ...backgroundImageStyle,
                         }}
                     />
-
-                    {/* Right side (Text) */}
-                    <Box flexGrow={1} display="flex" flexDirection="column" sx={{ textAlign: isScreenSmall ? 'center' : 'left' }}>
-                        <CardContent sx={{ flexGrow: 1, marginTop: '16px' }}>
-                            <Typography variant="h5" component="div">
-                                About
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {about[0].about}
-                            </Typography>
+                    <Box flexGrow={1} display="flex" flexDirection="column" sx={{ textAlign: isScreenSmall ? 'center' : 'left', alignSelf: 'center' }}>
+                        <Typography variant="h5" component="div" align="center" mb={1}>
+                            About
+                        </Typography>
+                        <CardContent sx={{ flexGrow: 1 }}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {about[0].about}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
                         </CardContent>
                     </Box>
                 </Stack>
             </Box>
-            {/* Update background image */}
             <style>
                 {`
                     .MuiCardMedia-root {

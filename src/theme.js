@@ -18,8 +18,6 @@ const theme = createTheme({
             default: '#000000',
             paper: colors.indigo[200],
         },
-        // Add other custom colors here
-        // ...
     },
 });
 
