@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import projectsData from '../data/projects';
 import { Message, DirectionsCar, Http, AlternateEmail, Abc } from '@mui/icons-material';
-import PopUpCard from './PopUpCard';
+import ProjectPopUpCard from './ProjectPopUpCard';
 
 const iconMap = {
     Message: <Message />,
@@ -54,7 +54,7 @@ const ProjectsCard = () => {
                     </div>
                 ))}
                 {selectedProject && (
-                    <PopUpCard open={openPopUp} onClose={handleClosePopUp} project={selectedProject} />
+                    <ProjectPopUpCard open={openPopUp} onClose={handleClosePopUp} project={selectedProject} />
                 )}
             </CardContent>
         </Card >

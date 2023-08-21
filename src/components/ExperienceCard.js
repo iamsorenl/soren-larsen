@@ -1,40 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import CardAccordions from './CardAccordions';
-import experiences from '../data/experience'
+import Button from '@mui/material/Button';
+import experiences from '../data/experience';
+import Info from '@mui/icons-material/Info';
+import ExperiencePopUpCard from './ExperiencePopUpCard';
 
 const ExperienceCard = () => {
+    const [openPopUp, setOpenPopUp] = useState(false);
+    const [selectedExperience, setSelectedExperience] = useState(null);
+
+    const handleOpenPopUp = (experience) => {
+        setSelectedExperience(experience);
+        setOpenPopUp(true);
+    };
+
+    const handleClosePopUp = () => {
+        setOpenPopUp(false);
+    };
+
     return (
-        <Card sx={{ width: '100%', border: '1px solid #ccc', mb: 1, borderRadius: '16px' }}>
+        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', width: '100%', mb: 1, borderRadius: '16px' }}>
             <CardContent>
-                <Typography variant="h5">Experience</Typography>
+                <Typography variant="h5" mb={1}>Experience</Typography>
                 {experiences.map((experience, index) => (
-                    <CardAccordions
-                        key={index}
-                        title={`${experience.Title} at ${experience.Company}`}
-                        content={
-                            <div>
-                                <Typography variant="body2">{experience.Location}</Typography>
-                                <Stack direction="row" spacing={1} sx={{ paddingTop: '8px' }}>
-                                    <Typography variant="body2">{experience.start}</Typography>
-                                    <Typography variant="body2">{" - "}</Typography>
-                                    <Typography variant="body2">{experience.end}</Typography>
+                    <div key={index}>
+                        <Card>
+                            <CardContent>
+                                <Stack direction={'row'} spacing={1} alignItems="center">
+                                    <Button onClick={() => handleOpenPopUp(experience)}>
+                                        <Info />
+                                    </Button>
+                                    <Typography color='text.secondary'>{experience.company} - {experience.title}</Typography>
                                 </Stack>
-                                <Typography variant="body2" sx={{ paddingTop: '8px' }}>
-                                    {experience.description}
-                                </Typography>
-                                <Typography variant="body2" sx={{ paddingTop: '8px' }}>
-                                    Skills: {experience.skills.join(', ')}
-                                </Typography>
-                            </div>
-                        }
-                    />
+                            </CardContent>
+                        </Card>
+                        <div style={{ height: '16px' }} />
+                    </div>
                 ))}
+                {selectedExperience && (
+                    <ExperiencePopUpCard open={openPopUp} onClose={handleClosePopUp} experience={selectedExperience} />
+                )}
             </CardContent>
-        </Card>
+        </Card >
     );
 };
 

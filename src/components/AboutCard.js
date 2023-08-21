@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import CardMedia from '@mui/material/CardMedia';
+import Box from '@mui/material/Box';
 import about from '../data/about';
 import aiSuit from '../images/AI-Suit.jpeg';
 import graduate from '../images/Graduate.jpeg';
@@ -15,10 +15,10 @@ const imageUrls = [aiSuit, graduate, surf];
 const AboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [nextImageIndex, setNextImageIndex] = useState(1);
-    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth <= 1208);
+    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth <= 1422);
 
     const handleResize = () => {
-        setIsScreenSmall(window.innerWidth <= 1208);
+        setIsScreenSmall(window.innerWidth <= 1422);
     };
 
     useEffect(() => {
@@ -41,8 +41,11 @@ const AboutCard = () => {
     };
 
     return (
-        <Card sx={{ borderRadius: '16px', backgroundColor: 'primary.main', color: 'primary.contrastText', }}>
-            <Box display="flex">
+        <Card sx={{ borderRadius: '16px', backgroundColor: 'primary.main', color: 'primary.contrastText', maxWidth: '100%' }}>
+            <CardContent>
+                <Typography variant="h3" component="div" mb={1}>
+                    About
+                </Typography>
                 <Stack direction={isScreenSmall ? 'column' : 'row'} alignItems={isScreenSmall ? 'center' : 'stretch'}>
                     <CardMedia
                         component="div"
@@ -55,13 +58,10 @@ const AboutCard = () => {
                         }}
                     />
                     <Box flexGrow={1} display="flex" flexDirection="column" sx={{ textAlign: isScreenSmall ? 'center' : 'left', alignSelf: 'center' }}>
-                        <Typography variant="h5" component="div" align="center" mb={1}>
-                            About
-                        </Typography>
                         <CardContent sx={{ flexGrow: 1 }}>
                             <Card>
                                 <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant="subtitle1" color="text.secondary">
                                         {about[0].about}
                                     </Typography>
                                 </CardContent>
@@ -69,7 +69,7 @@ const AboutCard = () => {
                         </CardContent>
                     </Box>
                 </Stack>
-            </Box>
+            </CardContent>
             <style>
                 {`
                     .MuiCardMedia-root {

@@ -1,10 +1,11 @@
 [
     {
-        "Company": "Adventure Out LLC",
-        "Title": "Surf Instructor",
-        "Location": "Santa Cruz, CA",
-        "start": "June 2023",
-        "end": "Present",
+        "company": "Adventure Out LLC",
+        "title": "Surf Instructor",
+        "location": "Santa Cruz, CA",
+        "startDate": "June 2023",
+        "endDate": "Present",
+        "link": "https://www.adventureout.com/",
         "description": "Was tasked with teaching surf lessons to individuals of all skill levels and ages. Provided safety instructions, such as how to identify potential hazards and how to navigate the ocean safely. Taught fundamental surf techniques. Tailored each lesson to the specific needs and abilities of each student.",
         "skills": [
             "Fitness Instruction",
@@ -14,11 +15,12 @@
         ]
     },
     {
-        "Company": "University of California Santa Cruz",
-        "Title": "Peer Advisor",
-        "Location": "Santa Cruz, CA",
-        "start": "July 2021",
-        "end": "Present",
+        "company": "University of California Santa Cruz",
+        "title": "Peer Advisor",
+        "location": "Santa Cruz, CA",
+        "startDate": "July 2021",
+        "endDate": "Present",
+        "link": "https://undergrad.soe.ucsc.edu/",
         "description": "Provided indispensable front-line support to a diverse student population, including both four-year students and transfer students. Assisted with class enrollment, graduation planning, petitions, and more, demonstrating strong problem-solving skills and knowledge of the engineering school. Additionally, directed both students and visitors to appropriate school departments and faculty, making a positive impact on the academic journey of all. Utilized excellent communication and interpersonal skills to ensure that all were connected to the resources and support they needed.",
         "skills": [
             "Customer Service",
@@ -28,11 +30,12 @@
         ]
     },
     {
-        "Company": "University of California Santa Cruz",
-        "Title": "Maintenance Worker",
-        "Location": "Santa Cruz, CA",
-        "start": "June 2022",
-        "end": "September 2022",
+        "company": "University of California Santa Cruz",
+        "title": "Maintenance Worker",
+        "location": "Santa Cruz, CA",
+        "startDate": "June 2022",
+        "endDate": "September 2022",
+        "link": "https://ches.ucsc.edu/cruzfix/",
         "description": "Was responsible for ensuring that the dorms and other campus buildings were in good repair. This involved performing repairs in dorm rooms, maintaining various plumbing systems, responding to maintenance requests from students and staff members, and maintaining records of all maintenance work performed.",
         "skills": [
             "Time Management",
@@ -43,11 +46,12 @@
         ]
     },
     {
-        "Company": "University of California Santa Cruz",
-        "Title": "Programs Assistant",
-        "Location": "Santa Cruz, CA",
-        "start": "July 2020",
-        "end": "January 2022",
+        "company": "University of California Santa Cruz",
+        "title": "Programs Assistant",
+        "location": "Santa Cruz, CA",
+        "startDate": "July 2020",
+        "endDate": "January 2022",
+        "link": "https://rachelcarson.ucsc.edu/",
         "description": "Planned and executed a variety of events for the Rachel Carson College community. Developed and implemented event concepts, including those with environmental themes and cultural celebrations. Demonstrated strong organizational and project management skills while bringing ideas to life and positively impacting campus life.",
         "skills": [
             "Leadership",
@@ -58,11 +62,12 @@
         ]
     },
     {
-        "Company": "Club Ed Surf School and Camps",
-        "Title": "Surf Instructor",
-        "Location": "Santa Cruz, CA",
-        "start": "June 2021",
-        "end": "October 2021",
+        "company": "Club Ed Surf School and Camps",
+        "title": "Surf Instructor",
+        "location": "Santa Cruz, CA",
+        "startDate": "June 2021",
+        "endDate": "October 2021",
+        "link": "https://club-ed.com/",
         "description": "Taught surf lessons to individuals of all ages and skill levels. Tasks included providing safety instruction, teaching fundamental surf techniques, tailoring lessons to the specific needs and abilities of each student, maintaining equipment, and assisting with the transportation of these items to and from the Club Ed Office.",
         "skills": [
             "Fitness Instruction",
@@ -73,11 +78,12 @@
         ]
     },
     {
-        "Company": "YMCA of San Diego County",
-        "Title": "Skateboarding Instructor",
-        "Location": "San Diego, CA",
-        "start": "June 2019",
-        "end": "September 2019",
+        "company": "YMCA of San Diego County",
+        "title": "Skateboarding Instructor",
+        "location": "San Diego, CA",
+        "startDate": "June 2019",
+        "endDate": "September 2019",
+        "link": "https://www.ymcasd.org/mission-valley-ymca-krause-family-skate-bike-park",
         "description": "Managed individualized lessons tailored to each student's needs and abilities. I provided safety instruction, promoted proper gear usage, and utilized hands-on teaching methods to help students progress in their skateboarding skills while fostering a positive and inclusive learning environment.",
         "skills": [
             "Fitness Instruction",

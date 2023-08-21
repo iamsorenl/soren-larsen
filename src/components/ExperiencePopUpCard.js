@@ -10,13 +10,13 @@ import Close from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-const PopUpCard = ({ open, onClose, project }) => {
-    const handleViewProjectClick = () => {
-        window.open(project.link, '_blank');
+const ExperiencePopUpCard = ({ open, onClose, experience }) => {
+    const handleViewExperienceClick = () => {
+        window.open(experience.link, '_blank');
         onClose();
     };
 
-    const handleCancelProjectClick = () => {
+    const handleCancelExperienceClick = () => {
         onClose();
     };
 
@@ -24,21 +24,21 @@ const PopUpCard = ({ open, onClose, project }) => {
         <Dialog open={open} onClose={onClose}>
             <DialogContent sx={{ backgroundColor: 'primary.main' }}>
                 <Typography variant="h6" color="primary.contrastText" mb={1}>
-                    {project.title} : {project.startDate} - {project.endDate}
+                    {experience.title} : {experience.startDate} - {experience.endDate}
                 </Typography>
                 <Card>
                     <CardContent>
                         <Stack direction='column' spacing={1}>
-                            <ReadMoreText text={project.description} maxWords={18} />
+                            <ReadMoreText text={experience.description} maxWords={18} />
                             <Typography variant='body2'>
-                                Tools: {project.tools.join(', ')}
+                                Skills: {experience.skills.join(', ')}
                             </Typography>
                         </Stack>
                     </CardContent>
                 </Card>
                 <Stack direction='row' spacing={1}>
                     <Button
-                        onClick={handleViewProjectClick}
+                        onClick={handleViewExperienceClick}
                         variant="contained"
                         color="secondary"
                         startIcon={<Launch />}
@@ -47,10 +47,10 @@ const PopUpCard = ({ open, onClose, project }) => {
                             color: "white"
                         }}
                     >
-                        View Project
+                        Visit Company Site
                     </Button>
                     <Button
-                        onClick={handleCancelProjectClick}
+                        onClick={handleCancelExperienceClick}
                         variant="contained"
                         color="secondary"
                         startIcon={<Close />}
@@ -59,7 +59,7 @@ const PopUpCard = ({ open, onClose, project }) => {
                             color: "white"
                         }}
                     >
-                        Cancel
+                        Close
                     </Button>
                 </Stack>
             </DialogContent>
@@ -67,4 +67,4 @@ const PopUpCard = ({ open, onClose, project }) => {
     );
 };
 
-export default PopUpCard;
+export default ExperiencePopUpCard;
