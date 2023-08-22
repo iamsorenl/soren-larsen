@@ -3,16 +3,20 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import AboutCard from './AboutCard';
 import CardLayout from './CardLayout';
+import CopyrightCard from './Copyright';
 
 function Body() {
     return (
         <Box sx={{ mx: 4 }}>
-            <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+            <Grid container spacing={2} sx={{ mb: 1, mt: 5 }}>
                 <Grid item xs={12}>
                     <AboutCard />
                 </Grid>
                 <Grid item xs={12}>
                     <CardLayout />
+                </Grid>
+                <Grid item xs={12}>
+                    <CopyrightCard />
                 </Grid>
             </Grid>
         </Box>

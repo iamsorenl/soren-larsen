@@ -19,7 +19,7 @@ const ReadMoreText = ({ text, maxWords }) => {
                 {truncatedText}
                 {wordsArray.length > maxWords && (
                     <span
-                        style={{ color: theme.palette.primary.main, cursor: 'pointer' }}
+                        style={{ color: theme.palette.primary.main, cursor: 'pointer', fontWeight: 'bold' }}
                         onClick={toggleShowMore}
                     >
                         {showMore ? ' Less' : ' More'}

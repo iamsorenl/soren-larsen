@@ -14,6 +14,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MailIcon from '@mui/icons-material/Mail';
+import SchoolIcon from '@mui/icons-material/School';
 import theme from '../theme';
 
 const Root = styled('div')({
@@ -33,6 +34,7 @@ const menuItems = [
     { text: 'Skills', icon: <BuildIcon /> },
     { text: 'Projects', icon: <WorkIcon /> },
     { text: 'Experience', icon: <BusinessIcon /> },
+    { text: 'Education', icon: <SchoolIcon /> },
     { text: 'Contact', icon: <MailIcon /> },
 ];
 

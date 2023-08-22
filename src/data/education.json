@@ -1,0 +1,35 @@
+[
+    {
+        "school": "University of California Santa Cruz",
+        "degree": "Bachelor of Science, Computer Science",
+        "link": "https://admissions.ucsc.edu/programs/computer-science",
+        "relevantCoursework": [
+            "Advanced Linear Algebra",
+            "Applied Discrete Mathematics",
+            "Business Information Systems",
+            "Calculus",
+            "Computer Architecture",
+            "Computer Systems and Assembly Language",
+            "Computer Systems and C Programming",
+            "Computational Models",
+            "Data Structures and Algorithms",
+            "Foundations of Programming Languages",
+            "Full Stack Web Development",
+            "Intro to Algorithm Analysis",
+            "Intro to Probability Theory",
+            "Intro to Proof and Problem Solving",
+            "Intro to Software Engineering",
+            "Mobile Applications",
+            "Natural Language Processing",
+            "Principles of Computer System Design",
+            "Programming Abstractions: Python",
+            "Vector Calculus"
+        ]
+    },
+    {
+        "school": "La Jolla High School",
+        "degree": "",
+        "link": "https://lajollahigh.sandiegounified.org/",
+        "relevantCoursework": []
+    }
+]

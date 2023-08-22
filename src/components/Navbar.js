@@ -3,10 +3,10 @@ import SmallNavbar from './SmallNavbar';
 import LargeNavbar from './LargeNavbar';
 
 function Navbar() {
-    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth <= 960);
+    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth <= 1005);
 
     const handleResize = () => {
-        setIsScreenSmall(window.innerWidth <= 960);
+        setIsScreenSmall(window.innerWidth <= 1005);
     };
 
     useEffect(() => {

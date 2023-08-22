@@ -18,7 +18,7 @@ const iconMap = {
     Abc: <Abc />,
 };
 
-const ProjectsCard = () => {
+const ProjectCard = () => {
     const [openPopUp, setOpenPopUp] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
 
@@ -32,14 +32,14 @@ const ProjectsCard = () => {
     };
 
     return (
-        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', width: '100%', mb: 1, borderRadius: '16px' }}>
+        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', height: '100%', width: '100%', mb: 1, borderRadius: '16px' }}>
             <CardContent>
                 <Typography variant="h5" mb={1}>Projects</Typography>
                 {projectsData.map((project, index) => (
                     <div key={index}>
-                        <Card>
-                            <CardContent>
-                                <Stack direction={'row'} justifyContent="space-between" alignItems="center">
+                        <Card sx={{ mb: 2 }}>
+                            <CardContent style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                                <Stack direction={'row'} justifyContent='space-between' alignItems='center'>
                                     <Icon color={'primary.main'}>{iconMap[project.muiIcon]}</Icon>
                                     <Typography color='text.secondary'>
                                         {project.title}
@@ -50,7 +50,6 @@ const ProjectsCard = () => {
                                 </Stack>
                             </CardContent>
                         </Card>
-                        <div style={{ height: '16px' }} />
                     </div>
                 ))}
                 {selectedProject && (
@@ -61,4 +60,4 @@ const ProjectsCard = () => {
     );
 };
 
-export default ProjectsCard;
+export default ProjectCard;

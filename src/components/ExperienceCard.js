@@ -22,14 +22,14 @@ const ExperienceCard = () => {
     };
 
     return (
-        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', width: '100%', mb: 1, borderRadius: '16px' }}>
+        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', height: '100%', width: '100%', mb: 1, borderRadius: '16px' }}>
             <CardContent>
                 <Typography variant="h5" mb={1}>Experience</Typography>
                 {experiences.map((experience, index) => (
                     <div key={index}>
-                        <Card>
+                        <Card sx={{ mb: 2 }}>
                             <CardContent>
-                                <Stack direction={'row'} spacing={1} alignItems="center">
+                                <Stack direction={'row'} spacing={1} alignItems='center'>
                                     <Button onClick={() => handleOpenPopUp(experience)}>
                                         <Info />
                                     </Button>
@@ -37,7 +37,6 @@ const ExperienceCard = () => {
                                 </Stack>
                             </CardContent>
                         </Card>
-                        <div style={{ height: '16px' }} />
                     </div>
                 ))}
                 {selectedExperience && (
