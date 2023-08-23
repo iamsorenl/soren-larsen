@@ -10,10 +10,10 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Tooltip from '@mui/material/Tooltip';
 import Stack from '@mui/material/Stack';
 import contactInfo from '../data/contact';
+import resumePDF from '../data/SorenLarsenResume.pdf';
 
 const ContactCard = () => {
     const { phone, email, github, linkedin } = contactInfo[0];
-    const resumePDFURL = process.env.PUBLIC_URL + '/path/to/your/resume.pdf';
 
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1190);
 
@@ -38,7 +38,7 @@ const ContactCard = () => {
     };
 
     const handleOpenPdf = () => {
-        window.open(resumePDFURL, '_blank');
+        window.open(resumePDF, '_blank');
     };
 
     const truncateLink = (url) => {
