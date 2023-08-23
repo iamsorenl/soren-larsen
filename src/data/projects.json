@@ -1,5 +1,19 @@
 [
     {
+        "title": "Personal Porfolio Site",
+        "startDate": "July 2023",
+        "endDate": "August 2023",
+        "link": "https://github.com/iamsorenl/soren-larsen.git",
+        "muiIcon": "Folder",
+        "description": "As a skilled developer, I've created an engaging and dynamic portfolio using a combination of React.js, Node.js, Material UI, and Firebase technologies. This platform highlights my journey, experiences, and projects in a seamless and captivating manner. With expertise in responsive design, I've harnessed the power of Material UI and React tools to ensure an optimal user experience across devices. The portfolio showcases a diverse range of projects, from interactive web applications to innovative software solutions, each with relevant links for further exploration. Moreover, the portfolio boasts a unique visual element - an ever-changing photo gallery that refreshes every 30 seconds. Through this project, I've not only honed my technical skills but also exhibited creativity and adaptability in design and presentation. Feel free to explore the various sections like Projects and Experience to gain insights into my proficiency and passion for web development.",
+        "tools": [
+            "React.js",
+            "Material UI",
+            "Node.js",
+            "Firebase"
+        ]
+    },
+    {
         "title": "Messaging Service",
         "startDate": "March 2023",
         "endDate": "June 2023",

@@ -7,7 +7,7 @@ import Icon from '@mui/material/Icon';
 import Button from '@mui/material/Button';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import projectsData from '../data/projects';
-import { Message, DirectionsCar, Http, AlternateEmail, Abc } from '@mui/icons-material';
+import { Message, DirectionsCar, Http, AlternateEmail, Abc, Folder } from '@mui/icons-material';
 import ProjectPopUpCard from './ProjectPopUpCard';
 
 const iconMap = {
@@ -16,6 +16,7 @@ const iconMap = {
     Http: <Http />,
     AlternateEmail: <AlternateEmail />,
     Abc: <Abc />,
+    Folder: <Folder />
 };
 
 const ProjectCard = () => {
