@@ -15,11 +15,11 @@ const ContactCard = () => {
     const { phone, email, github, linkedin } = contactInfo[0];
     const resumePDFURL = process.env.PUBLIC_URL + '/path/to/your/resume.pdf';
 
-    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1190); // Adjust the breakpoint as needed
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1190);
 
     useEffect(() => {
         const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 1190); // Adjust the breakpoint as needed
+            setIsSmallScreen(window.innerWidth <= 1190);
         };
 
         window.addEventListener('resize', handleResize);

@@ -8,7 +8,7 @@ import CopyrightCard from './Copyright';
 function Body() {
     return (
         <Box sx={{ mx: 4 }}>
-            <Grid container spacing={2} sx={{ mb: 1, mt: 5 }}>
+            <Grid container spacing={2} sx={{ mb: 1, mt: 1 }}>
                 <Grid item xs={12}>
                     <AboutCard />
                 </Grid>
