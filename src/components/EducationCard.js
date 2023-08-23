@@ -25,9 +25,9 @@ const EducationCard = () => {
     }
 
     return (
-        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', width: '100%', mb: 1, borderRadius: '16px' }}>
+        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', height: '100%', width: '100%', mb: 1, borderRadius: '16px' }}>
             <CardContent>
-                <Typography variant="h5" mb={4.4}>Education</Typography>
+                <Typography variant="h5" mb={2}>Education</Typography>
                 {educationData.map((education, index) => (
                     <div key={index}>
                         <Card sx={{ mb: 2 }}>

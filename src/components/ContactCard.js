@@ -51,7 +51,7 @@ const ContactCard = () => {
     };
 
     return (
-        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', width: '100%', mb: 1, borderRadius: '16px' }}>
+        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', height: '100%', width: '100%', mb: 1, borderRadius: '16px' }}>
             <CardContent>
                 <Typography variant='h6' mb={1}>Contact</Typography>
                 <Card sx={{ mb: 1 }}>

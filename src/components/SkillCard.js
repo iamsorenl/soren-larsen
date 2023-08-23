@@ -18,7 +18,7 @@ const SkillCard = () => {
     ];
 
     return (
-        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', width: '100%', mb: 1, borderRadius: '16px' }}>
+        <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', height: '100%', width: '100%', mb: 1, borderRadius: '16px' }}>
             <CardContent>
                 <Typography variant='h5' mb={3.5}>Skills</Typography>
                 {sections.map((section, index) => (
