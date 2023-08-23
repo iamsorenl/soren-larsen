@@ -1,3 +1,18 @@
-node_modules
-package-lock.json
-build
+# macOS system files
+.DS_Store
+
+# Firebase generated files
+.firebase/
+.firebaserc
+
+# Node.js dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Various development files
+*.log
+*.lock
+*.pid
