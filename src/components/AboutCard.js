@@ -6,11 +6,14 @@ import Stack from '@mui/material/Stack';
 import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
 import about from '../data/about';
-import aiSuit from '../images/AI-Suit.jpeg';
+//import aiSuit from '../images/AI-Suit.jpeg';
+import headshot1 from '../images/Headshot1.jpeg';
+import headshot2 from '../images/Headshot2.jpeg';
+import wave from '../images/Wave.jpeg';
 import graduate from '../images/Graduate.jpeg';
 import surf from '../images/Surf.jpeg';
 
-const imageUrls = [aiSuit, graduate, surf];
+const imageUrls = [headshot1, headshot2, wave, graduate, surf];
 
 const AboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -25,7 +28,7 @@ const AboutCard = () => {
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
             setNextImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
-        }, 30000); // Change image every 30 seconds
+        }, 10000); // Change image every 10 seconds
 
         window.addEventListener('resize', handleResize);
 
