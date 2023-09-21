@@ -20,6 +20,8 @@
         "Flutter",
         "Express.js",
         "Node.js",
+        "Vue.js",
+        "Flask",
         "PostgreSQL"
     ],
     "developerTools": [
@@ -34,6 +36,7 @@
     "certifications": [
         "ForAllSecure: Mayhem Certified",
         "AI For Everyone by DeepLearning.AI",
+        "Supervised Machine Learning: Regression and Classification by DeepLearning.AI and Stanford",
         "National CPR Foundation: CPR / AED / First-Aid (Adult / Child / Infant / Choking) AED / Injury & Universal Precautions Certified"
     ],
     "softSkills": [
