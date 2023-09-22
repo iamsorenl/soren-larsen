@@ -3,6 +3,7 @@
         "school": "University of California Santa Cruz",
         "degree": "Bachelor of Science, Computer Science",
         "link": "https://admissions.ucsc.edu/programs/computer-science",
+        "diploma": "yes",
         "relevantCoursework": [
             "Advanced Linear Algebra",
             "Applied Discrete Mathematics",
@@ -30,6 +31,7 @@
         "school": "La Jolla High School",
         "degree": "",
         "link": "https://lajollahigh.sandiegounified.org/",
+        "diploma": "no",
         "relevantCoursework": []
     }
 ]

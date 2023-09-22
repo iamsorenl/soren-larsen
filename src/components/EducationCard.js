@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import EducationPopUpCard from './EducationPopUpCard';
 import educationData from '../data/education';
+import diplomaPDF from '../data/CertifiedElectronicDiploma.pdf';
 
 const EducationCard = () => {
     const [openPopUp, setOpenPopUp] = useState(false);
@@ -23,6 +24,10 @@ const EducationCard = () => {
     const handleOpenLink = (education) => {
         window.open(education.link, '_blank');
     }
+
+    const handleOpenPdf = () => {
+        window.open(diplomaPDF, '_blank');
+    };
 
     return (
         <Card sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', height: '100%', width: '100%', mb: 1, borderRadius: '16px' }}>
@@ -52,6 +57,21 @@ const EducationCard = () => {
                                                         }}
                                                     >
                                                         Relevant Courses
+                                                    </Button>
+                                                </Grid>
+                                            )}
+                                            {education.diploma === "yes" && (
+                                                <Grid item>
+                                                    <Button
+                                                        onClick={() => handleOpenPdf()}
+                                                        variant="contained"
+                                                        color="primary"
+                                                        style={{
+                                                            color: "white",
+                                                            fontSize: '12px'
+                                                        }}
+                                                    >
+                                                        View Diploma
                                                     </Button>
                                                 </Grid>
                                             )}
