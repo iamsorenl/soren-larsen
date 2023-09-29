@@ -7,7 +7,6 @@ Welcome to my portfolio repository! This is a personal website built to showcase
 - React.js: A powerful JavaScript library for building user interfaces.
 - Material UI: A popular UI framework for creating responsive and visually appealing designs.
 - Firebase: A cloud platform that provides various tools and services for building web applications.
-- GitHub Pages: Hosting platform for deploying the portfolio and making it accessible to the public.
 
 ## Getting Started
 
