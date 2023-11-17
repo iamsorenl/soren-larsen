@@ -16,7 +16,7 @@ function LargeNavbar() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Root>
-                <AppBar position="auto">
+                <AppBar position="static">
                     <Toolbar>
                         <Typography variant="h6" noWrap>
                             Soren Larsen

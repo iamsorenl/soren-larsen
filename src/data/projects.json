@@ -4,7 +4,7 @@
         "startDate": "September 2023",
         "endDate": "September 2023",
         "link": "https://github.com/iamsorenl/ToDoList.git",
-        "muiIcon": "Folder",
+        "muiIcon": "Checklist",
         "description": "This project is a simple To-Do List application built using Vue.js, Flask, and Bootstrap, demonstrating the integration of a frontend JavaScript framework (Vue.js) with a backend Python framework (Flask), along with the use of Bootstrap for styling and responsiveness. Users can add, edit, mark as completed, and delete tasks, with all data being stored on the server. The project includes CORS (Cross-Origin Resource Sharing) configuration to handle requests from different origins, ensuring a seamless user experience while interacting with the application.",
         "tools": [
             "Vue.js",

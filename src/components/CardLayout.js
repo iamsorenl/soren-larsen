@@ -5,6 +5,7 @@ import ExperienceCard from './ExperienceCard';
 import SkillCard from './SkillCard';
 import EducationCard from './EducationCard';
 import ContactCard from './ContactCard';
+import Certifications from './Certifications';
 
 const CardLayout = () => {
     return (
@@ -17,6 +18,9 @@ const CardLayout = () => {
             </Grid>
             <Grid item xs={12} md={12}>
                 <SkillCard />
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <Certifications />
             </Grid>
             <Grid item xs={12} md={6}>
                 <EducationCard />

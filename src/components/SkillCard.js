@@ -13,7 +13,6 @@ const SkillCard = () => {
         { title: 'Programming Languages', data: skills.languages },
         { title: 'Frameworks and Databases', data: skills.frameworksDatabases },
         { title: 'Developer Tools', data: skills.developerTools },
-        { title: 'Certifications', data: skills.certifications },
         { title: 'Soft Skills', data: skills.softSkills },
     ];
 

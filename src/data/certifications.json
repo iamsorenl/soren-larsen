@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Mayhem Certified",
+        "issuer": "ForAllSecure",
+        "dateEarned": "May 2023",
+        "link": "https://www.credly.com/badges/eea13c2b-73c0-4399-8739-9b96bd69e6a5/linked_in_profile"
+    },
+    {
+        "name": "AI For Everyone",
+        "issuer": "Coursera",
+        "dateEarned": "July 2023",
+        "link": "https://www.coursera.org/account/accomplishments/certificate/D9KLY265M3YB"
+    },
+    {
+        "name": "Supervised Machine Learning: Regression and Classification",
+        "issuer": "Coursera",
+        "dateEarned": "September 2023",
+        "link": "https://www.coursera.org/account/accomplishments/certificate/K6HWHERWBSFK"
+    },
+    {
+        "name": "Unsupervised Learning, Recommenders, Reinforcement Learning",
+        "issuer": "Coursera",
+        "dateEarned": "November 2023",
+        "link": "https://www.coursera.org/account/accomplishments/certificate/D9KLY265M3YB"
+    },
+    {
+        "name": "Advanced Learning Algorithms",
+        "issuer": "Coursera",
+        "dateEarned": "November 2023",
+        "link": "https://www.coursera.org/account/accomplishments/verify/E5QMF3XZPYHT"
+    },
+    {
+        "name": "Machine Learning Specialization",
+        "issuer": "Coursera",
+        "dateEarned": "November 2023",
+        "link": "https://www.coursera.org/account/accomplishments/specialization/certificate/RRGAARWYKJER"
+    }
+]
