@@ -1,5 +1,16 @@
 [
     {
+        "title": "Baskin Engineering Peer Advisor GPT Chatbot",
+        "startDate": "November 2023",
+        "endDate": "Present",
+        "link": "https://chat.openai.com/g/g-lV8OpojdP-baskin-engineering-undergraduate-peer-advisor",
+        "muiIcon": "Message",
+        "description": "The Peer Advisor GPT project at UC Santa Cruz's Baskin School of Engineering showcases an AI-driven tool aimed at enhancing the advising experience for students. It provides customized guidance across academic and administrative queries by leveraging AI to understand individual needs based on major, academic progress, and course interests. The tool offers class recommendations, scheduling assistance, and petition navigation, among other features. It's a testament to the application of AI and machine learning in educational settings, demonstrating significant potential for reducing advisor workloads while delivering timely and precise advice to students.",
+        "tools": [
+            "ChatGPT"
+        ]
+    },
+    {
         "title": "To Do List",
         "startDate": "September 2023",
         "endDate": "September 2023",

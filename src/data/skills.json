@@ -12,7 +12,9 @@
         "HTML",
         "CSS",
         "SQL",
-        "Haskell"
+        "Haskell",
+        "Latex",
+        "JSON"
     ],
     "frameworksDatabases": [
         "React",
@@ -22,6 +24,7 @@
         "Node.js",
         "Vue.js",
         "Flask",
+        "Bootstrap",
         "PostgreSQL"
     ],
     "developerTools": [
@@ -31,17 +34,40 @@
         "Docker",
         "Jest",
         "Barista/Espresso",
-        "Postman"
+        "Postman",
+        "Google Cloud"
     ],
-    "softSkills": [
+    "developmentPractices": [
+        "Version Control",
+        "Scrum",
+        "Test-Driven Development (TDD)",
+        "Continuous Integration/Continuous Deployment (CI/CD)",
+        "Agile Methodologies",
+        "Full-Stack Development",
+        "Mobile Application Development",
+        "Front-End Development",
+        "Back-End Development",
+        "Software Development Life Cycle (SDLC)",
+        "Object-Oriented Programming (OOP)",
+        "Machine Learning (ML)",
+        "Artificial Intelligence (AI)"
+      ],
+      "softSkills": [
         "Effective Communication",
         "Agile Adaptability",
         "Collaborative Teamwork",
         "Strategic Time Management",
         "Rigorous Attention to Detail",
         "User-Centric Customer Service",
-        "Problem Solving",
         "Leadership",
-        "Emotional Intelligence"
-    ]
+        "Creativity",
+        "Empathy",
+        "Stress Management",
+        "Conflict Resolution",
+        "Resilience",
+        "Critical Thinking",
+        "Emotional Intelligence",
+        "Self-Motivation/Initiative",
+        "Negotiation Skills"
+      ]
 }

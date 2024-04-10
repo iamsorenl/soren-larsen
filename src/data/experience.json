@@ -1,5 +1,20 @@
 [
     {
+        "company": "Boardal",
+        "title": "Software Developer & Consultant | Agile Methodology Specialist",
+        "location": "San Diego, CA",
+        "startDate": "April 2024",
+        "endDate": "Present",
+        "link": "https://boardal.app/",
+        "description": "In my role, I leverage my expertise in software development and Agile methodologies to enhance the development process of the Boardal app, focusing on improving its performance and reliability through meticulous QA testing and debugging. My contributions extend to integrating new features that meet user demands and support future scalability, all while remaining adaptable to the fast-paced and ever-evolving environment of the startup. This adaptability ensures I'm always ready to embrace new challenges and technologies, pushing the Boardal app towards continuous advancement.",
+        "skills": [
+            "Software Development",
+            "Agile Methodologies",
+            "Full-Stack Development",
+            "Mobile Applications"
+        ]
+    },
+    {
         "company": "Adventure Out LLC",
         "title": "Surf Instructor",
         "location": "Santa Cruz, CA",
