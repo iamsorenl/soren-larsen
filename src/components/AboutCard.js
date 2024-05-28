@@ -6,14 +6,13 @@ import Stack from '@mui/material/Stack';
 import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
 import about from '../data/about';
-//import aiSuit from '../images/AI-Suit.jpeg';
 import headshot1 from '../images/Headshot1.jpeg';
 import headshot2 from '../images/Headshot2.jpeg';
 import wave from '../images/Wave.jpeg';
-import graduate from '../images/Graduate.jpeg';
+import turtle from '../images/Turtle.jpg';
 import surf from '../images/Surf.jpeg';
 
-const imageUrls = [headshot1, headshot2, wave, graduate, surf];
+const imageUrls = [headshot1, headshot2, wave, turtle, surf];
 
 const AboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
