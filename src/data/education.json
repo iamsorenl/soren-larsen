@@ -1,6 +1,13 @@
 [
     {
         "school": "University of California Santa Cruz",
+        "degree": "Master of Science, Natural Language Processing",
+        "link": "https://nlp.ucsc.edu",
+        "diploma": "in progress",
+        "relevantCoursework": []
+    },
+    {
+        "school": "University of California Santa Cruz",
         "degree": "Bachelor of Science, Computer Science",
         "link": "https://admissions.ucsc.edu/programs/computer-science",
         "diploma": "yes",

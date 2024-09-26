@@ -1,12 +1,27 @@
 [
     {
+        "company": "Baskin Engineering at UCSC",
+        "title": "Teaching Assistant",
+        "location": "Santa Cruz, CA",
+        "startDate": "September 2024",
+        "endDate": "Present",
+        "link": "https://engineering.ucsc.edu/",
+        "description": "- Currently TAing for TIM 50 - Business Information Systems (Fall 2024) with Professor Paul Vroomen.\n- Assist with delivering course content and leading discussion sections.\n- Grade assignments and exams.\n- Hold regular office hours for student support.\n- Facilitate learning and engagement among students.\n- Provide academic guidance and feedback.",
+        "skills": [
+            "Academic Guidance",
+            "Teaching Assistance",
+            "Grading",
+            "Course Development"
+        ]
+    },
+    {
         "company": "Boardal",
-        "title": "Software Developer & Consultant | Agile Methodology Specialist",
+        "title": "Software Developer & Consultant - Agile Methodology Specialist",
         "location": "San Diego, CA",
         "startDate": "April 2024",
         "endDate": "Present",
         "link": "https://boardal.app/",
-        "description": "In my role, I leverage my expertise in software development and Agile methodologies to enhance the development process of the Boardal app, focusing on improving its performance and reliability through meticulous QA testing and debugging. My contributions extend to integrating new features that meet user demands and support future scalability, all while remaining adaptable to the fast-paced and ever-evolving environment of the startup. This adaptability ensures I'm always ready to embrace new challenges and technologies, pushing the Boardal app towards continuous advancement.",
+        "description": "- Providing expertise in Software Development and Agile Methodologies to streamline and organize the app's development process.\n- Elevating the performance and dependability of the application through QA testing and debugging.\n- Actively involved in integrating new features, aiming to expand the app's capabilities and ensure it aligns with user demands and future scaling needs.\n- Implemented custom notifications allowing users to create and manage alerts for when a surfboard meeting their desired specs gets posted to the app, resulting in a 25% increase in daily app usage.\n- Adapting to the dynamic and evolving needs of the startup, ready to tackle new challenges and technologies to drive the Boardal app forward.",
         "skills": [
             "Software Development",
             "Agile Methodologies",
@@ -21,7 +36,7 @@
         "startDate": "June 2023",
         "endDate": "December 2023",
         "link": "https://www.adventureout.com/",
-        "description": "Was tasked with teaching surf lessons to individuals of all skill levels and ages. Provided safety instructions, such as how to identify potential hazards and how to navigate the ocean safely. Taught fundamental surf techniques. Tailored each lesson to the specific needs and abilities of each student.",
+        "description": "- Taught surf lessons to a diverse range of students, including all skill levels and ages, ensuring a personalized learning experience.\n- Delivered comprehensive safety instructions, focusing on identifying potential hazards and safe ocean navigation techniques.\n- Introduced fundamental surf techniques, laying a solid foundation for students' surfing skills.\n- Customized each lesson to match the unique needs and abilities of individual students, fostering a supportive and effective learning environment.",
         "skills": [
             "Fitness Instruction",
             "Time Management",
@@ -35,8 +50,8 @@
         "location": "Santa Cruz, CA",
         "startDate": "July 2021",
         "endDate": "September 2023",
-        "link": "https://undergrad.soe.ucsc.edu/",
-        "description": "Provided indispensable front-line support to a diverse student population, including both four-year students and transfer students. Assisted with class enrollment, graduation planning, petitions, and more, demonstrating strong problem-solving skills and knowledge of the engineering school. Additionally, directed both students and visitors to appropriate school departments and faculty, making a positive impact on the academic journey of all. Utilized excellent communication and interpersonal skills to ensure that all were connected to the resources and support they needed.",
+        "link": "https://undergrad.engineering.ucsc.edu/advising/peer-advisors/",
+        "description": "- Provided front-line support to a diverse student body, including four-year and transfer students, enhancing their academic experience.\n- Assisted students with class enrollment, graduation planning, and petition processes, leveraging strong problem-solving skills.\n- Directed students and visitors to appropriate departments and faculty, contributing positively to their academic journey.\n- Utilized exceptional communication and interpersonal skills to connect individuals with necessary resources and support.",
         "skills": [
             "Customer Service",
             "Communication",
@@ -51,7 +66,7 @@
         "startDate": "June 2022",
         "endDate": "September 2022",
         "link": "https://ches.ucsc.edu/cruzfix/",
-        "description": "Was responsible for ensuring that the dorms and other campus buildings were in good repair. This involved performing repairs in dorm rooms, maintaining various plumbing systems, responding to maintenance requests from students and staff members, and maintaining records of all maintenance work performed.",
+        "description": "- Ensured dorms and campus buildings were well-maintained, conducting repairs in rooms and maintaining plumbing systems.\n- Responded promptly to maintenance requests from students and staff, ensuring a safe and comfortable living and learning environment.\n- Kept detailed records of all maintenance work performed, demonstrating organizational skills and attention to detail.",
         "skills": [
             "Time Management",
             "Attention to Detail",
@@ -67,7 +82,7 @@
         "startDate": "July 2020",
         "endDate": "January 2022",
         "link": "https://rachelcarson.ucsc.edu/",
-        "description": "Planned and executed a variety of events for the Rachel Carson College community. Developed and implemented event concepts, including those with environmental themes and cultural celebrations. Demonstrated strong organizational and project management skills while bringing ideas to life and positively impacting campus life.",
+        "description": "- Led the planning and execution of various Rachel Carson College community events, focusing on environmental and cultural themes, to enhance campus life.\n- Developed and executed creative event concepts and educational content, promoting environmental awareness and enriching the college's thematic focus.\n- Demonstrated strong organizational and project management skills, bringing innovative ideas to life and ensuring broad community engagement through comprehensive marketing campaigns.\n- Utilized posters, social media, emails, and slideshows in collaboration with team members for event promotion and educational initiatives, effectively increasing awareness and participation.",
         "skills": [
             "Leadership",
             "Attention to Detail",
@@ -83,7 +98,7 @@
         "startDate": "June 2021",
         "endDate": "October 2021",
         "link": "https://club-ed.com/",
-        "description": "Taught surf lessons to individuals of all ages and skill levels. Tasks included providing safety instruction, teaching fundamental surf techniques, tailoring lessons to the specific needs and abilities of each student, maintaining equipment, and assisting with the transportation of these items to and from the Club Ed Office.",
+        "description": "- Provided comprehensive surf lessons to individuals of diverse ages and skill levels, focusing on safety, technique, and personalized instruction.\n- Delivered essential safety instructions to ensure students understood potential hazards and safe navigation of ocean conditions.\n- Taught fundamental surf techniques, adjusting teaching methods to match the unique needs and abilities of each student for optimal learning.\n- Maintained and managed surf equipment, ensuring all gear was in excellent condition for lessons.\n- Assisted with the logistical aspects of equipment transportation, coordinating between the Club Ed Office and lesson locations.",
         "skills": [
             "Fitness Instruction",
             "Time Management",
@@ -99,7 +114,7 @@
         "startDate": "June 2019",
         "endDate": "September 2019",
         "link": "https://www.ymcasd.org/mission-valley-ymca-krause-family-skate-bike-park",
-        "description": "Managed individualized lessons tailored to each student's needs and abilities. I provided safety instruction, promoted proper gear usage, and utilized hands-on teaching methods to help students progress in their skateboarding skills while fostering a positive and inclusive learning environment.",
+        "description": "- Managed and tailored individualized skateboarding lessons to each student's needs and abilities, ensuring a personalized learning experience.\n- Provided comprehensive safety instruction and promoted the proper usage of gear to minimize risks during lessons.\n- Employed hands-on teaching methods to effectively aid students in progressing their skateboarding skills.\n- Fostered a positive and inclusive learning environment, encouraging students of all levels to engage and improve confidently.\n- Found it rewarding to come full circle, teaching skateboarding lessons a decade after being a student myself, highlighting the enduring impact and personal growth within the skateboarding community.",
         "skills": [
             "Fitness Instruction",
             "Customer Service",
