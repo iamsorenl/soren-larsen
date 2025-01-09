@@ -1,17 +1,18 @@
 [
     {
         "company": "Baskin Engineering at UCSC",
-        "title": "Teaching Assistant",
+        "title": "Teaching Assistant for Professor Paul Vroomen",
         "location": "Santa Cruz, CA",
         "startDate": "September 2024",
         "endDate": "Present",
         "link": "https://engineering.ucsc.edu/",
-        "description": "- Currently TAing for TIM 50 - Business Information Systems (Fall 2024) with Professor Paul Vroomen.\n- Assist with delivering course content and leading discussion sections.\n- Grade assignments and exams.\n- Hold regular office hours for student support.\n- Facilitate learning and engagement among students.\n- Provide academic guidance and feedback.",
+        "description": "- Supporting over 100 students across two courses:\n  - TIM 50 - Business Information Systems (Fall 2024): Helped students master databases, business processes, and information systems.\n  - TIM 58 - Systems Analysis and Design (Winter 2025): Guided students in systems thinking, UML modeling, and agile methodologies.\n- Led mock stakeholder interactions to simulate real-world challenges, providing actionable feedback on team project deliverables.\n- Delivered engaging course content, led discussion sections, and held office hours to support individual and group learning.\n- Provided detailed feedback on assignments and exams, improving student comprehension and engagement.\n- Fostered collaboration among students while preparing them for professional environments.",
         "skills": [
-            "Academic Guidance",
             "Teaching Assistance",
-            "Grading",
-            "Course Development"
+            "Academic Guidance",
+            "Agile Methodologies",
+            "UML Modeling",
+            "Student Engagement"
         ]
     },
     {
@@ -21,14 +22,16 @@
         "startDate": "April 2024",
         "endDate": "Present",
         "link": "https://boardal.app/",
-        "description": "- Providing expertise in Software Development and Agile Methodologies to streamline and organize the app's development process.\n- Elevating the performance and dependability of the application through QA testing and debugging.\n- Actively involved in integrating new features, aiming to expand the app's capabilities and ensure it aligns with user demands and future scaling needs.\n- Implemented custom notifications allowing users to create and manage alerts for when a surfboard meeting their desired specs gets posted to the app, resulting in a 25% increase in daily app usage.\n- Adapting to the dynamic and evolving needs of the startup, ready to tackle new challenges and technologies to drive the Boardal app forward.",
+        "description": "- Developed a custom GPT-driven system to automate outbound messaging for marketing interns, streamlining customer acquisition and eliminating the need for manual message creation.\n- Integrated a spreadsheet-linked GPT tool that allows marketing interns to query customer records and track communication status, improving efficiency and ensuring accurate outreach.\n- Designed and deployed a custom notification system, enabling users to create personalized alerts for surfboards matching their preferences, resulting in a 25% increase in daily app usage.\n- Spearheaded the implementation of Agile methodologies, improving team collaboration, accelerating feature delivery, and aligning the app’s development process with user needs.\n- Actively contributed to expanding the app’s capabilities by integrating new features and adapting to the evolving needs of the startup to ensure scalability and user satisfaction.",
         "skills": [
             "Software Development",
             "Agile Methodologies",
             "Full-Stack Development",
-            "Mobile Applications"
+            "Mobile Applications",
+            "Machine Learning Integration"
         ]
-    },
+    }
+
     {
         "company": "Adventure Out LLC",
         "title": "Surf Instructor",

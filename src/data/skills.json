@@ -25,7 +25,12 @@
         "Vue.js",
         "Flask",
         "Bootstrap",
-        "PostgreSQL"
+        "PostgreSQL",
+        "Firebase",
+        "spaCy",
+        "NLTK",
+        "seqeval",
+        "Gensim"
     ],
     "developerTools": [
         "Git/GitHub",
@@ -35,7 +40,14 @@
         "Jest",
         "Barista/Espresso",
         "Postman",
-        "Google Cloud"
+        "Google Cloud",
+        "TensorFlow",
+        "PyTorch",
+        "Matplotlib",
+        "NumPy",
+        "Pandas",
+        "Scikit-Learn",
+        "Regex"
     ],
     "developmentPractices": [
         "Version Control",
@@ -50,9 +62,10 @@
         "Software Development Life Cycle (SDLC)",
         "Object-Oriented Programming (OOP)",
         "Machine Learning (ML)",
-        "Artificial Intelligence (AI)"
-      ],
-      "softSkills": [
+        "Artificial Intelligence (AI)",
+        "Natural Language Processing (NLP)"
+    ],
+    "softSkills": [
         "Effective Communication",
         "Agile Adaptability",
         "Collaborative Teamwork",
@@ -69,5 +82,5 @@
         "Emotional Intelligence",
         "Self-Motivation/Initiative",
         "Negotiation Skills"
-      ]
+    ]
 }
