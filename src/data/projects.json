@@ -19,7 +19,7 @@
         "startDate": "November 2024",
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/Airline-Sentiment-Preprocessing-and-Modeling",
-        "muiIcon": "SentimentSatisfiedAlt",
+        "muiIcon": "Abc",
         "description": "- Developed a pipeline for sentiment analysis on the Twitter US Airline Sentiment dataset, focusing on data preprocessing, custom tokenization, and machine learning classification.\n- Applied advanced text cleaning techniques, including regex-based tokenization, lemmatization, and emoji normalization.\n- Trained a support vector machine (SVM) with TF-IDF features, achieving 80.89% test accuracy through preprocessing optimizations and ablation studies.\n- Delivered actionable insights into sentiment trends across airlines and user behavior using visualizations.",
         "tools": [
             "Python",
@@ -34,7 +34,7 @@
         "startDate": "November 2024",
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/ngram_project",
-        "muiIcon": "Language",
+        "muiIcon": "Abc",
         "description": "- Built N-Gram models (Unigram, Bigram, Trigram) and Interpolated N-Gram models to predict word sequences and measure perplexity on a subset of the One Billion Word Language Modeling Benchmark dataset.\n- Implemented linear interpolation smoothing and tunable OOV handling to address unseen data and improve model generalization.\n- Optimized interpolation weights (λ1, λ2, λ3) to enhance contextual predictions and reduce perplexity.\n- Analyzed model performance across datasets and demonstrated the effectiveness of interpolation for handling sparse data.",
         "tools": [
             "Python",
@@ -48,7 +48,7 @@
         "startDate": "October 2024",
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/feature_engineering_multiclass_classification_SVM_LR_DT",
-        "muiIcon": "Widgets",
+        "muiIcon": "Abc",
         "description": "- Developed a text classification pipeline for an e-commerce dataset, leveraging feature engineering techniques and multi-class classification models such as SVM, Logistic Regression, and Decision Tree.\n- Implemented GloVe embeddings, Sublinear TF-IDF, and Bag-of-Words features to optimize model performance.\n- Conducted hyperparameter tuning and evaluated performance using metrics like macro-average F1-scores, confusion matrices, and ROC curves.\n- Delivered models with high accuracy and efficient feature representations for text data.",
         "tools": [
             "Python",
@@ -78,7 +78,7 @@
         "startDate": "November 2024",
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
-        "muiIcon": "AutoGraph",
+        "muiIcon": "Abc",
         "description": "- Developed a Transformer Encoder model for autoregressive language modeling on the Penn Treebank dataset, reducing test perplexity from 83.35 to 39.11.\n- Optimized model architecture with sinusoidal positional encoding and multi-head attention, improving generalization on small datasets.\n- Conducted extensive hyperparameter tuning to balance model complexity and training efficiency.\n- Evaluated predictive accuracy across training, validation, and test sets, validating the model's scalability for constrained datasets.",
         "tools": [
             "Python",
@@ -93,7 +93,7 @@
         "startDate": "October 2024",
         "endDate": "October 2024",
         "link": "https://github.com/iamsorenl/Feature-Engineering-and-Sentiment-Analysis",
-        "muiIcon": "SentimentSatisfiedAlt",
+        "muiIcon": "Abc",
         "description": "- Built a text classification pipeline for Amazon and IMDb datasets, exploring feature engineering techniques and comparing custom and scikit-learn models.\n- Implemented custom Naive Bayes, SVM, Decision Tree, and Logistic Regression classifiers with Laplacian smoothing and N-gram features.\n- Achieved 89% accuracy with SVM + TF-IDF on Amazon reviews and 87% validation accuracy with Logistic Regression + Bigrams on IMDb reviews.\n- Leveraged advanced metrics like binary and macro F1-scores to evaluate model performance.",
         "tools": [
             "Python",
