@@ -26,7 +26,7 @@ import projectsData from '../data/projects';
 
 const EnhancedProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
-    const [showAll, setShowAll] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(3);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -34,7 +34,25 @@ const EnhancedProjectCard = () => {
         setExpandedProject(expandedProject === index ? null : index);
     };
 
-    const displayedProjects = showAll ? projectsData : projectsData.slice(0, 3);
+    const handleLoadMore = () => {
+        const remaining = projectsData.length - visibleCount;
+        if (remaining <= 3) {
+            // If 3 or fewer items remain, show all
+            setVisibleCount(projectsData.length);
+        } else {
+            // Otherwise, load 3 more
+            setVisibleCount(prev => prev + 3);
+        }
+    };
+
+    const handleShowLess = () => {
+        setVisibleCount(3);
+        setExpandedProject(null); // Close any expanded projects when showing less
+    };
+
+    const displayedProjects = projectsData.slice(0, visibleCount);
+    const remaining = projectsData.length - visibleCount;
+    const isShowingAll = visibleCount >= projectsData.length;
 
     const getToolColor = (tool) => {
         const toolColors = {
@@ -77,27 +95,7 @@ const EnhancedProjectCard = () => {
                     </Typography>
                 </Box>
                 
-                <Box 
-                    sx={{ 
-                        maxHeight: showAll ? '600px' : 'none',
-                        overflowY: showAll ? 'auto' : 'visible',
-                        pr: showAll ? 1 : 0,
-                        '&::-webkit-scrollbar': {
-                            width: '8px',
-                        },
-                        '&::-webkit-scrollbar-track': {
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            borderRadius: '4px',
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            background: 'rgba(255, 255, 255, 0.3)',
-                            borderRadius: '4px',
-                            '&:hover': {
-                                background: 'rgba(255, 255, 255, 0.5)',
-                            },
-                        },
-                    }}
-                >
+                <Box>
                     <Grid container spacing={2}>
                         {displayedProjects.map((project, index) => (
                             <Grid item xs={12} key={index}>
@@ -297,21 +295,42 @@ const EnhancedProjectCard = () => {
                 </Box>
 
                 {projectsData.length > 3 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => setShowAll(!showAll)}
-                            sx={{
-                                color: 'primary.contrastText',
-                                borderColor: 'primary.contrastText',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                    borderColor: 'primary.contrastText'
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
+                        {!isShowingAll && (
+                            <Button
+                                variant="outlined"
+                                onClick={handleLoadMore}
+                                sx={{
+                                    color: 'primary.contrastText',
+                                    borderColor: 'primary.contrastText',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                        borderColor: 'primary.contrastText'
+                                    }
+                                }}
+                            >
+                                {remaining <= 3 
+                                    ? `View All ${projectsData.length} Projects` 
+                                    : `Load 3 More Projects (${remaining} remaining)`
                                 }
-                            }}
-                        >
-                            {showAll ? 'Show Less' : `View All ${projectsData.length} Projects`}
-                        </Button>
+                            </Button>
+                        )}
+                        {visibleCount > 3 && (
+                            <Button
+                                variant="outlined"
+                                onClick={handleShowLess}
+                                sx={{
+                                    color: 'primary.contrastText',
+                                    borderColor: 'primary.contrastText',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                        borderColor: 'primary.contrastText'
+                                    }
+                                }}
+                            >
+                                Show Less
+                            </Button>
+                        )}
                     </Box>
                 )}
             </CardContent>
