@@ -1,21 +1,18 @@
 import React from 'react';
 import './App.css';
-//import Navbar from './components/Navbar';
-import InterumNavbar from './components/InterumNavbar';
+import Navigation from './components/Navigation';
 import Body from './components/Body';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { Box } from '@mui/material';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <div className="App">
-        {/*<Navbar /> trying to figure out how to scroll by id*/}
-        <InterumNavbar />
-        <Body />
-        {/*<div style={{ marginTop: '64px' }}>
+        <Navigation />
+        <Box sx={{ pt: 8 }}>
           <Body />
-        </div>*/}
+        </Box>
       </div>
     </ThemeProvider>
   );
