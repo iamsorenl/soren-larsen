@@ -11,7 +11,9 @@ import {
     IconButton,
     Collapse,
     Link,
-    Tooltip
+    Tooltip,
+    useTheme,
+    useMediaQuery
 } from '@mui/material';
 import {
     GitHub,
@@ -25,6 +27,8 @@ import projectsData from '../data/projects';
 const EnhancedProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
     const [showAll, setShowAll] = useState(false);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleExpandClick = (index) => {
         setExpandedProject(expandedProject === index ? null : index);
@@ -107,27 +111,82 @@ const EnhancedProjectCard = () => {
                                     }}
                                 >
                                     <CardContent sx={{ p: 3 }}>
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                                            <Box sx={{ flex: 1 }}>
+                                        <Box 
+                                            sx={{ 
+                                                display: 'flex', 
+                                                justifyContent: 'space-between', 
+                                                alignItems: 'flex-start', 
+                                                mb: 2,
+                                                ...(isMobile && {
+                                                    overflowX: 'auto',
+                                                    gap: 2,
+                                                    '&::-webkit-scrollbar': {
+                                                        height: '4px',
+                                                    },
+                                                    '&::-webkit-scrollbar-track': {
+                                                        background: 'rgba(0, 0, 0, 0.1)',
+                                                        borderRadius: '2px',
+                                                    },
+                                                    '&::-webkit-scrollbar-thumb': {
+                                                        background: 'rgba(0, 0, 0, 0.3)',
+                                                        borderRadius: '2px',
+                                                        '&:hover': {
+                                                            background: 'rgba(0, 0, 0, 0.5)',
+                                                        },
+                                                    },
+                                                })
+                                            }}
+                                        >
+                                            <Box 
+                                                sx={{ 
+                                                    flex: 1,
+                                                    ...(isMobile && {
+                                                        minWidth: 0, // Allow text to wrap/truncate
+                                                        flexShrink: 1
+                                                    })
+                                                }}
+                                            >
                                                 <Typography 
                                                     variant="h6" 
                                                     sx={{ 
                                                         fontWeight: 600, 
                                                         color: 'text.primary',
                                                         mb: 1,
-                                                        lineHeight: 1.3
+                                                        lineHeight: 1.3,
+                                                        ...(isMobile && {
+                                                            fontSize: '1.1rem',
+                                                            wordBreak: 'break-word',
+                                                            hyphens: 'auto'
+                                                        })
                                                     }}
                                                 >
                                                     {project.title}
                                                 </Typography>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                                                     <Timeline sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
-                                                    <Typography variant="body2" color="text.secondary">
+                                                    <Typography 
+                                                        variant="body2" 
+                                                        color="text.secondary"
+                                                        sx={{
+                                                            ...(isMobile && {
+                                                                fontSize: '0.8rem'
+                                                            })
+                                                        }}
+                                                    >
                                                         {project.startDate} - {project.endDate}
                                                     </Typography>
                                                 </Box>
                                             </Box>
-                                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                            <Box 
+                                                sx={{ 
+                                                    display: 'flex', 
+                                                    gap: 1,
+                                                    ...(isMobile && {
+                                                        flexShrink: 0, // Prevent buttons from shrinking
+                                                        minWidth: 'fit-content'
+                                                    })
+                                                }}
+                                            >
                                                 <Tooltip title="View GitHub Repository" arrow>
                                                     <Button
                                                         component={Link}
@@ -143,7 +202,12 @@ const EnhancedProjectCard = () => {
                                                             '&:hover': { 
                                                                 backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(100, 181, 246, 0.1)' : 'rgba(26, 35, 126, 0.1)',
                                                                 borderColor: (theme) => theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.main'
-                                                            }
+                                                            },
+                                                            ...(isMobile && {
+                                                                minWidth: 'fit-content',
+                                                                px: 1.5,
+                                                                fontSize: '0.75rem'
+                                                            })
                                                         }}
                                                     >
                                                         GitHub
@@ -153,7 +217,11 @@ const EnhancedProjectCard = () => {
                                                     onClick={() => handleExpandClick(index)}
                                                     sx={{ 
                                                         color: (theme) => theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.main',
-                                                        '&:hover': { backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(100, 181, 246, 0.1)' : 'rgba(26, 35, 126, 0.1)' }
+                                                        '&:hover': { backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(100, 181, 246, 0.1)' : 'rgba(26, 35, 126, 0.1)' },
+                                                        ...(isMobile && {
+                                                            minWidth: 'fit-content',
+                                                            flexShrink: 0
+                                                        })
                                                     }}
                                                 >
                                                     {expandedProject === index ? <ExpandLess /> : <ExpandMore />}
