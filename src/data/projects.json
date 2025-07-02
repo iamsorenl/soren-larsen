@@ -1,5 +1,126 @@
 [
     {
+        "title": "EduMUSE",
+        "startDate": "May 2025",
+        "endDate": "Present",
+        "link": "https://github.com/iamsorenl/EduMUSE",
+        "muiIcon": "Abc",
+        "description": "- Built a sophisticated multi-agent educational AI system that orchestrates specialized CrewAI agents through a modern React interface, transforming how students interact with academic content\n- Developed a modular flow architecture enabling systematic comparison of AI methodologies—web search, LLM-based synthesis, and hybrid retrieval—accessible through an intuitive PDF viewer with intelligent text selection\n- Implemented a specialized agent ecosystem including ConceptExtractor for academic analysis, SummaryWriter for adaptive content creation, and AssessmentDesigner for pedagogically sound quiz generation\n- Integrated Flask-based PDF upload API with CORS support and react-pdf-highlighter, allowing users to upload academic documents and interact with AI agents for real-time content generation\n- Successfully integrated podcast generation feature that transforms academic content into engaging audio discussions between AI hosts, expanding the system's multimodal capabilities",
+        "tools": [
+            "Python",
+            "CrewAI",
+            "React",
+            "Flask",
+            "CORS",
+            "react-pdf-highlighter",
+            "AI Agents",
+            "Educational Technology",
+            "Multimodal AI"
+        ]
+    },
+    {
+        "title": "Multi-Agent AI Orchestration Platform with Web Integration Demo",
+        "startDate": "May 2025",
+        "endDate": "June 2025",
+        "link": "https://github.com/iamsorenl/Autogen_Chat_Demo",
+        "muiIcon": "Abc",
+        "description": "- Built a sophisticated multi-agent conversational AI system that orchestrates specialized AI agents through a modern web interface, combining AutoGen's MagenticOneGroupChat with real-time frontend integration\n- Developed custom WebSocket-based communication layer to seamlessly route user interactions between React frontend and AutoGen backend, eliminating terminal dependencies for true web-native AI conversations\n- Implemented specialized agent ecosystem including ScientistAgent for analytical responses, ArtistAgent for creative perspectives, and MediaHandlerAgent for multimedia content processing\n- Solved complex input routing challenges by creating a custom UserProxyAgent integration that channels human-in-the-loop interactions through the web interface\n- Integrated Flask-based media upload API with CORS support and achieved clean, real-time multi-perspective AI responses with intelligent message filtering and robust error handling",
+        "tools": [
+            "Python",
+            "AutoGen",
+            "React",
+            "Material-UI",
+            "WebSocket",
+            "Flask",
+            "OpenAI GPT-4",
+            "CORS",
+            "AsyncIO",
+            "Multi-Agent Systems"
+        ]
+    },
+    {
+        "title": "UCSC RAG Chatbot — A Retrieval-Augmented Assistant for Student Support",
+        "startDate": "January 2025",
+        "endDate": "March 2025",
+        "link": "https://github.com/shannonrumsey/UCSC_RAG",
+        "muiIcon": "Abc",
+        "description": "- Built a custom chatbot to answer questions about the UCSC NLP Master's Program and related university services using Retrieval-Augmented Generation (RAG) with LangChain, ChromaDB, and LLaMA 3.2\n- Integrated Gemini 2.0 Flash for post-response evaluation to ensure factual accuracy and reduce hallucinations by checking relevance, coherence, and bias\n- Developed a Swift-based iOS app with Firebase for real-time access, chat history, and user authentication\n- Achieved 97% human-evaluated accuracy on a custom 150-question dataset and 71% strict accuracy under Gemini evaluation\n- Tested across three LLaMA model sizes (1B, 3B, 8B) and retrieved answers from 77 scraped UCSC-affiliated web pages",
+        "tools": [
+            "Python",
+            "LangChain",
+            "ChromaDB",
+            "Gemini API",
+            "Swift",
+            "Firebase",
+            "LLaMA 3.2",
+            "Sentence-Transformers"
+        ]
+    },
+    {
+        "title": "Robustness and Domain Adaptation in Transformer-Based Question Answering",
+        "startDate": "February 2025",
+        "endDate": "February 2025",
+        "link": "https://github.com/iamsorenl/Transformer_QA",
+        "muiIcon": "Abc",
+        "description": "- Analyzed RoBERTa's robustness across in-domain, adversarial, and out-of-domain QA tasks using SQuAD 2.0 and the Covid-QA biomedical dataset\n- Applied Low-Rank Adaptation (LoRA) to fine-tune RoBERTa efficiently, reducing trainable parameters while improving accuracy on specialized biomedical text\n- Introduced sliding window inference and CLS-token masking for long and unanswerable contexts, enhancing answer alignment and minimizing false positives\n- Achieved +6.41 EM / +14.84 F1 on Covid-QA dev and +5.33 EM / +10.54 F1 on test, demonstrating strong domain transfer with adapter-based tuning\n- Identified failure modes in QA under ambiguity and contradiction, informing best practices for robust transformer deployment",
+        "tools": [
+            "Python",
+            "PyTorch",
+            "Hugging Face Transformers",
+            "Adapter-Transformers",
+            "SQuAD 2.0",
+            "Covid-QA",
+            "LoRA"
+        ]
+    },
+    {
+        "title": "Sentiment Analysis Minibatching",
+        "startDate": "January 2025",
+        "endDate": "February 2025",
+        "link": "https://github.com/iamsorenl/Sentiment-Analysis-Minibatching",
+        "muiIcon": "Abc",
+        "description": "- Developed sentiment classifiers using Logistic Regression and LSTM models on the IMDB movie review dataset, exploring the impact of batch size and learning rate on model performance\n- Implemented dynamic mini-batch training with PyTorch and spaCy, handling over 50,000 variable-length reviews with custom tokenization and data loading\n- Benchmarked configurations across batch sizes and learning rates, achieving up to 90.4% validation accuracy with LR and 90.1% with LSTM\n- Highlighted efficiency–performance trade-offs, showing that intermediate batch sizes (e.g., 16) yielded optimal convergence and generalization\n- Demonstrated that smaller batch sizes increased training time but preserved beneficial gradient noise for model robustness",
+        "tools": [
+            "Python",
+            "PyTorch",
+            "spaCy",
+            "scikit-learn",
+            "matplotlib",
+            "IMDB Dataset"
+        ]
+    },
+    {
+        "title": "Modernized ELIZA Rogerian Therapist Chatbot",
+        "startDate": "January 2025",
+        "endDate": "January 2025",
+        "link": "https://github.com/iamsorenl/BetterELIZAbot",
+        "muiIcon": "Abc",
+        "description": "- Enhanced the classic ELIZA chatbot with NLP techniques to better handle humor, misspellings, contractions, and flirtation while preserving its therapeutic tone\n- Implemented a modular spell-checker using TextBlob and SpaCy to correct typos without altering named entities or disrupting context\n- Designed custom rules for laughter and flirtatious input, prompting deeper dialogue or redirection to maintain professional tone\n- Developed contraction-aware lemmatization to improve pattern matching while respecting ELIZA's rule-based structure\n- Increased chatbot realism and user engagement by addressing ambiguous, emotional, or non-serious inputs through modular NLP enhancements",
+        "tools": [
+            "Python",
+            "TextBlob",
+            "SpaCy",
+            "Regex",
+            "Rule-Based NLP"
+        ]
+    },
+    {
+        "title": "Neural Machine Translation: Subword vs. Word-Level Tokenization",
+        "startDate": "January 2025",
+        "endDate": "January 2025",
+        "link": "https://github.com/iamsorenl/Neural-Machine-Translation",
+        "muiIcon": "Abc",
+        "description": "- Built French-to-English NMT models using Transformer and CNN architectures on the IWSLT 2013 dataset within the Fairseq framework\n- Compared Byte Pair Encoding (BPE) and Moses whole-word tokenization to evaluate effects on training speed, vocabulary size, and translation quality\n- Tuned hyperparameters (dropout, model depth) to optimize BLEU scores and reduce overfitting\n- Conducted both quantitative (SacreBLEU) and qualitative analysis to assess output fluency and semantic accuracy\n- Found that whole-word tokenization achieved a top BLEU score of 28.98, while BPE improved OOV handling and convergence speed",
+        "tools": [
+            "Python",
+            "Fairseq",
+            "SacreBLEU",
+            "Moses Tokenizer",
+            "BPE",
+            "Bash"
+        ]
+    },
+    {
         "title": "POS Tagging with Hidden Markov Models and Viterbi Algorithm",
         "startDate": "November 2024",
         "endDate": "December 2024",

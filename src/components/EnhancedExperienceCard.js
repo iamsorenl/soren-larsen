@@ -37,16 +37,12 @@ const EnhancedExperienceCard = () => {
 
     const displayedExperiences = showAll ? experienceData : experienceData.slice(0, 3);
 
-    const getCompanyColor = (company, isDark = false) => {
-        const companyColors = {
-            'Baskin Engineering at UCSC': isDark ? '#64b5f6' : '#003c6c',
-            'Boardal': '#00bcd4',
-            'Adventure Out LLC': '#4caf50',
-            'University of California Santa Cruz': isDark ? '#64b5f6' : '#003c6c',
-            'Club Ed Surf School and Camps': '#ff9800',
-            'YMCA of San Diego County': '#e91e63'
-        };
-        return companyColors[company] || '#666666';
+    const getCompanyColor = (experience, isDark = false) => {
+        if (experience.highlightColor) {
+            return isDark ? experience.highlightColor.dark : experience.highlightColor.light;
+        }
+        // Fallback color if no highlight color is defined
+        return '#666666';
     };
 
     const formatDateRange = (startDate, endDate) => {
@@ -114,7 +110,7 @@ const EnhancedExperienceCard = () => {
                                             top: 0,
                                             bottom: 0,
                                             width: '4px',
-                                            backgroundColor: getCompanyColor(experience.company, isDark),
+                                            backgroundColor: getCompanyColor(experience, isDark),
                                             borderRadius: '0 4px 4px 0'
                                         }
                                     }}
@@ -135,12 +131,12 @@ const EnhancedExperienceCard = () => {
                                                 </Typography>
                                                 
                                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                                    <Business sx={{ fontSize: 16, mr: 1, color: getCompanyColor(experience.company, isDark) }} />
+                                                    <Business sx={{ fontSize: 16, mr: 1, color: getCompanyColor(experience, isDark) }} />
                                                     <Typography 
                                                         variant="subtitle1" 
                                                         sx={{ 
                                                             fontWeight: 600,
-                                                            color: getCompanyColor(experience.company, isDark)
+                                                            color: getCompanyColor(experience, isDark)
                                                         }}
                                                     >
                                                         {experience.company}
@@ -172,8 +168,12 @@ const EnhancedExperienceCard = () => {
                                                         rel="noopener noreferrer"
                                                         size="small"
                                                         sx={{ 
-                                                            color: 'primary.main',
-                                                            '&:hover': { backgroundColor: 'rgba(26, 35, 126, 0.1)' }
+                                                            color: isDark ? '#64b5f6' : 'primary.main',
+                                                            backgroundColor: isDark ? 'rgba(100, 181, 246, 0.1)' : 'rgba(26, 35, 126, 0.1)',
+                                                            '&:hover': { 
+                                                                backgroundColor: isDark ? 'rgba(100, 181, 246, 0.2)' : 'rgba(26, 35, 126, 0.2)',
+                                                                transform: 'scale(1.1)'
+                                                            }
                                                         }}
                                                     >
                                                         <OpenInNew fontSize="small" />
@@ -183,8 +183,12 @@ const EnhancedExperienceCard = () => {
                                                     onClick={() => handleExpandClick(index)}
                                                     size="small"
                                                     sx={{ 
-                                                        color: 'primary.main',
-                                                        '&:hover': { backgroundColor: 'rgba(26, 35, 126, 0.1)' }
+                                                        color: isDark ? '#64b5f6' : 'primary.main',
+                                                        backgroundColor: isDark ? 'rgba(100, 181, 246, 0.1)' : 'rgba(26, 35, 126, 0.1)',
+                                                        '&:hover': { 
+                                                            backgroundColor: isDark ? 'rgba(100, 181, 246, 0.2)' : 'rgba(26, 35, 126, 0.2)',
+                                                            transform: 'scale(1.1)'
+                                                        }
                                                     }}
                                                 >
                                                     {expandedExperience === index ? <ExpandLess /> : <ExpandMore />}
@@ -200,7 +204,7 @@ const EnhancedExperienceCard = () => {
                                                         label={skill}
                                                         size="small"
                                                         sx={{
-                                                            backgroundColor: getCompanyColor(experience.company, isDark),
+                                                            backgroundColor: getCompanyColor(experience, isDark),
                                                             color: 'white',
                                                             fontWeight: 500,
                                                             fontSize: '0.75rem'
@@ -246,7 +250,7 @@ const EnhancedExperienceCard = () => {
                                                             label={skill}
                                                             size="small"
                                                             sx={{
-                                                                backgroundColor: getCompanyColor(experience.company, isDark),
+                                                                backgroundColor: getCompanyColor(experience, isDark),
                                                                 color: 'white',
                                                                 fontWeight: 500,
                                                                 fontSize: '0.75rem'

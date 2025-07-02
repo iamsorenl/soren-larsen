@@ -3,9 +3,9 @@ import Grid from '@mui/material/Grid';
 import EnhancedProjectCard from './EnhancedProjectCard';
 import EnhancedExperienceCard from './EnhancedExperienceCard';
 import EnhancedSkillCard from './EnhancedSkillCard';
-import EducationCard from './EducationCard';
-import ContactCard from './ContactCard';
-import Certifications from './Certifications';
+import EnhancedEducationCard from './EnhancedEducationCard';
+import EnhancedContactCard from './EnhancedContactCard';
+import EnhancedCertifications from './EnhancedCertifications';
 
 const CardLayout = () => {
     return (
@@ -20,13 +20,13 @@ const CardLayout = () => {
                 <EnhancedSkillCard />
             </Grid>
             <Grid item xs={12} md={12}>
-                <Certifications />
+                <EnhancedCertifications />
             </Grid>
             <Grid item xs={12} md={6} id="education">
-                <EducationCard />
+                <EnhancedEducationCard />
             </Grid>
             <Grid item xs={12} md={6} id="contact">
-                <ContactCard />
+                <EnhancedContactCard />
             </Grid>
         </Grid>
     );

@@ -62,36 +62,28 @@ const EnhancedSkillCard = () => {
         }
     ];
 
-    const getSkillLevel = (skill) => {
-        // Define skill levels based on your expertise
-        const expertSkills = ['Python', 'React', 'JavaScript', 'Machine Learning (ML)', 'Natural Language Processing (NLP)', 'PyTorch', 'TensorFlow'];
-        const advancedSkills = ['Node.js', 'Git/GitHub', 'Scikit-Learn', 'Pandas', 'NumPy', 'Full-Stack Development', 'Agile Methodologies'];
-        const intermediateSkills = ['C', 'C++', 'Java', 'SQL', 'Docker', 'PostgreSQL', 'Firebase'];
-        
-        if (expertSkills.includes(skill)) return { level: 90, label: 'Expert' };
-        if (advancedSkills.includes(skill)) return { level: 75, label: 'Advanced' };
-        if (intermediateSkills.includes(skill)) return { level: 60, label: 'Intermediate' };
-        return { level: 45, label: 'Familiar' };
-    };
-
     const renderSkillChips = (skills, color) => (
         <Grid container spacing={1}>
             {skills.map((skill, index) => {
-                const skillInfo = getSkillLevel(skill);
+                // Handle both object format (with level/proficiency) and string format
+                const skillName = typeof skill === 'object' ? skill.name : skill;
+                const skillLevel = typeof skill === 'object' ? skill.level : 45;
+                const skillProficiency = typeof skill === 'object' ? skill.proficiency : 'Familiar';
+                
                 return (
                     <Grid item key={index}>
                         <Box sx={{ mb: 2, minWidth: 200 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                                 <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                    {skill}
+                                    {skillName}
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary">
-                                    {skillInfo.label}
+                                    {skillProficiency}
                                 </Typography>
                             </Box>
                             <LinearProgress
                                 variant="determinate"
-                                value={skillInfo.level}
+                                value={skillLevel}
                                 sx={{
                                     height: 6,
                                     borderRadius: 3,
