@@ -1,35 +1,85 @@
 [
     {
+        "company": "Gray Whale",
+        "title": "AI & Software Systems Engineer",
+        "location": "Santa Cruz, CA",
+        "startDate": "June 2025",
+        "endDate": "Present",
+        "link": "https://graywhale.ai/",
+        "description": "- Working across software development, data engineering, and system design to support Gray Whale's product and platform initiatives\n- Designing automation tools, internal services, and backend workflows to streamline operations and improve scalability\n- Supporting creative and product-facing efforts, including interface design, marketing systems, and communication infrastructure",
+        "skills": [
+            "Software Development",
+            "Data Engineering",
+            "System Design",
+            "Automation",
+            "Backend Development",
+            "AI/ML Systems"
+        ],
+        "highlightColor": {
+            "light": "#2c3e50",
+            "dark": "#34495e"
+        }
+    },
+    {
+        "company": "Onda Sports Inc.",
+        "title": "AI Engineer & Product Consultant",
+        "location": "Remote",
+        "startDate": "May 2025",
+        "endDate": "Present",
+        "link": "https://getonda.ai/",
+        "description": "- Developing intelligent assistant features that help surfers\n- Leveraging large language models (LLMs) to power conversational tools and curated recommendations\n- Supporting Onda's mission to make surf forecasting more personalized, contextual, and accessible\n- Designing new product experiences at the intersection of AI, usability, and surf culture\n- Advising Onda's marketing strategy, including recommending scalable outreach initiatives and influencing the hiring of a summer intern team to support marketing, content, and community efforts",
+        "skills": [
+            "Artificial Intelligence (AI)",
+            "Machine Learning",
+            "Software Development",
+            "Natural Language Processing (NLP)",
+            "Product Consulting",
+            "Marketing Strategy"
+        ],
+        "highlightColor": {
+            "light": "#00acc1",
+            "dark": "#26c6da"
+        }
+    },
+    {
         "company": "Baskin Engineering at UCSC",
-        "title": "Teaching Assistant for Professor Paul Vroomen",
+        "title": "Teaching Assistant",
         "location": "Santa Cruz, CA",
         "startDate": "September 2024",
         "endDate": "Present",
         "link": "https://engineering.ucsc.edu/",
-        "description": "- Supporting over 100 students across two courses:\n  - TIM 50 - Business Information Systems (Fall 2024): Helped students master databases, business processes, and information systems.\n  - TIM 58 - Systems Analysis and Design (Winter 2025): Guided students in systems thinking, UML modeling, and agile methodologies.\n- Led mock stakeholder interactions to simulate real-world challenges, providing actionable feedback on team project deliverables.\n- Delivered engaging course content, led discussion sections, and held office hours to support individual and group learning.\n- Provided detailed feedback on assignments and exams, improving student comprehension and engagement.\n- Fostered collaboration among students while preparing them for professional environments.",
+        "description": "- TA for courses led by Professor Paul Vroomen in the Technology Information Management Department\n- Delivered academic support through office hours, grading assignments and exams, and lecturing to over 150 students; served as Lead TA, coordinating the TA/grading team\n- Guided student learning across databases, SQL, business processes, information systems, systems analysis, UML modeling, and Agile/SCRUM methodologies\n- Mentored student team projects focused on app development, supporting their use of industry practices from requirements gathering through sprint planning and stakeholder feedback",
         "skills": [
             "Teaching Assistance",
             "Academic Guidance",
             "Agile Methodologies",
             "UML Modeling",
             "Student Engagement"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#003c6c",
+            "dark": "#64b5f6"
+        }
     },
     {
         "company": "Boardal",
         "title": "Software Developer & Consultant - Agile Methodology Specialist",
         "location": "San Diego, CA",
         "startDate": "April 2024",
-        "endDate": "Present",
+        "endDate": "June 2025",
         "link": "https://boardal.app/",
-        "description": "- Developed a custom GPT-driven system to automate outbound messaging for marketing interns, streamlining customer acquisition and eliminating the need for manual message creation.\n- Integrated a spreadsheet-linked GPT tool that allows marketing interns to query customer records and track communication status, improving efficiency and ensuring accurate outreach.\n- Designed and deployed a custom notification system, enabling users to create personalized alerts for surfboards matching their preferences, resulting in a 25% increase in daily app usage.\n- Spearheaded the implementation of Agile methodologies, improving team collaboration, accelerating feature delivery, and aligning the app’s development process with user needs.\n- Actively contributed to expanding the app’s capabilities by integrating new features and adapting to the evolving needs of the startup to ensure scalability and user satisfaction.",
+        "description": "- Drove Boardal's app's growth to over 20,000 users through product improvements and automation tools\n- Built GPT-powered systems to streamline marketing outreach and customer communication\n- Created features like personalized alerts and spreadsheet-integrated tools to boost user engagement and team efficiency\n- Led Agile adoption to speed up development and better align with user needs\n- Contributed across the stack to expand app functionality and support startup growth",
         "skills": [
             "Software Development",
             "Agile Methodologies",
             "Full-Stack Development",
             "Mobile Applications",
             "Machine Learning Integration"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#00bcd4",
+            "dark": "#4dd0e1"
+        }
     },
     {
         "company": "Adventure Out LLC",
@@ -38,13 +88,17 @@
         "startDate": "June 2023",
         "endDate": "December 2023",
         "link": "https://www.adventureout.com/",
-        "description": "- Taught surf lessons to a diverse range of students, including all skill levels and ages, ensuring a personalized learning experience.\n- Delivered comprehensive safety instructions, focusing on identifying potential hazards and safe ocean navigation techniques.\n- Introduced fundamental surf techniques, laying a solid foundation for students' surfing skills.\n- Customized each lesson to match the unique needs and abilities of individual students, fostering a supportive and effective learning environment.",
+        "description": "- Taught private and group surf lessons to students of all ages and experience levels, adapting instruction to individual learning styles\n- Emphasized ocean safety, hazard awareness, and proper navigation techniques in every session\n- Introduced core surf skills and ocean knowledge, creating a strong foundation for beginner surfers\n- Delivered a personalized and confidence-building learning environment in dynamic ocean conditions",
         "skills": [
             "Fitness Instruction",
             "Time Management",
             "Leadership",
             "Customer Service"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#4caf50",
+            "dark": "#81c784"
+        }
     },
     {
         "company": "University of California Santa Cruz",
@@ -59,7 +113,11 @@
             "Communication",
             "Teamwork",
             "Academic Advising"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#003c6c",
+            "dark": "#64b5f6"
+        }
     },
     {
         "company": "University of California Santa Cruz",
@@ -75,7 +133,11 @@
             "Customer Service",
             "Problem Solving",
             "Teamwork"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#003c6c",
+            "dark": "#64b5f6"
+        }
     },
     {
         "company": "University of California Santa Cruz",
@@ -91,7 +153,11 @@
             "Customer Service",
             "Problem Solving",
             "Teamwork"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#003c6c",
+            "dark": "#64b5f6"
+        }
     },
     {
         "company": "Club Ed Surf School and Camps",
@@ -107,7 +173,11 @@
             "Leadership",
             "Customer Service",
             "Hospitality"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#ff9800",
+            "dark": "#ffb74d"
+        }
     },
     {
         "company": "YMCA of San Diego County",
@@ -116,11 +186,15 @@
         "startDate": "June 2019",
         "endDate": "September 2019",
         "link": "https://www.ymcasd.org/mission-valley-ymca-krause-family-skate-bike-park",
-        "description": "- Managed and tailored individualized skateboarding lessons to each student's needs and abilities, ensuring a personalized learning experience.\n- Provided comprehensive safety instruction and promoted the proper usage of gear to minimize risks during lessons.\n- Employed hands-on teaching methods to effectively aid students in progressing their skateboarding skills.\n- Fostered a positive and inclusive learning environment, encouraging students of all levels to engage and improve confidently.\n- Found it rewarding to come full circle, teaching skateboarding lessons a decade after being a student myself, highlighting the enduring impact and personal growth within the skateboarding community.",
+        "description": "- Designed and delivered individualized skateboarding lessons, adapting instruction to each student's skill level and learning pace\n- Used hands-on, progressive techniques to build student confidence and foster an inclusive, encouraging environment for learners of all backgrounds and abilities\n- Assisted in the Clash at Clairemont skateboarding demo event, supporting logistics and event setup for a showcase featuring pro skaters including Tony Hawk, Andy Macdonald, and many more\n- Returned to teach a decade after attending the program myself, reflecting a full-circle experience and a deep connection to the skateboarding community",
         "skills": [
             "Fitness Instruction",
             "Customer Service",
             "Hospitality"
-        ]
+        ],
+        "highlightColor": {
+            "light": "#e91e63",
+            "dark": "#f06292"
+        }
     }
 ]
