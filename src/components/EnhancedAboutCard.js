@@ -29,14 +29,15 @@ import highlightsData from '../data/highlights';
 import resumePDF from '../data/SorenLarsenResume.pdf';
 import headshot1 from '../images/Headshot1.jpg';
 import headshot2 from '../images/Headshot2.jpg';
-import headshot3 from '../images/Headshot3.jpg';
-import headshot4 from '../images/Headshot4.jpg';
-import headshot5 from '../images/Headshot5.jpg';
 import turtle from '../images/Turtle.jpg';
 import surf from '../images/Surf.jpg';
 import halfdome from '../images/HalfDome.jpg';
+import expressive from '../images/Expressive.JPG';
+import peru from '../images/Peru.JPG';
+import slugfest from '../images/SlugFest.JPG';
+import caffeineHack from '../images/caffeine_hack.jpeg';
 
-const imageUrls = [headshot5, headshot1, halfdome, headshot2, turtle, headshot3, headshot4, surf];
+const imageUrls = [headshot1, expressive, halfdome, headshot2, turtle, peru, slugfest, surf, caffeineHack];
 
 const EnhancedAboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
