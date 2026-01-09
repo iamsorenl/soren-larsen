@@ -1,8 +1,27 @@
 [
     {
+        "title": "No RAGrets",
+        "startDate": "May 2025",
+        "endDate": "present",
+        "link": "https://github.com/No-RAGrets-Research/No-RAGrets-Master",
+        "muiIcon": "Abc",
+        "description": "- Collaborated with CarbonBridge to apply Natural Language Processing (NLP) to accelerate scientific research in sustainable fuel innovation. Led development of an open-source knowledge graph extraction system that processes research literature on biological carbon conversion, microbial biocatalysis, and algae-based systems for transforming industrial waste gases into sustainable fuels\n- Developed an automated pipeline integrating Docling for document parsing and Qwen vision-language models for extracting entities, relationships, and technical concepts from scientific literature\n- Created an interactive React-based interface with graph visualization tools for exploring research connections and AI-powered literature review capabilities\n- Set up development infrastructure with FastAPI backend, Dgraph graph database, and containerized deployment workflows\n- Documented the system architecture, setup procedures, and technical decisions to enable the next UCSC NLP cohort to continue advancing this research tool as I transition to an advisory role\n- This work supports CarbonBridge's mission to decarbonize maritime transport by making scientific knowledge more accessible and interconnected for researchers working on biotechnological pathways to sustainable fuels",
+        "tools": [
+            "Python",
+            "Docling",
+            "React",
+            "FastAPI",
+            "Dgraph",
+            "Docker",
+            "Graph Visualization",
+            "AI Research Tools",
+            "Multimodal AI"
+        ]
+    },
+    {
         "title": "EduMUSE",
         "startDate": "May 2025",
-        "endDate": "Present",
+        "endDate": "June 2025",
         "link": "https://github.com/iamsorenl/EduMUSE",
         "muiIcon": "Abc",
         "description": "- Built a sophisticated multi-agent educational AI system that orchestrates specialized CrewAI agents through a modern React interface, transforming how students interact with academic content\n- Developed a modular flow architecture enabling systematic comparison of AI methodologies—web search, LLM-based synthesis, and hybrid retrieval—accessible through an intuitive PDF viewer with intelligent text selection\n- Implemented a specialized agent ecosystem including ConceptExtractor for academic analysis, SummaryWriter for adaptive content creation, and AssessmentDesigner for pedagogically sound quiz generation\n- Integrated Flask-based PDF upload API with CORS support and react-pdf-highlighter, allowing users to upload academic documents and interact with AI agents for real-time content generation\n- Successfully integrated podcast generation feature that transforms academic content into engaging audio discussions between AI hosts, expanding the system's multimodal capabilities",
@@ -24,7 +43,7 @@
         "endDate": "June 2025",
         "link": "https://github.com/iamsorenl/Autogen_Chat_Demo",
         "muiIcon": "Abc",
-        "description": "- Built a sophisticated multi-agent conversational AI system that orchestrates specialized AI agents through a modern web interface, combining AutoGen's MagenticOneGroupChat with real-time frontend integration\n- Developed custom WebSocket-based communication layer to seamlessly route user interactions between React frontend and AutoGen backend, eliminating terminal dependencies for true web-native AI conversations\n- Implemented specialized agent ecosystem including ScientistAgent for analytical responses, ArtistAgent for creative perspectives, and MediaHandlerAgent for multimedia content processing\n- Solved complex input routing challenges by creating a custom UserProxyAgent integration that channels human-in-the-loop interactions through the web interface\n- Integrated Flask-based media upload API with CORS support and achieved clean, real-time multi-perspective AI responses with intelligent message filtering and robust error handling",
+        "description": "- Developed a multi-agent conversational AI system that orchestrates specialized AI agents through a modern web interface, combining AutoGen's MagenticOneGroupChat with real-time frontend integration\n- Developed custom WebSocket-based communication layer to seamlessly route user interactions between React frontend and AutoGen backend, eliminating terminal dependencies for true web-native AI conversations\n- Implemented specialized agent ecosystem including ScientistAgent for analytical responses, ArtistAgent for creative perspectives, and MediaHandlerAgent for multimedia content processing\n- Solved complex input routing challenges by creating a custom UserProxyAgent integration that channels human-in-the-loop interactions through the web interface\n- Integrated Flask-based media upload API with CORS support and achieved clean, real-time multi-perspective AI responses with intelligent message filtering and robust error handling",
         "tools": [
             "Python",
             "AutoGen",
