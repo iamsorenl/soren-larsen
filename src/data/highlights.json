@@ -5,18 +5,8 @@
         "color": "#2196f3"
     },
     {
-        "icon": "Work",
-        "text": "Teaching Assistant at UCSC",
-        "color": "#4caf50"
-    },
-    {
-        "icon": "SurfingOutlined",
-        "text": "AI Engineer & Product Consultant at Onda",
-        "color": "#00bcd4"
-    },
-    {
         "icon": "FaWhale",
-        "text": "AI & Software Systems Engineer at Gray Whale",
+        "text": "Data & Full Stack Engineer at Gray Whale",
         "color": "#9c27b0"
     }
 ]
