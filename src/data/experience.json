@@ -1,12 +1,35 @@
 [
     {
-        "company": "Gray Whale",
-        "title": "AI & Software Systems Engineer",
-        "location": "Santa Cruz, CA",
-        "startDate": "June 2025",
+        "company": "Levangie Laboratories",
+        "title": "Founding Engineer",
+        "location": "Remote",
+        "startDate": "February 2026",
         "endDate": "Present",
+        "link": "https://levangielabs.com/",
+        "description": "- Agent Infrastructure & Reliability: Building core systems that make AI agents more autonomous and dependable over long-running workflows, with a focus on failure recovery, state management, and reproducibility\n- Memory & Evaluation Systems: Developing infrastructure for agent memory and evaluation pipelines to measure quality over time, support regression testing, and improve iteration speed across product experiments\n- Full-Stack Prototyping: Shipping end-to-end features across backend services and product surfaces, turning research prototypes into production-ready tooling\n- Systems Design & Collaboration: Working closely with the founding team to define technical direction, prioritize roadmap work, and establish engineering standards for early-stage development",
+        "skills": [
+            "AI Agents",
+            "System Design",
+            "Backend Development",
+            "Full-Stack Development",
+            "Infrastructure",
+            "Evaluation Systems",
+            "Python",
+            "State Management"
+        ],
+        "highlightColor": {
+            "light": "#9c27b0",
+            "dark": "#ba68c8"
+        }
+    },
+    {
+        "company": "Gray Whale",
+        "title": "Data & Full Stack Engineer",
+        "location": "Remote",
+        "startDate": "June 2025",
+        "endDate": "February 2026",
         "link": "https://graywhale.ai/",
-        "description": "- Working across software development, data engineering, and system design to support Gray Whale's product and platform initiatives\n- Designing automation tools, internal services, and backend workflows to streamline operations and improve scalability\n- Supporting creative and product-facing efforts, including interface design, marketing systems, and communication infrastructure",
+        "description": "- Backend Systems & Automation: Supporting the development of internal tools, automation systems, and backend pipelines for Gray Whale's AI products\n- Infrastructure Design & Tooling: Contributing to core systems involving data processing, source code, communications, and marketing tech infrastructure\n- Cross-Disciplinary Support: Working across technical and creative domains to assist in product development, scalability, and team workflows",
         "skills": [
             "Software Development",
             "Data Engineering",

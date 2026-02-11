@@ -2,7 +2,7 @@
     {
         "title": "No RAGrets",
         "startDate": "May 2025",
-        "endDate": "present",
+        "endDate": "January 2026",
         "link": "https://github.com/No-RAGrets-Research/No-RAGrets-Master",
         "muiIcon": "Abc",
         "description": "- Collaborated with CarbonBridge to apply Natural Language Processing (NLP) to accelerate scientific research in sustainable fuel innovation. Led development of an open-source knowledge graph extraction system that processes research literature on biological carbon conversion, microbial biocatalysis, and algae-based systems for transforming industrial waste gases into sustainable fuels\n- Developed an automated pipeline integrating Docling for document parsing and Qwen vision-language models for extracting entities, relationships, and technical concepts from scientific literature\n- Created an interactive React-based interface with graph visualization tools for exploring research connections and AI-powered literature review capabilities\n- Set up development infrastructure with FastAPI backend, Dgraph graph database, and containerized deployment workflows\n- Documented the system architecture, setup procedures, and technical decisions to enable the next UCSC NLP cohort to continue advancing this research tool as I transition to an advisory role\n- This work supports CarbonBridge's mission to decarbonize maritime transport by making scientific knowledge more accessible and interconnected for researchers working on biotechnological pathways to sustainable fuels",
