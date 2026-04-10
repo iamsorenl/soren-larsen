@@ -25,6 +25,7 @@ import {
 } from '@mui/icons-material';
 import educationData from '../data/education';
 import diplomaPDF from '../data/CertifiedElectronicDiploma.pdf';
+import diplomaPDF2 from '../data/CertifiedElectronicDiploma2.pdf';
 
 const EnhancedEducationCard = () => {
     const [expandedEducation, setExpandedEducation] = useState(null);
@@ -167,7 +168,10 @@ const EnhancedEducationCard = () => {
                                             {education.diploma === 'yes' && (
                                                 <Tooltip title="View Diploma" arrow>
                                                     <IconButton
-                                                        onClick={() => window.open(diplomaPDF, '_blank')}
+                                                        onClick={() => {
+                                                            const pdfFile = education.diplomaFile === 'CertifiedElectronicDiploma2.pdf' ? diplomaPDF2 : diplomaPDF;
+                                                            window.open(pdfFile, '_blank');
+                                                        }}
                                                         size="small"
                                                         sx={{ 
                                                             color: isDark ? '#64b5f6' : 'primary.main',

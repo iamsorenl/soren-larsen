@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import EducationPopUpCard from './EducationPopUpCard';
 import educationData from '../data/education';
 import diplomaPDF from '../data/CertifiedElectronicDiploma.pdf';
+import diplomaPDF2 from '../data/CertifiedElectronicDiploma2.pdf';
 
 const EducationCard = () => {
     const [openPopUp, setOpenPopUp] = useState(false);
@@ -25,8 +26,9 @@ const EducationCard = () => {
         window.open(education.link, '_blank');
     }
 
-    const handleOpenPdf = () => {
-        window.open(diplomaPDF, '_blank');
+    const handleOpenPdf = (education) => {
+        const pdfFile = education.diplomaFile === 'CertifiedElectronicDiploma2.pdf' ? diplomaPDF2 : diplomaPDF;
+        window.open(pdfFile, '_blank');
     };
 
     return (
@@ -63,7 +65,7 @@ const EducationCard = () => {
                                             {education.diploma === "yes" && (
                                                 <Grid item>
                                                     <Button
-                                                        onClick={() => handleOpenPdf()}
+                                                        onClick={() => handleOpenPdf(education)}
                                                         variant="contained"
                                                         color="primary"
                                                         style={{

@@ -3,7 +3,8 @@
         "school": "University of California Santa Cruz",
         "degree": "Master of Science, Natural Language Processing",
         "link": "https://nlp.ucsc.edu",
-        "diploma": "no",
+        "diploma": "yes",
+        "diplomaFile": "CertifiedElectronicDiploma2.pdf",
         "relevantCoursework": [
             "Natural Language Processing",
             "Deep Learning for Natural Language Processing",
@@ -18,6 +19,7 @@
         "degree": "Bachelor of Science, Computer Science",
         "link": "https://admissions.ucsc.edu/programs/computer-science",
         "diploma": "yes",
+        "diplomaFile": "CertifiedElectronicDiploma.pdf",
         "relevantCoursework": [
             "Advanced Linear Algebra",
             "Applied Discrete Mathematics",

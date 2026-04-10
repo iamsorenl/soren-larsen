@@ -15,8 +15,9 @@ import expressive from '../images/Expressive.JPG';
 import peru from '../images/Peru.JPG';
 import slugfest from '../images/SlugFest.JPG';
 import caffeineHack from '../images/caffeine_hack.jpeg';
+import posterPresentation from '../images/Poster_Presentation.JPG';
 
-const imageUrls = [headshot1, expressive, halfdome, headshot2, turtle, peru, slugfest, surf, caffeineHack];
+const imageUrls = [headshot1, expressive, halfdome, headshot2, turtle, peru, slugfest, surf, caffeineHack, posterPresentation];
 
 const AboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
