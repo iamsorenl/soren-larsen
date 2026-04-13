@@ -36,8 +36,9 @@ import peru from '../images/Peru.JPG';
 import slugfest from '../images/SlugFest.JPG';
 import caffeineHack from '../images/caffeine_hack.jpeg';
 import posterPresentation from '../images/Poster_Presentation.JPG';
+import frontierTower from '../images/FrontierTower.jpg';
 
-const imageUrls = [headshot1, expressive, halfdome, headshot2, turtle, peru, slugfest, surf, caffeineHack, posterPresentation];
+const imageUrls = [headshot1, expressive, halfdome, headshot2, turtle, peru, slugfest, surf, caffeineHack, posterPresentation, frontierTower];
 
 const EnhancedAboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
