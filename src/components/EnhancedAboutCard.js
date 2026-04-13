@@ -137,6 +137,11 @@ const EnhancedAboutCard = () => {
                         <Fade in={true} timeout={1000}>
                             <Avatar
                                 src={imageUrls[currentImageIndex]}
+                                imgProps={{
+                                    loading: currentImageIndex === 0 ? 'eager' : 'lazy',
+                                    decoding: 'async',
+                                    alt: 'Soren Larsen'
+                                }}
                                 sx={{
                                     width: isMobile ? 200 : 280,
                                     height: isMobile ? 200 : 280,
