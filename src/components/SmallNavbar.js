@@ -19,7 +19,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MailIcon from '@mui/icons-material/Mail';
 import SchoolIcon from '@mui/icons-material/School';
-import theme from '../theme';
+import getTheme from '../theme';
 
 const drawerWidth = 240;
 
@@ -27,9 +27,9 @@ const Root = styled('div')({
     display: 'flex',
 });
 
-const StyledAppBar = styled(AppBar)({
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
-});
+}));
 
 const StyledDrawer = styled(Drawer)({
     width: drawerWidth,
@@ -42,15 +42,15 @@ const StyledDrawerPaper = styled('div')({
     minHeight: 0,
 });
 
-const StyledDrawerHeader = styled('div')({
+const StyledDrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-});
+}));
 
-const StyledMain = styled('main')({
+const StyledMain = styled('main')(({ theme }) => ({
     flexGrow: 1,
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
@@ -58,7 +58,7 @@ const StyledMain = styled('main')({
     }),
     marginLeft: -drawerWidth,
     height: 0,
-});
+}));
 
 const CenteredListItemButton = styled(ListItemButton)({
     display: 'flex',
@@ -83,7 +83,7 @@ function SmallNavbar() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={getTheme('dark')}>
             <Root>
                 <CssBaseline />
                 <StyledAppBar position="fixed">
