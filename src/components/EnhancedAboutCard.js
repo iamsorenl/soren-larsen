@@ -20,8 +20,7 @@ import {
     Code,
     Psychology,
     SurfingOutlined,
-    Description,
-    Download
+    Description
 } from '@mui/icons-material';
 import { GiSpermWhale } from 'react-icons/gi';
 import about from '../data/about';

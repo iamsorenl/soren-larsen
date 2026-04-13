@@ -9,8 +9,7 @@ import {
     Tab,
     Tabs,
     Stack,
-    LinearProgress,
-    useTheme
+    LinearProgress
 } from '@mui/material';
 import {
     Code,
@@ -23,7 +22,6 @@ import skillsData from '../data/skills';
 
 const EnhancedSkillCard = () => {
     const [selectedTab, setSelectedTab] = useState(0);
-    const theme = useTheme();
 
     const handleTabChange = (event, newValue) => {
         setSelectedTab(newValue);

@@ -5,8 +5,6 @@ import {
     Typography,
     Box,
     Chip,
-    Stack,
-    Collapse,
     IconButton,
     Link,
     Tooltip,
@@ -17,25 +15,17 @@ import {
 } from '@mui/material';
 import {
     EmojiEvents,
-    ExpandMore,
-    ExpandLess,
     OpenInNew,
     CalendarToday,
     Business,
-    Verified,
-    School
+    Verified
 } from '@mui/icons-material';
 import certifications from '../data/certifications';
 
 const EnhancedCertifications = () => {
-    const [expandedCert, setExpandedCert] = useState(null);
     const [showAll, setShowAll] = useState(false);
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
-
-    const handleExpandClick = (index) => {
-        setExpandedCert(expandedCert === index ? null : index);
-    };
 
     const displayedCertifications = showAll ? certifications : certifications.slice(0, 2);
 

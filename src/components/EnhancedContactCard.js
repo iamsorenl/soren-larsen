@@ -7,10 +7,6 @@ import {
     Button,
     TextField,
     Stack,
-    IconButton,
-    Link,
-    Tooltip,
-    Divider,
     Alert,
     Snackbar,
     useTheme,
@@ -22,14 +18,12 @@ import {
     Email,
     GitHub,
     LinkedIn,
-    Description,
     Send,
     Person,
     Subject,
     Message
 } from '@mui/icons-material';
 import contactInfo from '../data/contact';
-import resumePDF from '../data/SorenLarsenResume.pdf';
 
 const EnhancedContactCard = () => {
     const [formData, setFormData] = useState({
