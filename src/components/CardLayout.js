@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import EnhancedProjectCard from './EnhancedProjectCard';
-import EnhancedExperienceCard from './EnhancedExperienceCard';
+import ExperienceCard from './ExperienceCard';
 import EnhancedSkillCard from './EnhancedSkillCard';
 import EnhancedEducationCard from './EnhancedEducationCard';
 import EnhancedContactCard from './EnhancedContactCard';
@@ -14,7 +14,7 @@ const CardLayout = () => {
                 <EnhancedProjectCard />
             </Grid>
             <Grid item xs={12} md={6} id="experience">
-                <EnhancedExperienceCard />
+                <ExperienceCard />
             </Grid>
             <Grid item xs={12} md={12} id="skills">
                 <EnhancedSkillCard />
