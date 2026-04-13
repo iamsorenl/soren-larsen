@@ -50,7 +50,7 @@ const Navigation = () => {
     const [themeMenuAnchor, setThemeMenuAnchor] = useState(null);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const { mode, setLightMode, setDarkMode, setSystemMode, isDark } = useThemeMode();
+    const { setLightMode, setDarkMode, setSystemMode, isDark } = useThemeMode();
 
     useEffect(() => {
         const handleScroll = () => {
