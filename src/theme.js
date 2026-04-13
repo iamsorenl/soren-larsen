@@ -10,18 +10,18 @@ const getTheme = (mode) => createTheme({
             contrastText: '#ffffff',
         },
         secondary: {
-            main: mode === 'dark' ? '#00bcd4' : '#26a69a',
-            light: mode === 'dark' ? '#62efff' : '#64d8cb',
-            dark: mode === 'dark' ? '#008ba3' : '#00766c',
-            contrastText: mode === 'dark' ? '#000000' : '#ffffff',
+            main: '#00bcd4',
+            light: '#62efff',
+            dark: '#008ba3',
+            contrastText: '#000000',
         },
         background: {
-            default: mode === 'dark' ? '#121212' : '#f5f5f5',
+            default: mode === 'dark' ? '#0a0e27' : '#f5f5f5',
             paper: mode === 'dark' ? '#1e1e1e' : '#ffffff',
         },
         text: {
-            primary: mode === 'dark' ? '#ffffff' : '#000000',
-            secondary: mode === 'dark' ? '#b0bec5' : '#666666',
+            primary: mode === 'dark' ? '#ffffff' : '#212121',
+            secondary: mode === 'dark' ? '#b0bec5' : '#757575',
         },
         grey: {
             50: '#fafafa',

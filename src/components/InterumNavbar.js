@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import theme from '../theme';
+import getTheme from '../theme';
 
 const Root = styled('div')({
     display: 'flex',
@@ -13,7 +13,7 @@ const Root = styled('div')({
 function LargeNavbar() {
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={getTheme('dark')}>
             <CssBaseline />
             <Root>
                 <AppBar position="static">
