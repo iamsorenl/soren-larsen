@@ -1,32 +1,61 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import Grid from '@mui/material/Grid';
-import EnhancedProjectCard from './EnhancedProjectCard';
-import ExperienceCard from './ExperienceCard';
-import EnhancedSkillCard from './EnhancedSkillCard';
-import EnhancedEducationCard from './EnhancedEducationCard';
-import EnhancedContactCard from './EnhancedContactCard';
-import EnhancedCertifications from './EnhancedCertifications';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+
+const EnhancedProjectCard = lazy(() => import('./EnhancedProjectCard'));
+const ExperienceCard = lazy(() => import('./ExperienceCard'));
+const EnhancedSkillCard = lazy(() => import('./EnhancedSkillCard'));
+const EnhancedEducationCard = lazy(() => import('./EnhancedEducationCard'));
+const EnhancedContactCard = lazy(() => import('./EnhancedContactCard'));
+const EnhancedCertifications = lazy(() => import('./EnhancedCertifications'));
+
+const SectionFallback = () => (
+    <Box
+        sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: 240,
+            width: '100%'
+        }}
+    >
+        <CircularProgress />
+    </Box>
+);
 
 const CardLayout = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} md={6} id="projects">
-                <EnhancedProjectCard />
+                <Suspense fallback={<SectionFallback />}>
+                    <EnhancedProjectCard />
+                </Suspense>
             </Grid>
             <Grid item xs={12} md={6} id="experience">
-                <ExperienceCard />
+                <Suspense fallback={<SectionFallback />}>
+                    <ExperienceCard />
+                </Suspense>
             </Grid>
             <Grid item xs={12} md={12} id="skills">
-                <EnhancedSkillCard />
+                <Suspense fallback={<SectionFallback />}>
+                    <EnhancedSkillCard />
+                </Suspense>
             </Grid>
             <Grid item xs={12} md={12}>
-                <EnhancedCertifications />
+                <Suspense fallback={<SectionFallback />}>
+                    <EnhancedCertifications />
+                </Suspense>
             </Grid>
             <Grid item xs={12} md={6} id="education">
-                <EnhancedEducationCard />
+                <Suspense fallback={<SectionFallback />}>
+                    <EnhancedEducationCard />
+                </Suspense>
             </Grid>
             <Grid item xs={12} md={6} id="contact">
-                <EnhancedContactCard />
+                <Suspense fallback={<SectionFallback />}>
+                    <EnhancedContactCard />
+                </Suspense>
             </Grid>
         </Grid>
     );
