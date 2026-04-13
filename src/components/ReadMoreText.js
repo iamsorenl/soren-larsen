@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
@@ -28,6 +29,11 @@ const ReadMoreText = ({ text, maxWords }) => {
             </Typography>
         </div>
     );
+};
+
+ReadMoreText.propTypes = {
+    text: PropTypes.string.isRequired,
+    maxWords: PropTypes.number.isRequired,
 };
 
 export default ReadMoreText;

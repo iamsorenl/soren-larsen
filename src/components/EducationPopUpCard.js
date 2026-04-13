@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Card from '@mui/material/Card';
@@ -48,6 +49,19 @@ const EducationPopUpCard = ({ open, onClose, education }) => {
             </DialogContent>
         </Dialog>
     );
+};
+
+EducationPopUpCard.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    education: PropTypes.shape({
+        school: PropTypes.string.isRequired,
+        degree: PropTypes.string,
+        link: PropTypes.string,
+        diploma: PropTypes.string,
+        diplomaFile: PropTypes.string,
+        relevantCoursework: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
 };
 
 export default EducationPopUpCard;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Card from '@mui/material/Card';
@@ -65,6 +66,20 @@ const ProjectPopUpCard = ({ open, onClose, project }) => {
             </DialogContent>
         </Dialog>
     );
+};
+
+ProjectPopUpCard.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    project: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        startDate: PropTypes.string,
+        endDate: PropTypes.string,
+        link: PropTypes.string,
+        muiIcon: PropTypes.string,
+        description: PropTypes.string.isRequired,
+        tools: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
 };
 
 export default ProjectPopUpCard;

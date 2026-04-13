@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
     AppBar,
     Toolbar,
@@ -43,6 +44,10 @@ function HideOnScroll({ children }) {
         </Slide>
     );
 }
+
+HideOnScroll.propTypes = {
+    children: PropTypes.element.isRequired,
+};
 
 const Navigation = () => {
     const [activeSection, setActiveSection] = useState('about');

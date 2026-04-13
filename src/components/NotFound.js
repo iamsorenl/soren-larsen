@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
@@ -51,6 +52,10 @@ const NotFound = ({ homeHref = '/' }) => {
       </Paper>
     </Container>
   );
+};
+
+NotFound.propTypes = {
+  homeHref: PropTypes.string,
 };
 
 export default NotFound;
