@@ -153,7 +153,54 @@ src/
 - `npm start`: Runs the app in development mode
 - `npm run build`: Builds the app for production
 - `npm test`: Launches the test runner
-- `npm run eject`: Ejects from Create React App (one-way operation)
+- `npm run lint`: Runs ESLint on `src/`
+- `npm run format`: Runs Prettier on `src/`
+- `npm run storybook`: Opens the component playground at `http://localhost:6006`
+- `npm run build-storybook`: Builds a static Storybook to `storybook-static/`
+- `npm run predeploy`: Runs lint and build (used by `deploy`)
+- `npm run deploy`: Deploys to Firebase Hosting
+
+## 🧪 Component Playground (Storybook)
+
+Storybook is used to develop and iterate on components in isolation with demo data. Ideal for designing new components without reloading the whole app.
+
+### Running locally
+
+```bash
+npm run storybook
+```
+
+This opens `http://localhost:6006` with a sidebar of all stories. The toolbar has a sun/moon toggle to preview components in light and dark themes.
+
+### Project conventions
+
+- **Stories live in** `src/stories/` and follow the naming pattern `ComponentName.stories.jsx`.
+- **Shared demo data** lives in `src/stories/mockData.js` — import from here rather than inlining mock objects.
+- **Every story file** should use a named default export (`const meta = {...}; export default meta;`) to satisfy the `import/no-anonymous-default-export` ESLint rule.
+- **Theme wiring** is global — stories automatically render inside the MUI `ThemeProvider`.
+
+### Adding a new story
+
+1. Create `src/stories/MyComponent.stories.jsx`:
+
+   ```jsx
+   import React from 'react';
+   import MyComponent from '../components/MyComponent';
+   import { mockProject } from './mockData';
+
+   const meta = {
+       title: 'MyComponent',
+       component: MyComponent
+   };
+
+   export default meta;
+
+   export const Default = { args: { project: mockProject } };
+   ```
+
+2. Run `npm run storybook` — your story appears in the sidebar.
+
+3. If your component imports data directly from `src/data/`, refactor it to accept props (with a default fall-through to the imported data so the live site still works). See `EnhancedCertifications.js` for the pattern.
 
 ## 📝 Content Management
 
