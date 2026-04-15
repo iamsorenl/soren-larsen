@@ -1,9 +1,14 @@
 import React from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import getTheme from '../src/theme';
+import getSurfTheme from '../src/theme/surfTheme';
 
-const lightTheme = getTheme('light');
-const darkTheme = getTheme('dark');
+const themes = {
+    'classic-light': getTheme('light'),
+    'classic-dark': getTheme('dark'),
+    'surf-light': getSurfTheme('light'),
+    'surf-dark': getSurfTheme('dark')
+};
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {
@@ -15,10 +20,12 @@ const preview = {
             }
         },
         backgrounds: {
-            default: 'light',
+            default: 'classic-light',
             values: [
-                { name: 'light', value: lightTheme.palette.background.default },
-                { name: 'dark', value: darkTheme.palette.background.default }
+                { name: 'classic-light', value: themes['classic-light'].palette.background.default },
+                { name: 'classic-dark', value: themes['classic-dark'].palette.background.default },
+                { name: 'surf-light', value: themes['surf-light'].palette.background.default },
+                { name: 'surf-dark', value: themes['surf-dark'].palette.background.default }
             ]
         }
     },
@@ -26,12 +33,14 @@ const preview = {
         theme: {
             name: 'Theme',
             description: 'MUI theme mode',
-            defaultValue: 'light',
+            defaultValue: 'classic-light',
             toolbar: {
-                icon: 'circlehollow',
+                icon: 'paintbrush',
                 items: [
-                    { value: 'light', icon: 'sun', title: 'Light' },
-                    { value: 'dark', icon: 'moon', title: 'Dark' }
+                    { value: 'classic-light', icon: 'sun', title: 'Classic Light' },
+                    { value: 'classic-dark', icon: 'moon', title: 'Classic Dark' },
+                    { value: 'surf-light', icon: 'sun', title: 'Surf Light' },
+                    { value: 'surf-dark', icon: 'moon', title: 'Surf Dark' }
                 ],
                 dynamicTitle: true
             }
@@ -39,8 +48,8 @@ const preview = {
     },
     decorators: [
         (Story, context) => {
-            const mode = context.globals.theme || 'light';
-            const theme = mode === 'dark' ? darkTheme : lightTheme;
+            const key = context.globals.theme || 'classic-light';
+            const theme = themes[key] || themes['classic-light'];
             return (
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
