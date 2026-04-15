@@ -35,9 +35,11 @@ const Welcome = () => (
     </Box>
 );
 
-export default {
+const meta = {
     title: 'Welcome',
     component: Welcome
 };
+
+export default meta;
 
 export const Default = { args: {} };
