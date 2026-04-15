@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
     Card,
     CardContent,
@@ -20,9 +21,9 @@ import {
     Business,
     Verified
 } from '@mui/icons-material';
-import certifications from '../data/certifications';
+import defaultCertifications from '../data/certifications';
 
-const EnhancedCertifications = () => {
+const EnhancedCertifications = ({ certifications = defaultCertifications }) => {
     const [showAll, setShowAll] = useState(false);
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
@@ -235,6 +236,17 @@ const EnhancedCertifications = () => {
             </CardContent>
         </Card>
     );
+};
+
+EnhancedCertifications.propTypes = {
+    certifications: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            issuer: PropTypes.string.isRequired,
+            dateEarned: PropTypes.string.isRequired,
+            link: PropTypes.string
+        })
+    )
 };
 
 export default EnhancedCertifications;
