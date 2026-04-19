@@ -5,18 +5,17 @@
         "endDate": "December 2025",
         "link": "https://github.com/No-RAGrets-Research/No-RAGrets-Master",
         "muiIcon": "Abc",
-        "subtitle": "Industry-Sponsored Graduate Capstone — Featured by Santa Cruz Works",
-        "description": "Industry-Sponsored Graduate Capstone — Featured by Santa Cruz Works\n- Collaborated with CarbonBridge to apply Natural Language Processing (NLP) to accelerate scientific research in sustainable fuel innovation. Led development of an open-source knowledge graph extraction system that processes research literature on biological carbon conversion, microbial biocatalysis, and algae-based systems for transforming industrial waste gases into sustainable fuels\n- Developed an automated pipeline integrating Docling for document parsing and Qwen vision-language models for extracting entities, relationships, and technical concepts from scientific literature\n- Created an interactive React-based interface with graph visualization tools for exploring research connections and AI-powered literature review capabilities\n- Set up development infrastructure with FastAPI backend, Dgraph graph database, and containerized deployment workflows\n- Documented the system architecture, setup procedures, and technical decisions to enable the next UCSC NLP cohort to continue advancing this research tool as I transition to an advisory role\n- This work supports CarbonBridge's mission to decarbonize maritime transport by making scientific knowledge more accessible and interconnected for researchers working on biotechnological pathways to sustainable fuels",
+        "subtitle": "M.S. NLP Capstone — Industry-Sponsored Graduate Capstone — Featured by Santa Cruz Works",
+        "description": "Industry-sponsored graduate capstone completed in partnership with CarbonBridge. Built an applied NLP system for scientific literature triage, extraction, and knowledge graph exploration to support research in sustainable fuel innovation.\n- Developed an open-source pipeline for extracting entities, relationships, and technical concepts from scientific literature\n- Integrated Docling and Qwen vision-language models for document parsing and information extraction\n- Built a React-based interface for graph exploration and AI-assisted literature review\n- Set up FastAPI, Dgraph, and containerized infrastructure to support continued use and future development\n- Documented architecture and technical decisions to enable project handoff to future contributors",
         "tools": [
-            "Python",
-            "Docling",
+            "NLP",
+            "Knowledge Graphs",
+            "Information Extraction",
             "React",
             "FastAPI",
             "Dgraph",
-            "Docker",
-            "Graph Visualization",
-            "AI Research Tools",
-            "Multimodal AI"
+            "Python",
+            "AI"
         ]
     },
     {
@@ -25,72 +24,87 @@
         "endDate": "June 2025",
         "link": "https://github.com/iamsorenl/EduMUSE",
         "muiIcon": "Abc",
-        "description": "- Built a sophisticated multi-agent educational AI system that orchestrates specialized CrewAI agents through a modern React interface, transforming how students interact with academic content\n- Developed a modular flow architecture enabling systematic comparison of AI methodologies—web search, LLM-based synthesis, and hybrid retrieval—accessible through an intuitive PDF viewer with intelligent text selection\n- Implemented a specialized agent ecosystem including ConceptExtractor for academic analysis, SummaryWriter for adaptive content creation, and AssessmentDesigner for pedagogically sound quiz generation\n- Integrated Flask-based PDF upload API with CORS support and react-pdf-highlighter, allowing users to upload academic documents and interact with AI agents for real-time content generation\n- Successfully integrated podcast generation feature that transforms academic content into engaging audio discussions between AI hosts, expanding the system's multimodal capabilities",
+        "description": "Built an AI-powered educational system that turns study materials into interactive learning experiences through multi-agent orchestration, document interaction, and adaptive content generation.\n- Designed specialized agents for concept extraction, summarization, and quiz generation\n- Built a modular pipeline for comparing web search, LLM synthesis, and hybrid retrieval approaches\n- Developed a React-based interface with PDF upload, text selection, and real-time content generation\n- Integrated Flask-based backend services and PDF tooling to support downloadable assessments and summaries\n- Extended the system with podcast-style audio generation to support multimodal learning",
         "tools": [
-            "Python",
-            "CrewAI",
-            "React",
+            "AI",
+            "NLP",
+            "Machine Learning",
             "Flask",
-            "CORS",
-            "react-pdf-highlighter",
-            "AI Agents",
-            "Educational Technology",
-            "Multimodal AI"
+            "Python",
+            "React",
+            "Multi-agent Systems",
+            "RAG"
         ]
     },
     {
-        "title": "Multi-Agent AI Orchestration Platform with Web Integration Demo",
+        "title": "Multi-Agent AI Orchestration Platform with Web Integration",
         "startDate": "May 2025",
         "endDate": "June 2025",
         "link": "https://github.com/iamsorenl/Autogen_Chat_Demo",
         "muiIcon": "Abc",
-        "description": "- Developed a multi-agent conversational AI system that orchestrates specialized AI agents through a modern web interface, combining AutoGen's MagenticOneGroupChat with real-time frontend integration\n- Developed custom WebSocket-based communication layer to seamlessly route user interactions between React frontend and AutoGen backend, eliminating terminal dependencies for true web-native AI conversations\n- Implemented specialized agent ecosystem including ScientistAgent for analytical responses, ArtistAgent for creative perspectives, and MediaHandlerAgent for multimedia content processing\n- Solved complex input routing challenges by creating a custom UserProxyAgent integration that channels human-in-the-loop interactions through the web interface\n- Integrated Flask-based media upload API with CORS support and achieved clean, real-time multi-perspective AI responses with intelligent message filtering and robust error handling",
+        "description": "Built a public demo showcasing web-native multi-agent AI orchestration, translating ideas from a broader private research effort into a shareable full-stack implementation.\n- Integrated AutoGen-based multi-agent workflows into a React frontend with real-time backend communication\n- Built a WebSocket layer to support live user interaction without terminal-based dependencies\n- Implemented specialized agents for analytical, creative, and media-oriented responses\n- Created a custom user-proxy workflow to preserve human-in-the-loop interactions through the web interface\n- Added Flask-based media upload support and backend orchestration for multimodal interaction patterns",
         "tools": [
             "Python",
-            "AutoGen",
             "React",
-            "Material-UI",
-            "WebSocket",
             "Flask",
-            "OpenAI GPT-4",
-            "CORS",
-            "AsyncIO",
-            "Multi-Agent Systems"
+            "AI",
+            "NLP",
+            "Machine Learning",
+            "Multi-agent Systems",
+            "Full-Stack Development",
+            "WebSocket"
         ]
     },
     {
-        "title": "UCSC RAG Chatbot — A Retrieval-Augmented Assistant for Student Support",
-        "startDate": "January 2025",
+        "title": "BiLSTM-CRF for Named Entity Recognition",
+        "startDate": "February 2025",
         "endDate": "March 2025",
-        "link": "https://github.com/shannonrumsey/UCSC_RAG",
+        "link": "https://github.com/iamsorenl/bilstm-crf-character-cnn-ner",
         "muiIcon": "Abc",
-        "description": "- Built a custom chatbot to answer questions about the UCSC NLP Master's Program and related university services using Retrieval-Augmented Generation (RAG) with LangChain, ChromaDB, and LLaMA 3.2\n- Integrated Gemini 2.0 Flash for post-response evaluation to ensure factual accuracy and reduce hallucinations by checking relevance, coherence, and bias\n- Developed a Swift-based iOS app with Firebase for real-time access, chat history, and user authentication\n- Achieved 97% human-evaluated accuracy on a custom 150-question dataset and 71% strict accuracy under Gemini evaluation\n- Tested across three LLaMA model sizes (1B, 3B, 8B) and retrieved answers from 77 scraped UCSC-affiliated web pages",
+        "description": "Built a biomedical NER model using a BiLSTM-CRF architecture with character-level CNN features and static word embeddings, focused on sequence labeling for scientific text.\n- Modeled entity extraction for DNA, RNA, proteins, cell types, and cell lines on NLPBA 2004 dataset\n- Compared CRF, softmax-margin, and SVM-margin losses\n- Used padded minibatches, masking, and hyperparameter tuning\n- Reached F1 of approximately 0.59",
         "tools": [
+            "NLP",
             "Python",
-            "LangChain",
-            "ChromaDB",
-            "Gemini API",
-            "Swift",
-            "Firebase",
-            "LLaMA 3.2",
-            "Sentence-Transformers"
+            "PyTorch",
+            "NER",
+            "Deep Learning"
         ]
     },
     {
-        "title": "Robustness and Domain Adaptation in Transformer-Based Question Answering",
+        "title": "Robustness and Domain Adaptation in Transformer-Based QA",
         "startDate": "February 2025",
         "endDate": "February 2025",
         "link": "https://github.com/iamsorenl/Transformer_QA",
         "muiIcon": "Abc",
-        "description": "- Analyzed RoBERTa's robustness across in-domain, adversarial, and out-of-domain QA tasks using SQuAD 2.0 and the Covid-QA biomedical dataset\n- Applied Low-Rank Adaptation (LoRA) to fine-tune RoBERTa efficiently, reducing trainable parameters while improving accuracy on specialized biomedical text\n- Introduced sliding window inference and CLS-token masking for long and unanswerable contexts, enhancing answer alignment and minimizing false positives\n- Achieved +6.41 EM / +14.84 F1 on Covid-QA dev and +5.33 EM / +10.54 F1 on test, demonstrating strong domain transfer with adapter-based tuning\n- Identified failure modes in QA under ambiguity and contradiction, informing best practices for robust transformer deployment",
+        "description": "Studied the robustness of transformer-based question answering across in-domain, adversarial, and out-of-domain settings, with a focus on adapting RoBERTa to biomedical QA tasks using parameter-efficient fine-tuning.\n- Evaluated RoBERTa on SQuAD 2.0 and Covid-QA to analyze robustness under domain shift\n- Applied LoRA-based fine-tuning to improve performance on biomedical text while reducing trainable parameters\n- Implemented sliding-window inference and CLS-token masking for long contexts and unanswerable questions\n- Achieved +6.41 EM / +14.84 F1 on Covid-QA dev set and +5.33 EM / +10.54 F1 on test\n- Analyzed failure modes under ambiguity and contradiction",
         "tools": [
+            "NLP",
             "Python",
             "PyTorch",
-            "Hugging Face Transformers",
-            "Adapter-Transformers",
-            "SQuAD 2.0",
-            "Covid-QA",
-            "LoRA"
+            "Transformers",
+            "QA",
+            "Domain Adaptation",
+            "LoRA",
+            "Machine Learning"
+        ]
+    },
+    {
+        "title": "UCSC RAG Chatbot",
+        "startDate": "January 2025",
+        "endDate": "March 2025",
+        "link": "https://github.com/shannonrumsey/UCSC_RAG",
+        "muiIcon": "Abc",
+        "description": "Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services. Designed the system to improve answer quality and factual reliability through retrieval, evaluation, and mobile delivery.\n- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)",
+        "tools": [
+            "NLP",
+            "Python",
+            "RAG",
+            "Machine Learning",
+            "Web Scraping",
+            "LangChain",
+            "ChromaDB",
+            "Swift",
+            "Firebase"
         ]
     },
     {
@@ -99,29 +113,13 @@
         "endDate": "February 2025",
         "link": "https://github.com/iamsorenl/Sentiment-Analysis-Minibatching",
         "muiIcon": "Abc",
-        "description": "- Developed sentiment classifiers using Logistic Regression and LSTM models on the IMDB movie review dataset, exploring the impact of batch size and learning rate on model performance\n- Implemented dynamic mini-batch training with PyTorch and spaCy, handling over 50,000 variable-length reviews with custom tokenization and data loading\n- Benchmarked configurations across batch sizes and learning rates, achieving up to 90.4% validation accuracy with LR and 90.1% with LSTM\n- Highlighted efficiency–performance trade-offs, showing that intermediate batch sizes (e.g., 16) yielded optimal convergence and generalization\n- Demonstrated that smaller batch sizes increased training time but preserved beneficial gradient noise for model robustness",
+        "description": "Explored the impact of batch size and learning rate on sentiment classification performance using Logistic Regression and LSTM models trained on the IMDB movie review dataset.\n- Built sentiment classification pipelines using both Logistic Regression and LSTM on 50,000+ reviews\n- Implemented dynamic mini-batch training in PyTorch with custom tokenization\n- Benchmarked multiple batch size and learning rate combinations\n- Achieved up to 90.4% validation accuracy with LR and 90.1% with LSTM\n- Analyzed efficiency-performance tradeoffs including gradient noise",
         "tools": [
+            "NLP",
             "Python",
             "PyTorch",
-            "spaCy",
-            "scikit-learn",
-            "matplotlib",
-            "IMDB Dataset"
-        ]
-    },
-    {
-        "title": "Modernized ELIZA Rogerian Therapist Chatbot",
-        "startDate": "January 2025",
-        "endDate": "January 2025",
-        "link": "https://github.com/iamsorenl/BetterELIZAbot",
-        "muiIcon": "Abc",
-        "description": "- Enhanced the classic ELIZA chatbot with NLP techniques to better handle humor, misspellings, contractions, and flirtation while preserving its therapeutic tone\n- Implemented a modular spell-checker using TextBlob and SpaCy to correct typos without altering named entities or disrupting context\n- Designed custom rules for laughter and flirtatious input, prompting deeper dialogue or redirection to maintain professional tone\n- Developed contraction-aware lemmatization to improve pattern matching while respecting ELIZA's rule-based structure\n- Increased chatbot realism and user engagement by addressing ambiguous, emotional, or non-serious inputs through modular NLP enhancements",
-        "tools": [
-            "Python",
-            "TextBlob",
-            "SpaCy",
-            "Regex",
-            "Rule-Based NLP"
+            "Sentiment Analysis",
+            "Machine Learning"
         ]
     },
     {
@@ -130,44 +128,76 @@
         "endDate": "January 2025",
         "link": "https://github.com/iamsorenl/Neural-Machine-Translation",
         "muiIcon": "Abc",
-        "description": "- Built French-to-English NMT models using Transformer and CNN architectures on the IWSLT 2013 dataset within the Fairseq framework\n- Compared Byte Pair Encoding (BPE) and Moses whole-word tokenization to evaluate effects on training speed, vocabulary size, and translation quality\n- Tuned hyperparameters (dropout, model depth) to optimize BLEU scores and reduce overfitting\n- Conducted both quantitative (SacreBLEU) and qualitative analysis to assess output fluency and semantic accuracy\n- Found that whole-word tokenization achieved a top BLEU score of 28.98, while BPE improved OOV handling and convergence speed",
+        "description": "Built French-to-English neural machine translation models to compare subword and whole-word tokenization strategies across translation quality, convergence behavior, and vocabulary handling.\n- Built Transformer and CNN-based translation models on IWSLT 2013 French-English dataset\n- Compared BPE and Moses whole-word tokenization\n- Tuned dropout and model depth for BLEU performance\n- Evaluated with SacreBLEU and qualitative analysis\n- Whole-word tokenization achieved top BLEU of 28.98",
         "tools": [
+            "NLP",
             "Python",
-            "Fairseq",
-            "SacreBLEU",
-            "Moses Tokenizer",
-            "BPE",
-            "Bash"
+            "Bash",
+            "Machine Learning",
+            "Transformers",
+            "Fairseq"
         ]
     },
     {
-        "title": "POS Tagging with Hidden Markov Models and Viterbi Algorithm",
+        "title": "Modernized ELIZA Rogerian Therapist Chatbot",
+        "startDate": "January 2025",
+        "endDate": "January 2025",
+        "link": "https://github.com/iamsorenl/BetterELIZAbot",
+        "muiIcon": "Abc",
+        "description": "Modernized the classic ELIZA chatbot with targeted NLP improvements to better handle misspellings, contractions, humor, and flirtatious input while preserving its rule-based structure and therapeutic tone.\n- Enhanced a classic rule-based chatbot with modular NLP components\n- Built a spell-checking pipeline using TextBlob and spaCy\n- Added custom handling for humor, laughter, and flirtatious input\n- Implemented contraction-aware lemmatization\n- Improved chatbot realism and interaction quality",
+        "tools": [
+            "NLP",
+            "Python",
+            "Conversational AI",
+            "Rule-based Systems",
+            "spaCy"
+        ]
+    },
+    {
+        "title": "POS Tagging with HMMs and Viterbi Algorithm",
         "startDate": "November 2024",
         "endDate": "December 2024",
         "link": "https://github.com/iamsorenl/HMM-POS-Tagger",
         "muiIcon": "Abc",
-        "description": "- Developed a POS tagging system using a Hidden Markov Model (HMM) and implemented the Viterbi algorithm for sequence decoding.\n- Designed and implemented log-space computations for numerical stability, addressing challenges like data sparsity and unseen words using fallback probabilities.\n- Leveraged dynamic programming for efficient computation and implemented structured backpointer mechanisms for accurate sequence reconstruction.\n- Evaluated the system using token-level accuracy and F1-scores to ensure reliability and effectiveness.",
+        "description": "Built a probabilistic part-of-speech tagger using a Hidden Markov Model and Viterbi decoding, with a focus on numerical stability, sparse data handling, and efficient sequence inference.\n- Implemented an HMM-based POS tagging pipeline with Viterbi decoding\n- Used log-space probability computation and add-\u03b5 smoothing\n- Added fallback handling for unseen word-tag pairs\n- Applied dynamic programming and backpointer tracking",
         "tools": [
+            "Machine Learning",
+            "AI",
+            "NLP",
             "Python",
-            "Log-Space Programming",
-            "Dynamic Programming",
-            "HMM",
-            "Viterbi Algorithm"
+            "HMMs",
+            "Probabilistic Models"
         ]
     },
     {
-        "title": "Airline Sentiment Preprocessing and Modeling",
+        "title": "Autoregressive Language Modeling with Transformers (Penn Treebank)",
         "startDate": "November 2024",
         "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/Airline-Sentiment-Preprocessing-and-Modeling",
+        "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
         "muiIcon": "Abc",
-        "description": "- Developed a pipeline for sentiment analysis on the Twitter US Airline Sentiment dataset, focusing on data preprocessing, custom tokenization, and machine learning classification.\n- Applied advanced text cleaning techniques, including regex-based tokenization, lemmatization, and emoji normalization.\n- Trained a support vector machine (SVM) with TF-IDF features, achieving 80.89% test accuracy through preprocessing optimizations and ablation studies.\n- Delivered actionable insights into sentiment trends across airlines and user behavior using visualizations.",
+        "description": "Built a transformer-based autoregressive language model on the Penn Treebank dataset, focusing on sequence prediction, long-range dependency modeling, and perplexity reduction.\n- Implemented a Transformer Encoder with sinusoidal positional encoding and multi-head attention\n- Tuned embedding size, batch size, and learning rate\n- Reduced test perplexity from 83.35 to 39.11\n- Analyzed architecture-performance tradeoffs",
         "tools": [
+            "NLP",
+            "AI",
             "Python",
-            "Scikit-learn",
-            "Pandas",
-            "Regex",
-            "Matplotlib"
+            "PyTorch",
+            "Transformers"
+        ]
+    },
+    {
+        "title": "Slot Tagging with BiLSTM and Attention",
+        "startDate": "November 2024",
+        "endDate": "November 2024",
+        "link": "https://github.com/iamsorenl/Slot-Tagging-of-Natural-Language-Utterances",
+        "muiIcon": "Abc",
+        "description": "Built and tuned slot tagging models using BiLSTM architectures with attention and GloVe embeddings.\n- Built slot tagging models using BiLSTM with attention\n- Integrated GloVe embeddings and custom layers\n- Tuned learning rate, hidden dims, dropout\n- Evaluated with token and sequence-level metrics in IOB2\n- Achieved 75.37% accuracy, F1 0.950 (sklearn) and 0.839 (seqeval)",
+        "tools": [
+            "NLP",
+            "Python",
+            "Scikit-Learn",
+            "PyTorch",
+            "Sequence Labeling",
+            "Deep Learning"
         ]
     },
     {
@@ -176,88 +206,176 @@
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/ngram_project",
         "muiIcon": "Abc",
-        "description": "- Built N-Gram models (Unigram, Bigram, Trigram) and Interpolated N-Gram models to predict word sequences and measure perplexity on a subset of the One Billion Word Language Modeling Benchmark dataset.\n- Implemented linear interpolation smoothing and tunable OOV handling to address unseen data and improve model generalization.\n- Optimized interpolation weights (λ1, λ2, λ3) to enhance contextual predictions and reduce perplexity.\n- Analyzed model performance across datasets and demonstrated the effectiveness of interpolation for handling sparse data.",
+        "description": "Built and evaluated unigram, bigram, trigram, and interpolated n-gram language models on a subset of the One Billion Word Benchmark.\n- Implemented unigram, bigram, trigram, and interpolated models\n- Used linear interpolation with tunable weights\n- Added configurable UNK thresholds\n- Evaluated across splits showing lower perplexity in higher-order n-grams\n- Analyzed data sparsity effects",
         "tools": [
+            "NLP",
             "Python",
-            "Numpy",
-            "Custom N-Gram Modeling",
-            "Perplexity Analysis"
+            "Statistical Modeling",
+            "Machine Learning"
         ]
     },
     {
-        "title": "Feature Engineering for Multiclass Classification",
+        "title": "Airline Sentiment Analysis and Preprocessing Pipeline",
+        "startDate": "November 2024",
+        "endDate": "November 2024",
+        "link": "https://github.com/iamsorenl/Airline-Sentiment-Preprocessing-and-Modeling",
+        "muiIcon": "Abc",
+        "description": "Built a sentiment classification pipeline for social media text, focused on custom tokenization, preprocessing, and traditional ML-based sentiment modeling on the Twitter US Airline dataset.\n- Designed a regex-based tokenizer for social media text including mentions, hashtags, emojis\n- Applied 12+ preprocessing steps\n- Trained TF-IDF + SVM classifier with ablation studies\n- Achieved 80.89% test accuracy\n- Conducted user-level sentiment analysis across six airlines",
+        "tools": [
+            "Machine Learning",
+            "AI",
+            "Python",
+            "Regex",
+            "Pandas",
+            "NLP",
+            "Sentiment Analysis"
+        ]
+    },
+    {
+        "title": "Multiclass Text Classification with Feature Engineering",
         "startDate": "October 2024",
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/feature_engineering_multiclass_classification_SVM_LR_DT",
         "muiIcon": "Abc",
-        "description": "- Developed a text classification pipeline for an e-commerce dataset, leveraging feature engineering techniques and multi-class classification models such as SVM, Logistic Regression, and Decision Tree.\n- Implemented GloVe embeddings, Sublinear TF-IDF, and Bag-of-Words features to optimize model performance.\n- Conducted hyperparameter tuning and evaluated performance using metrics like macro-average F1-scores, confusion matrices, and ROC curves.\n- Delivered models with high accuracy and efficient feature representations for text data.",
+        "description": "Built and evaluated multiclass text classification models on an e-commerce dataset, focusing on feature engineering, model comparison, and performance tradeoffs.\n- Trained and compared SVM, LR, and Decision Tree classifiers\n- Engineered features using TF-IDF, GloVe, NER counts, POS ratios, sentiment scores\n- Combined BoW and NLTK features\n- Conducted hyperparameter tuning\n- Found sublinear TF-IDF delivered strongest results",
         "tools": [
+            "AI",
+            "Machine Learning",
+            "Scikit-Learn",
             "Python",
-            "Scikit-learn",
-            "Pandas",
-            "GloVe Embeddings",
-            "TF-IDF"
+            "NLP"
         ]
     },
     {
-        "title": "Slot Tagging of Natural Language Utterances",
-        "startDate": "November 2024",
-        "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/Slot-Tagging-of-Natural-Language-Utterances",
-        "muiIcon": "Abc",
-        "description": "- Designed and implemented a BiLSTM with attention mechanism for slot tagging tasks, achieving 75.37% accuracy and F1 scores of 0.950 (sklearn) and 0.839 (seqeval).\n- Integrated pre-trained GloVe embeddings and created custom embedding matrices for semantic token representations.\n- Tuned hyperparameters, including dropout rates and learning rates, to improve model performance and generalization.\n- Evaluated token- and sequence-level metrics to capture complex token dependencies.",
-        "tools": [
-            "Python",
-            "PyTorch",
-            "GloVe",
-            "Seqeval",
-            "Scikit-learn"
-        ]
-    },
-    {
-        "title": "Transformer Language Model on Penn Treebank Dataset",
-        "startDate": "November 2024",
-        "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
-        "muiIcon": "Abc",
-        "description": "- Developed a Transformer Encoder model for autoregressive language modeling on the Penn Treebank dataset, reducing test perplexity from 83.35 to 39.11.\n- Optimized model architecture with sinusoidal positional encoding and multi-head attention, improving generalization on small datasets.\n- Conducted extensive hyperparameter tuning to balance model complexity and training efficiency.\n- Evaluated predictive accuracy across training, validation, and test sets, validating the model's scalability for constrained datasets.",
-        "tools": [
-            "Python",
-            "PyTorch",
-            "Numpy",
-            "Pandas",
-            "Scikit-learn"
-        ]
-    },
-    {
-        "title": "Feature Engineering and Sentiment Analysis",
-        "startDate": "October 2024",
-        "endDate": "October 2024",
-        "link": "https://github.com/iamsorenl/Feature-Engineering-and-Sentiment-Analysis",
-        "muiIcon": "Abc",
-        "description": "- Built a text classification pipeline for Amazon and IMDb datasets, exploring feature engineering techniques and comparing custom and scikit-learn models.\n- Implemented custom Naive Bayes, SVM, Decision Tree, and Logistic Regression classifiers with Laplacian smoothing and N-gram features.\n- Achieved 89% accuracy with SVM + TF-IDF on Amazon reviews and 87% validation accuracy with Logistic Regression + Bigrams on IMDb reviews.\n- Leveraged advanced metrics like binary and macro F1-scores to evaluate model performance.",
-        "tools": [
-            "Python",
-            "Scikit-learn",
-            "Numpy",
-            "Matplotlib",
-            "Bag-of-Words",
-            "TF-IDF"
-        ]
-    },
-    {
-        "title": "Relation Extraction from Natural Language using PyTorch",
+        "title": "Relation Extraction from Natural Language using MLPs",
         "startDate": "October 2024",
         "endDate": "October 2024",
         "link": "https://github.com/iamsorenl/Relation-Extraction-from-Natural-Language-using-PyTorch",
         "muiIcon": "Abc",
-        "description": "- Developed a Multi-Layer Perceptron (MLP) model to extract core relations from natural language utterances using the Freebase schema.\n- Utilized static embeddings from spaCy and trained the model with K-fold cross-validation for robust performance across folds.\n- Applied MultiLabelSoftMarginLoss to handle multi-label predictions effectively, achieving an average F1-score of ~0.91 and accuracy of ~0.86.\n- Optimized the architecture with batch normalization and dropout layers, demonstrating the model's utility in knowledge graph enrichment and conversational AI.",
+        "description": "Built a multi-label relation extraction pipeline to identify semantic relations from natural language utterances.\n- Built a PyTorch-based MLP for multi-label relation extraction\n- Used spaCy embeddings with Freebase-style schema\n- Designed two-layer MLP with batch norm and dropout\n- Applied stratified K-fold cross-validation\n- Achieved ~0.91 F1 and 0.86 accuracy",
         "tools": [
+            "Pandas",
+            "AI",
+            "Scikit-Learn",
             "Python",
             "PyTorch",
-            "SpaCy",
-            "MultiLabelSoftMarginLoss",
-            "K-fold Cross-Validation"
+            "NLP",
+            "Machine Learning"
+        ]
+    },
+    {
+        "title": "Sentiment Analysis with Custom and Standard ML Models",
+        "startDate": "October 2024",
+        "endDate": "October 2024",
+        "link": "https://github.com/iamsorenl/Feature-Engineering-and-Sentiment-Analysis",
+        "muiIcon": "Abc",
+        "description": "Built and compared sentiment classification pipelines on Amazon and IMDb reviews using both custom and standard machine learning models.\n- Built classifiers using Naive Bayes, SVM, LR, Decision Tree\n- Engineered features with BoW, TF-IDF, one-hot, n-grams\n- Custom Naive Bayes with Laplacian smoothing reached 85-87%\n- SVM+TF-IDF achieved 89% on Amazon\n- Evaluated with accuracy, F1, confusion matrices",
+        "tools": [
+            "Scikit-Learn",
+            "Python",
+            "PyTorch",
+            "NLP",
+            "Machine Learning"
+        ]
+    },
+    {
+        "title": "Personal Portfolio",
+        "startDate": "July 2023",
+        "endDate": "Present",
+        "link": "https://github.com/iamsorenl/soren-larsen",
+        "muiIcon": "Abc",
+        "description": "Designed and maintain a responsive personal portfolio to showcase projects, experience, and technical work. Built with React, Node.js, Material UI, and Firebase, with a focus on clean presentation, usability, and cross-device compatibility.\n- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests",
+        "tools": [
+            "React",
+            "Node.js",
+            "Front-End Development",
+            "JavaScript",
+            "Firebase",
+            "Material-UI",
+            "Responsive Web Design"
+        ]
+    },
+    {
+        "title": "Full-Stack To-Do List Application",
+        "startDate": "September 2023",
+        "endDate": "September 2023",
+        "link": "https://github.com/iamsorenl/ToDoList",
+        "muiIcon": "Abc",
+        "description": "Built a full-stack CRUD application using Vue.js and Flask, with a focus on frontend-backend integration, responsive design, and core task management workflows.\n- Built a Vue.js frontend and Flask backend for task CRUD\n- Implemented server-side data handling and real-time updates\n- Used Bootstrap for responsive UI\n- Configured CORS for frontend-backend communication",
+        "tools": [
+            "JavaScript",
+            "Full-Stack Development",
+            "Vue.js",
+            "Flask",
+            "API Development"
+        ]
+    },
+    {
+        "title": "Cross-Platform Messaging App",
+        "startDate": "March 2023",
+        "endDate": "June 2023",
+        "link": "https://github.com/iamsorenl/Messaging-Service",
+        "muiIcon": "Abc",
+        "description": "Built a real-time messaging app inspired by Discord and Slack across three platforms: native Android, native iOS, and React Native.\n- Built parallel implementations in Kotlin, Swift, and React Native\n- Implemented consistent messaging features across platforms\n- Used Barista, XCTest, and Jest for testing\n- Applied modular design and TDD practices",
+        "tools": [
+            "React Native",
+            "Android",
+            "Git",
+            "Software Development",
+            "iOS",
+            "Front-End Development",
+            "TDD",
+            "Kotlin",
+            "Swift",
+            "Cross-platform",
+            "Mobile Development"
+        ]
+    },
+    {
+        "title": "ParkMe \u2013 Peer-to-Peer Parking App",
+        "startDate": "January 2023",
+        "endDate": "March 2023",
+        "link": "https://github.com/iamsorenl/ParkMe",
+        "muiIcon": "Abc",
+        "description": "Served as Product Owner and full-stack developer for a mobile app that lets users list and rent private parking spaces.\n- Led feature scoping, technical planning, and team coordination\n- Built backend endpoints for listing management and rental transactions\n- Configured Google Cloud and mapping services\n- Contributed across the stack using Flutter, Node.js, TypeScript, TSOA, PostgreSQL\n- Helped design client-server integration and database structure",
+        "tools": [
+            "Flutter",
+            "Full-Stack Development",
+            "Product Management",
+            "Node.js",
+            "TypeScript",
+            "PostgreSQL"
+        ]
+    },
+    {
+        "title": "Multithreaded HTTP Web Server in C",
+        "startDate": "October 2022",
+        "endDate": "December 2022",
+        "link": "https://gitfront.io/r/iamsorenl/nmB54YoNBezS/Principles-of-Computer-Systems-Design/tree/asgn4/",
+        "muiIcon": "Abc",
+        "description": "Built a multithreaded HTTP server in C with support for core request handling, concurrent worker threads, and audit logging.\n- Implemented GET, PUT, HEAD with status code handling\n- Used socket programming and byte-level request parsing\n- Built configurable worker thread pools and thread-safe handling\n- Added audit logging for debugging and monitoring\n- Strengthened systems programming skills",
+        "tools": [
+            "Multithreaded Development",
+            "Git",
+            "C",
+            "Bash",
+            "Socket Programming",
+            "Network Programming"
+        ]
+    },
+    {
+        "title": "Full-Stack Email System",
+        "startDate": "July 2022",
+        "endDate": "July 2022",
+        "link": "https://github.com/iamsorenl/Email-Service",
+        "muiIcon": "Abc",
+        "description": "Built a full-stack email platform with support for sending, receiving, and organizing messages.\n- Built React frontend and Node.js/Express backend for email management\n- Implemented mailbox navigation (inbox, sent, custom folders)\n- Designed responsive UI with Material UI\n- Built backend APIs and PostgreSQL-based storage",
+        "tools": [
+            "Full-Stack Development",
+            "React",
+            "Node.js",
+            "Express.js",
+            "PostgreSQL"
         ]
     }
 ]
