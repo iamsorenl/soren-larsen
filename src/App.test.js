@@ -36,61 +36,46 @@ beforeEach(() => {
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 describe('App', () => {
-    test('renders without crashing', () => {
+    test('renders without crashing', async () => {
         render(<App />);
-        // The brand title always renders in the navbar.
-        expect(screen.getByText('Soren Larsen')).toBeInTheDocument();
+        expect(await screen.findByText('Soren Larsen')).toBeInTheDocument();
     });
 
-    test('renders all main section headings', () => {
+    test('renders all main section headings', async () => {
         render(<App />);
-        expect(screen.getByRole('heading', { name: /^About$/i, level: 4 })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /Featured Projects/i, level: 4 })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /^Experience$/i, level: 4 })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /Technical Skills/i, level: 4 })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /Certifications/i, level: 4 })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /^Education$/i, level: 4 })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /^Contact$/i, level: 4 })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /^About$/i, level: 4 })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /^Projects$/i, level: 4 })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /^Experience$/i, level: 4 })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /Technical Skills/i, level: 4 })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /Certifications/i, level: 4 })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /^Education$/i, level: 4 })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /^Contact$/i, level: 4 })).toBeInTheDocument();
     });
 
-    test('renders data from JSON files across sections', () => {
+    test('renders data from JSON files across sections', async () => {
         render(<App />);
 
         // About: first ~20 chars of the about blurb should appear on the page.
         const aboutSnippet = aboutData[0].about.slice(0, 20);
-        expect(
-            screen.getAllByText(new RegExp(escapeRegex(aboutSnippet), 'i')).length
-        ).toBeGreaterThan(0);
+        await screen.findAllByText(new RegExp(escapeRegex(aboutSnippet), 'i'));
 
         // Experience: most recent company name.
-        expect(
-            screen.getAllByText(new RegExp(escapeRegex(experienceData[0].company), 'i')).length
-        ).toBeGreaterThan(0);
+        await screen.findAllByText(new RegExp(escapeRegex(experienceData[0].company), 'i'));
 
         // Education: first school name.
-        expect(
-            screen.getAllByText(new RegExp(escapeRegex(educationData[0].school), 'i')).length
-        ).toBeGreaterThan(0);
+        await screen.findAllByText(new RegExp(escapeRegex(educationData[0].school), 'i'));
 
         // Projects: first project title.
-        expect(
-            screen.getAllByText(new RegExp(escapeRegex(projectsData[0].title), 'i')).length
-        ).toBeGreaterThan(0);
+        await screen.findAllByText(new RegExp(escapeRegex(projectsData[0].title), 'i'));
 
         // Certifications: first certification name.
-        expect(
-            screen.getAllByText(new RegExp(escapeRegex(certificationsData[0].name), 'i')).length
-        ).toBeGreaterThan(0);
+        await screen.findAllByText(new RegExp(escapeRegex(certificationsData[0].name), 'i'));
 
         // Skills: first language name from skills.json.
-        expect(
-            screen.getAllByText(new RegExp(escapeRegex(skillsData.languages[0].name), 'i')).length
-        ).toBeGreaterThan(0);
+        await screen.findAllByText(new RegExp(escapeRegex(skillsData.languages[0].name), 'i'));
 
         // Contact: email appears somewhere.
-        expect(
-            screen.getAllByText(new RegExp(escapeRegex(contactData[0].email), 'i')).length
-        ).toBeGreaterThan(0);
+        await screen.findAllByText(new RegExp(escapeRegex(contactData[0].email), 'i'));
     });
 
     test('theme toggle switches between light and dark modes', async () => {
@@ -99,11 +84,7 @@ describe('App', () => {
         // Starts in light mode per beforeEach.
         expect(window.localStorage.getItem('themeMode')).toBe('light');
 
-        // The AppBar renders as <header role="banner">. The theme trigger is
-        // the only IconButton in the toolbar (nav items are <Button>s with
-        // text content), but we match it robustly by finding the button whose
-        // accessible name is empty (icon-only).
-        const toolbar = screen.getByRole('banner');
+        const toolbar = await screen.findByRole('banner');
         const buttons = within(toolbar).getAllByRole('button');
         const themeTrigger = buttons.find((b) => !b.textContent.trim());
         expect(themeTrigger).toBeDefined();
@@ -127,4 +108,3 @@ describe('App', () => {
         );
     });
 });
-
