@@ -14,7 +14,8 @@
         "highlightColor": {
             "light": "#9c27b0",
             "dark": "#ba68c8"
-        }
+        },
+        "category": "professional"
     },
     {
         "company": "Gray Whale",
@@ -32,7 +33,8 @@
         "highlightColor": {
             "light": "#2c3e50",
             "dark": "#34495e"
-        }
+        },
+        "category": "professional"
     },
     {
         "company": "Onda Sports Inc.",
@@ -51,7 +53,8 @@
         "highlightColor": {
             "light": "#00acc1",
             "dark": "#26c6da"
-        }
+        },
+        "category": "professional"
     },
     {
         "company": "Baskin Engineering at UCSC",
@@ -71,7 +74,8 @@
         "highlightColor": {
             "light": "#003c6c",
             "dark": "#64b5f6"
-        }
+        },
+        "category": "teaching"
     },
     {
         "company": "Boardal",
@@ -92,7 +96,8 @@
         "highlightColor": {
             "light": "#00bcd4",
             "dark": "#4dd0e1"
-        }
+        },
+        "category": "professional"
     },
     {
         "company": "Adventure Out LLC",
@@ -111,7 +116,8 @@
         "highlightColor": {
             "light": "#4caf50",
             "dark": "#81c784"
-        }
+        },
+        "category": "other"
     },
     {
         "company": "Baskin Engineering at UCSC",
@@ -129,7 +135,8 @@
         "highlightColor": {
             "light": "#003c6c",
             "dark": "#64b5f6"
-        }
+        },
+        "category": "teaching"
     },
     {
         "company": "University of California, Santa Cruz",
@@ -149,7 +156,8 @@
         "highlightColor": {
             "light": "#003c6c",
             "dark": "#64b5f6"
-        }
+        },
+        "category": "other"
     },
     {
         "company": "University of California, Santa Cruz",
@@ -168,7 +176,8 @@
         "highlightColor": {
             "light": "#003c6c",
             "dark": "#64b5f6"
-        }
+        },
+        "category": "other"
     },
     {
         "company": "Club Ed Surf School and Camps",
@@ -186,7 +195,8 @@
         "highlightColor": {
             "light": "#ff9800",
             "dark": "#ffb74d"
-        }
+        },
+        "category": "other"
     },
     {
         "company": "YMCA of San Diego County",
@@ -203,7 +213,8 @@
         "highlightColor": {
             "light": "#e91e63",
             "dark": "#f06292"
-        }
+        },
+        "category": "other"
     },
     {
         "company": "Freelance",
@@ -219,6 +230,7 @@
         "highlightColor": {
             "light": "#795548",
             "dark": "#a1887f"
-        }
+        },
+        "category": "professional"
     }
 ]

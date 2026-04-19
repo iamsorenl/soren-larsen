@@ -46,7 +46,7 @@ describe('App', () => {
         render(<App />);
         expect(screen.getByRole('heading', { name: /^About$/i, level: 4 })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: /Featured Projects/i, level: 4 })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /Professional Experience/i, level: 4 })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /^Experience$/i, level: 4 })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: /Technical Skills/i, level: 4 })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: /Certifications/i, level: 4 })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: /^Education$/i, level: 4 })).toBeInTheDocument();
