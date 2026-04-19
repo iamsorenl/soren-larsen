@@ -4,12 +4,10 @@ import {
     CardContent,
     Typography,
     Box,
-    Grid,
     Chip,
-    Tab,
-    Tabs,
-    Stack,
-    LinearProgress
+    Collapse,
+    IconButton,
+    Stack
 } from '@mui/material';
 import {
     Code,
@@ -18,17 +16,13 @@ import {
     Web,
     Cloud,
     Terminal,
-    TextFields
+    TextFields,
+    ExpandMore,
+    ExpandLess
 } from '@mui/icons-material';
 import skillsData from '../data/skills';
 
 const EnhancedSkillCard = () => {
-    const [selectedTab, setSelectedTab] = useState(0);
-
-    const handleTabChange = (event, newValue) => {
-        setSelectedTab(newValue);
-    };
-
     const skillCategories = [
         {
             label: 'Languages',
@@ -74,75 +68,26 @@ const EnhancedSkillCard = () => {
         }
     ];
 
-    const renderSkillChips = (skills, color) => (
-        <Grid container spacing={1}>
-            {skills.map((skill, index) => {
-                // Handle both object format (with level/proficiency) and string format
-                const skillName = typeof skill === 'object' ? skill.name : skill;
-                const skillLevel = typeof skill === 'object' ? skill.level : 45;
-                const skillProficiency = typeof skill === 'object' ? skill.proficiency : 'Familiar';
-                
-                return (
-                    <Grid item key={index}>
-                        <Box sx={{ mb: 2, minWidth: 200 }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                    {skillName}
-                                </Typography>
-                                <Typography variant="caption" color="text.secondary">
-                                    {skillProficiency}
-                                </Typography>
-                            </Box>
-                            <LinearProgress
-                                variant="determinate"
-                                value={skillLevel}
-                                sx={{
-                                    height: 6,
-                                    borderRadius: 3,
-                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                    '& .MuiLinearProgress-bar': {
-                                        backgroundColor: color,
-                                        borderRadius: 3,
-                                    }
-                                }}
-                            />
-                        </Box>
-                    </Grid>
-                );
-            })}
-        </Grid>
-    );
+    const initialExpanded = {};
+    skillCategories.forEach((_, index) => {
+        initialExpanded[index] = true;
+    });
+    const [expanded, setExpanded] = useState(initialExpanded);
 
-    const renderSimpleChips = (skills, color) => (
-        <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
-            {skills.map((skill, index) => (
-                <Chip
-                    key={index}
-                    label={skill}
-                    sx={{
-                        backgroundColor: color,
-                        color: 'white',
-                        fontWeight: 500,
-                        '&:hover': {
-                            backgroundColor: color,
-                            opacity: 0.8
-                        }
-                    }}
-                />
-            ))}
-        </Stack>
-    );
+    const handleToggle = (index) => {
+        setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
+    };
 
     return (
-        <Card 
-            sx={{ 
-                backgroundColor: 'primary.main', 
-                color: 'primary.contrastText', 
-                height: '100%', 
-                width: '100%', 
-                mb: 1, 
+        <Card
+            sx={{
+                backgroundColor: 'primary.main',
+                color: 'primary.contrastText',
+                height: '100%',
+                width: '100%',
+                mb: 1,
                 borderRadius: '16px',
-                background: (theme) => theme.palette.mode === 'dark' 
+                background: (theme) => theme.palette.mode === 'dark'
                     ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
                     : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'
             }}
@@ -155,69 +100,90 @@ const EnhancedSkillCard = () => {
                     </Typography>
                 </Box>
 
-                <Box sx={{ borderBottom: 1, borderColor: 'rgba(255, 255, 255, 0.2)', mb: 3 }}>
-                    <Tabs
-                        value={selectedTab}
-                        onChange={handleTabChange}
-                        variant="scrollable"
-                        scrollButtons="auto"
-                        sx={{
-                            '& .MuiTab-root': {
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                fontWeight: 500,
-                                minHeight: 48,
-                                '&.Mui-selected': {
-                                    color: 'white',
-                                    fontWeight: 600
-                                }
-                            },
-                            '& .MuiTabs-indicator': {
-                                backgroundColor: 'white',
-                                height: 3
-                            }
-                        }}
-                    >
-                        {skillCategories.map((category, index) => (
-                            <Tab
-                                key={index}
-                                icon={category.icon}
-                                label={category.label}
-                                iconPosition="start"
-                                sx={{ textTransform: 'none' }}
-                            />
-                        ))}
-                    </Tabs>
-                </Box>
-
-                <Card 
-                    sx={{ 
-                        backgroundColor: 'background.paper',
-                        backdropFilter: 'blur(10px)',
-                        border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                        minHeight: 300
-                    }}
-                >
-                    <CardContent sx={{ p: 3 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                            {skillCategories[selectedTab].icon}
-                            <Typography 
-                                variant="h6" 
-                                sx={{ 
-                                    ml: 1, 
-                                    fontWeight: 600,
-                                    color: skillCategories[selectedTab].color
+                <Stack spacing={2}>
+                    {skillCategories.map((category, index) => (
+                        <Card
+                            key={index}
+                            sx={{
+                                backgroundColor: 'background.paper',
+                                backdropFilter: 'blur(10px)',
+                                border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    px: 2,
+                                    py: 1.5,
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        backgroundColor: 'action.hover'
+                                    }
                                 }}
+                                onClick={() => handleToggle(index)}
                             >
-                                {skillCategories[selectedTab].label}
-                            </Typography>
-                        </Box>
-                        
-                        {selectedTab < 3 ? 
-                            renderSkillChips(skillCategories[selectedTab].data, skillCategories[selectedTab].color) :
-                            renderSimpleChips(skillCategories[selectedTab].data, skillCategories[selectedTab].color)
-                        }
-                    </CardContent>
-                </Card>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <Box sx={{ color: category.color, display: 'flex', mr: 1 }}>
+                                        {category.icon}
+                                    </Box>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.primary'
+                                        }}
+                                    >
+                                        {category.label}
+                                    </Typography>
+                                    <Chip
+                                        label={category.data.length}
+                                        size="small"
+                                        sx={{
+                                            ml: 1,
+                                            height: 22,
+                                            fontSize: '0.75rem',
+                                            backgroundColor: category.color,
+                                            color: 'white',
+                                            fontWeight: 600
+                                        }}
+                                    />
+                                </Box>
+                                <IconButton
+                                    size="small"
+                                    sx={{ color: 'text.secondary' }}
+                                >
+                                    {expanded[index] ? <ExpandLess /> : <ExpandMore />}
+                                </IconButton>
+                            </Box>
+                            <Collapse in={expanded[index]}>
+                                <Box sx={{ px: 2, pb: 2 }}>
+                                    <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1 }}>
+                                        {category.data.map((skill, skillIndex) => {
+                                            const skillName = typeof skill === 'object' ? skill.name : skill;
+                                            return (
+                                                <Chip
+                                                    key={skillIndex}
+                                                    label={skillName}
+                                                    sx={{
+                                                        backgroundColor: category.color,
+                                                        color: 'white',
+                                                        fontWeight: 500,
+                                                        '&:hover': {
+                                                            backgroundColor: category.color,
+                                                            opacity: 0.8
+                                                        }
+                                                    }}
+                                                />
+                                            );
+                                        })}
+                                    </Stack>
+                                </Box>
+                            </Collapse>
+                        </Card>
+                    ))}
+                </Stack>
             </CardContent>
         </Card>
     );

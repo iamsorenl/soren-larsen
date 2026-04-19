@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Card,
@@ -11,8 +11,7 @@ import {
     Tooltip,
     Grid,
     useTheme,
-    Avatar,
-    Button
+    Avatar
 } from '@mui/material';
 import {
     EmojiEvents,
@@ -24,11 +23,8 @@ import {
 import defaultCertifications from '../data/certifications';
 
 const EnhancedCertifications = ({ certifications = defaultCertifications }) => {
-    const [showAll, setShowAll] = useState(false);
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
-
-    const displayedCertifications = showAll ? certifications : certifications.slice(0, 2);
 
     const getIssuerColor = (issuer) => {
         const colors = {
@@ -88,7 +84,7 @@ const EnhancedCertifications = ({ certifications = defaultCertifications }) => {
                 </Box>
 
                 <Grid container spacing={2}>
-                    {displayedCertifications.map((certification, index) => {
+                    {certifications.map((certification, index) => {
                         const certType = getCertificationType(certification.name);
                         const issuerColor = getIssuerColor(certification.issuer);
                         const issuerIcon = getIssuerIcon(certification.issuer);
@@ -213,25 +209,6 @@ const EnhancedCertifications = ({ certifications = defaultCertifications }) => {
                         );
                     })}
                 </Grid>
-
-                {certifications.length > 2 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => setShowAll(!showAll)}
-                            sx={{
-                                color: 'primary.contrastText',
-                                borderColor: 'primary.contrastText',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                    borderColor: 'primary.contrastText'
-                                }
-                            }}
-                        >
-                            {showAll ? 'Show Less' : `View All ${certifications.length} Certifications`}
-                        </Button>
-                    </Box>
-                )}
 
             </CardContent>
         </Card>
