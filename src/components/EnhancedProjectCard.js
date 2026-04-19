@@ -248,16 +248,34 @@ const EnhancedProjectCard = () => {
                     </Typography>
                 </Box>
 
-                {/* ---- All projects, chronological ---- */}
-                {allProjects.map((project, index) => (
-                    <CompactCard
-                        key={`project-${index}`}
-                        project={project}
-                        expanded={expandedProject === `project-${index}`}
-                        onToggle={() => handleExpandClick(`project-${index}`)}
-                        isMobile={isMobile}
-                    />
-                ))}
+                {/* ---- All projects, chronological, scrollable ---- */}
+                <Box
+                    sx={{
+                        maxHeight: 600,
+                        overflowY: 'auto',
+                        pr: 1,
+                        '&::-webkit-scrollbar': { width: '6px' },
+                        '&::-webkit-scrollbar-track': {
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            borderRadius: '3px'
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            background: 'rgba(255, 255, 255, 0.3)',
+                            borderRadius: '3px',
+                            '&:hover': { background: 'rgba(255, 255, 255, 0.5)' }
+                        }
+                    }}
+                >
+                    {allProjects.map((project, index) => (
+                        <CompactCard
+                            key={`project-${index}`}
+                            project={project}
+                            expanded={expandedProject === `project-${index}`}
+                            onToggle={() => handleExpandClick(`project-${index}`)}
+                            isMobile={isMobile}
+                        />
+                    ))}
+                </Box>
             </CardContent>
         </Card>
     );
