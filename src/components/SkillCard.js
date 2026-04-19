@@ -10,11 +10,13 @@ import skills from '../data/skills';
 
 const SkillCard = () => {
     const sections = [
-        { title: 'Programming Languages', data: skills.languages },
-        { title: 'Frameworks and Databases', data: skills.frameworksDatabases },
-        { title: 'Developer Tools', data: skills.developerTools },
-        { title: 'Development Practices', data: skills.developmentPractices },
-        { title: 'Soft Skills', data: skills.softSkills },
+        { title: 'Languages', data: skills.languages },
+        { title: 'AI / LLM Systems', data: skills.aiLlmSystems },
+        { title: 'Backend / APIs', data: skills.backendApis },
+        { title: 'Frontend', data: skills.frontend },
+        { title: 'Infra / DevOps', data: skills.infraDevops },
+        { title: 'Developer Workflows', data: skills.developerWorkflows },
+        { title: 'Applied NLP', data: skills.appliedNlp },
     ];
 
     return (
@@ -30,7 +32,7 @@ const SkillCard = () => {
                             <ul>
                                 {section.data.map((item, itemIndex) => (
                                     <li key={itemIndex} style={{ marginBottom: '8px', marginLeft: '16px' }}>
-                                        <Typography variant='body2' color='text.secondary'>{item}</Typography>
+                                        <Typography variant='body2' color='text.secondary'>{typeof item === 'object' ? item.name : item}</Typography>
                                     </li>
                                 ))}
                             </ul>

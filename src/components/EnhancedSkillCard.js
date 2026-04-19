@@ -13,10 +13,12 @@ import {
 } from '@mui/material';
 import {
     Code,
-    Storage,
-    Build,
     Psychology,
-    School
+    Storage,
+    Web,
+    Cloud,
+    Terminal,
+    TextFields
 } from '@mui/icons-material';
 import skillsData from '../data/skills';
 
@@ -35,27 +37,39 @@ const EnhancedSkillCard = () => {
             color: '#3776ab'
         },
         {
-            label: 'Frameworks & Databases',
-            icon: <Storage />,
-            data: skillsData.frameworksDatabases,
-            color: '#ff6f00'
-        },
-        {
-            label: 'Developer Tools',
-            icon: <Build />,
-            data: skillsData.developerTools,
-            color: '#4caf50'
-        },
-        {
-            label: 'Development Practices',
-            icon: <School />,
-            data: skillsData.developmentPractices,
+            label: 'AI / LLM Systems',
+            icon: <Psychology />,
+            data: skillsData.aiLlmSystems,
             color: '#9c27b0'
         },
         {
-            label: 'Soft Skills',
-            icon: <Psychology />,
-            data: skillsData.softSkills,
+            label: 'Backend / APIs',
+            icon: <Storage />,
+            data: skillsData.backendApis,
+            color: '#ff6f00'
+        },
+        {
+            label: 'Frontend',
+            icon: <Web />,
+            data: skillsData.frontend,
+            color: '#2196f3'
+        },
+        {
+            label: 'Infra / DevOps',
+            icon: <Cloud />,
+            data: skillsData.infraDevops,
+            color: '#4caf50'
+        },
+        {
+            label: 'Developer Workflows',
+            icon: <Terminal />,
+            data: skillsData.developerWorkflows,
+            color: '#607d8b'
+        },
+        {
+            label: 'Applied NLP',
+            icon: <TextFields />,
+            data: skillsData.appliedNlp,
             color: '#ff5722'
         }
     ];

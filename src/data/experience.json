@@ -6,16 +6,10 @@
         "startDate": "February 2026",
         "endDate": "Present",
         "link": "https://levangielabs.com/",
-        "description": "- Agent Infrastructure & Reliability: Building core systems that make AI agents more autonomous and dependable over long-running workflows, with a focus on failure recovery, state management, and reproducibility\n- Memory & Evaluation Systems: Developing infrastructure for agent memory and evaluation pipelines to measure quality over time, support regression testing, and improve iteration speed across product experiments\n- Full-Stack Prototyping: Shipping end-to-end features across backend services and product surfaces, turning research prototypes into production-ready tooling\n- Systems Design & Collaboration: Working closely with the founding team to define technical direction, prioritize roadmap work, and establish engineering standards for early-stage development",
+        "description": "Built and owned full-stack and AI product work in a founding-stage environment, taking features from early product discussions through implementation, testing, deployment, and iteration. Focused on agent-based AI systems that are reliable, production-oriented, and grounded in real user needs.\n- Built infrastructure for long-running AI agent workflows, including state management, failure recovery, and reproducible execution\n- Shipped full-stack product features end to end across backend systems and user-facing product surfaces\n- Worked closely with customer-facing and CRM-oriented teammates to turn workflow friction and user feedback into internal tools and product improvements\n- Built CI/CD, deployment, and testing systems to improve engineering velocity and release reliability\n- Reduced agent initialization time from 30+ seconds to under 2 seconds\n- Helped shape roadmap priorities, engineering standards, and technical direction in an early-stage team",
         "skills": [
-            "AI Agents",
-            "System Design",
-            "Backend Development",
-            "Full-Stack Development",
-            "Infrastructure",
-            "Evaluation Systems",
-            "Python",
-            "State Management"
+            "Artificial Intelligence (AI)",
+            "Full-Stack Development"
         ],
         "highlightColor": {
             "light": "#9c27b0",
@@ -24,19 +18,16 @@
     },
     {
         "company": "Gray Whale",
-        "title": "Data & Full Stack Engineer",
+        "title": "Data Engineer, Full Stack Developer",
         "location": "Remote",
         "startDate": "June 2025",
         "endDate": "February 2026",
         "link": "https://graywhale.ai/",
-        "description": "- Backend Systems & Automation: Supporting the development of internal tools, automation systems, and backend pipelines for Gray Whale's AI products\n- Infrastructure Design & Tooling: Contributing to core systems involving data processing, source code, communications, and marketing tech infrastructure\n- Cross-Disciplinary Support: Working across technical and creative domains to assist in product development, scalability, and team workflows",
+        "description": "Worked across AI systems, full-stack engineering, and internal tooling in support of Gray Whale's product and platform initiatives. The role focused on agent orchestration, RAG and tool-calling evaluation, structured data pipelines, and model-ready backend workflows.\n- Built an internal multi-agent orchestration system using local LLMs, later incorporating Gray Whale's proprietary model as the orchestration layer for agent decision-making\n- Evaluated tool-calling and RAG workflows across latency, accuracy, and token usage to improve efficiency and reduce inference cost\n- Built pipelines that transformed unstructured input data into structured JSON for training and downstream model workflows\n- Developed audio transcription infrastructure to capture and ingest live-streamed data for downstream AI use cases\n- Worked across product, systems, and backend development in a fast-moving startup environment",
         "skills": [
-            "Software Development",
-            "Data Engineering",
-            "System Design",
-            "Automation",
-            "Backend Development",
-            "AI/ML Systems"
+            "Artificial Intelligence (AI)",
+            "Machine Learning",
+            "Natural Language Processing (NLP)"
         ],
         "highlightColor": {
             "light": "#2c3e50",
@@ -50,14 +41,12 @@
         "startDate": "May 2025",
         "endDate": "December 2025",
         "link": "https://getonda.ai/",
-        "description": "- Developing intelligent assistant features that help surfers\n- Leveraging large language models (LLMs) to power conversational tools and curated recommendations\n- Supporting Onda's mission to make surf forecasting more personalized, contextual, and accessible\n- Designing new product experiences at the intersection of AI, usability, and surf culture\n- Advising Onda's marketing strategy, including recommending scalable outreach initiatives and influencing the hiring of a summer intern team to support marketing, content, and community efforts",
+        "description": "Worked on AI-powered product development for surf forecasting and recommendation experiences, with a focus on assistant quality, observability, and early-stage product iteration.\n- Built and improved LangSmith-based observability workflows to trace model behavior, troubleshoot failures, and improve reliability\n- Helped shape LLM-powered forecasting and recommendation features by translating product goals into implementation direction and evaluation criteria\n- Ran prompt, retrieval, and assistant workflow experiments to improve product quality and usefulness\n- Contributed to product design and early execution in a fast-moving startup environment\n- Supported broader growth efforts, including marketing strategy and intern coordination",
         "skills": [
             "Artificial Intelligence (AI)",
             "Machine Learning",
             "Software Development",
-            "Natural Language Processing (NLP)",
-            "Product Consulting",
-            "Marketing Strategy"
+            "Natural Language Processing (NLP)"
         ],
         "highlightColor": {
             "light": "#00acc1",
@@ -71,13 +60,13 @@
         "startDate": "September 2024",
         "endDate": "December 2025",
         "link": "https://engineering.ucsc.edu/",
-        "description": "- Teaching Assistant for 3 courses spanning both lower- and upper-division courses in the Computer Science and Technology Information Management departments, assisting 150–160+ students per course\n\nCSE 140: Artificial Intelligence:\n- Assisted Professor Niloofar Montazeri in teaching AI fundamentals including search, game playing, machine learning, and symbolic/neural approaches\n- Held office hours, led discussion sections, and provided student support through Ed Discussion, emphasizing accessible and proactive help\n- Managed course infrastructure: created assessments, configured autograders, and organized rubrics and scanning processes for Gradescope\n- Assisted in coordinating TA, tutor, and grader collaboration\n\nTIM 58: Systems Analysis and Design:\n- Lead TA for Professor Paul Vroomen, supporting students learning systems analysis, Agile/SCRUM, UML modeling, and project lifecycle fundamentals\n- Mentored student teams on app development projects from stakeholder interviews through sprint planning and iterative refinement\n- Assisted with grading and provided in-depth feedback on technical documentation, models, and presentations\n\nTIM 50: Business Information Systems (2 Times):\n- Lead TA for Professor Paul Vroomen, coordinating the TA/grader team\n- Held office hours, graded assignments and exams, and provided targeted academic support on SQL, relational databases, and enterprise system design\n- Occasionally guest lectured on key business-IT integration topics",
+        "description": "Served as a Teaching Assistant across AI and information systems courses in the Computer Science and Technology Information Management departments, supporting 150+ students per course through teaching, mentorship, grading, and course operations.\n- Supported CSE 140 (Artificial Intelligence), helping teach AI fundamentals including search, game playing, machine learning, and symbolic and neural methods\n- Served as Lead TA for TIM courses in Systems Analysis and Design and Business Information Systems\n- Held office hours, led discussions, and supported students on SQL, relational databases, Agile/SCRUM, UML, and enterprise systems\n- Managed assessments, autograders, rubrics, Gradescope workflows, and coordination across TA, tutor, and grader teams\n- Mentored student project teams and occasionally guest lectured on business-IT integration topics",
         "skills": [
-            "Teaching Assistance",
-            "Academic Guidance",
+            "Business Information Systems",
+            "Scrum",
             "Agile Methodologies",
-            "UML Modeling",
-            "Student Engagement"
+            "University Teaching",
+            "Artificial Intelligence (AI)"
         ],
         "highlightColor": {
             "light": "#003c6c",
@@ -86,18 +75,19 @@
     },
     {
         "company": "Boardal",
-        "title": "Software Developer & Consultant - Agile Methodology Specialist",
+        "title": "Full Stack Developer & Product Consultant",
         "location": "San Diego, CA",
         "startDate": "April 2024",
         "endDate": "June 2025",
         "link": "https://boardal.app/",
-        "description": "- Drove Boardal's app's growth to over 20,000 users through product improvements and automation tools\n- Built GPT-powered systems to streamline marketing outreach and customer communication\n- Created features like personalized alerts and spreadsheet-integrated tools to boost user engagement and team efficiency\n- Led Agile adoption to speed up development and better align with user needs\n- Contributed across the stack to expand app functionality and support startup growth",
+        "description": "Worked across full-stack product development and internal tooling for a growing marketplace app, contributing to both user-facing features and operational workflows in an early-stage startup environment.\n- Helped grow the app to 20,000+ users through feature development and product improvements\n- Built GPT-powered tools for marketing outreach and customer communication\n- Developed personalized alerts and spreadsheet-integrated workflows to improve engagement and team efficiency\n- Contributed across the stack to expand platform functionality and support startup growth\n- Helped implement Agile processes to speed up development and better align with user needs",
         "skills": [
-            "Software Development",
-            "Agile Methodologies",
-            "Full-Stack Development",
             "Mobile Applications",
-            "Machine Learning Integration"
+            "Agile Methodologies",
+            "Front-End Development",
+            "Custom GPTs",
+            "Software Development",
+            "Full-Stack Development"
         ],
         "highlightColor": {
             "light": "#00bcd4",
@@ -106,17 +96,17 @@
     },
     {
         "company": "Adventure Out LLC",
-        "title": "Surf Instructor",
+        "title": "Surfing Instructor",
         "location": "Santa Cruz, CA",
         "startDate": "June 2023",
         "endDate": "December 2023",
         "link": "https://www.adventureout.com/",
         "description": "- Taught private and group surf lessons to students of all ages and experience levels, adapting instruction to individual learning styles\n- Emphasized ocean safety, hazard awareness, and proper navigation techniques in every session\n- Introduced core surf skills and ocean knowledge, creating a strong foundation for beginner surfers\n- Delivered a personalized and confidence-building learning environment in dynamic ocean conditions",
         "skills": [
-            "Fitness Instruction",
-            "Time Management",
             "Leadership",
-            "Customer Service"
+            "Customer Service",
+            "Time Management",
+            "Fitness Instruction"
         ],
         "highlightColor": {
             "light": "#4caf50",
@@ -124,18 +114,17 @@
         }
     },
     {
-        "company": "University of California Santa Cruz",
+        "company": "Baskin Engineering at UCSC",
         "title": "Peer Advisor",
         "location": "Santa Cruz, CA",
         "startDate": "July 2021",
         "endDate": "September 2023",
         "link": "https://undergrad.engineering.ucsc.edu/advising/peer-advisors/",
-        "description": "- Provided front-line support to a diverse student body, including four-year and transfer students, enhancing their academic experience.\n- Assisted students with class enrollment, graduation planning, and petition processes, leveraging strong problem-solving skills.\n- Directed students and visitors to appropriate departments and faculty, contributing positively to their academic journey.\n- Utilized exceptional communication and interpersonal skills to connect individuals with necessary resources and support.",
+        "description": "- Provided front-line support to a diverse student body, including four-year and transfer students, enhancing their academic experience\n- Assisted students with class enrollment, graduation planning, and petition processes, leveraging strong problem-solving skills\n- Directed students and visitors to appropriate departments and faculty, contributing positively to their academic journey\n- Utilized exceptional communication and interpersonal skills to connect individuals with necessary resources and support",
         "skills": [
-            "Customer Service",
-            "Communication",
             "Teamwork",
-            "Academic Advising"
+            "Customer Service",
+            "Communication"
         ],
         "highlightColor": {
             "light": "#003c6c",
@@ -143,19 +132,19 @@
         }
     },
     {
-        "company": "University of California Santa Cruz",
+        "company": "University of California, Santa Cruz",
         "title": "Maintenance Worker",
         "location": "Santa Cruz, CA",
         "startDate": "June 2022",
         "endDate": "September 2022",
         "link": "https://ches.ucsc.edu/cruzfix/",
-        "description": "- Ensured dorms and campus buildings were well-maintained, conducting repairs in rooms and maintaining plumbing systems.\n- Responded promptly to maintenance requests from students and staff, ensuring a safe and comfortable living and learning environment.\n- Kept detailed records of all maintenance work performed, demonstrating organizational skills and attention to detail.",
+        "description": "- Ensured dorms and campus buildings were well-maintained, conducting repairs in rooms and maintaining plumbing systems\n- Responded promptly to maintenance requests from students and staff, ensuring a safe and comfortable living and learning environment\n- Kept detailed records of all maintenance work performed, demonstrating organizational skills and attention to detail",
         "skills": [
-            "Time Management",
-            "Attention to Detail",
-            "Customer Service",
             "Problem Solving",
-            "Teamwork"
+            "Teamwork",
+            "Customer Service",
+            "Time Management",
+            "Attention to Detail"
         ],
         "highlightColor": {
             "light": "#003c6c",
@@ -163,19 +152,18 @@
         }
     },
     {
-        "company": "University of California Santa Cruz",
+        "company": "University of California, Santa Cruz",
         "title": "Programs Assistant",
         "location": "Santa Cruz, CA",
         "startDate": "July 2020",
         "endDate": "January 2022",
         "link": "https://rachelcarson.ucsc.edu/",
-        "description": "- Led the planning and execution of various Rachel Carson College community events, focusing on environmental and cultural themes, to enhance campus life.\n- Developed and executed creative event concepts and educational content, promoting environmental awareness and enriching the college's thematic focus.\n- Demonstrated strong organizational and project management skills, bringing innovative ideas to life and ensuring broad community engagement through comprehensive marketing campaigns.\n- Utilized posters, social media, emails, and slideshows in collaboration with team members for event promotion and educational initiatives, effectively increasing awareness and participation.",
+        "description": "- Coordinated and facilitated a wide range of inclusive virtual and in-person programs which included the complex transition from remote to on-campus life\n- Designed and executed events centered on environmental justice, cultural appreciation, and the college theme of \"Environment and Society\"\n- Developed creative marketing strategies using social media, newsletters, posters, and multimedia content to promote events\n- Collaborated with Welcome Leaders and supervised event execution during Welcome Week\n- Acted as a liaison between college staff and student communities, gathering feedback and adapting programming\n- Contributed to resource planning, budget oversight, and event documentation",
         "skills": [
+            "Teamwork",
             "Leadership",
-            "Attention to Detail",
             "Customer Service",
-            "Problem Solving",
-            "Teamwork"
+            "Communication"
         ],
         "highlightColor": {
             "light": "#003c6c",
@@ -184,18 +172,16 @@
     },
     {
         "company": "Club Ed Surf School and Camps",
-        "title": "Surf Instructor",
+        "title": "Surfing Instructor",
         "location": "Santa Cruz, CA",
         "startDate": "June 2021",
         "endDate": "October 2021",
         "link": "https://club-ed.com/",
-        "description": "- Provided comprehensive surf lessons to individuals of diverse ages and skill levels, focusing on safety, technique, and personalized instruction.\n- Delivered essential safety instructions to ensure students understood potential hazards and safe navigation of ocean conditions.\n- Taught fundamental surf techniques, adjusting teaching methods to match the unique needs and abilities of each student for optimal learning.\n- Maintained and managed surf equipment, ensuring all gear was in excellent condition for lessons.\n- Assisted with the logistical aspects of equipment transportation, coordinating between the Club Ed Office and lesson locations.",
+        "description": "- Provided beginner-to-intermediate surf instruction with a focus on individualized feedback and safe ocean practices\n- Managed surf equipment setup, maintenance, and transport between the Club Ed office and lesson locations\n- Supported daily operations by coordinating gear and lesson logistics and ensuring smooth lesson delivery",
         "skills": [
-            "Fitness Instruction",
-            "Time Management",
-            "Leadership",
             "Customer Service",
-            "Hospitality"
+            "Time Management",
+            "Fitness Instruction"
         ],
         "highlightColor": {
             "light": "#ff9800",
@@ -209,15 +195,30 @@
         "startDate": "June 2019",
         "endDate": "September 2019",
         "link": "https://www.ymcasd.org/mission-valley-ymca-krause-family-skate-bike-park",
-        "description": "- Designed and delivered individualized skateboarding lessons, adapting instruction to each student's skill level and learning pace\n- Used hands-on, progressive techniques to build student confidence and foster an inclusive, encouraging environment for learners of all backgrounds and abilities\n- Assisted in the Clash at Clairemont skateboarding demo event, supporting logistics and event setup for a showcase featuring pro skaters including Tony Hawk, Andy Macdonald, and many more\n- Returned to teach a decade after attending the program myself, reflecting a full-circle experience and a deep connection to the skateboarding community",
+        "description": "- Designed and delivered individualized skateboarding lessons, adapting instruction to each student's skill level and learning pace\n- Used hands-on, progressive techniques to build student confidence and foster an inclusive, encouraging environment\n- Assisted in the Clash at Clairemont skateboarding demo event, supporting logistics and event setup for a showcase featuring pro skaters including Tony Hawk, Andy Macdonald, and many more\n- Returned to teach a decade after attending the program myself, reflecting a full-circle experience and a deep connection to the skateboarding community",
         "skills": [
-            "Fitness Instruction",
             "Customer Service",
-            "Hospitality"
+            "Fitness Instruction"
         ],
         "highlightColor": {
             "light": "#e91e63",
             "dark": "#f06292"
+        }
+    },
+    {
+        "company": "Freelance",
+        "title": "Graphic Designer",
+        "location": "San Diego, CA",
+        "startDate": "September 2017",
+        "endDate": "June 2019",
+        "link": "",
+        "description": "- Produced custom visuals for a variety of clients, translating creative concepts into polished designs across apparel and school events\n- Created custom apparel designs including Cross Country team shirts, a Triple Jump letterman jacket graphic, and the La Jolla High School Senior vs. Faculty Basketball Game t-shirt",
+        "skills": [
+            "Attention to Detail"
+        ],
+        "highlightColor": {
+            "light": "#795548",
+            "dark": "#a1887f"
         }
     }
 ]
