@@ -12,8 +12,6 @@ import {
     Collapse,
     Link,
     Tooltip,
-    Tabs,
-    Tab,
     useTheme,
     useMediaQuery
 } from '@mui/material';
@@ -25,12 +23,6 @@ import {
     Timeline
 } from '@mui/icons-material';
 import projectsData from '../data/projects';
-
-const CATEGORY_TABS = [
-    { key: 'nlp', label: 'NLP / ML' },
-    { key: 'fullstack', label: 'Full-Stack' },
-    { key: 'systems', label: 'Systems' }
-];
 
 const getToolColor = (tool) => {
     const toolColors = {
@@ -395,14 +387,11 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
 
 const EnhancedProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
-    const [activeTab, setActiveTab] = useState(0);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const featuredProjects = projectsData.filter((p) => p.category === 'featured');
-    const categoryProjects = CATEGORY_TABS.map((tab) =>
-        projectsData.filter((p) => p.category === tab.key)
-    );
+    const otherProjects = projectsData.filter((p) => p.category !== 'featured');
 
     const handleExpandClick = (id) => {
         setExpandedProject(expandedProject === id ? null : id);
@@ -448,47 +437,23 @@ const EnhancedProjectCard = () => {
                     </Grid>
                 </Box>
 
-                {/* ---- Category tabs ---- */}
-                <Box sx={{ mt: 4 }}>
-                    <Tabs
-                        value={activeTab}
-                        onChange={(_, v) => { setActiveTab(v); setExpandedProject(null); }}
-                        variant={isMobile ? 'fullWidth' : 'standard'}
-                        sx={{
-                            mb: 2,
-                            '& .MuiTabs-indicator': {
-                                backgroundColor: 'primary.contrastText'
-                            },
-                            '& .MuiTab-root': {
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                fontWeight: 600,
-                                fontSize: '0.9rem',
-                                textTransform: 'none',
-                                '&.Mui-selected': {
-                                    color: 'primary.contrastText'
-                                }
-                            }
-                        }}
-                    >
-                        {CATEGORY_TABS.map((tab) => (
-                            <Tab key={tab.key} label={tab.label} />
+                {/* ---- Other projects ---- */}
+                {otherProjects.length > 0 && (
+                    <Box sx={{ mt: 4 }}>
+                        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+                            All Projects
+                        </Typography>
+                        {otherProjects.map((project, index) => (
+                            <CompactCard
+                                key={`other-${index}`}
+                                project={project}
+                                expanded={expandedProject === `other-${index}`}
+                                onToggle={() => handleExpandClick(`other-${index}`)}
+                                isMobile={isMobile}
+                            />
                         ))}
-                    </Tabs>
-
-                    {categoryProjects[activeTab].map((project, index) => (
-                        <CompactCard
-                            key={`${CATEGORY_TABS[activeTab].key}-${index}`}
-                            project={project}
-                            expanded={
-                                expandedProject === `${CATEGORY_TABS[activeTab].key}-${index}`
-                            }
-                            onToggle={() =>
-                                handleExpandClick(`${CATEGORY_TABS[activeTab].key}-${index}`)
-                            }
-                            isMobile={isMobile}
-                        />
-                    ))}
-                </Box>
+                    </Box>
+                )}
             </CardContent>
         </Card>
     );
