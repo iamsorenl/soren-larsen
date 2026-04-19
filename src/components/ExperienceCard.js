@@ -118,7 +118,13 @@ const ExperienceCard = () => {
                             }}
                         >
                             <CardContent sx={{ py: 2, px: 3, pl: 4, '&:last-child': { pb: 2 } }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: { xs: 'flex-start', sm: 'center' },
+                                    flexDirection: { xs: 'column', sm: 'row' },
+                                    gap: { xs: 1, sm: 0 }
+                                }}>
                                     <Box sx={{ flex: 1, minWidth: 0 }}>
                                         <Typography
                                             variant="subtitle1"
@@ -130,7 +136,13 @@ const ExperienceCard = () => {
                                         >
                                             {experience.title}
                                         </Typography>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 0.5 }}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            alignItems: { xs: 'flex-start', sm: 'center' },
+                                            flexDirection: { xs: 'column', sm: 'row' },
+                                            gap: { xs: 0.5, sm: 2 },
+                                            mt: 0.5
+                                        }}>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                 <Business sx={{ fontSize: 14, mr: 0.5, color: getCompanyColor(experience, isDark) }} />
                                                 <Typography
@@ -149,7 +161,12 @@ const ExperienceCard = () => {
                                         </Box>
                                     </Box>
 
-                                    <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0 }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        gap: 0.5,
+                                        flexShrink: 0,
+                                        alignSelf: { xs: 'flex-end', sm: 'center' }
+                                    }}>
                                         {experience.link && (
                                             <IconButton
                                                 component={Link}
