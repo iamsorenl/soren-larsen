@@ -142,9 +142,11 @@ const EnhancedAboutCard = () => {
                                     decoding: 'async',
                                     alt: 'Soren Larsen'
                                 }}
+                                variant="rounded"
                                 sx={{
-                                    width: isMobile ? 200 : 280,
-                                    height: isMobile ? 200 : 280,
+                                    width: isMobile ? 280 : 340,
+                                    height: isMobile ? 320 : 400,
+                                    borderRadius: '16px',
                                     border: '4px solid rgba(255, 255, 255, 0.2)',
                                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
                                     transition: 'all 1.5s ease-in-out'
