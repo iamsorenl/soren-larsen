@@ -27,12 +27,12 @@ const SectionFallback = () => (
 const CardLayout = () => {
     return (
         <Grid container spacing={1}>
-            <Grid item xs={12} md={6} id="projects">
+            <Grid item xs={12} md={12} id="projects">
                 <Suspense fallback={<SectionFallback />}>
                     <EnhancedProjectCard />
                 </Suspense>
             </Grid>
-            <Grid item xs={12} md={6} id="experience">
+            <Grid item xs={12} md={12} id="experience">
                 <Suspense fallback={<SectionFallback />}>
                     <ExperienceCard />
                 </Suspense>
