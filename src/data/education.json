@@ -2,9 +2,11 @@
     {
         "school": "University of California Santa Cruz",
         "degree": "Master of Science, Natural Language Processing",
+        "dates": "Sep 2024 - Dec 2025",
         "link": "https://nlp.ucsc.edu",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma2.pdf",
+        "description": "Specialized in advanced computational approaches to language understanding, generation, and dialogue systems. Focused coursework in machine learning, deep learning, and data-driven linguistic analysis for NLP. Engaged in interdisciplinary collaboration across linguistics, cognitive science, and AI. Built a strong foundation in both theoretical concepts and practical applications of modern NLP techniques. Practical experience across departments in AI Engineering and AI Agents.",
         "relevantCoursework": [
             "Natural Language Processing",
             "Deep Learning for Natural Language Processing",
@@ -17,9 +19,11 @@
     {
         "school": "University of California Santa Cruz",
         "degree": "Bachelor of Science, Computer Science",
+        "dates": "Sep 2019 - Jun 2023",
         "link": "https://admissions.ucsc.edu/programs/computer-science",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma.pdf",
+        "description": "Built a strong foundation in core areas such as algorithms, systems design, and software development. Gained hands-on experience through project-based learning that bridged theory and real-world application. Explored advanced topics including artificial intelligence and natural language processing, preparing for both academic research and industry roles. Developed collaboration and problem-solving skills in a team-oriented environment supported by modern labs and tools.",
         "relevantCoursework": [
             "Advanced Linear Algebra",
             "Applied Discrete Mathematics",

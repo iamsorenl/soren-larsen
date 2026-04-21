@@ -185,14 +185,14 @@ const EnhancedEducationCard = () => {
                                                 </Tooltip>
                                             )}
                                             
-                                            {education.relevantCoursework.length > 0 && (
+                                            {(education.description || education.relevantCoursework.length > 0) && (
                                                 <IconButton
                                                     onClick={() => handleExpandClick(index)}
                                                     size="small"
-                                                    sx={{ 
+                                                    sx={{
                                                         color: isDark ? '#64b5f6' : 'primary.main',
                                                         backgroundColor: isDark ? 'rgba(100, 181, 246, 0.1)' : 'rgba(26, 35, 126, 0.1)',
-                                                        '&:hover': { 
+                                                        '&:hover': {
                                                             backgroundColor: isDark ? 'rgba(100, 181, 246, 0.2)' : 'rgba(26, 35, 126, 0.2)',
                                                             transform: 'scale(1.1)'
                                                         }
@@ -204,38 +204,52 @@ const EnhancedEducationCard = () => {
                                         </Box>
                                     </Box>
 
-                                    {education.relevantCoursework.length > 0 && (
+                                    {(education.description || education.relevantCoursework.length > 0) && (
                                         <Collapse in={expandedEducation === index} timeout="auto" unmountOnExit>
                                             <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid rgba(0, 0, 0, 0.1)' }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                                                    <MenuBook sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
-                                                    <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                                                        Relevant Coursework ({education.relevantCoursework.length} courses)
+                                                {education.description && (
+                                                    <Typography
+                                                        variant="body2"
+                                                        color="text.secondary"
+                                                        sx={{ lineHeight: 1.6, mb: 2 }}
+                                                    >
+                                                        {education.description}
                                                     </Typography>
-                                                </Box>
-                                                
-                                                <Grid container spacing={1}>
-                                                    {education.relevantCoursework.map((course, courseIndex) => (
-                                                        <Grid item xs={12} sm={6} md={4} key={courseIndex}>
-                                                            <Chip
-                                                                label={course}
-                                                                size="small"
-                                                                variant="outlined"
-                                                                sx={{
-                                                                    width: '100%',
-                                                                    justifyContent: 'flex-start',
-                                                                    fontSize: '0.75rem',
-                                                                    height: 'auto',
-                                                                    py: 0.5,
-                                                                    '& .MuiChip-label': {
-                                                                        whiteSpace: 'normal',
-                                                                        textAlign: 'left'
-                                                                    }
-                                                                }}
-                                                            />
+                                                )}
+
+                                                {education.relevantCoursework.length > 0 && (
+                                                    <>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                                            <MenuBook sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
+                                                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                                                Relevant Coursework ({education.relevantCoursework.length} courses)
+                                                            </Typography>
+                                                        </Box>
+
+                                                        <Grid container spacing={1}>
+                                                            {education.relevantCoursework.map((course, courseIndex) => (
+                                                                <Grid item xs={12} sm={6} md={4} key={courseIndex}>
+                                                                    <Chip
+                                                                        label={course}
+                                                                        size="small"
+                                                                        variant="outlined"
+                                                                        sx={{
+                                                                            width: '100%',
+                                                                            justifyContent: 'flex-start',
+                                                                            fontSize: '0.75rem',
+                                                                            height: 'auto',
+                                                                            py: 0.5,
+                                                                            '& .MuiChip-label': {
+                                                                                whiteSpace: 'normal',
+                                                                                textAlign: 'left'
+                                                                            }
+                                                                        }}
+                                                                    />
+                                                                </Grid>
+                                                            ))}
                                                         </Grid>
-                                                    ))}
-                                                </Grid>
+                                                    </>
+                                                )}
                                             </Box>
                                         </Collapse>
                                     )}
