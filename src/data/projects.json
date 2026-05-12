@@ -39,39 +39,41 @@
         ]
     },
     {
-        "title": "Multi-Agent AI Orchestration Platform with Web Integration",
-        "startDate": "May 2025",
-        "endDate": "June 2025",
-        "link": "https://github.com/iamsorenl/Autogen_Chat_Demo",
+        "title": "UCSC RAG Chatbot",
+        "startDate": "January 2025",
+        "endDate": "March 2025",
+        "link": "https://github.com/shannonrumsey/UCSC_RAG",
         "muiIcon": "Abc",
         "category": "featured",
-        "description": "Built a public demo showcasing web-native multi-agent AI orchestration, translating ideas from a broader private research effort into a shareable full-stack implementation.\n- Integrated AutoGen-based multi-agent workflows into a React frontend with real-time backend communication\n- Built a WebSocket layer to support live user interaction without terminal-based dependencies\n- Implemented specialized agents for analytical, creative, and media-oriented responses\n- Created a custom user-proxy workflow to preserve human-in-the-loop interactions through the web interface\n- Added Flask-based media upload support and backend orchestration for multimodal interaction patterns",
+        "description": "Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services. Designed the system to improve answer quality and factual reliability through retrieval, evaluation, and mobile delivery.\n- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)",
         "tools": [
-            "Python",
-            "React",
-            "Flask",
-            "AI",
             "NLP",
+            "Python",
+            "RAG",
             "Machine Learning",
-            "Multi-agent Systems",
-            "Full-Stack Development",
-            "WebSocket"
+            "Web Scraping",
+            "LangChain",
+            "ChromaDB",
+            "Swift",
+            "Firebase"
         ]
     },
     {
-        "title": "BiLSTM-CRF for Named Entity Recognition",
-        "startDate": "February 2025",
-        "endDate": "March 2025",
-        "link": "https://github.com/iamsorenl/bilstm-crf-character-cnn-ner",
+        "title": "Personal Portfolio",
+        "startDate": "July 2023",
+        "endDate": "Present",
+        "link": "https://github.com/iamsorenl/soren-larsen",
         "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built a biomedical NER model using a BiLSTM-CRF architecture with character-level CNN features and static word embeddings, focused on sequence labeling for scientific text.\n- Modeled entity extraction for DNA, RNA, proteins, cell types, and cell lines on NLPBA 2004 dataset\n- Compared CRF, softmax-margin, and SVM-margin losses\n- Used padded minibatches, masking, and hyperparameter tuning\n- Reached F1 of approximately 0.59",
+        "category": "featured",
+        "description": "Designed and maintain a responsive personal portfolio to showcase projects, experience, and technical work. Built with React, Node.js, Material UI, and Firebase, with a focus on clean presentation, usability, and cross-device compatibility.\n- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests",
         "tools": [
-            "NLP",
-            "Python",
-            "PyTorch",
-            "NER",
-            "Deep Learning"
+            "React",
+            "Node.js",
+            "Front-End Development",
+            "JavaScript",
+            "Firebase",
+            "Material-UI",
+            "Responsive Web Design"
         ]
     },
     {
@@ -94,89 +96,19 @@
         ]
     },
     {
-        "title": "UCSC RAG Chatbot",
-        "startDate": "January 2025",
+        "title": "BiLSTM-CRF for Named Entity Recognition",
+        "startDate": "February 2025",
         "endDate": "March 2025",
-        "link": "https://github.com/shannonrumsey/UCSC_RAG",
-        "muiIcon": "Abc",
-        "category": "featured",
-        "description": "Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services. Designed the system to improve answer quality and factual reliability through retrieval, evaluation, and mobile delivery.\n- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)",
-        "tools": [
-            "NLP",
-            "Python",
-            "RAG",
-            "Machine Learning",
-            "Web Scraping",
-            "LangChain",
-            "ChromaDB",
-            "Swift",
-            "Firebase"
-        ]
-    },
-    {
-        "title": "Sentiment Analysis Minibatching",
-        "startDate": "January 2025",
-        "endDate": "February 2025",
-        "link": "https://github.com/iamsorenl/Sentiment-Analysis-Minibatching",
+        "link": "https://github.com/iamsorenl/bilstm-crf-character-cnn-ner",
         "muiIcon": "Abc",
         "category": "nlp",
-        "description": "Explored the impact of batch size and learning rate on sentiment classification performance using Logistic Regression and LSTM models trained on the IMDB movie review dataset.\n- Built sentiment classification pipelines using both Logistic Regression and LSTM on 50,000+ reviews\n- Implemented dynamic mini-batch training in PyTorch with custom tokenization\n- Benchmarked multiple batch size and learning rate combinations\n- Achieved up to 90.4% validation accuracy with LR and 90.1% with LSTM\n- Analyzed efficiency-performance tradeoffs including gradient noise",
+        "description": "Built a biomedical NER model using a BiLSTM-CRF architecture with character-level CNN features and static word embeddings, focused on sequence labeling for scientific text.\n- Modeled entity extraction for DNA, RNA, proteins, cell types, and cell lines on NLPBA 2004 dataset\n- Compared CRF, softmax-margin, and SVM-margin losses\n- Used padded minibatches, masking, and hyperparameter tuning\n- Reached F1 of approximately 0.59",
         "tools": [
             "NLP",
             "Python",
             "PyTorch",
-            "Sentiment Analysis",
-            "Machine Learning"
-        ]
-    },
-    {
-        "title": "Neural Machine Translation: Subword vs. Word-Level Tokenization",
-        "startDate": "January 2025",
-        "endDate": "January 2025",
-        "link": "https://github.com/iamsorenl/Neural-Machine-Translation",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built French-to-English neural machine translation models to compare subword and whole-word tokenization strategies across translation quality, convergence behavior, and vocabulary handling.\n- Built Transformer and CNN-based translation models on IWSLT 2013 French-English dataset\n- Compared BPE and Moses whole-word tokenization\n- Tuned dropout and model depth for BLEU performance\n- Evaluated with SacreBLEU and qualitative analysis\n- Whole-word tokenization achieved top BLEU of 28.98",
-        "tools": [
-            "NLP",
-            "Python",
-            "Bash",
-            "Machine Learning",
-            "Transformers",
-            "Fairseq"
-        ]
-    },
-    {
-        "title": "Modernized ELIZA Rogerian Therapist Chatbot",
-        "startDate": "January 2025",
-        "endDate": "January 2025",
-        "link": "https://github.com/iamsorenl/BetterELIZAbot",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Modernized the classic ELIZA chatbot with targeted NLP improvements to better handle misspellings, contractions, humor, and flirtatious input while preserving its rule-based structure and therapeutic tone.\n- Enhanced a classic rule-based chatbot with modular NLP components\n- Built a spell-checking pipeline using TextBlob and spaCy\n- Added custom handling for humor, laughter, and flirtatious input\n- Implemented contraction-aware lemmatization\n- Improved chatbot realism and interaction quality",
-        "tools": [
-            "NLP",
-            "Python",
-            "Conversational AI",
-            "Rule-based Systems",
-            "spaCy"
-        ]
-    },
-    {
-        "title": "POS Tagging with HMMs and Viterbi Algorithm",
-        "startDate": "November 2024",
-        "endDate": "December 2024",
-        "link": "https://github.com/iamsorenl/HMM-POS-Tagger",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built a probabilistic part-of-speech tagger using a Hidden Markov Model and Viterbi decoding, with a focus on numerical stability, sparse data handling, and efficient sequence inference.\n- Implemented an HMM-based POS tagging pipeline with Viterbi decoding\n- Used log-space probability computation and add-\u03b5 smoothing\n- Added fallback handling for unseen word-tag pairs\n- Applied dynamic programming and backpointer tracking",
-        "tools": [
-            "Machine Learning",
-            "AI",
-            "NLP",
-            "Python",
-            "HMMs",
-            "Probabilistic Models"
+            "NER",
+            "Deep Learning"
         ]
     },
     {
@@ -196,163 +128,7 @@
         ]
     },
     {
-        "title": "Slot Tagging with BiLSTM and Attention",
-        "startDate": "November 2024",
-        "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/Slot-Tagging-of-Natural-Language-Utterances",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built and tuned slot tagging models using BiLSTM architectures with attention and GloVe embeddings.\n- Built slot tagging models using BiLSTM with attention\n- Integrated GloVe embeddings and custom layers\n- Tuned learning rate, hidden dims, dropout\n- Evaluated with token and sequence-level metrics in IOB2\n- Achieved 75.37% accuracy, F1 0.950 (sklearn) and 0.839 (seqeval)",
-        "tools": [
-            "NLP",
-            "Python",
-            "Scikit-Learn",
-            "PyTorch",
-            "Sequence Labeling",
-            "Deep Learning"
-        ]
-    },
-    {
-        "title": "Building and Evaluating N-Gram Language Models",
-        "startDate": "November 2024",
-        "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/ngram_project",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built and evaluated unigram, bigram, trigram, and interpolated n-gram language models on a subset of the One Billion Word Benchmark.\n- Implemented unigram, bigram, trigram, and interpolated models\n- Used linear interpolation with tunable weights\n- Added configurable UNK thresholds\n- Evaluated across splits showing lower perplexity in higher-order n-grams\n- Analyzed data sparsity effects",
-        "tools": [
-            "NLP",
-            "Python",
-            "Statistical Modeling",
-            "Machine Learning"
-        ]
-    },
-    {
-        "title": "Airline Sentiment Analysis and Preprocessing Pipeline",
-        "startDate": "November 2024",
-        "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/Airline-Sentiment-Preprocessing-and-Modeling",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built a sentiment classification pipeline for social media text, focused on custom tokenization, preprocessing, and traditional ML-based sentiment modeling on the Twitter US Airline dataset.\n- Designed a regex-based tokenizer for social media text including mentions, hashtags, emojis\n- Applied 12+ preprocessing steps\n- Trained TF-IDF + SVM classifier with ablation studies\n- Achieved 80.89% test accuracy\n- Conducted user-level sentiment analysis across six airlines",
-        "tools": [
-            "Machine Learning",
-            "AI",
-            "Python",
-            "Regex",
-            "Pandas",
-            "NLP",
-            "Sentiment Analysis"
-        ]
-    },
-    {
-        "title": "Multiclass Text Classification with Feature Engineering",
-        "startDate": "October 2024",
-        "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/feature_engineering_multiclass_classification_SVM_LR_DT",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built and evaluated multiclass text classification models on an e-commerce dataset, focusing on feature engineering, model comparison, and performance tradeoffs.\n- Trained and compared SVM, LR, and Decision Tree classifiers\n- Engineered features using TF-IDF, GloVe, NER counts, POS ratios, sentiment scores\n- Combined BoW and NLTK features\n- Conducted hyperparameter tuning\n- Found sublinear TF-IDF delivered strongest results",
-        "tools": [
-            "AI",
-            "Machine Learning",
-            "Scikit-Learn",
-            "Python",
-            "NLP"
-        ]
-    },
-    {
-        "title": "Relation Extraction from Natural Language using MLPs",
-        "startDate": "October 2024",
-        "endDate": "October 2024",
-        "link": "https://github.com/iamsorenl/Relation-Extraction-from-Natural-Language-using-PyTorch",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built a multi-label relation extraction pipeline to identify semantic relations from natural language utterances.\n- Built a PyTorch-based MLP for multi-label relation extraction\n- Used spaCy embeddings with Freebase-style schema\n- Designed two-layer MLP with batch norm and dropout\n- Applied stratified K-fold cross-validation\n- Achieved ~0.91 F1 and 0.86 accuracy",
-        "tools": [
-            "Pandas",
-            "AI",
-            "Scikit-Learn",
-            "Python",
-            "PyTorch",
-            "NLP",
-            "Machine Learning"
-        ]
-    },
-    {
-        "title": "Sentiment Analysis with Custom and Standard ML Models",
-        "startDate": "October 2024",
-        "endDate": "October 2024",
-        "link": "https://github.com/iamsorenl/Feature-Engineering-and-Sentiment-Analysis",
-        "muiIcon": "Abc",
-        "category": "nlp",
-        "description": "Built and compared sentiment classification pipelines on Amazon and IMDb reviews using both custom and standard machine learning models.\n- Built classifiers using Naive Bayes, SVM, LR, Decision Tree\n- Engineered features with BoW, TF-IDF, one-hot, n-grams\n- Custom Naive Bayes with Laplacian smoothing reached 85-87%\n- SVM+TF-IDF achieved 89% on Amazon\n- Evaluated with accuracy, F1, confusion matrices",
-        "tools": [
-            "Scikit-Learn",
-            "Python",
-            "PyTorch",
-            "NLP",
-            "Machine Learning"
-        ]
-    },
-    {
-        "title": "Personal Portfolio",
-        "startDate": "July 2023",
-        "endDate": "Present",
-        "link": "https://github.com/iamsorenl/soren-larsen",
-        "muiIcon": "Abc",
-        "category": "featured",
-        "description": "Designed and maintain a responsive personal portfolio to showcase projects, experience, and technical work. Built with React, Node.js, Material UI, and Firebase, with a focus on clean presentation, usability, and cross-device compatibility.\n- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests",
-        "tools": [
-            "React",
-            "Node.js",
-            "Front-End Development",
-            "JavaScript",
-            "Firebase",
-            "Material-UI",
-            "Responsive Web Design"
-        ]
-    },
-    {
-        "title": "Full-Stack To-Do List Application",
-        "startDate": "September 2023",
-        "endDate": "September 2023",
-        "link": "https://github.com/iamsorenl/ToDoList",
-        "muiIcon": "Abc",
-        "category": "fullstack",
-        "description": "Built a full-stack CRUD application using Vue.js and Flask, with a focus on frontend-backend integration, responsive design, and core task management workflows.\n- Built a Vue.js frontend and Flask backend for task CRUD\n- Implemented server-side data handling and real-time updates\n- Used Bootstrap for responsive UI\n- Configured CORS for frontend-backend communication",
-        "tools": [
-            "JavaScript",
-            "Full-Stack Development",
-            "Vue.js",
-            "Flask",
-            "API Development"
-        ]
-    },
-    {
-        "title": "Cross-Platform Messaging App",
-        "startDate": "March 2023",
-        "endDate": "June 2023",
-        "link": "https://github.com/iamsorenl/Messaging-Service",
-        "muiIcon": "Abc",
-        "category": "fullstack",
-        "description": "Built a real-time messaging app inspired by Discord and Slack across three platforms: native Android, native iOS, and React Native.\n- Built parallel implementations in Kotlin, Swift, and React Native\n- Implemented consistent messaging features across platforms\n- Used Barista, XCTest, and Jest for testing\n- Applied modular design and TDD practices",
-        "tools": [
-            "React Native",
-            "Android",
-            "Git",
-            "Software Development",
-            "iOS",
-            "Front-End Development",
-            "TDD",
-            "Kotlin",
-            "Swift",
-            "Cross-platform",
-            "Mobile Development"
-        ]
-    },
-    {
-        "title": "ParkMe \u2013 Peer-to-Peer Parking App",
+        "title": "ParkMe – Peer-to-Peer Parking App",
         "startDate": "January 2023",
         "endDate": "March 2023",
         "link": "https://github.com/iamsorenl/ParkMe",
@@ -365,39 +141,6 @@
             "Product Management",
             "Node.js",
             "TypeScript",
-            "PostgreSQL"
-        ]
-    },
-    {
-        "title": "Multithreaded HTTP Web Server in C",
-        "startDate": "October 2022",
-        "endDate": "December 2022",
-        "link": "https://gitfront.io/r/iamsorenl/nmB54YoNBezS/Principles-of-Computer-Systems-Design/tree/asgn4/",
-        "muiIcon": "Abc",
-        "category": "systems",
-        "description": "Built a multithreaded HTTP server in C with support for core request handling, concurrent worker threads, and audit logging.\n- Implemented GET, PUT, HEAD with status code handling\n- Used socket programming and byte-level request parsing\n- Built configurable worker thread pools and thread-safe handling\n- Added audit logging for debugging and monitoring\n- Strengthened systems programming skills",
-        "tools": [
-            "Multithreaded Development",
-            "Git",
-            "C",
-            "Bash",
-            "Socket Programming",
-            "Network Programming"
-        ]
-    },
-    {
-        "title": "Full-Stack Email System",
-        "startDate": "July 2022",
-        "endDate": "July 2022",
-        "link": "https://github.com/iamsorenl/Email-Service",
-        "muiIcon": "Abc",
-        "category": "fullstack",
-        "description": "Built a full-stack email platform with support for sending, receiving, and organizing messages.\n- Built React frontend and Node.js/Express backend for email management\n- Implemented mailbox navigation (inbox, sent, custom folders)\n- Designed responsive UI with Material UI\n- Built backend APIs and PostgreSQL-based storage",
-        "tools": [
-            "Full-Stack Development",
-            "React",
-            "Node.js",
-            "Express.js",
             "PostgreSQL"
         ]
     }

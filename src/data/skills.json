@@ -4,53 +4,55 @@
         { "name": "TypeScript/JavaScript", "level": 90, "proficiency": "Expert" },
         { "name": "SQL", "level": 75, "proficiency": "Advanced" },
         { "name": "Bash", "level": 75, "proficiency": "Advanced" },
-        { "name": "Java", "level": 60, "proficiency": "Intermediate" },
+        { "name": "Dart", "level": 45, "proficiency": "Familiar" },
         { "name": "C/C++", "level": 60, "proficiency": "Intermediate" },
-        { "name": "Swift", "level": 45, "proficiency": "Familiar" },
-        { "name": "Dart", "level": 45, "proficiency": "Familiar" }
+        { "name": "Swift", "level": 45, "proficiency": "Familiar" }
     ],
     "aiLlmSystems": [
-        { "name": "PyTorch", "level": 90, "proficiency": "Expert" },
-        { "name": "Hugging Face Transformers", "level": 85, "proficiency": "Advanced" },
         { "name": "LangChain", "level": 85, "proficiency": "Advanced" },
         { "name": "LangGraph", "level": 80, "proficiency": "Advanced" },
-        { "name": "AutoGen", "level": 75, "proficiency": "Advanced" },
-        { "name": "CrewAI", "level": 75, "proficiency": "Advanced" },
+        { "name": "LangSmith", "level": 80, "proficiency": "Advanced" },
         { "name": "RAG", "level": 85, "proficiency": "Advanced" },
         { "name": "Prompt Engineering", "level": 90, "proficiency": "Expert" },
-        { "name": "LangSmith", "level": 80, "proficiency": "Advanced" },
+        { "name": "Agentic Systems", "level": 85, "proficiency": "Advanced" },
+        { "name": "OpenAI API", "level": 85, "proficiency": "Advanced" },
+        { "name": "Anthropic API", "level": 85, "proficiency": "Advanced" },
+        { "name": "Google Gemini", "level": 80, "proficiency": "Advanced" },
+        { "name": "sentence-transformers", "level": 80, "proficiency": "Advanced" },
+        { "name": "FAISS", "level": 75, "proficiency": "Advanced" },
         { "name": "ChromaDB", "level": 75, "proficiency": "Advanced" }
     ],
-    "backendApis": [
+    "frameworks": [
+        { "name": "FastAPI", "level": 80, "proficiency": "Advanced" },
         { "name": "Flask", "level": 85, "proficiency": "Advanced" },
         { "name": "Express.js", "level": 80, "proficiency": "Advanced" },
         { "name": "Node.js", "level": 80, "proficiency": "Advanced" },
-        { "name": "REST APIs", "level": 85, "proficiency": "Advanced" },
-        { "name": "GraphQL", "level": 70, "proficiency": "Intermediate" }
-    ],
-    "frontend": [
         { "name": "React", "level": 90, "proficiency": "Expert" },
+        { "name": "Next.js", "level": 80, "proficiency": "Advanced" },
         { "name": "Flutter", "level": 75, "proficiency": "Advanced" }
     ],
-    "infraDevops": [
+    "dataInfra": [
+        { "name": "PostgreSQL", "level": 80, "proficiency": "Advanced" },
+        { "name": "Firebase", "level": 80, "proficiency": "Advanced" },
         { "name": "Docker", "level": 75, "proficiency": "Advanced" },
         { "name": "GitHub Actions", "level": 80, "proficiency": "Advanced" },
         { "name": "CI/CD", "level": 85, "proficiency": "Advanced" },
-        { "name": "GCP", "level": 65, "proficiency": "Intermediate" },
-        { "name": "Firebase", "level": 80, "proficiency": "Advanced" }
+        { "name": "GCP", "level": 65, "proficiency": "Intermediate" }
+    ],
+    "mlNlpResearch": [
+        { "name": "PyTorch", "level": 90, "proficiency": "Expert" },
+        { "name": "Hugging Face Transformers", "level": 85, "proficiency": "Advanced" },
+        { "name": "ARES", "level": 75, "proficiency": "Advanced" },
+        { "name": "BFCL", "level": 75, "proficiency": "Advanced" },
+        { "name": "Information Extraction", "level": 80, "proficiency": "Advanced" },
+        { "name": "Embeddings", "level": 80, "proficiency": "Advanced" },
+        { "name": "NER", "level": 75, "proficiency": "Advanced" }
     ],
     "developerWorkflows": [
         { "name": "Claude Code", "level": 85, "proficiency": "Advanced" },
-        { "name": "Git/GitHub", "level": 90, "proficiency": "Expert" },
+        { "name": "Git", "level": 90, "proficiency": "Expert" },
         { "name": "Testing", "level": 80, "proficiency": "Advanced" },
         { "name": "Debugging", "level": 85, "proficiency": "Advanced" },
         { "name": "Rapid Prototyping", "level": 85, "proficiency": "Advanced" }
-    ],
-    "appliedNlp": [
-        { "name": "Information Extraction", "level": 80, "proficiency": "Advanced" },
-        { "name": "Relation Extraction", "level": 75, "proficiency": "Advanced" },
-        { "name": "Embeddings", "level": 80, "proficiency": "Advanced" },
-        { "name": "NER", "level": 75, "proficiency": "Advanced" },
-        { "name": "TF-IDF", "level": 70, "proficiency": "Intermediate" }
     ]
 }

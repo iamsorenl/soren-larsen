@@ -13,7 +13,6 @@ import {
     Code,
     Psychology,
     Storage,
-    Web,
     Cloud,
     Terminal,
     TextFields,
@@ -37,34 +36,28 @@ const EnhancedSkillCard = () => {
             color: '#9c27b0'
         },
         {
-            label: 'Backend / APIs',
+            label: 'Frameworks',
             icon: <Storage />,
-            data: skillsData.backendApis,
+            data: skillsData.frameworks,
             color: '#ff6f00'
         },
         {
-            label: 'Frontend',
-            icon: <Web />,
-            data: skillsData.frontend,
-            color: '#2196f3'
+            label: 'Data & Infra',
+            icon: <Cloud />,
+            data: skillsData.dataInfra,
+            color: '#4caf50'
         },
         {
-            label: 'Infra / DevOps',
-            icon: <Cloud />,
-            data: skillsData.infraDevops,
-            color: '#4caf50'
+            label: 'ML / NLP Research',
+            icon: <TextFields />,
+            data: skillsData.mlNlpResearch,
+            color: '#ff5722'
         },
         {
             label: 'Developer Workflows',
             icon: <Terminal />,
             data: skillsData.developerWorkflows,
             color: '#607d8b'
-        },
-        {
-            label: 'Applied NLP',
-            icon: <TextFields />,
-            data: skillsData.appliedNlp,
-            color: '#ff5722'
         }
     ];
 

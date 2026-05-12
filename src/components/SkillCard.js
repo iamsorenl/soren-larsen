@@ -12,11 +12,10 @@ const SkillCard = () => {
     const sections = [
         { title: 'Languages', data: skills.languages },
         { title: 'AI / LLM Systems', data: skills.aiLlmSystems },
-        { title: 'Backend / APIs', data: skills.backendApis },
-        { title: 'Frontend', data: skills.frontend },
-        { title: 'Infra / DevOps', data: skills.infraDevops },
+        { title: 'Frameworks', data: skills.frameworks },
+        { title: 'Data & Infra', data: skills.dataInfra },
+        { title: 'ML / NLP Research', data: skills.mlNlpResearch },
         { title: 'Developer Workflows', data: skills.developerWorkflows },
-        { title: 'Applied NLP', data: skills.appliedNlp },
     ];
 
     return (
