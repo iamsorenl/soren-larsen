@@ -9,6 +9,7 @@ import {
     Stack,
     Alert,
     Snackbar,
+    Avatar,
     useTheme,
     useMediaQuery
 } from '@mui/material';
@@ -18,10 +19,7 @@ import {
     Email,
     GitHub,
     LinkedIn,
-    Send,
-    Person,
-    Subject,
-    Message
+    Send
 } from '@mui/icons-material';
 import contactInfo from '../data/contact';
 
@@ -37,21 +35,17 @@ const EnhancedContactCard = () => {
     const [alertSeverity, setAlertSeverity] = useState('success');
 
     const theme = useTheme();
+    const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const { phone, email, github, linkedin } = contactInfo[0];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        // Basic validation
         if (!formData.name || !formData.email || !formData.message) {
             setAlertMessage('Please fill in all required fields.');
             setAlertSeverity('error');
@@ -59,7 +53,6 @@ const EnhancedContactCard = () => {
             return;
         }
 
-        // Create mailto link with form data
         const subject = formData.subject || 'Contact from Portfolio Website';
         const body = `Hi Soren,
 
@@ -72,44 +65,37 @@ ${formData.email}`;
         const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         window.location.href = mailtoLink;
 
-        // Show success message
         setAlertMessage('Opening your email client...');
         setAlertSeverity('success');
         setShowAlert(true);
 
-        // Reset form
-        setFormData({
-            name: '',
-            email: '',
-            subject: '',
-            message: ''
-        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
     };
 
     const contactMethods = [
         {
-            icon: <Phone />,
+            icon: <Phone fontSize="small" />,
             label: 'Phone',
             value: phone,
-            action: () => window.location.href = `tel:${phone}`,
+            action: () => { window.location.href = `tel:${phone}`; },
             color: '#4caf50'
         },
         {
-            icon: <Email />,
+            icon: <Email fontSize="small" />,
             label: 'Email',
             value: email,
-            action: () => window.location.href = `mailto:${email}`,
+            action: () => { window.location.href = `mailto:${email}`; },
             color: '#2196f3'
         },
         {
-            icon: <GitHub />,
+            icon: <GitHub fontSize="small" />,
             label: 'GitHub',
             value: 'github.com/iamsorenl',
             action: () => window.open(github, '_blank'),
-            color: theme.palette.mode === 'dark' ? '#ffffff' : '#333333'
+            color: isDark ? '#ffffff' : '#333333'
         },
         {
-            icon: <LinkedIn />,
+            icon: <LinkedIn fontSize="small" />,
             label: 'LinkedIn',
             value: 'linkedin.com/in/soren-larsen',
             action: () => window.open(linkedin, '_blank'),
@@ -117,103 +103,144 @@ ${formData.email}`;
         }
     ];
 
+    const fieldSx = {
+        '& .MuiInputLabel-root.Mui-focused': {
+            color: theme.palette.primary.main
+        },
+        '& .MuiOutlinedInput-root': {
+            backgroundColor: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)',
+            '& fieldset': {
+                borderColor: isDark ? 'rgba(255, 255, 255, 0.18)' : 'rgba(0, 0, 0, 0.18)'
+            },
+            '&:hover fieldset': {
+                borderColor: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)'
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: theme.palette.primary.main
+            }
+        }
+    };
+
+    const innerPanelSx = {
+        backgroundColor: 'background.paper',
+        backdropFilter: 'blur(10px)',
+        border: (t) => `1px solid ${t.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+    };
+
     return (
-        <Card 
-            sx={{ 
-                backgroundColor: 'primary.main', 
-                color: 'primary.contrastText', 
-                height: '100%', 
-                width: '100%', 
-                mb: 1, 
+        <Card
+            sx={{
+                backgroundColor: 'primary.main',
+                color: 'primary.contrastText',
+                height: '100%',
+                width: '100%',
+                mb: 1,
                 borderRadius: '16px',
-                background: (theme) => theme.palette.mode === 'dark' 
+                background: (t) => t.palette.mode === 'dark'
                     ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
                     : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'
             }}
         >
             <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2.5 }}>
                     <ContactMail sx={{ mr: 2, fontSize: 28 }} />
                     <Typography variant="h4" sx={{ fontWeight: 700 }}>
                         Contact
                     </Typography>
                 </Box>
 
-                <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 3 }}>
-                    {/* Contact Information */}
-                    <Box sx={{ flex: 1 }}>
-                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: isMobile ? 'column' : 'row',
+                        gap: 2,
+                        alignItems: 'stretch'
+                    }}
+                >
+                    {/* Get In Touch */}
+                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <Typography variant="overline" sx={{ mb: 1, fontWeight: 700, letterSpacing: 1, opacity: 0.85 }}>
                             Get In Touch
                         </Typography>
-                        
-                        <Card 
-                            sx={{ 
-                                backgroundColor: 'background.paper',
-                                backdropFilter: 'blur(10px)',
-                                border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                                mb: 3
-                            }}
-                        >
-                            <CardContent sx={{ p: 2 }}>
-                                <Stack spacing={2}>
+                        <Card sx={innerPanelSx}>
+                            <CardContent sx={{ p: 1.5, flex: 1, '&:last-child': { pb: 1.5 } }}>
+                                <Stack spacing={0.5}>
                                     {contactMethods.map((method, index) => (
-                                        <Box key={index}>
-                                            <Button
-                                                onClick={method.action}
+                                        <Button
+                                            key={index}
+                                            onClick={method.action}
+                                            sx={{
+                                                width: '100%',
+                                                justifyContent: 'flex-start',
+                                                textTransform: 'none',
+                                                py: 1,
+                                                px: 1.5,
+                                                borderRadius: 1.5,
+                                                color: 'text.primary',
+                                                transition: 'all 0.2s ease',
+                                                '&:hover': {
+                                                    backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.04)',
+                                                    transform: 'translateX(2px)'
+                                                }
+                                            }}
+                                        >
+                                            <Avatar
                                                 sx={{
-                                                    width: '100%',
-                                                    justifyContent: 'flex-start',
-                                                    textTransform: 'none',
-                                                    p: 1.5,
-                                                    borderRadius: 2,
-                                                    '&:hover': {
-                                                        backgroundColor: 'rgba(0, 0, 0, 0.04)'
-                                                    }
+                                                    width: 32,
+                                                    height: 32,
+                                                    mr: 1.5,
+                                                    backgroundColor: `${method.color}22`,
+                                                    color: method.color
                                                 }}
                                             >
-                                                <Box
+                                                {method.icon}
+                                            </Avatar>
+                                            <Box sx={{ textAlign: 'left', minWidth: 0, flex: 1 }}>
+                                                <Typography
+                                                    variant="caption"
                                                     sx={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        color: method.color,
-                                                        mr: 2
+                                                        fontWeight: 600,
+                                                        color: 'text.secondary',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: 0.5,
+                                                        lineHeight: 1.2,
+                                                        display: 'block'
                                                     }}
                                                 >
-                                                    {method.icon}
-                                                </Box>
-                                                <Box sx={{ textAlign: 'left' }}>
-                                                    <Typography variant="subtitle2" color="text.primary" sx={{ fontWeight: 600 }}>
-                                                        {method.label}
-                                                    </Typography>
-                                                    <Typography variant="body2" color="text.secondary">
-                                                        {method.value}
-                                                    </Typography>
-                                                </Box>
-                                            </Button>
-                                        </Box>
+                                                    {method.label}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        color: 'text.primary',
+                                                        fontWeight: 500,
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        whiteSpace: 'nowrap'
+                                                    }}
+                                                >
+                                                    {method.value}
+                                                </Typography>
+                                            </Box>
+                                        </Button>
                                     ))}
                                 </Stack>
                             </CardContent>
                         </Card>
-
                     </Box>
 
-                    {/* Contact Form */}
-                    <Box sx={{ flex: 1 }}>
-                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                    {/* Send a Message */}
+                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <Typography variant="overline" sx={{ mb: 1, fontWeight: 700, letterSpacing: 1, opacity: 0.85 }}>
                             Send a Message
                         </Typography>
-                        
-                        <Card 
-                            sx={{ 
-                                backgroundColor: 'background.paper',
-                                backdropFilter: 'blur(10px)',
-                                border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                            }}
-                        >
-                            <CardContent sx={{ p: 3 }}>
+                        <Card sx={innerPanelSx}>
+                            <CardContent sx={{ p: 2, flex: 1, '&:last-child': { pb: 2 } }}>
                                 <Box component="form" onSubmit={handleSubmit}>
-                                    <Stack spacing={2}>
+                                    <Stack spacing={1.5}>
                                         <TextField
                                             name="name"
                                             label="Your Name"
@@ -221,40 +248,9 @@ ${formData.email}`;
                                             onChange={handleInputChange}
                                             required
                                             fullWidth
-                                            InputProps={{
-                                                startAdornment: <Person sx={{ mr: 1, color: 'text.secondary' }} />,
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            inputProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            InputLabelProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)'
-                                                }
-                                            }}
-                                            sx={{
-                                                '& .MuiInputLabel-root.Mui-focused': {
-                                                    color: theme.palette.primary.main
-                                                },
-                                                '& .MuiOutlinedInput-root': {
-                                                    '& fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)'
-                                                    },
-                                                    '&:hover fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
-                                                    },
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: theme.palette.primary.main
-                                                    }
-                                                }
-                                            }}
+                                            size="small"
+                                            sx={fieldSx}
                                         />
-                                        
                                         <TextField
                                             name="email"
                                             label="Your Email"
@@ -263,80 +259,18 @@ ${formData.email}`;
                                             onChange={handleInputChange}
                                             required
                                             fullWidth
-                                            InputProps={{
-                                                startAdornment: <Email sx={{ mr: 1, color: 'text.secondary' }} />,
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            inputProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            InputLabelProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)'
-                                                }
-                                            }}
-                                            sx={{
-                                                '& .MuiInputLabel-root.Mui-focused': {
-                                                    color: theme.palette.primary.main
-                                                },
-                                                '& .MuiOutlinedInput-root': {
-                                                    '& fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)'
-                                                    },
-                                                    '&:hover fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
-                                                    },
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: theme.palette.primary.main
-                                                    }
-                                                }
-                                            }}
+                                            size="small"
+                                            sx={fieldSx}
                                         />
-                                        
                                         <TextField
                                             name="subject"
                                             label="Subject (Optional)"
                                             value={formData.subject}
                                             onChange={handleInputChange}
                                             fullWidth
-                                            InputProps={{
-                                                startAdornment: <Subject sx={{ mr: 1, color: 'text.secondary' }} />,
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            inputProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            InputLabelProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)'
-                                                }
-                                            }}
-                                            sx={{
-                                                '& .MuiInputLabel-root.Mui-focused': {
-                                                    color: theme.palette.primary.main
-                                                },
-                                                '& .MuiOutlinedInput-root': {
-                                                    '& fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)'
-                                                    },
-                                                    '&:hover fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
-                                                    },
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: theme.palette.primary.main
-                                                    }
-                                                }
-                                            }}
+                                            size="small"
+                                            sx={fieldSx}
                                         />
-                                        
                                         <TextField
                                             name="message"
                                             label="Your Message"
@@ -345,51 +279,20 @@ ${formData.email}`;
                                             required
                                             fullWidth
                                             multiline
-                                            rows={4}
-                                            InputProps={{
-                                                startAdornment: <Message sx={{ mr: 1, color: 'text.secondary', alignSelf: 'flex-start', mt: 1 }} />,
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            inputProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000'
-                                                }
-                                            }}
-                                            InputLabelProps={{
-                                                style: {
-                                                    color: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)'
-                                                }
-                                            }}
-                                            sx={{
-                                                '& .MuiInputLabel-root.Mui-focused': {
-                                                    color: theme.palette.primary.main
-                                                },
-                                                '& .MuiOutlinedInput-root': {
-                                                    '& fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)'
-                                                    },
-                                                    '&:hover fieldset': {
-                                                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
-                                                    },
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: theme.palette.primary.main
-                                                    }
-                                                }
-                                            }}
+                                            rows={3}
+                                            size="small"
+                                            sx={fieldSx}
                                         />
-                                        
                                         <Button
                                             type="submit"
                                             variant="contained"
                                             startIcon={<Send />}
                                             fullWidth
                                             sx={{
-                                                py: 1.5,
-                                                fontSize: '1rem',
+                                                py: 1.25,
                                                 fontWeight: 600,
-                                                mt: 2
+                                                textTransform: 'none',
+                                                mt: 0.5
                                             }}
                                         >
                                             Send Message
@@ -407,8 +310,8 @@ ${formData.email}`;
                     onClose={() => setShowAlert(false)}
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 >
-                    <Alert 
-                        onClose={() => setShowAlert(false)} 
+                    <Alert
+                        onClose={() => setShowAlert(false)}
                         severity={alertSeverity}
                         sx={{ width: '100%' }}
                     >

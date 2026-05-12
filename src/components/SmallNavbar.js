@@ -115,8 +115,8 @@ function SmallNavbar() {
                             { text: 'About', icon: <AccountBoxIcon /> },
                             { text: 'Resume', icon: <DescriptionIcon /> },
                             { text: 'Skills', icon: <BuildIcon /> },
-                            { text: 'Projects', icon: <WorkIcon /> },
                             { text: 'Experience', icon: <BusinessIcon /> },
+                            { text: 'Projects', icon: <WorkIcon /> },
                             { text: 'Education', icon: <SchoolIcon /> },
                             { text: 'Contact', icon: <MailIcon /> },
                         ].map((item) => (
