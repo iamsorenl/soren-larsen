@@ -33,7 +33,7 @@ Add a floating chat widget to `larsensoren.com` that lets recruiters ask factual
 Two independent deployables:
 
 1. **Static site (unchanged).** Existing React app on Firebase Hosting at `larsensoren.com`, deployed by the existing GitHub Action.
-2. **Cloudflare Worker (new).** Tiny proxy at `chat.larsensoren.com` (or `*.workers.dev` URL). Holds the Groq API key as a secret. Single endpoint: `POST /api/chat`.
+2. **Cloudflare Worker (new).** Tiny proxy at `chat.larsensoren.com` (or `*.workers.dev` URL). Holds the Groq API key as a secret. Two endpoints: `POST /api/chat` (streaming) and `POST /api/summarize` (JSON).
 
 ### Request Flow
 
@@ -49,7 +49,7 @@ Cloudflare Worker
 Groq API
    │ SSE stream
    ▼
-Worker re-streams tokens back (ReadableStream)
+Worker re-streams raw text chunks (no SSE framing) via ReadableStream
    ▼
 Browser renders message incrementally + updates React state
 ```
@@ -57,7 +57,7 @@ Browser renders message incrementally + updates React state
 ### Why this shape
 
 - Worker is just a proxy + prompt assembler. No DB, no server-side session storage, no auth.
-- Conversation state lives entirely in browser React state; dies naturally on tab close.
+- Conversation state lives entirely in the browser (React state mirrored to `sessionStorage`); dies naturally on tab close.
 - HTTP streaming keeps perceived latency low without WebSocket complexity.
 - Firebase Hosting setup is untouched, so the Spark (free) plan stays intact.
 
@@ -94,6 +94,24 @@ Browser renders message incrementally + updates React state
 - **Streaming:** Assistant message renders as tokens arrive with a blinking cursor.
 - **Theming:** Uses existing MUI `ThemeContext` for light/dark.
 - **Accessibility:** Focus moves to input on expand; Esc closes; ARIA live region for streamed responses.
+- **Mobile scrim:** Bottom sheet sits over a semi-transparent backdrop (rgba(0,0,0,0.5)) that dims the page; tapping the scrim dismisses the sheet.
+- **In-flight cancellation:** Each request uses an `AbortController`. Closing the panel or sending a new message aborts any in-flight chat or summarize request.
+
+### Error UX
+
+| Error condition | UX |
+| --- | --- |
+| Network failure / 5xx from Worker | Toast: "Couldn't reach the assistant. Try again in a moment." |
+| 429 rate limited | Inline assistant bubble: "You're sending messages quickly — try again in a minute." (uses `Retry-After` header from Worker) |
+| Groq upstream failure | Toast: "Something went wrong on my end. Please try again." |
+| Summarize failure | Silent: drop oldest turns without summary; conversation continues. Logged to console only. |
+| Aborted (user cancellation) | No error UI — partial assistant message kept as-is. |
+
+### Worker URL configuration
+
+- `chatConfig.js` reads `process.env.REACT_APP_CHAT_WORKER_URL`.
+- Local dev default (no env var set): `http://localhost:8787` (matches `wrangler dev` default).
+- Production: set `REACT_APP_CHAT_WORKER_URL` in the GitHub Action environment before `npm run build` so the deployed bundle hits the deployed Worker URL.
 
 ### Storybook
 
@@ -116,6 +134,52 @@ One story for `ChatPanel` with mocked message states (empty, mid-conversation, s
 | `worker/wrangler.toml` | Worker config, KV binding, route |
 | `worker/package.json` | Minimal — `wrangler` as devDep, npm scripts for sync + deploy |
 | `worker/README.md` | Setup and deploy instructions |
+
+### API contracts
+
+**`POST /api/chat`**
+
+Request body (JSON):
+```json
+{
+  "messages": [
+    { "role": "user", "content": "What was Soren's most recent role?" },
+    { "role": "assistant", "content": "Soren most recently..." }
+  ],
+  "sessionSummary": "Earlier in the conversation, the visitor asked about NLP projects..."
+}
+```
+- `messages`: chronological turns to feed to the model (already trimmed by the browser; oldest turns replaced by `sessionSummary`). Roles are `"user"` or `"assistant"`.
+- `sessionSummary`: optional string. Omit or send `null` if no summary yet.
+
+Response: `200 OK`, `Content-Type: text/plain; charset=utf-8`, body is a streamed `ReadableStream` of raw UTF-8 text chunks (the assistant's reply token-by-token, no SSE framing). Frontend reads with `response.body.getReader()` and appends chunks to the current assistant message as they arrive.
+
+**`POST /api/summarize`**
+
+Request body (JSON):
+```json
+{
+  "messages": [ { "role": "user", "content": "..." }, ... ],
+  "priorSummary": "..."
+}
+```
+- `messages`: the turns being compacted away.
+- `priorSummary`: optional — included when re-summarizing on top of a previous summary.
+
+Response: `200 OK`, `Content-Type: application/json`:
+```json
+{ "summary": "The visitor previously asked about X and Y; Soren's Assistant explained Z." }
+```
+
+**Error response shape (both endpoints)**
+
+```json
+{ "error": "rate_limited", "message": "Too many requests. Try again in a minute." }
+```
+- `429` for rate limit (includes `Retry-After` header with seconds).
+- `502` if Groq upstream fails.
+- `500` for unexpected Worker errors.
+- `400` for malformed request bodies.
 
 ### Data sync
 
@@ -156,15 +220,18 @@ Then the last N raw messages are appended as chat turns.
 
 ### Memory strategy
 
-- Browser keeps the full message array in React state for the active session.
-- After every 8 user-turn pairs, the browser sends a "summarize" request to the Worker, receives a `sessionSummary` string, drops the oldest turns from local state, and includes the summary on subsequent chat requests.
+- Browser keeps the full message array in React state for the active session, mirrored to `sessionStorage` on each change so an accidental page reload preserves the conversation within the same tab.
+- `sessionStorage` (not `localStorage`) means the conversation is cleared automatically when the tab closes. Never persisted across tabs or sessions.
+- After every 8 user-turn pairs, the browser sends a "summarize" request to the Worker, receives a `sessionSummary` string, drops the oldest turns from local state (and from `sessionStorage`), and includes the summary on subsequent chat requests.
 - Summarization uses a separate `POST /api/summarize` endpoint on the Worker, which calls Groq with a fixed summarization system prompt and returns `{ summary: string }` as plain JSON (no streaming).
-- All conversation memory dies on page unload. Browser uses `sessionStorage` only (cleared on tab close); never `localStorage`.
+- If summarization fails, the browser silently drops the oldest turns without a summary so the conversation can keep going (degraded but functional).
 
 ### Rate limiting
 
-- Cloudflare KV namespace `RATE_LIMIT`. Key = client IP (from `CF-Connecting-IP` header). Value = JSON `{count, windowStart}`.
-- Limit: 10 requests/minute per IP. Exceeded → 429 with a friendly JSON error body the frontend renders as a toast.
+- Cloudflare KV namespace `RATE_LIMIT`. Bootstrap once with `wrangler kv namespace create RATE_LIMIT` and bind it in `wrangler.toml` before first deploy.
+- Key = client IP (from `CF-Connecting-IP` header). If the header is missing (e.g. `wrangler dev` locally), key falls back to the string `"local"` — no enforcement during local dev.
+- Value = JSON `{count, windowStart}`. Fixed-window counter, 60s window.
+- Limit: 10 requests/minute per IP. Exceeded → `429` with `Retry-After` header; frontend renders as inline assistant bubble (see Error UX).
 - KV free tier (100k reads/day, 1k writes/day) easily covers personal-site traffic.
 
 ### Secrets
