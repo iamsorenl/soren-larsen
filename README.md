@@ -11,7 +11,10 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 
 - **React.js**: Modern JavaScript library for building user interfaces
 - **Material-UI (MUI)**: Comprehensive React component library with theming support
-- **Firebase**: Cloud platform for hosting and deployment
+- **Firebase Hosting**: Static site hosting and deployment
+- **Cloudflare Workers**: Edge-deployed serverless backend for the chat widget
+- **Groq (Llama 3.3 70B)**: Free-tier open-source LLM powering "Soren's Assistant"
+- **Cloudflare KV**: Per-IP rate limiting for the chat endpoint
 - **React Context API**: State management for theme switching
 - **CSS3**: Advanced styling with gradients, animations, and responsive design
 
@@ -39,11 +42,20 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 - **Centralized Data Management**: Easy content updates without code changes
 - **Scalable Structure**: Modular design for easy expansion and maintenance
 
+### 🤖 **Soren's Assistant Chat Widget**
+
+- **Floating chat bubble** bottom-right on every page; mobile-friendly bottom sheet with scrim
+- **Grounded in the JSON content** — entry-level retrieval picks only the relevant `experience`, `projects`, `skills`, etc. for each question
+- **Streaming responses** from Groq's Llama 3.3 70B with auto-summarization once chat history grows past a token budget
+- **Recruiter-focused guardrails** — facts only, redirects opinions/logistics to the contact section, never invents experience
+- **Ephemeral sessions** — conversations are mirrored to `sessionStorage` (survives accidental refresh) and cleared on tab close; a trash-icon "clear chat" button in the panel header wipes state on demand
+
 ## 📁 Project Structure
 
 ```
 src/
 ├── components/           # React components
+│   ├── chat/             # "Soren's Assistant" chat widget (ChatWidget, ChatPanel, etc.)
 │   ├── EnhancedAboutCard.js
 │   ├── EnhancedContactCard.js
 │   ├── EnhancedEducationCard.js
@@ -64,7 +76,21 @@ src/
 │   ├── projects.json
 │   └── skills.json
 ├── images/               # Static assets
-└── theme.js             # Material-UI theme configuration
+└── theme.js              # Material-UI theme configuration
+
+worker/                   # Cloudflare Worker backend for the chat widget
+├── src/
+│   ├── index.js          # Router for /api/chat and /api/summarize
+│   ├── chat.js           # Streaming chat handler
+│   ├── summarize.js      # JSON summarize handler
+│   ├── groq.js           # Groq client (SSE → plain-text streaming)
+│   ├── systemPrompt.js   # Entry-level RAG + token estimation
+│   ├── rateLimit.js      # KV-backed per-IP rate limit
+│   └── cors.js           # CORS helpers
+├── test/                 # Vitest unit tests
+├── scripts/sync-data.mjs # Copies src/data/*.json → worker/src/data/
+├── wrangler.jsonc        # Worker config + KV binding
+└── README.md             # Worker setup + deploy guide
 ```
 
 ## 🎯 Portfolio Sections
@@ -260,6 +286,20 @@ The portfolio is deployed using Firebase Hosting:
 ### Firebase Console
 
 - **Project Console**: [Firebase Console](https://console.firebase.google.com/u/0/project/soren-larsen/hosting/sites)
+
+### Chat Widget Backend (Cloudflare Worker)
+
+The chat widget on the site is powered by a separate Cloudflare Worker that proxies Groq completions, holds the Groq API key as a secret, and rate-limits per-IP via Cloudflare KV. See `worker/README.md` for full setup. Quick reference:
+
+```bash
+cd worker
+npx wrangler login                              # one-time
+npx wrangler kv namespace create RATE_LIMIT     # one-time; paste id into wrangler.jsonc
+npx wrangler secret put GROQ_API_KEY            # paste key from console.groq.com
+npm run deploy                                   # deploys to *.workers.dev
+```
+
+The React build reads the Worker URL from `REACT_APP_CHAT_WORKER_URL`. Locally, leave it unset to use the `http://localhost:8787` dev fallback; for production set it via `.env.production.local` or the `CHAT_WORKER_URL` GitHub Actions secret (consumed by `.github/workflows/deploy.yml`).
 
 ## 🔧 Technical Highlights
 
