@@ -6,10 +6,10 @@ import {
     Stack,
     Chip,
     Box,
+    Button,
     IconButton,
     Collapse,
     Link,
-    Tooltip,
     useTheme,
     useMediaQuery
 } from '@mui/material';
@@ -118,20 +118,40 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
                 )}
 
                 <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0, alignItems: 'center' }}>
-                    <Tooltip title="View GitHub Repository" arrow>
-                        <IconButton
-                            component={Link}
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            size="small"
-                            sx={{
-                                color: (theme) => theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.main'
-                            }}
-                        >
-                            <GitHub fontSize="small" />
-                        </IconButton>
-                    </Tooltip>
+                    <Button
+                        component={Link}
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        variant="outlined"
+                        size="small"
+                        startIcon={<GitHub fontSize="small" />}
+                        sx={{
+                            borderColor: (theme) =>
+                                theme.palette.mode === 'dark'
+                                    ? 'rgba(100, 181, 246, 0.6)'
+                                    : 'primary.main',
+                            color: (theme) =>
+                                theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.main',
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            fontSize: '0.72rem',
+                            py: 0.4,
+                            px: 1,
+                            whiteSpace: 'nowrap',
+                            minWidth: 0,
+                            '&:hover': {
+                                borderColor: (theme) =>
+                                    theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.dark',
+                                backgroundColor: (theme) =>
+                                    theme.palette.mode === 'dark'
+                                        ? 'rgba(100, 181, 246, 0.08)'
+                                        : 'rgba(63, 81, 181, 0.06)'
+                            }
+                        }}
+                    >
+                        View on GitHub
+                    </Button>
                     <IconButton
                         onClick={onToggle}
                         size="small"
