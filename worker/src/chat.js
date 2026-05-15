@@ -1,7 +1,8 @@
 import { corsHeaders } from './cors.js';
 import { checkRateLimit, clientIp } from './rateLimit.js';
 import { buildSystemPrompt, estimateRequestTokens, MAX_PROMPT_TOKENS } from './systemPrompt.js';
-import { groqChatStream, GroqUpstreamError } from './groq.js';
+import { groqChatStream, groqChatNonStreaming, GroqUpstreamError } from './groq.js';
+import { TOOLS_SPEC, executeToolCall } from './tools.js';
 
 function jsonError(status, error, message, extraHeaders = {}) {
   return new Response(JSON.stringify({ error, message }), {
@@ -49,10 +50,83 @@ export async function handleChat(request, env) {
   }
 
   try {
-    const stream = await groqChatStream({
+    // Phase 1: non-streaming call with tools to detect if the model wants to call a tool
+    const phase1Message = await groqChatNonStreaming({
       apiKey: env.GROQ_API_KEY,
       model: env.GROQ_MODEL,
       messages,
+      systemPrompt,
+      tools: TOOLS_SPEC,
+      tool_choice: 'auto',
+    });
+
+    const toolCalls = phase1Message.tool_calls;
+
+    if (!toolCalls || toolCalls.length === 0) {
+      // No tool call — re-issue as streaming and pipe back to client
+      const stream = await groqChatStream({
+        apiKey: env.GROQ_API_KEY,
+        model: env.GROQ_MODEL,
+        messages,
+        systemPrompt,
+      });
+      return new Response(stream, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'no-store',
+          ...cors,
+        },
+      });
+    }
+
+    // Phase 2: execute the first tool call and stream back the final answer
+    const toolCall = toolCalls[0];
+    const toolResultContent = await executeToolCall(toolCall, env, latestUserMessage);
+
+    // Build augmented message list: original + assistant tool_call msg + tool result msg
+    const toolCallId = toolCall.id || 'tc_0';
+    const augmentedMessages = [
+      ...messages,
+      {
+        role: 'assistant',
+        content: phase1Message.content ?? null,
+        tool_calls: [toolCall],
+      },
+      {
+        role: 'tool',
+        tool_call_id: toolCallId,
+        content: toolResultContent,
+      },
+    ];
+
+    // Check token budget for augmented messages before phase 2
+    const augmentedTokens = estimateRequestTokens({ systemPrompt, messages: augmentedMessages });
+    let phase2Messages = augmentedMessages;
+    if (augmentedTokens > MAX_PROMPT_TOKENS) {
+      // Truncate the tool result to fit within budget
+      const overhead = augmentedTokens - MAX_PROMPT_TOKENS;
+      const trimChars = overhead * 4 + 200; // a bit extra
+      const trimmedContent = toolResultContent.slice(0, Math.max(100, toolResultContent.length - trimChars));
+      phase2Messages = [
+        ...messages,
+        {
+          role: 'assistant',
+          content: phase1Message.content ?? null,
+          tool_calls: [toolCall],
+        },
+        {
+          role: 'tool',
+          tool_call_id: toolCallId,
+          content: trimmedContent,
+        },
+      ];
+    }
+
+    const stream = await groqChatStream({
+      apiKey: env.GROQ_API_KEY,
+      model: env.GROQ_MODEL,
+      messages: phase2Messages,
       systemPrompt,
     });
     return new Response(stream, {
