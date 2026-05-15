@@ -16,21 +16,23 @@ function ChatWidget() {
 
     return (
         <>
-            <Tooltip title="Ask my assistant" placement="left">
-                <Fab
-                    color="primary"
-                    aria-label="Open chat with Soren's Assistant"
-                    onClick={() => setOpen((v) => !v)}
-                    sx={{
-                        position: 'fixed',
-                        bottom: 16,
-                        right: 16,
-                        zIndex: theme.zIndex.modal + 1,
-                    }}
-                >
-                    <ChatIcon />
-                </Fab>
-            </Tooltip>
+            {!open && (
+                <Tooltip title="Ask my assistant" placement="left">
+                    <Fab
+                        color="primary"
+                        aria-label="Open chat with Soren's Assistant"
+                        onClick={() => setOpen(true)}
+                        sx={{
+                            position: 'fixed',
+                            bottom: 16,
+                            right: 16,
+                            zIndex: theme.zIndex.modal + 1,
+                        }}
+                    >
+                        <ChatIcon />
+                    </Fab>
+                </Tooltip>
+            )}
             <ChatPanel open={open} onClose={handleClose} chat={chat} />
         </>
     );
