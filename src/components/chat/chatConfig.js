@@ -16,4 +16,5 @@ export const ERROR_COPY = {
     network: "Couldn't reach the assistant. Try again in a moment.",
     upstream: 'Something went wrong on my end. Please try again.',
     rateLimited: "You're sending messages quickly — try again in a minute.",
+    tooLarge: 'This conversation has gotten too long for me to handle. Use the clear button (top right) to start a fresh chat.',
 };

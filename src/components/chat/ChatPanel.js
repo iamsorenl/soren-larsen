@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, IconButton, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import Tooltip from '@mui/material/Tooltip';
 import ChatMessage from './ChatMessage';
 import SuggestedPrompts from './SuggestedPrompts';
 import { ERROR_COPY } from './chatConfig';
@@ -87,7 +89,21 @@ function ChatPanel({ open, onClose, chat }) {
             >
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, borderBottom: `1px solid ${theme.palette.divider}` }}>
                     <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Soren's Assistant</Typography>
-                    <IconButton size="small" onClick={onClose} aria-label="Close chat"><CloseIcon /></IconButton>
+                    <Box sx={{ display: 'flex', gap: 0.5 }}>
+                        <Tooltip title="Clear chat">
+                            <span>
+                                <IconButton
+                                    size="small"
+                                    onClick={chat.reset}
+                                    disabled={chat.messages.length === 0 && chat.status !== 'tooLarge'}
+                                    aria-label="Clear chat"
+                                >
+                                    <DeleteOutlineIcon />
+                                </IconButton>
+                            </span>
+                        </Tooltip>
+                        <IconButton size="small" onClick={onClose} aria-label="Close chat"><CloseIcon /></IconButton>
+                    </Box>
                 </Box>
 
                 <Box ref={scrollRef} sx={{ flex: 1, overflowY: 'auto', px: 1.5, py: 1 }}>
@@ -105,6 +121,9 @@ function ChatPanel({ open, onClose, chat }) {
                     )}
                     {chat.status === 'rateLimited' && (
                         <ChatMessage role="assistant" content={ERROR_COPY.rateLimited} isStreaming={false} />
+                    )}
+                    {chat.status === 'tooLarge' && (
+                        <ChatMessage role="assistant" content={ERROR_COPY.tooLarge} isStreaming={false} />
                     )}
                 </Box>
 

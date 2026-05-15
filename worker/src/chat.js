@@ -1,6 +1,6 @@
 import { corsHeaders } from './cors.js';
 import { checkRateLimit, clientIp } from './rateLimit.js';
-import { buildSystemPrompt } from './systemPrompt.js';
+import { buildSystemPrompt, estimateRequestTokens, MAX_PROMPT_TOKENS } from './systemPrompt.js';
 import { groqChatStream, GroqUpstreamError } from './groq.js';
 
 function jsonError(status, error, message, extraHeaders = {}) {
@@ -36,6 +36,18 @@ export async function handleChat(request, env) {
 
   const latestUserMessage = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
   const systemPrompt = buildSystemPrompt(sessionSummary || null, latestUserMessage);
+
+  const estimatedTokens = estimateRequestTokens({ systemPrompt, messages });
+  if (estimatedTokens > MAX_PROMPT_TOKENS) {
+    console.warn('request over token budget', { estimatedTokens, max: MAX_PROMPT_TOKENS });
+    return jsonError(
+      413,
+      'too_large',
+      'This conversation has gotten too long for the assistant to handle. Use the clear button to start over.',
+      cors
+    );
+  }
+
   try {
     const stream = await groqChatStream({
       apiKey: env.GROQ_API_KEY,

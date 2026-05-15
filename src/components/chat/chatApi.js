@@ -3,7 +3,7 @@ import { WORKER_URL } from './chatConfig';
 export class ChatApiError extends Error {
     constructor(kind, message, retryAfterSec = 0) {
         super(message);
-        this.kind = kind; // 'network' | 'upstream' | 'rateLimited' | 'badRequest'
+        this.kind = kind; // 'network' | 'upstream' | 'rateLimited' | 'badRequest' | 'tooLarge'
         this.retryAfterSec = retryAfterSec;
     }
 }
@@ -27,6 +27,7 @@ function mapErrorResponse(res) {
         const retryAfterSec = Number(res.headers.get('Retry-After')) || 60;
         return new ChatApiError('rateLimited', 'Rate limited', retryAfterSec);
     }
+    if (res.status === 413) return new ChatApiError('tooLarge', 'Conversation too large');
     if (res.status >= 500) return new ChatApiError('upstream', `Status ${res.status}`);
     return new ChatApiError('badRequest', `Status ${res.status}`);
 }

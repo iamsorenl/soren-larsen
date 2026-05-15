@@ -3,13 +3,27 @@ import { streamChat, summarize, ChatApiError } from './chatApi';
 import { loadSession, saveSession, clearSession } from './sessionStore';
 import { SUMMARIZE_AFTER_TURNS, KEEP_TAIL_TURNS } from './chatConfig';
 
+const STATUS = {
+    IDLE: 'idle',
+    STREAMING: 'streaming',
+    RATE_LIMITED: 'rateLimited',
+    TOO_LARGE: 'tooLarge',
+    ERROR: 'error',
+};
+
+function statusForErrorKind(kind) {
+    if (kind === 'rateLimited') return STATUS.RATE_LIMITED;
+    if (kind === 'tooLarge') return STATUS.TOO_LARGE;
+    return STATUS.ERROR;
+}
+
 export function useChat() {
     const [messages, setMessages] = useState(() => {
         const stored = loadSession();
         return stored?.messages ?? [];
     });
     const [summary, setSummary] = useState(() => loadSession()?.summary ?? null);
-    const [status, setStatus] = useState('idle'); // 'idle' | 'streaming' | 'rateLimited' | 'error'
+    const [status, setStatus] = useState(STATUS.IDLE);
     const [errorKind, setErrorKind] = useState(null);
     const abortRef = useRef(null);
     const skipSaveRef = useRef(false);
@@ -29,38 +43,51 @@ export function useChat() {
         }
     }, []);
 
+    const removeEmptyAssistantPlaceholder = useCallback(() => {
+        setMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last && last.role === 'assistant' && last.content === '') {
+                return prev.slice(0, -1);
+            }
+            return prev;
+        });
+    }, []);
+
+    const consumeStream = useCallback(async (messagesToSend, summaryToSend, signal) => {
+        for await (const chunk of streamChat({
+            messages: messagesToSend,
+            sessionSummary: summaryToSend,
+            signal,
+        })) {
+            setMessages((prev) => {
+                const next = prev.slice();
+                const last = next[next.length - 1];
+                next[next.length - 1] = { ...last, content: last.content + chunk };
+                return next;
+            });
+        }
+    }, []);
+
     const send = useCallback(async (text) => {
         const trimmed = text.trim();
-        if (!trimmed || status === 'streaming') return;
+        if (!trimmed || status === STATUS.STREAMING) return;
 
         cancel();
         const controller = new AbortController();
         abortRef.current = controller;
 
-        setStatus('streaming');
+        setStatus(STATUS.STREAMING);
         setErrorKind(null);
-        setMessages((prev) => [
-            ...prev,
-            { role: 'user', content: trimmed },
-            { role: 'assistant', content: '' },
-        ]);
+
+        const priorMessages = messages;
+        const newUserMsg = { role: 'user', content: trimmed };
+        setMessages([...priorMessages, newUserMsg, { role: 'assistant', content: '' }]);
 
         try {
-            for await (const chunk of streamChat({
-                messages: [...messages, { role: 'user', content: trimmed }],
-                sessionSummary: summary,
-                signal: controller.signal,
-            })) {
-                setMessages((prev) => {
-                    const next = prev.slice();
-                    const last = next[next.length - 1];
-                    next[next.length - 1] = { ...last, content: last.content + chunk };
-                    return next;
-                });
-            }
-            setStatus('idle');
+            await consumeStream([...priorMessages, newUserMsg], summary, controller.signal);
+            setStatus(STATUS.IDLE);
 
-            // Background summarization if we've grown too long.
+            // Soft proactive summarization once history grows past the threshold.
             setMessages((prev) => {
                 const userTurns = prev.filter((m) => m.role === 'user').length;
                 if (userTurns >= SUMMARIZE_AFTER_TURNS) {
@@ -76,21 +103,43 @@ export function useChat() {
             });
         } catch (err) {
             if (err.name === 'AbortError') {
-                setStatus('idle');
+                setStatus(STATUS.IDLE);
                 return;
             }
+
+            // 413: try to recover by summarizing prior turns and retrying once
+            // with just the new user message attached to the new summary.
+            if (err instanceof ChatApiError && err.kind === 'tooLarge' && priorMessages.length > 0) {
+                try {
+                    const newSummary = await summarize({
+                        messages: priorMessages,
+                        priorSummary: summary,
+                        signal: controller.signal,
+                    });
+                    setSummary(newSummary || null);
+                    setMessages([newUserMsg, { role: 'assistant', content: '' }]);
+                    await consumeStream([newUserMsg], newSummary || null, controller.signal);
+                    setStatus(STATUS.IDLE);
+                    return;
+                } catch (retryErr) {
+                    if (retryErr.name === 'AbortError') {
+                        setStatus(STATUS.IDLE);
+                        return;
+                    }
+                    const kind = retryErr instanceof ChatApiError ? retryErr.kind : 'network';
+                    setErrorKind(kind);
+                    setStatus(statusForErrorKind(kind));
+                    removeEmptyAssistantPlaceholder();
+                    return;
+                }
+            }
+
             const kind = err instanceof ChatApiError ? err.kind : 'network';
             setErrorKind(kind);
-            setStatus(kind === 'rateLimited' ? 'rateLimited' : 'error');
-            // Remove the empty assistant placeholder on hard error.
-            setMessages((prev) => {
-                if (prev[prev.length - 1]?.role === 'assistant' && prev[prev.length - 1].content === '') {
-                    return prev.slice(0, -1);
-                }
-                return prev;
-            });
+            setStatus(statusForErrorKind(kind));
+            removeEmptyAssistantPlaceholder();
         }
-    }, [messages, summary, status, cancel]);
+    }, [messages, summary, status, cancel, consumeStream, removeEmptyAssistantPlaceholder]);
 
     const reset = useCallback(() => {
         cancel();
@@ -98,7 +147,7 @@ export function useChat() {
         clearSession();
         setMessages([]);
         setSummary(null);
-        setStatus('idle');
+        setStatus(STATUS.IDLE);
         setErrorKind(null);
     }, [cancel]);
 

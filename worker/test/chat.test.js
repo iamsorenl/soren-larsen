@@ -82,6 +82,21 @@ describe('handleChat', () => {
     expect(res.headers.get('Retry-After')).toBeTruthy();
   });
 
+  it('returns 413 when the request exceeds the token budget', async () => {
+    const env = { ...baseEnv, RATE_LIMIT: new MockKV() };
+    // 60k chars ~= 15k tokens, well above MAX_PROMPT_TOKENS (5500)
+    const huge = 'x'.repeat(60000);
+    const req = new Request('http://x/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ messages: [{ role: 'user', content: huge }] }),
+      headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '2.2.2.2' },
+    });
+    const res = await handleChat(req, env);
+    expect(res.status).toBe(413);
+    const json = await res.json();
+    expect(json.error).toBe('too_large');
+  });
+
   it('returns 502 when Groq upstream fails', async () => {
     const env = { ...baseEnv, RATE_LIMIT: new MockKV() };
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('boom', { status: 500 }));
