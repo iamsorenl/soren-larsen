@@ -49,8 +49,7 @@ This closes the desktop height gap with Contact without overshooting on mobile, 
 
 - Single-file change: `src/components/EnhancedEducationCard.js`.
 - New `Typography` block inside the `Box` that already holds the degree/school text (lines 129–151).
-- Remove the `description` rendering from `AccordionDetails` (lines 207–215).
-- Keep the `borderTop` divider in `AccordionDetails` only when coursework is rendered — otherwise drop it to avoid an empty-looking expanded panel for any future "description-only" degree (currently no such case; defensive).
+- Remove the `description` rendering from `AccordionDetails` (lines 207–215). The existing `borderTop` wrapper in `AccordionDetails` continues to frame the coursework grid.
 - `sx` example for the preview block:
   ```js
   sx={{
