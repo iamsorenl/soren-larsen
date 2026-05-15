@@ -71,10 +71,10 @@ async function fetchRepoReadme(argsStr, env, userQuestion) {
     }
   }
 
-  // Fetch from GitHub
+  // Fetch from GitHub (anonymous — see github.js for rationale).
   let markdown;
   try {
-    markdown = await fetchReadmeRaw({ owner, repo, token: env.GITHUB_TOKEN });
+    markdown = await fetchReadmeRaw({ owner, repo });
   } catch (err) {
     if (err instanceof GithubNotFoundError) {
       console.error('github readme not found', { owner, repo });

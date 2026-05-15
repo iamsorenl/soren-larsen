@@ -36,14 +36,16 @@ export function parseGithubUrl(url) {
   return { owner: match[1], repo: match[2] };
 }
 
-async function doFetch(owner, repo, token) {
+async function doFetch(owner, repo) {
   const url = GITHUB_README_URL.replace('{owner}', owner).replace('{repo}', repo);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
+    // Unauthenticated request — relies on the 60/hr-per-egress-IP anonymous
+    // GitHub limit, which is plenty given our 24h KV cache reduces actual
+    // outbound fetches to ~one per project per day after warmup.
     const res = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${token}`,
         Accept: 'application/vnd.github.raw+json',
         'User-Agent': 'soren-larsen-chat-worker/1.0',
       },
@@ -56,17 +58,17 @@ async function doFetch(owner, repo, token) {
 }
 
 /**
- * Fetch a repository's raw README markdown.
+ * Fetch a repository's raw README markdown anonymously.
  * Retries once on 5xx / network errors.
- * @param {{ owner: string, repo: string, token: string }} opts
+ * @param {{ owner: string, repo: string }} opts
  * @returns {Promise<string>} raw markdown
  */
-export async function fetchReadmeRaw({ owner, repo, token }) {
+export async function fetchReadmeRaw({ owner, repo }) {
   let lastError;
   for (let attempt = 0; attempt < 2; attempt++) {
     let res;
     try {
-      res = await doFetch(owner, repo, token);
+      res = await doFetch(owner, repo);
     } catch (err) {
       // Network / timeout
       lastError = new GithubNetworkError(err.message || String(err));
