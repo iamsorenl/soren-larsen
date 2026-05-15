@@ -1,5 +1,32 @@
 import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Link, Typography, useTheme } from '@mui/material';
+
+// Splits text into runs alternating between plain strings and URL strings so
+// the assistant's references like "https://larsensoren.com/SorenLarsenResume.pdf"
+// render as clickable links. Avoids pulling in a markdown parser.
+const URL_PATTERN = /(https?:\/\/[^\s<>()]+[^\s<>().,;:!?])/g;
+
+function renderRichContent(content) {
+    if (!content) return null;
+    const parts = content.split(URL_PATTERN);
+    return parts.map((part, i) => {
+        if (URL_PATTERN.test(part)) {
+            return (
+                <Link
+                    key={i}
+                    href={part}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="hover"
+                    sx={{ color: 'inherit', fontWeight: 600 }}
+                >
+                    {part}
+                </Link>
+            );
+        }
+        return <React.Fragment key={i}>{part}</React.Fragment>;
+    });
+}
 
 function ChatMessage({ role, content, isStreaming }) {
     const theme = useTheme();
@@ -25,7 +52,7 @@ function ChatMessage({ role, content, isStreaming }) {
                 aria-live={isUser ? undefined : 'polite'}
             >
                 <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                    {content}
+                    {renderRichContent(content)}
                     {isStreaming && content && (
                         <Box component="span" sx={{ ml: 0.25, animation: 'blink 1s steps(2, start) infinite' }}>
                             ▍

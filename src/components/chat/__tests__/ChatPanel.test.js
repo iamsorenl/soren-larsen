@@ -152,6 +152,22 @@ describe('ChatPanel interactions', () => {
         expect(screen.getByLabelText('Send')).toBeDisabled();
     });
 
+    test('URLs in assistant messages render as clickable links', () => {
+        const chat = makeChat({
+            messages: [
+                { role: 'user', content: 'resume?' },
+                {
+                    role: 'assistant',
+                    content: 'You can view his resume here: https://larsensoren.com/SorenLarsenResume.pdf',
+                },
+            ],
+        });
+        render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
+        const link = screen.getByRole('link', { name: /SorenLarsenResume\.pdf/i });
+        expect(link).toHaveAttribute('href', 'https://larsensoren.com/SorenLarsenResume.pdf');
+        expect(link).toHaveAttribute('target', '_blank');
+    });
+
     test('Escape key calls onClose', () => {
         const onClose = jest.fn();
         const chat = makeChat();
