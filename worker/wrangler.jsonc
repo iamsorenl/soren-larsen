@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "soren-larsen-chat",
+  "main": "src/index.js",
+  "compatibility_date": "2024-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMIT",
+      "id": "baa8ec0e3b254c96a31e5457c5e336fc"
+    }
+  ],
+  "vars": {
+    "GROQ_MODEL": "llama-3.3-70b-versatile",
+    "GROQ_SUMMARY_MODEL": "llama-3.3-70b-versatile",
+    "ALLOWED_ORIGINS": "https://larsensoren.com,https://www.larsensoren.com,https://soren-larsen.web.app,http://localhost:3000"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

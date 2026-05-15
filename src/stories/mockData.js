@@ -59,3 +59,24 @@ export const mockExperience = {
         dark: '#26c6da'
     }
 };
+
+export const mockChatMessagesEmpty = [];
+
+export const mockChatMessagesMid = [
+    { role: 'user', content: "What was Soren's most recent role?" },
+    {
+        role: 'assistant',
+        content:
+            "Soren most recently finished his M.S. in NLP at UC Santa Cruz. Before that, he worked across full-stack and NLP engineering roles.",
+    },
+    { role: 'user', content: 'What NLP projects has he worked on?' },
+];
+
+export const mockChatStateStreaming = {
+    messages: [
+        { role: 'user', content: "What's his tech stack?" },
+        { role: 'assistant', content: 'Soren works mainly with Python and Java' },
+    ],
+    status: 'streaming',
+    errorKind: null,
+};

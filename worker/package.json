@@ -1,0 +1,17 @@
+{
+  "name": "soren-larsen-chat-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync-data": "node scripts/sync-data.mjs",
+    "dev": "npm run sync-data && wrangler dev",
+    "deploy": "npm run sync-data && wrangler deploy",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0",
+    "vitest": "^2.1.0"
+  }
+}

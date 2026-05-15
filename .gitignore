@@ -12,6 +12,10 @@ build/
 dist/
 storybook-static/
 
+# Local environment files (CRA env conventions)
+.env.local
+.env.*.local
+
 # Various development files
 *.log
 *.lock
