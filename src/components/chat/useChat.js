@@ -1,38 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { streamChat, summarize, ChatApiError } from './chatApi';
 import { loadSession, saveSession, clearSession } from './sessionStore';
-import { SOFT_SUMMARIZE_AT_TOKENS, KEEP_TAIL_TOKENS } from './chatConfig';
-
-function estimateMessageTokens(message) {
-    return Math.ceil((message.content || '').length / 4) + 8;
-}
-
-function totalChatTokens(messages) {
-    let total = 0;
-    for (const m of messages) total += estimateMessageTokens(m);
-    return total;
-}
-
-// Walk from newest backward, accumulating tokens. Everything older than
-// KEEP_TAIL_TOKENS gets compacted. Returns null when chat is small enough or
-// there's nothing to summarize.
-function planCompaction(messages) {
-    if (totalChatTokens(messages) < SOFT_SUMMARIZE_AT_TOKENS) return null;
-    let running = 0;
-    let splitIndex = 0;
-    for (let i = messages.length - 1; i >= 0; i--) {
-        running += estimateMessageTokens(messages[i]);
-        if (running >= KEEP_TAIL_TOKENS) {
-            splitIndex = i;
-            break;
-        }
-    }
-    if (splitIndex <= 0) return null;
-    return {
-        toSummarize: messages.slice(0, splitIndex),
-        keep: messages.slice(splitIndex),
-    };
-}
+import { planCompaction } from './compaction';
 
 const STATUS = {
     IDLE: 'idle',
@@ -101,9 +70,13 @@ export function useChat() {
 
     const send = useCallback(async (text) => {
         const trimmed = text.trim();
-        if (!trimmed || status === STATUS.STREAMING) return;
+        if (!trimmed) return;
+        // abortRef-based guard rather than reading the closed-over `status`,
+        // which can be stale when send() is invoked twice in the same render
+        // before React re-renders. The button's disabled state covers the UI;
+        // this covers programmatic callers.
+        if (abortRef.current) return;
 
-        cancel();
         const controller = new AbortController();
         abortRef.current = controller;
 
@@ -166,8 +139,15 @@ export function useChat() {
             setErrorKind(kind);
             setStatus(statusForErrorKind(kind));
             removeEmptyAssistantPlaceholder();
+        } finally {
+            // Always clear the abort marker so the next send can proceed.
+            // (cancel() may have already cleared it; this is the redundant
+            // safety net for the success path.)
+            if (abortRef.current === controller) {
+                abortRef.current = null;
+            }
         }
-    }, [messages, summary, status, cancel, consumeStream, removeEmptyAssistantPlaceholder]);
+    }, [messages, summary, consumeStream, removeEmptyAssistantPlaceholder]);
 
     const reset = useCallback(() => {
         cancel();
