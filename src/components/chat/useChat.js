@@ -7,12 +7,16 @@ const STATUS = {
     IDLE: 'idle',
     STREAMING: 'streaming',
     RATE_LIMITED: 'rateLimited',
+    SERVICE_BUSY: 'serviceBusy',
+    SERVICE_CAPACITY: 'serviceCapacity',
     TOO_LARGE: 'tooLarge',
     ERROR: 'error',
 };
 
 function statusForErrorKind(kind) {
     if (kind === 'rateLimited') return STATUS.RATE_LIMITED;
+    if (kind === 'serviceBusy') return STATUS.SERVICE_BUSY;
+    if (kind === 'serviceCapacity') return STATUS.SERVICE_CAPACITY;
     if (kind === 'tooLarge') return STATUS.TOO_LARGE;
     return STATUS.ERROR;
 }

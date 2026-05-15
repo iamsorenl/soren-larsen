@@ -140,9 +140,40 @@ export async function handleChat(request, env) {
   } catch (err) {
     if (err instanceof GroqUpstreamError) {
       console.error('groq upstream error', { status: err.status, message: err.message, model: env.GROQ_MODEL });
+      // Map Groq's own 429s onto more informative responses so the widget can
+      // tell the visitor what's actually happening instead of "upstream error".
+      if (err.status === 429) {
+        const { isDailyLimit, retryAfterSec } = parseGroqRateLimit(err.message);
+        return jsonError(
+          429,
+          isDailyLimit ? 'service_capacity' : 'service_busy',
+          isDailyLimit
+            ? "The assistant is taking a break for the day — daily token limit reached. Try again in a few hours."
+            : 'The assistant is briefly overloaded. Try again in a moment.',
+          { ...cors, 'Retry-After': String(retryAfterSec) }
+        );
+      }
       return jsonError(502, 'upstream_error', 'Upstream model error.', cors);
     }
     console.error('chat handler error', err);
     return jsonError(500, 'internal_error', 'Unexpected error.', cors);
   }
+}
+
+// Parses Groq's 429 error body for the retry hint and whether it's the daily
+// (TPD) cap vs the per-minute (TPM/RPM) cap. Groq formats look like:
+//   "Rate limit reached ... on tokens per day (TPD): Limit ..., Please try
+//    again in 4m45.984s. ..."
+//   "Rate limit reached ... on tokens per minute (TPM): ... try again in 7.37s"
+function parseGroqRateLimit(message) {
+  const isDailyLimit = /tokens per day|TPD/i.test(message);
+  // Capture "try again in Xm Ys" or "Xs" — convert to whole seconds.
+  let retryAfterSec = isDailyLimit ? 3600 : 60;
+  const m = message.match(/try again in (?:(\d+)m)?(\d+(?:\.\d+)?)s/i);
+  if (m) {
+    const minutes = m[1] ? parseInt(m[1], 10) : 0;
+    const seconds = parseFloat(m[2]);
+    retryAfterSec = Math.max(1, Math.ceil(minutes * 60 + seconds));
+  }
+  return { isDailyLimit, retryAfterSec };
 }

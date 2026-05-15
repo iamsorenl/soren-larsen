@@ -90,6 +90,24 @@ describe('ChatPanel rendering', () => {
         expect(screen.getByText(/sending messages quickly/i)).toBeInTheDocument();
     });
 
+    test('serviceBusy status shows the "briefly overloaded" message', () => {
+        const chat = makeChat({
+            messages: [{ role: 'user', content: 'hello' }],
+            status: 'serviceBusy',
+        });
+        render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
+        expect(screen.getByText(/briefly overloaded/i)).toBeInTheDocument();
+    });
+
+    test('serviceCapacity status shows the daily-limit message', () => {
+        const chat = makeChat({
+            messages: [{ role: 'user', content: 'hello' }],
+            status: 'serviceCapacity',
+        });
+        render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
+        expect(screen.getByText(/free-tier limit/i)).toBeInTheDocument();
+    });
+
     test('tooLarge status shows the conversation-too-long message', () => {
         const chat = makeChat({
             messages: [{ role: 'user', content: 'a lot' }],

@@ -122,6 +122,12 @@ function ChatPanel({ open, onClose, chat }) {
                     {chat.status === 'rateLimited' && (
                         <ChatMessage role="assistant" content={ERROR_COPY.rateLimited} isStreaming={false} />
                     )}
+                    {chat.status === 'serviceBusy' && (
+                        <ChatMessage role="assistant" content={ERROR_COPY.serviceBusy} isStreaming={false} />
+                    )}
+                    {chat.status === 'serviceCapacity' && (
+                        <ChatMessage role="assistant" content={ERROR_COPY.serviceCapacity} isStreaming={false} />
+                    )}
                     {chat.status === 'tooLarge' && (
                         <ChatMessage role="assistant" content={ERROR_COPY.tooLarge} isStreaming={false} />
                     )}
