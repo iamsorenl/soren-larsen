@@ -290,6 +290,63 @@ describe('cancel behavior', () => {
         expect(result.current.status).toBe('idle');
     });
 
+    test('cancel() mid-stream aborts the in-flight request and returns to idle', async () => {
+        // Build a stream that waits for the signal to abort. The generator
+        // yields one chunk, then pends on a promise that the AbortSignal
+        // settles by rejecting with AbortError.
+        function abortableStream(signal) {
+            return (async function* () {
+                yield 'partial';
+                await new Promise((_, reject) => {
+                    if (signal.aborted) {
+                        const err = new Error('aborted');
+                        err.name = 'AbortError';
+                        reject(err);
+                        return;
+                    }
+                    signal.addEventListener('abort', () => {
+                        const err = new Error('aborted');
+                        err.name = 'AbortError';
+                        reject(err);
+                    });
+                });
+            })();
+        }
+
+        jest.spyOn(chatApi, 'streamChat').mockImplementation(({ signal }) =>
+            abortableStream(signal)
+        );
+
+        const { result } = renderHook(() => useChat());
+
+        // Kick off send in the background.
+        let sendPromise;
+        act(() => {
+            sendPromise = result.current.send('hi');
+        });
+
+        // Allow the generator to yield its first chunk.
+        await act(async () => { await new Promise((r) => setTimeout(r, 5)); });
+        await waitFor(() => expect(result.current.status).toBe('streaming'));
+
+        // Now cancel — the abortable stream should reject with AbortError,
+        // useChat should swallow it and return to idle.
+        await act(async () => {
+            result.current.cancel();
+            await sendPromise;
+        });
+
+        expect(result.current.status).toBe('idle');
+        // Partial assistant content is preserved (not deleted on abort).
+        const last = result.current.messages[result.current.messages.length - 1];
+        expect(last).toEqual({ role: 'assistant', content: 'partial' });
+
+        // After cancel the abort-ref guard should be cleared, so a new send proceeds.
+        jest.spyOn(chatApi, 'streamChat').mockImplementation(() => fakeStream(['again']));
+        await act(async () => { await result.current.send('next'); });
+        expect(result.current.messages.map((m) => m.content)).toContain('again');
+    });
+
     test('a new send while one is in flight is ignored (no concurrent streams)', async () => {
         const streamSpy = jest.spyOn(chatApi, 'streamChat').mockImplementation(() => fakeStream(['ok']));
         const { result } = renderHook(() => useChat());

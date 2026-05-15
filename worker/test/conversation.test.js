@@ -123,6 +123,41 @@ describe('multi-turn at the budget edge', () => {
   });
 });
 
+// Llama's tokenizer can produce up to ~1.5× the count of a naive chars/4
+// heuristic for JSON-heavy text (lots of quotes, punctuation, identifiers).
+// We allow this much slack between what the estimator says and what real
+// Groq accounting will charge. The estimator stays simple; the budget
+// accommodates the variance.
+const ESTIMATOR_VARIANCE_FACTOR = 1.5;
+const GROQ_FREE_TIER_TPM = 12000;
+
+describe('token budget safety margin', () => {
+  it('worst-case prompt × variance factor still fits TPM single-request', () => {
+    const sp = buildSystemPrompt(
+      null,
+      'Tell me about all his jobs and projects and certifications and education.'
+    );
+    const worstCaseRequest = estimateRequestTokens({
+      systemPrompt: sp,
+      messages: [{ role: 'user', content: 'Tell me everything.' }],
+    });
+    expect(worstCaseRequest * ESTIMATOR_VARIANCE_FACTOR).toBeLessThan(GROQ_FREE_TIER_TPM);
+  });
+
+  it('typical prompt × variance factor fits two requests under TPM', () => {
+    const sp = buildSystemPrompt(null, "What's his tech stack?");
+    const typicalRequest = estimateRequestTokens({
+      systemPrompt: sp,
+      messages: [{ role: 'user', content: "What's his tech stack?" }],
+    });
+    expect(typicalRequest * ESTIMATOR_VARIANCE_FACTOR * 2).toBeLessThan(GROQ_FREE_TIER_TPM);
+  });
+
+  it('MAX_PROMPT_TOKENS leaves room for variance under the single-request TPM cap', () => {
+    expect(MAX_PROMPT_TOKENS * ESTIMATOR_VARIANCE_FACTOR).toBeLessThan(GROQ_FREE_TIER_TPM);
+  });
+});
+
 describe('token estimate sanity for realistic conversations', () => {
   // Sanity checks on the budgeting math itself — these don't hit the handler,
   // they verify that real conversations of a given shape land where we expect.
