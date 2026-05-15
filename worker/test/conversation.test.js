@@ -39,6 +39,14 @@ function mockGroqStream(text) {
   );
 }
 
+/** Phase 1 non-streaming response with no tool call — used to seed the two-phase flow. */
+function mockGroqPhase1NoTool(content = 'ok') {
+  return new Response(
+    JSON.stringify({ choices: [{ message: { role: 'assistant', content } }] }),
+    { status: 200, headers: { 'Content-Type': 'application/json' } }
+  );
+}
+
 function buildRequest(messages, sessionSummary = null, ip = '1.2.3.4') {
   return new Request('http://x/api/chat', {
     method: 'POST',
@@ -52,8 +60,11 @@ function buildRequest(messages, sessionSummary = null, ip = '1.2.3.4') {
 
 describe('multi-turn under budget', () => {
   it('accepts a realistic 6-turn recruiter conversation', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValue(mockGroqStream('ok'));
-    const env = { ...baseEnv, RATE_LIMIT: new MockKV() };
+    // Two-phase flow: Phase 1 returns JSON (no tool), Phase 2 returns SSE stream
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(mockGroqPhase1NoTool('ok'))
+      .mockResolvedValueOnce(mockGroqStream('ok'));
+    const env = { ...baseEnv, RATE_LIMIT: new MockKV(), README_CACHE: new MockKV() };
 
     const messages = [
       { role: 'user', content: "What was Soren's most recent role?" },
@@ -70,8 +81,10 @@ describe('multi-turn under budget', () => {
   });
 
   it('accepts a single-message conversation about projects', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValue(mockGroqStream('ok'));
-    const env = { ...baseEnv, RATE_LIMIT: new MockKV() };
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(mockGroqPhase1NoTool('ok'))
+      .mockResolvedValueOnce(mockGroqStream('ok'));
+    const env = { ...baseEnv, RATE_LIMIT: new MockKV(), README_CACHE: new MockKV() };
 
     const res = await handleChat(
       buildRequest([{ role: 'user', content: 'What projects has he worked on?' }]),
@@ -105,8 +118,10 @@ describe('multi-turn at the budget edge', () => {
   });
 
   it('allows a follow-up after the same history has been compacted into a summary', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValue(mockGroqStream('ok'));
-    const env = { ...baseEnv, RATE_LIMIT: new MockKV() };
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(mockGroqPhase1NoTool('ok'))
+      .mockResolvedValueOnce(mockGroqStream('ok'));
+    const env = { ...baseEnv, RATE_LIMIT: new MockKV(), README_CACHE: new MockKV() };
 
     // Same large history simulated as compacted → just one user message plus
     // the (frontend-supplied) summary should fit comfortably.

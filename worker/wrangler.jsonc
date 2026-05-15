@@ -8,6 +8,10 @@
     {
       "binding": "RATE_LIMIT",
       "id": "baa8ec0e3b254c96a31e5457c5e336fc"
+    },
+    {
+      "binding": "README_CACHE",
+      "id": "REPLACE_WITH_README_CACHE_KV_ID"
     }
   ],
   "vars": {

@@ -23,6 +23,16 @@ Backend for the chat widget on larsensoren.com. Streams Groq Llama 3.1 8B Instan
    npx wrangler secret put GROQ_API_KEY
    ```
    Paste your key from https://console.groq.com when prompted.
+5. Create the KV namespace for README caching:
+   ```bash
+   npx wrangler kv namespace create README_CACHE
+   ```
+   Copy the returned `id` into `wrangler.jsonc` under the `README_CACHE` binding (replace `REPLACE_WITH_README_CACHE_KV_ID`).
+6. Set the GitHub personal access token as a secret (scoped to **Contents: Read** on public repos):
+   ```bash
+   npx wrangler secret put GITHUB_TOKEN
+   ```
+   Create a fine-grained PAT at https://github.com/settings/tokens with `Contents: Read` permission on the repos you want to expose. This token is used to fetch README files for the `fetch_repo_readme` tool.
 
 ## Local dev
 

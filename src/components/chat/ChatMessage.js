@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Link, Typography, useTheme } from '@mui/material';
 
 const URL_REGEX = /https?:\/\/[^\s<>()]+[^\s<>().,;:!?]/g;
@@ -24,7 +24,12 @@ function renderRichContent(content) {
                 rel="noopener noreferrer"
                 underline="always"
                 sx={{
-                    color: 'primary.main',
+                    // Mode-aware link color so it never falls back to MUI's
+                    // default magenta. Dark mode pulls the warm yellow accent
+                    // already used on the Education card; light mode uses the
+                    // classic Material "link blue".
+                    color: (theme) =>
+                        theme.palette.mode === 'dark' ? '#fdc700' : '#64b5f6',
                     fontWeight: 600,
                     wordBreak: 'break-all',
                 }}
@@ -43,6 +48,20 @@ function renderRichContent(content) {
 function ChatMessage({ role, content, isStreaming }) {
     const theme = useTheme();
     const isUser = role === 'user';
+    const showDots = !isUser && isStreaming && !content;
+
+    const [dotCount, setDotCount] = useState(1);
+    useEffect(() => {
+        if (!showDots) {
+            setDotCount(1);
+            return undefined;
+        }
+        const id = setInterval(() => {
+            setDotCount((n) => (n % 3) + 1);
+        }, 400);
+        return () => clearInterval(id);
+    }, [showDots]);
+
     return (
         <Box
             sx={{
@@ -64,11 +83,23 @@ function ChatMessage({ role, content, isStreaming }) {
                 aria-live={isUser ? undefined : 'polite'}
             >
                 <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                    {renderRichContent(content)}
-                    {isStreaming && content && (
-                        <Box component="span" sx={{ ml: 0.25, animation: 'blink 1s steps(2, start) infinite' }}>
-                            ▍
+                    {showDots ? (
+                        <Box
+                            component="span"
+                            data-testid="dots-placeholder"
+                            sx={{ opacity: 0.7, fontStyle: 'italic' }}
+                        >
+                            {'.'.repeat(dotCount)}
                         </Box>
+                    ) : (
+                        <>
+                            {renderRichContent(content)}
+                            {isStreaming && content && (
+                                <Box component="span" sx={{ ml: 0.25, animation: 'blink 1s steps(2, start) infinite' }}>
+                                    ▍
+                                </Box>
+                            )}
+                        </>
                     )}
                 </Typography>
             </Box>

@@ -32,8 +32,8 @@ const EnhancedEducationCard = () => {
 
     const getEducationColor = (school) => {
         const colors = {
-            'University of California Santa Cruz': isDark ? '#64b5f6' : '#003c6c',
-            'La Jolla High School': '#4caf50'
+            'University of California Santa Cruz': isDark ? '#fdc700' : '#003c6c',
+            'La Jolla High School': isDark ? '#34d399' : '#10b981'
         };
         return colors[school] || '#666666';
     };
@@ -54,10 +54,11 @@ const EnhancedEducationCard = () => {
             sx={{
                 backgroundColor: 'primary.main',
                 color: 'primary.contrastText',
-                height: '100%',
+                height: 'auto',
                 width: '100%',
                 mb: 1,
                 borderRadius: '16px',
+                alignSelf: 'flex-start',
                 background: (t) => t.palette.mode === 'dark'
                     ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
                     : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'

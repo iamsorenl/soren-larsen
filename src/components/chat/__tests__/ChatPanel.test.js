@@ -56,6 +56,31 @@ describe('ChatPanel rendering', () => {
         expect(screen.getByText('hello there')).toBeInTheDocument();
     });
 
+    test('streaming with empty assistant content shows dots placeholder', () => {
+        const chat = makeChat({
+            messages: [
+                { role: 'user', content: 'hi' },
+                { role: 'assistant', content: '' },
+            ],
+            status: 'streaming',
+        });
+        render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
+        expect(screen.getByTestId('dots-placeholder')).toBeInTheDocument();
+    });
+
+    test('streaming with non-empty assistant content does not show dots placeholder', () => {
+        const chat = makeChat({
+            messages: [
+                { role: 'user', content: 'hi' },
+                { role: 'assistant', content: 'partial response' },
+            ],
+            status: 'streaming',
+        });
+        render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
+        expect(screen.queryByTestId('dots-placeholder')).not.toBeInTheDocument();
+        expect(screen.getByText('partial response')).toBeInTheDocument();
+    });
+
     test('rateLimited status shows the inline assistant message', () => {
         const chat = makeChat({
             messages: [{ role: 'user', content: 'too fast' }],
