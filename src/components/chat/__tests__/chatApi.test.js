@@ -1,5 +1,5 @@
 /** @jest-environment node */
-import { streamChat, summarize, ChatApiError } from '../chatApi';
+import { streamChat, summarize } from '../chatApi';
 
 // ---------------------------------------------------------------------------
 // Minimal fake web globals for Jest 27 + Node 24 (jest-environment-node
@@ -82,7 +82,8 @@ test('streamChat throws ChatApiError with kind "rateLimited" on 429', async () =
         })
     );
     await expect((async () => {
-        for await (const _ of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
+        // eslint-disable-next-line no-unused-vars
+        for await (const _chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
             // consume
         }
     })()).rejects.toMatchObject({ kind: 'rateLimited', retryAfterSec: 30 });
@@ -91,7 +92,8 @@ test('streamChat throws ChatApiError with kind "rateLimited" on 429', async () =
 test('streamChat throws ChatApiError with kind "upstream" on 5xx', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue(new FakeResponse('boom', { status: 502 }));
     await expect((async () => {
-        for await (const _ of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
+        // eslint-disable-next-line no-unused-vars
+        for await (const _chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
             // consume
         }
     })()).rejects.toMatchObject({ kind: 'upstream' });
