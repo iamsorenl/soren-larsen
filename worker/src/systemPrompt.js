@@ -167,9 +167,11 @@ export function estimateRequestTokens({ systemPrompt, messages }) {
   return total;
 }
 
-// Per-request token budget. Set so two requests within a minute fit under the
-// 12k TPM free-tier cap with headroom.
-export const MAX_PROMPT_TOKENS = 5500;
+// Per-request token budget. Set so two typical requests within a minute fit
+// under Groq's 12k TPM free-tier cap. Worst-case multi-section queries can
+// approach this ceiling; the frontend's auto-summarize-then-retry recovers
+// when a request would push over it.
+export const MAX_PROMPT_TOKENS = 6000;
 
 export const SUMMARIZE_SYSTEM_PROMPT = `You summarize chat conversations on a recruiter-facing portfolio site.
 Produce a concise summary (max 3 sentences) of what the visitor asked and what Soren's Assistant said.
