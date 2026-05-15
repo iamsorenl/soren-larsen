@@ -9,8 +9,8 @@ export const SUGGESTED_PROMPTS = [
     'How do I get in touch?',
 ];
 
-export const SUMMARIZE_AFTER_TURNS = 8;
-export const KEEP_TAIL_TURNS = 4;
+export const SUMMARIZE_AFTER_TURNS = 4;
+export const KEEP_TAIL_TURNS = 2;
 
 export const ERROR_COPY = {
     network: "Couldn't reach the assistant. Try again in a moment.",

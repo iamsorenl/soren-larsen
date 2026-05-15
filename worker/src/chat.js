@@ -34,7 +34,8 @@ export async function handleChat(request, env) {
     );
   }
 
-  const systemPrompt = buildSystemPrompt(sessionSummary || null);
+  const latestUserMessage = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
+  const systemPrompt = buildSystemPrompt(sessionSummary || null, latestUserMessage);
   try {
     const stream = await groqChatStream({
       apiKey: env.GROQ_API_KEY,
