@@ -54,7 +54,7 @@ const EnhancedEducationCard = () => {
             sx={{
                 backgroundColor: 'primary.main',
                 color: 'primary.contrastText',
-                height: '100%',
+                height: 'auto',
                 width: '100%',
                 mb: 1,
                 borderRadius: '16px',
