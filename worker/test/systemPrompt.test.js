@@ -55,21 +55,33 @@ describe('retrieveContext', () => {
     expect(sections.experience.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('retrieves project entries when query mentions projects', () => {
-    const sections = retrieveContext('What NLP projects has he worked on?');
-    expect(sections.projects).toBeDefined();
-    expect(Array.isArray(sections.projects)).toBe(true);
-    expect(sections.projects.length).toBeGreaterThan(0);
+  it('includes every experience entry when the question is topically about roles', () => {
+    const sections = retrieveContext('What other roles has he had?');
+    expect(sections.experience.length).toBeGreaterThan(1);
   });
 
-  it('omits certifications when query has no relevant keywords', () => {
+  it('includes every experience entry when asked to list all', () => {
+    const sections = retrieveContext('What are ALL the roles he has had?');
+    expect(sections.experience.length).toBeGreaterThan(1);
+  });
+
+  it('includes every project entry when the question is topically about projects', () => {
+    const sections = retrieveContext('What projects has he worked on?');
+    expect(Array.isArray(sections.projects)).toBe(true);
+    expect(sections.projects.length).toBeGreaterThan(1);
+  });
+
+  it('falls back to entry-level scoring when projects is not topically targeted', () => {
+    const sections = retrieveContext('Has he used Python in any of his work?');
+    // 'work' is an experience topic, not a projects topic, so projects relies on
+    // entry-level scoring against ['python', 'used']. Either undefined or a
+    // small top-K, never the full list via the topic-relevance branch.
+    if (sections.projects) expect(sections.projects.length).toBeLessThanOrEqual(3);
+  });
+
+  it('omits certifications when query has no relevant keywords or topic', () => {
     const sections = retrieveContext("What's his favorite color?");
     expect(sections.certifications).toBeUndefined();
-  });
-
-  it('limits experience entries to at most 3 (1 recent + 2 matched)', () => {
-    const sections = retrieveContext('engineer engineer engineer engineer');
-    expect(sections.experience.length).toBeLessThanOrEqual(3);
   });
 });
 

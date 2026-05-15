@@ -43,12 +43,54 @@ function topKEntries(entries, keywords, k) {
     .map((s) => s.entry);
 }
 
-// Retrieves the entries to inline for a given query. Always includes about,
-// contact, highlights, skills (small). For experience, always pin the most
-// recent entry (index 0 since experience.json is recency-sorted), then add
-// up to two additional matches. For projects/education/certifications, pick
-// top-K by keyword score; if nothing matches, omit those sections entirely.
+// Topic words that indicate the user is asking *about a category* rather than
+// about a specific entity inside it. When any of these match, we include the
+// whole list for that section instead of running entry-level scoring (which
+// would miss because entries don't usually contain the word "role" or "project"
+// in their own descriptions).
+const SECTION_TOPIC_KEYWORDS = {
+  experience: [
+    'role', 'roles', 'job', 'jobs', 'work', 'works', 'worked', 'working',
+    'company', 'companies', 'employ', 'employed', 'employer', 'employers',
+    'employment', 'career', 'position', 'positions', 'experience',
+    'experiences', 'history', 'previously', 'previous', 'currently',
+    'recent', 'internship', 'intern',
+  ],
+  projects: [
+    'project', 'projects', 'built', 'building', 'build', 'app', 'apps',
+    'application', 'applications', 'tool', 'tools', 'made', 'created',
+    'create', 'creating', 'repo', 'repos', 'github repo', 'shipped',
+    'shipping', 'side project',
+  ],
+  certifications: [
+    'cert', 'certs', 'certification', 'certifications', 'license', 'licenses',
+    'credential', 'credentials',
+  ],
+  education: [
+    'school', 'schools', 'university', 'universities', 'college', 'colleges',
+    'degree', 'degrees', 'education', 'academic', 'gpa', 'ucsc',
+    'santa cruz', 'masters', 'bachelor', 'graduate', 'graduated', 'studied',
+    'study', 'coursework',
+  ],
+};
+
+function isSectionRelevant(queryLower, sectionName) {
+  return SECTION_TOPIC_KEYWORDS[sectionName].some((kw) => queryLower.includes(kw));
+}
+
+// Retrieves the entries to inline for a given query.
+//
+// Strategy:
+// - about / contact / highlights / skills / education: always included (small).
+// - experience: always pin the most recent role. If the question topically
+//   targets experience ("roles", "work history", etc.), include all roles so
+//   list-style questions get full coverage; otherwise add up to 2 entry-level
+//   keyword matches.
+// - projects / certifications: include the full list when topically targeted;
+//   otherwise fall back to entry-level top-K matches (or omit if nothing
+//   scores).
 export function retrieveContext(latestUserMessage) {
+  const queryLower = (latestUserMessage || '').toLowerCase();
   const keywords = extractKeywords(latestUserMessage);
   const sections = {};
 
@@ -56,28 +98,38 @@ export function retrieveContext(latestUserMessage) {
   sections.contact = contact;
   sections.highlights = highlights;
   sections.skills = skills;
+  sections.education = education;
 
-  const recentExperience = experience.slice(0, 1);
-  const matchedExperience = topKEntries(experience.slice(1), keywords, 2);
-  sections.experience = [...recentExperience, ...matchedExperience];
+  if (isSectionRelevant(queryLower, 'experience')) {
+    sections.experience = experience;
+  } else {
+    const recentExperience = experience.slice(0, 1);
+    const matchedExperience = topKEntries(experience.slice(1), keywords, 2);
+    sections.experience = [...recentExperience, ...matchedExperience];
+  }
 
-  const matchedProjects = topKEntries(projects, keywords, 3);
-  if (matchedProjects.length > 0) sections.projects = matchedProjects;
-  else if (keywords.length === 0) sections.projects = projects.slice(0, 2);
+  if (isSectionRelevant(queryLower, 'projects')) {
+    sections.projects = projects;
+  } else {
+    const matched = topKEntries(projects, keywords, 3);
+    if (matched.length > 0) sections.projects = matched;
+  }
 
-  const matchedEducation = topKEntries(education, keywords, 2);
-  if (matchedEducation.length > 0) sections.education = matchedEducation;
-  else sections.education = education.slice(0, 1);
-
-  const matchedCerts = topKEntries(certifications, keywords, 3);
-  if (matchedCerts.length > 0) sections.certifications = matchedCerts;
+  if (isSectionRelevant(queryLower, 'certifications')) {
+    sections.certifications = certifications;
+  } else {
+    const matched = topKEntries(certifications, keywords, 3);
+    if (matched.length > 0) sections.certifications = matched;
+  }
 
   return sections;
 }
 
 function renderSections(sections) {
+  // Compact JSON (no indent) — the model parses it fine and we save ~30% tokens
+  // versus pretty-printed output.
   return Object.entries(sections)
-    .map(([name, data]) => `${name.toUpperCase()}:\n${JSON.stringify(data, null, 2)}`)
+    .map(([name, data]) => `${name.toUpperCase()}:\n${JSON.stringify(data)}`)
     .join('\n\n');
 }
 
