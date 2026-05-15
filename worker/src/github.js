@@ -9,9 +9,18 @@ export class GithubNotFoundError extends Error {
 }
 
 export class GithubAuthError extends Error {
-  constructor() {
-    super('GitHub auth failed (403)');
+  constructor(detail) {
+    super(`GitHub auth failed (403): ${detail}`);
     this.name = 'GithubAuthError';
+    this.detail = detail;
+  }
+}
+
+export class GithubRateLimitError extends Error {
+  constructor(detail) {
+    super(`GitHub rate limit (403): ${detail}`);
+    this.name = 'GithubRateLimitError';
+    this.detail = detail;
   }
 }
 
@@ -36,21 +45,21 @@ export function parseGithubUrl(url) {
   return { owner: match[1], repo: match[2] };
 }
 
-async function doFetch(owner, repo) {
+async function doFetch(owner, repo, token) {
   const url = GITHUB_README_URL.replace('{owner}', owner).replace('{repo}', repo);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
-    // Unauthenticated request — relies on the 60/hr-per-egress-IP anonymous
-    // GitHub limit, which is plenty given our 24h KV cache reduces actual
-    // outbound fetches to ~one per project per day after warmup.
-    const res = await fetch(url, {
-      headers: {
-        Accept: 'application/vnd.github.raw+json',
-        'User-Agent': 'soren-larsen-chat-worker/1.0',
-      },
-      signal: controller.signal,
-    });
+    const headers = {
+      Accept: 'application/vnd.github.raw+json',
+      'User-Agent': 'soren-larsen-chat-worker/1.0',
+    };
+    // Add Bearer auth when a token is configured. The PAT lifts our rate
+    // limit from 60/hr per shared Cloudflare egress IP (anonymous) up to
+    // 5000/hr per token, which is what makes the chat reliable on a shared
+    // edge platform.
+    if (token) headers.Authorization = `Bearer ${token}`;
+    const res = await fetch(url, { headers, signal: controller.signal });
     return res;
   } finally {
     clearTimeout(timer);
@@ -58,17 +67,17 @@ async function doFetch(owner, repo) {
 }
 
 /**
- * Fetch a repository's raw README markdown anonymously.
+ * Fetch a repository's raw README markdown.
  * Retries once on 5xx / network errors.
- * @param {{ owner: string, repo: string }} opts
+ * @param {{ owner: string, repo: string, token?: string }} opts
  * @returns {Promise<string>} raw markdown
  */
-export async function fetchReadmeRaw({ owner, repo }) {
+export async function fetchReadmeRaw({ owner, repo, token }) {
   let lastError;
   for (let attempt = 0; attempt < 2; attempt++) {
     let res;
     try {
-      res = await doFetch(owner, repo);
+      res = await doFetch(owner, repo, token);
     } catch (err) {
       // Network / timeout
       lastError = new GithubNetworkError(err.message || String(err));
@@ -79,7 +88,17 @@ export async function fetchReadmeRaw({ owner, repo }) {
       throw new GithubNotFoundError(owner, repo);
     }
     if (res.status === 403) {
-      throw new GithubAuthError();
+      // GitHub returns 403 for both "rate limit exceeded" and "scope/permission
+      // problem". The body distinguishes them. We read it so the log surfaces
+      // the real cause instead of an opaque "auth failed".
+      const rawBody = await res.text();
+      let detail = rawBody.slice(0, 300);
+      try {
+        const json = JSON.parse(rawBody);
+        if (json.message) detail = json.message;
+      } catch { /* keep raw body */ }
+      const isRateLimit = /rate limit|api rate limit exceeded/i.test(detail);
+      throw isRateLimit ? new GithubRateLimitError(detail) : new GithubAuthError(detail);
     }
     if (res.status >= 500) {
       lastError = new GithubNetworkError(`HTTP ${res.status}`);
