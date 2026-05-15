@@ -135,6 +135,44 @@ describe('handleChat', () => {
     expect(json.error).toBe('too_large');
   });
 
+  it('returns 429 with service_capacity when Groq hits the daily token cap', async () => {
+    const env = { ...baseEnv, RATE_LIMIT: new MockKV(), README_CACHE: new MockKV() };
+    const groqBody = JSON.stringify({
+      error: {
+        message:
+          'Rate limit reached for model `llama-3.3-70b-versatile` ... on tokens per day (TPD): Limit 100000, Used 95618, Requested 4713. Please try again in 4m45.984s.',
+      },
+    });
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(groqBody, { status: 429 }));
+    const req = new Request('http://x/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'hi' }] }),
+      headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '6.6.6.6' },
+    });
+    const res = await handleChat(req, env);
+    expect(res.status).toBe(429);
+    const json = await res.json();
+    expect(json.error).toBe('service_capacity');
+    expect(Number(res.headers.get('Retry-After'))).toBeGreaterThan(60);
+  });
+
+  it('returns 429 with service_busy when Groq hits the per-minute cap', async () => {
+    const env = { ...baseEnv, RATE_LIMIT: new MockKV(), README_CACHE: new MockKV() };
+    const groqBody = JSON.stringify({
+      error: { message: 'Rate limit reached ... on tokens per minute (TPM): Limit 12000, please try again in 7.37s' },
+    });
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(groqBody, { status: 429 }));
+    const req = new Request('http://x/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'hi' }] }),
+      headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '7.7.7.7' },
+    });
+    const res = await handleChat(req, env);
+    expect(res.status).toBe(429);
+    const json = await res.json();
+    expect(json.error).toBe('service_busy');
+  });
+
   it('returns 502 when Groq upstream fails', async () => {
     const env = { ...baseEnv, RATE_LIMIT: new MockKV(), README_CACHE: new MockKV() };
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('boom', { status: 500 }));

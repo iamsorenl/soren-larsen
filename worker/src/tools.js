@@ -1,4 +1,4 @@
-import { parseGithubUrl, fetchReadmeRaw, GithubNotFoundError, GithubAuthError, GithubNetworkError } from './github.js';
+import { parseGithubUrl, fetchReadmeRaw, GithubNotFoundError, GithubAuthError, GithubRateLimitError, GithubNetworkError } from './github.js';
 import { extractRelevantSections } from './readmeExtract.js';
 import { getCachedReadme, putCachedReadme, normalizeSlug } from './readmeCache.js';
 import { README_MAX_TOKENS } from './constants.js';
@@ -71,7 +71,8 @@ async function fetchRepoReadme(argsStr, env, userQuestion) {
     }
   }
 
-  // Fetch from GitHub
+  // Fetch from GitHub with PAT auth when configured. The token comes from
+  // env.GITHUB_TOKEN (Cloudflare Worker secret).
   let markdown;
   try {
     markdown = await fetchReadmeRaw({ owner, repo, token: env.GITHUB_TOKEN });
@@ -80,8 +81,12 @@ async function fetchRepoReadme(argsStr, env, userQuestion) {
       console.error('github readme not found', { owner, repo });
       return JSON.stringify({ status: 'unavailable', reason: 'readme not found' });
     }
+    if (err instanceof GithubRateLimitError) {
+      console.error('github rate limit', { owner, repo, detail: err.detail });
+      return JSON.stringify({ status: 'unavailable', reason: 'github rate limit hit' });
+    }
     if (err instanceof GithubAuthError) {
-      console.error('github auth error', { owner, repo });
+      console.error('github auth error', { owner, repo, detail: err.detail });
       return JSON.stringify({ status: 'unavailable', reason: 'github auth error' });
     }
     if (err instanceof GithubNetworkError) {
