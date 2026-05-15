@@ -52,6 +52,7 @@ export async function handleChat(request, env) {
     });
   } catch (err) {
     if (err instanceof GroqUpstreamError) {
+      console.error('groq upstream error', { status: err.status, message: err.message, model: env.GROQ_MODEL });
       return jsonError(502, 'upstream_error', 'Upstream model error.', cors);
     }
     console.error('chat handler error', err);
