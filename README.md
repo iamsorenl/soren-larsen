@@ -44,10 +44,12 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 
 ### 🤖 **Soren's Assistant Chat Widget**
 
-- **Floating chat bubble** bottom-right on every page; mobile-friendly bottom sheet with scrim
+- **Floating chat bubble** bottom-right on every page; mobile-friendly bottom sheet with scrim; FAB hides when the panel is open
 - **Grounded in the JSON content** — entry-level retrieval picks only the relevant `experience`, `projects`, `skills`, etc. for each question
-- **Streaming responses** from Groq's Llama 3.3 70B with auto-summarization once chat history grows past a token budget
-- **Recruiter-focused guardrails** — facts only, redirects opinions/logistics to the contact section, never invents experience
+- **GitHub README tool** — when a visitor asks for deeper detail about a project than the JSON summary covers, the model invokes a `fetch_repo_readme` tool that pulls the repo's README from GitHub (PAT-authenticated), section-scores it against the question, and answers from the real source. Results cached in Cloudflare KV for 24h.
+- **Streaming responses** from Groq's Llama 3.3 70B with auto-summarization once chat history grows past a token budget; animated dots placeholder bridges the wait before the first token arrives
+- **Recruiter-focused guardrails** — facts only, redirects opinions/logistics to the contact section, never invents experience; resume links are shared directly (autolinkified to a downloadable PDF)
+- **Distinct rate-limit messages** — visitors hitting their own per-IP cap, the Groq per-minute cap, or the daily-token cap each see a specific inline explanation rather than a generic upstream error
 - **Ephemeral sessions** — conversations are mirrored to `sessionStorage` (survives accidental refresh) and cleared on tab close; a trash-icon "clear chat" button in the panel header wipes state on demand
 
 ## 📁 Project Structure
@@ -81,15 +83,20 @@ src/
 worker/                   # Cloudflare Worker backend for the chat widget
 ├── src/
 │   ├── index.js          # Router for /api/chat and /api/summarize
-│   ├── chat.js           # Streaming chat handler
+│   ├── chat.js           # Two-phase chat handler (Groq tool-use + streaming)
 │   ├── summarize.js      # JSON summarize handler
-│   ├── groq.js           # Groq client (SSE → plain-text streaming)
+│   ├── groq.js           # Groq client (streaming + non-streaming + tool support)
 │   ├── systemPrompt.js   # Entry-level RAG + token estimation
+│   ├── tools.js          # Tool specs + dispatcher (fetch_repo_readme)
+│   ├── github.js         # GitHub README fetch (PAT auth, 403 → auth vs rate-limit)
+│   ├── readmeExtract.js  # Markdown section-scored extraction
+│   ├── readmeCache.js    # 24h KV cache for fetched READMEs
 │   ├── rateLimit.js      # KV-backed per-IP rate limit
-│   └── cors.js           # CORS helpers
-├── test/                 # Vitest unit tests
+│   ├── cors.js           # CORS helpers
+│   └── constants.js      # README_MAX_TOKENS / README_CACHE_TTL
+├── test/                 # Vitest unit + scenario tests (118 tests)
 ├── scripts/sync-data.mjs # Copies src/data/*.json → worker/src/data/
-├── wrangler.jsonc        # Worker config + KV binding
+├── wrangler.jsonc        # Worker config + KV bindings (RATE_LIMIT, README_CACHE)
 └── README.md             # Worker setup + deploy guide
 ```
 
@@ -289,15 +296,20 @@ The portfolio is deployed using Firebase Hosting:
 
 ### Chat Widget Backend (Cloudflare Worker)
 
-The chat widget on the site is powered by a separate Cloudflare Worker that proxies Groq completions, holds the Groq API key as a secret, and rate-limits per-IP via Cloudflare KV. See `worker/README.md` for full setup. Quick reference:
+The chat widget on the site is powered by a separate Cloudflare Worker that proxies Groq completions, holds the Groq API key + GitHub PAT as secrets, and rate-limits per-IP via Cloudflare KV. See `worker/README.md` for full setup. Quick reference:
 
 ```bash
 cd worker
 npx wrangler login                              # one-time
 npx wrangler kv namespace create RATE_LIMIT     # one-time; paste id into wrangler.jsonc
+npx wrangler kv namespace create README_CACHE   # one-time; paste id into wrangler.jsonc
 npx wrangler secret put GROQ_API_KEY            # paste key from console.groq.com
+npx wrangler secret put GITHUB_TOKEN            # fine-grained PAT, ≤366d lifetime,
+                                                # "Public Repositories (read-only)"
 npm run deploy                                   # deploys to *.workers.dev
 ```
+
+The `GITHUB_TOKEN` secret enables the `fetch_repo_readme` tool the chat uses for deeper project answers; lifetime must be ≤366 days to satisfy the strictest org policies among the linked repos.
 
 The React build reads the Worker URL from `REACT_APP_CHAT_WORKER_URL`. Locally, leave it unset to use the `http://localhost:8787` dev fallback; for production set it via `.env.production.local` or the `CHAT_WORKER_URL` GitHub Actions secret (consumed by `.github/workflows/deploy.yml`).
 
