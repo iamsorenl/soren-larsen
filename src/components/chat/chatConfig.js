@@ -9,8 +9,11 @@ export const SUGGESTED_PROMPTS = [
     'How do I get in touch?',
 ];
 
-export const SUMMARIZE_AFTER_TURNS = 4;
-export const KEEP_TAIL_TURNS = 2;
+// Chat-history compaction. Token-based, not turn-based: short banter shouldn't
+// trigger an unnecessary summarize and a single long paste shouldn't be allowed
+// to coast past a turn-count threshold. Estimator is chars/4 (English).
+export const SOFT_SUMMARIZE_AT_TOKENS = 1500;
+export const KEEP_TAIL_TOKENS = 600;
 
 export const ERROR_COPY = {
     network: "Couldn't reach the assistant. Try again in a moment.",

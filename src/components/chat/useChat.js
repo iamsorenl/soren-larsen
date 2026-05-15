@@ -1,7 +1,38 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { streamChat, summarize, ChatApiError } from './chatApi';
 import { loadSession, saveSession, clearSession } from './sessionStore';
-import { SUMMARIZE_AFTER_TURNS, KEEP_TAIL_TURNS } from './chatConfig';
+import { SOFT_SUMMARIZE_AT_TOKENS, KEEP_TAIL_TOKENS } from './chatConfig';
+
+function estimateMessageTokens(message) {
+    return Math.ceil((message.content || '').length / 4) + 8;
+}
+
+function totalChatTokens(messages) {
+    let total = 0;
+    for (const m of messages) total += estimateMessageTokens(m);
+    return total;
+}
+
+// Walk from newest backward, accumulating tokens. Everything older than
+// KEEP_TAIL_TOKENS gets compacted. Returns null when chat is small enough or
+// there's nothing to summarize.
+function planCompaction(messages) {
+    if (totalChatTokens(messages) < SOFT_SUMMARIZE_AT_TOKENS) return null;
+    let running = 0;
+    let splitIndex = 0;
+    for (let i = messages.length - 1; i >= 0; i--) {
+        running += estimateMessageTokens(messages[i]);
+        if (running >= KEEP_TAIL_TOKENS) {
+            splitIndex = i;
+            break;
+        }
+    }
+    if (splitIndex <= 0) return null;
+    return {
+        toSummarize: messages.slice(0, splitIndex),
+        keep: messages.slice(splitIndex),
+    };
+}
 
 const STATUS = {
     IDLE: 'idle',
@@ -87,19 +118,16 @@ export function useChat() {
             await consumeStream([...priorMessages, newUserMsg], summary, controller.signal);
             setStatus(STATUS.IDLE);
 
-            // Soft proactive summarization once history grows past the threshold.
+            // Soft proactive summarization once history grows past the token
+            // threshold. Token-based so a flurry of one-word exchanges doesn't
+            // burn a summarize call and a single long paste doesn't sneak past.
             setMessages((prev) => {
-                const userTurns = prev.filter((m) => m.role === 'user').length;
-                if (userTurns >= SUMMARIZE_AFTER_TURNS) {
-                    const tailStart = Math.max(0, prev.length - KEEP_TAIL_TURNS * 2);
-                    const toSummarize = prev.slice(0, tailStart);
-                    const keep = prev.slice(tailStart);
-                    summarize({ messages: toSummarize, priorSummary: summary })
-                        .then((s) => { setSummary(s || null); })
-                        .catch(() => { /* silent — degraded path */ });
-                    return keep;
-                }
-                return prev;
+                const plan = planCompaction(prev);
+                if (!plan) return prev;
+                summarize({ messages: plan.toSummarize, priorSummary: summary })
+                    .then((s) => { setSummary(s || null); })
+                    .catch(() => { /* silent — degraded path */ });
+                return plan.keep;
             });
         } catch (err) {
             if (err.name === 'AbortError') {
