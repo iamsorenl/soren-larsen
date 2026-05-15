@@ -1,31 +1,43 @@
 import React from 'react';
 import { Box, Link, Typography, useTheme } from '@mui/material';
 
-// Splits text into runs alternating between plain strings and URL strings so
-// the assistant's references like "https://larsensoren.com/SorenLarsenResume.pdf"
-// render as clickable links. Avoids pulling in a markdown parser.
-const URL_PATTERN = /(https?:\/\/[^\s<>()]+[^\s<>().,;:!?])/g;
+const URL_REGEX = /https?:\/\/[^\s<>()]+[^\s<>().,;:!?]/g;
 
+// Walks `content`, splitting it into plain-text runs and URL runs without
+// relying on `.test()` (which has a sticky-lastIndex bug under the /g flag).
 function renderRichContent(content) {
     if (!content) return null;
-    const parts = content.split(URL_PATTERN);
-    return parts.map((part, i) => {
-        if (URL_PATTERN.test(part)) {
-            return (
-                <Link
-                    key={i}
-                    href={part}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    underline="hover"
-                    sx={{ color: 'inherit', fontWeight: 600 }}
-                >
-                    {part}
-                </Link>
-            );
+    const out = [];
+    let cursor = 0;
+    let key = 0;
+    const re = new RegExp(URL_REGEX);
+    let match;
+    while ((match = re.exec(content)) !== null) {
+        if (match.index > cursor) {
+            out.push(<React.Fragment key={key++}>{content.slice(cursor, match.index)}</React.Fragment>);
         }
-        return <React.Fragment key={i}>{part}</React.Fragment>;
-    });
+        out.push(
+            <Link
+                key={key++}
+                href={match[0]}
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="always"
+                sx={{
+                    color: 'primary.main',
+                    fontWeight: 600,
+                    wordBreak: 'break-all',
+                }}
+            >
+                {match[0]}
+            </Link>
+        );
+        cursor = match.index + match[0].length;
+    }
+    if (cursor < content.length) {
+        out.push(<React.Fragment key={key++}>{content.slice(cursor)}</React.Fragment>);
+    }
+    return out;
 }
 
 function ChatMessage({ role, content, isStreaming }) {
