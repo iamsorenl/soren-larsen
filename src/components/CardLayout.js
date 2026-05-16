@@ -47,7 +47,7 @@ const CardLayout = () => {
                     <EnhancedCertifications />
                 </Suspense>
             </Grid>
-            <Grid item xs={12} md={6} id="education" sx={{ alignSelf: 'flex-start' }}>
+            <Grid item xs={12} md={6} id="education">
                 <Suspense fallback={<SectionFallback />}>
                     <EnhancedEducationCard />
                 </Suspense>

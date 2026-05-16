@@ -54,11 +54,10 @@ const EnhancedEducationCard = () => {
             sx={{
                 backgroundColor: 'primary.main',
                 color: 'primary.contrastText',
-                height: 'auto',
+                height: '100%',
                 width: '100%',
                 mb: 1,
                 borderRadius: '16px',
-                alignSelf: 'flex-start',
                 background: (t) => t.palette.mode === 'dark'
                     ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
                     : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'
@@ -148,6 +147,26 @@ const EnhancedEducationCard = () => {
                                         >
                                             {education.school}{education.dates ? ` · ${education.dates}` : ''}
                                         </Typography>
+                                        {education.description && (
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    display: '-webkit-box',
+                                                    WebkitBoxOrient: 'vertical',
+                                                    WebkitLineClamp: { xs: 2, sm: 2, md: 3 },
+                                                    overflow: 'hidden',
+                                                    color: 'text.secondary',
+                                                    lineHeight: 1.5,
+                                                    mt: 0.5,
+                                                    '.Mui-expanded &': {
+                                                        WebkitLineClamp: 'unset',
+                                                        overflow: 'visible'
+                                                    }
+                                                }}
+                                            >
+                                                {education.description}
+                                            </Typography>
+                                        )}
                                     </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
                                         <Chip
@@ -201,50 +220,37 @@ const EnhancedEducationCard = () => {
                                         )}
                                     </Box>
                                 </AccordionSummary>
-                                {hasExpandableContent && (
+                                {education.relevantCoursework && education.relevantCoursework.length > 0 && (
                                     <AccordionDetails sx={{ pl: 2.5, pt: 0, pb: 2 }}>
                                         <Box sx={{ borderTop: '1px solid rgba(0, 0, 0, 0.08)', pt: 2 }}>
-                                            {education.description && (
-                                                <Typography
-                                                    variant="body2"
-                                                    color="text.secondary"
-                                                    sx={{ lineHeight: 1.6, mb: 2 }}
-                                                >
-                                                    {education.description}
+                                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                                                <MenuBook sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
+                                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                                    Relevant Coursework ({education.relevantCoursework.length})
                                                 </Typography>
-                                            )}
-                                            {education.relevantCoursework && education.relevantCoursework.length > 0 && (
-                                                <>
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-                                                        <MenuBook sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
-                                                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                                                            Relevant Coursework ({education.relevantCoursework.length})
-                                                        </Typography>
-                                                    </Box>
-                                                    <Grid container spacing={1}>
-                                                        {education.relevantCoursework.map((course, courseIndex) => (
-                                                            <Grid item xs={12} sm={6} md={4} key={courseIndex}>
-                                                                <Chip
-                                                                    label={course}
-                                                                    size="small"
-                                                                    variant="outlined"
-                                                                    sx={{
-                                                                        width: '100%',
-                                                                        justifyContent: 'flex-start',
-                                                                        fontSize: '0.75rem',
-                                                                        height: 'auto',
-                                                                        py: 0.5,
-                                                                        '& .MuiChip-label': {
-                                                                            whiteSpace: 'normal',
-                                                                            textAlign: 'left'
-                                                                        }
-                                                                    }}
-                                                                />
-                                                            </Grid>
-                                                        ))}
+                                            </Box>
+                                            <Grid container spacing={1}>
+                                                {education.relevantCoursework.map((course, courseIndex) => (
+                                                    <Grid item xs={12} sm={6} md={4} key={courseIndex}>
+                                                        <Chip
+                                                            label={course}
+                                                            size="small"
+                                                            variant="outlined"
+                                                            sx={{
+                                                                width: '100%',
+                                                                justifyContent: 'flex-start',
+                                                                fontSize: '0.75rem',
+                                                                height: 'auto',
+                                                                py: 0.5,
+                                                                '& .MuiChip-label': {
+                                                                    whiteSpace: 'normal',
+                                                                    textAlign: 'left'
+                                                                }
+                                                            }}
+                                                        />
                                                     </Grid>
-                                                </>
-                                            )}
+                                                ))}
+                                            </Grid>
                                         </Box>
                                     </AccordionDetails>
                                 )}
