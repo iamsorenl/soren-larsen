@@ -9,13 +9,13 @@ export const TOOLS_SPEC = [
     function: {
       name: 'fetch_repo_readme',
       description:
-        "Fetch and return the most relevant sections of a GitHub repository's README. Use this when the visitor asks for deeper detail about one of Soren's projects — architecture, implementation choices, technical depth, etc. — and the project's JSON entry doesn't have enough context. Pass the project's full github URL from the project entry.",
+        "Fetch and return the most relevant sections of a GitHub repository's README. Use this when the visitor asks for deeper detail about one of Soren's projects — architecture, implementation choices, technical depth, etc. — and the project's JSON entry doesn't have enough context. You MUST copy the value of the project's `link` field VERBATIM from PROJECTS in the FACTS section. Do not guess, construct, normalize, or modify the URL — owners and repo names are not predictable from the project title.",
       parameters: {
         type: 'object',
         properties: {
           github_url: {
             type: 'string',
-            description: 'Full GitHub repo URL, e.g. https://github.com/iamsorenl/EduMUSE',
+            description: "The exact `link` value from the matching PROJECTS entry. Copy it character-for-character — do not invent or alter the owner or repo name.",
           },
         },
         required: ['github_url'],
