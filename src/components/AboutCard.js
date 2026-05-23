@@ -97,7 +97,11 @@ const AboutCard = () => {
                     {/* Stylistic Resume Download Button */}
                     <Tooltip title="Download Resume" arrow>
                         <Button
-                            onClick={() => window.open(resumePDF, '_blank')}
+                            component="a"
+                            href={resumePDF}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
                             variant="contained"
                             startIcon={<Description />}
                             sx={{
