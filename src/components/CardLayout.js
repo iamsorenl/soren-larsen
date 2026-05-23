@@ -3,12 +3,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const EnhancedProjectCard = lazy(() => import('./EnhancedProjectCard'));
+const ProjectCard = lazy(() => import('./ProjectCard'));
 const ExperienceCard = lazy(() => import('./ExperienceCard'));
-const EnhancedSkillCard = lazy(() => import('./EnhancedSkillCard'));
-const EnhancedEducationCard = lazy(() => import('./EnhancedEducationCard'));
-const EnhancedContactCard = lazy(() => import('./EnhancedContactCard'));
-const EnhancedCertifications = lazy(() => import('./EnhancedCertifications'));
+const SkillCard = lazy(() => import('./SkillCard'));
+const EducationCard = lazy(() => import('./EducationCard'));
+const ContactCard = lazy(() => import('./ContactCard'));
+const Certifications = lazy(() => import('./Certifications'));
 
 const SectionFallback = () => (
     <Box
@@ -34,27 +34,27 @@ const CardLayout = () => {
             </Grid>
             <Grid item xs={12} md={12} id="projects">
                 <Suspense fallback={<SectionFallback />}>
-                    <EnhancedProjectCard />
+                    <ProjectCard />
                 </Suspense>
             </Grid>
             <Grid item xs={12} md={12} id="skills">
                 <Suspense fallback={<SectionFallback />}>
-                    <EnhancedSkillCard />
+                    <SkillCard />
                 </Suspense>
             </Grid>
             <Grid item xs={12} md={12}>
                 <Suspense fallback={<SectionFallback />}>
-                    <EnhancedCertifications />
+                    <Certifications />
                 </Suspense>
             </Grid>
             <Grid item xs={12} md={6} id="education">
                 <Suspense fallback={<SectionFallback />}>
-                    <EnhancedEducationCard />
+                    <EducationCard />
                 </Suspense>
             </Grid>
             <Grid item xs={12} md={6} id="contact">
                 <Suspense fallback={<SectionFallback />}>
-                    <EnhancedContactCard />
+                    <ContactCard />
                 </Suspense>
             </Grid>
         </Grid>
