@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import EnhancedCertifications from '../components/EnhancedCertifications';
+import Certifications from '../components/Certifications';
 import { mockCertifications } from './mockData';
 
 const withLayout = (Story) => (
@@ -10,8 +10,8 @@ const withLayout = (Story) => (
 );
 
 const meta = {
-    title: 'Components/EnhancedCertifications',
-    component: EnhancedCertifications,
+    title: 'Components/Certifications',
+    component: Certifications,
     decorators: [withLayout],
     argTypes: {
         certifications: {

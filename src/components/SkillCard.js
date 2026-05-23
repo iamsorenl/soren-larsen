@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material';
 import skillsData from '../data/skills';
 
-const EnhancedSkillCard = () => {
+const SkillCard = () => {
     const skillCategories = [
         {
             label: 'Languages',
@@ -182,4 +182,4 @@ const EnhancedSkillCard = () => {
     );
 };
 
-export default EnhancedSkillCard;
+export default SkillCard;

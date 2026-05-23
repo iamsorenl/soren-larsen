@@ -225,7 +225,7 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
     </Card>
 );
 
-const EnhancedProjectCard = () => {
+const ProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -301,4 +301,4 @@ const EnhancedProjectCard = () => {
     );
 };
 
-export default EnhancedProjectCard;
+export default ProjectCard;

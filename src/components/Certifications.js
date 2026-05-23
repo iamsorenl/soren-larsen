@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material';
 import defaultCertifications from '../data/certifications';
 
-const EnhancedCertifications = ({ certifications = defaultCertifications }) => {
+const Certifications = ({ certifications = defaultCertifications }) => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
 
@@ -228,7 +228,7 @@ const EnhancedCertifications = ({ certifications = defaultCertifications }) => {
     );
 };
 
-EnhancedCertifications.propTypes = {
+Certifications.propTypes = {
     certifications: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string.isRequired,
@@ -239,4 +239,4 @@ EnhancedCertifications.propTypes = {
     )
 };
 
-export default EnhancedCertifications;
+export default Certifications;

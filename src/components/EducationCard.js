@@ -26,7 +26,7 @@ import educationData from '../data/education';
 import diplomaPDF from '../data/CertifiedElectronicDiploma.pdf';
 import diplomaPDF2 from '../data/CertifiedElectronicDiploma2.pdf';
 
-const EnhancedEducationCard = () => {
+const EducationCard = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
 
@@ -263,4 +263,4 @@ const EnhancedEducationCard = () => {
     );
 };
 
-export default EnhancedEducationCard;
+export default EducationCard;

@@ -23,7 +23,7 @@ import {
 } from '@mui/icons-material';
 import contactInfo from '../data/contact';
 
-const EnhancedContactCard = () => {
+const ContactCard = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -323,4 +323,4 @@ ${formData.email}`;
     );
 };
 
-export default EnhancedContactCard;
+export default ContactCard;

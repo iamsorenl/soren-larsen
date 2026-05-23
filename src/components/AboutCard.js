@@ -40,7 +40,7 @@ import frontierTower from '../images/FrontierTower.jpg';
 
 const imageUrls = [headshot1, expressive, halfdome, headshot2, turtle, peru, slugfest, surf, caffeineHack, posterPresentation, frontierTower];
 
-const EnhancedAboutCard = () => {
+const AboutCard = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -244,4 +244,4 @@ const EnhancedAboutCard = () => {
     );
 };
 
-export default EnhancedAboutCard;
+export default AboutCard;
