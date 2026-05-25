@@ -11,7 +11,7 @@ import {
     Snackbar,
     Avatar,
     useTheme,
-    useMediaQuery
+    useMediaQuery,
 } from '@mui/material';
 import {
     ContactMail,
@@ -19,16 +19,39 @@ import {
     Email,
     GitHub,
     LinkedIn,
-    Send
+    Send,
 } from '@mui/icons-material';
 import contactInfo from '../data/contact';
+import {
+    ACCENT_PALETTE,
+    SECTION_ACCENTS,
+    resolveAccent,
+} from '../theme/accents';
+import SectionHeader from './SectionHeader';
+
+const SubHeading = ({ children, accent }) => (
+    <Typography
+        variant="overline"
+        sx={{
+            fontFamily: '"JetBrains Mono", "Roboto Mono", monospace',
+            color: accent,
+            letterSpacing: '0.14em',
+            fontSize: '0.7rem',
+            fontWeight: 600,
+            display: 'block',
+            mb: 1.5,
+        }}
+    >
+        {children}
+    </Typography>
+);
 
 const ContactCard = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         subject: '',
-        message: ''
+        message: '',
     });
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -38,6 +61,8 @@ const ContactCard = () => {
     const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const { phone, email, github, linkedin } = contactInfo[0];
+
+    const sectionAccent = resolveAccent(SECTION_ACCENTS.contact, isDark);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -77,230 +102,229 @@ ${formData.email}`;
             icon: <Phone fontSize="small" />,
             label: 'Phone',
             value: phone,
-            action: () => { window.location.href = `tel:${phone}`; },
-            color: '#4caf50'
+            href: `tel:${phone}`,
+            accent: resolveAccent(ACCENT_PALETTE.sage, isDark),
+            external: false,
         },
         {
             icon: <Email fontSize="small" />,
             label: 'Email',
             value: email,
-            action: () => { window.location.href = `mailto:${email}`; },
-            color: '#2196f3'
+            href: `mailto:${email}`,
+            accent: resolveAccent(ACCENT_PALETTE.indigo, isDark),
+            external: false,
         },
         {
             icon: <GitHub fontSize="small" />,
             label: 'GitHub',
             value: 'github.com/iamsorenl',
-            action: () => window.open(github, '_blank'),
-            color: isDark ? '#ffffff' : '#333333'
+            href: github,
+            accent: resolveAccent(ACCENT_PALETTE.coral, isDark),
+            external: true,
         },
         {
             icon: <LinkedIn fontSize="small" />,
             label: 'LinkedIn',
             value: 'linkedin.com/in/soren-larsen',
-            action: () => window.open(linkedin, '_blank'),
-            color: '#0077b5'
-        }
+            href: linkedin,
+            accent: resolveAccent(ACCENT_PALETTE.cyan, isDark),
+            external: true,
+        },
     ];
 
     const fieldSx = {
-        '& .MuiInputLabel-root.Mui-focused': {
-            color: theme.palette.primary.main
-        },
+        '& .MuiInputLabel-root.Mui-focused': { color: 'primary.main' },
         '& .MuiOutlinedInput-root': {
-            backgroundColor: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)',
-            '& fieldset': {
-                borderColor: isDark ? 'rgba(255, 255, 255, 0.18)' : 'rgba(0, 0, 0, 0.18)'
-            },
+            backgroundColor: isDark
+                ? 'rgba(255, 255, 255, 0.03)'
+                : 'rgba(0, 0, 0, 0.02)',
+            '& fieldset': { borderColor: 'divider' },
             '&:hover fieldset': {
-                borderColor: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)'
+                borderColor: isDark
+                    ? 'rgba(255, 255, 255, 0.4)'
+                    : 'rgba(0, 0, 0, 0.4)',
             },
-            '&.Mui-focused fieldset': {
-                borderColor: theme.palette.primary.main
-            }
-        }
+            '&.Mui-focused fieldset': { borderColor: 'primary.main' },
+        },
     };
 
     const innerPanelSx = {
+        flex: 1,
+        p: 2.5,
+        borderRadius: '12px',
+        border: (t) => `1px solid ${t.palette.divider}`,
         backgroundColor: 'background.paper',
-        backdropFilter: 'blur(10px)',
-        border: (t) => `1px solid ${t.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-        height: '100%',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
     };
 
     return (
         <Card
             sx={{
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
-                height: '100%',
-                width: '100%',
-                mb: 1,
+                backgroundColor: 'background.paper',
                 borderRadius: '16px',
-                background: (t) => t.palette.mode === 'dark'
-                    ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
-                    : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'
+                border: (t) =>
+                    `1px solid ${
+                        t.palette.mode === 'dark'
+                            ? 'rgba(255, 255, 255, 0.08)'
+                            : 'rgba(0, 0, 0, 0.08)'
+                    }`,
             }}
         >
-            <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2.5 }}>
-                    <ContactMail sx={{ mr: 2, fontSize: 28 }} />
-                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                        Contact
-                    </Typography>
-                </Box>
+            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                <SectionHeader
+                    eyebrow="Contact"
+                    title="Get in touch"
+                    icon={<ContactMail />}
+                    accent={sectionAccent}
+                />
 
                 <Box
                     sx={{
                         display: 'flex',
                         flexDirection: isMobile ? 'column' : 'row',
                         gap: 2,
-                        alignItems: 'stretch'
+                        alignItems: 'stretch',
                     }}
                 >
                     {/* Get In Touch */}
-                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="overline" sx={{ mb: 1, fontWeight: 700, letterSpacing: 1, opacity: 0.85 }}>
-                            Get In Touch
-                        </Typography>
-                        <Card sx={innerPanelSx}>
-                            <CardContent sx={{ p: 1.5, flex: 1, '&:last-child': { pb: 1.5 } }}>
-                                <Stack spacing={0.5}>
-                                    {contactMethods.map((method, index) => (
-                                        <Button
-                                            key={index}
-                                            onClick={method.action}
+                    <Box sx={innerPanelSx}>
+                        <SubHeading accent={sectionAccent}>Direct</SubHeading>
+                        <Stack spacing={0.5}>
+                            {contactMethods.map((method) => (
+                                <Button
+                                    key={method.label}
+                                    component="a"
+                                    href={method.href}
+                                    target={method.external ? '_blank' : undefined}
+                                    rel={method.external ? 'noopener noreferrer' : undefined}
+                                    sx={{
+                                        width: '100%',
+                                        justifyContent: 'flex-start',
+                                        textTransform: 'none',
+                                        py: 1,
+                                        px: 1.25,
+                                        borderRadius: 1.5,
+                                        color: 'text.primary',
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            backgroundColor: isDark
+                                                ? 'rgba(255, 255, 255, 0.05)'
+                                                : 'rgba(0, 0, 0, 0.04)',
+                                            transform: 'translateX(2px)',
+                                        },
+                                    }}
+                                >
+                                    <Avatar
+                                        sx={{
+                                            width: 32,
+                                            height: 32,
+                                            mr: 1.5,
+                                            backgroundColor: `${method.accent}22`,
+                                            color: method.accent,
+                                        }}
+                                    >
+                                        {method.icon}
+                                    </Avatar>
+                                    <Box sx={{ textAlign: 'left', minWidth: 0, flex: 1 }}>
+                                        <Typography
+                                            variant="caption"
                                             sx={{
-                                                width: '100%',
-                                                justifyContent: 'flex-start',
-                                                textTransform: 'none',
-                                                py: 1,
-                                                px: 1.5,
-                                                borderRadius: 1.5,
-                                                color: 'text.primary',
-                                                transition: 'all 0.2s ease',
-                                                '&:hover': {
-                                                    backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.04)',
-                                                    transform: 'translateX(2px)'
-                                                }
+                                                fontWeight: 600,
+                                                color: 'text.secondary',
+                                                textTransform: 'uppercase',
+                                                letterSpacing: 0.5,
+                                                lineHeight: 1.2,
+                                                display: 'block',
                                             }}
                                         >
-                                            <Avatar
-                                                sx={{
-                                                    width: 32,
-                                                    height: 32,
-                                                    mr: 1.5,
-                                                    backgroundColor: `${method.color}22`,
-                                                    color: method.color
-                                                }}
-                                            >
-                                                {method.icon}
-                                            </Avatar>
-                                            <Box sx={{ textAlign: 'left', minWidth: 0, flex: 1 }}>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 600,
-                                                        color: 'text.secondary',
-                                                        textTransform: 'uppercase',
-                                                        letterSpacing: 0.5,
-                                                        lineHeight: 1.2,
-                                                        display: 'block'
-                                                    }}
-                                                >
-                                                    {method.label}
-                                                </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{
-                                                        color: 'text.primary',
-                                                        fontWeight: 500,
-                                                        overflow: 'hidden',
-                                                        textOverflow: 'ellipsis',
-                                                        whiteSpace: 'nowrap'
-                                                    }}
-                                                >
-                                                    {method.value}
-                                                </Typography>
-                                            </Box>
-                                        </Button>
-                                    ))}
-                                </Stack>
-                            </CardContent>
-                        </Card>
+                                            {method.label}
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                color: 'text.primary',
+                                                fontWeight: 500,
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
+                                            {method.value}
+                                        </Typography>
+                                    </Box>
+                                </Button>
+                            ))}
+                        </Stack>
                     </Box>
 
                     {/* Send a Message */}
-                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="overline" sx={{ mb: 1, fontWeight: 700, letterSpacing: 1, opacity: 0.85 }}>
-                            Send a Message
-                        </Typography>
-                        <Card sx={innerPanelSx}>
-                            <CardContent sx={{ p: 2, flex: 1, '&:last-child': { pb: 2 } }}>
-                                <Box component="form" onSubmit={handleSubmit}>
-                                    <Stack spacing={1.5}>
-                                        <TextField
-                                            name="name"
-                                            label="Your Name"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            required
-                                            fullWidth
-                                            size="small"
-                                            sx={fieldSx}
-                                        />
-                                        <TextField
-                                            name="email"
-                                            label="Your Email"
-                                            type="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            required
-                                            fullWidth
-                                            size="small"
-                                            sx={fieldSx}
-                                        />
-                                        <TextField
-                                            name="subject"
-                                            label="Subject (Optional)"
-                                            value={formData.subject}
-                                            onChange={handleInputChange}
-                                            fullWidth
-                                            size="small"
-                                            sx={fieldSx}
-                                        />
-                                        <TextField
-                                            name="message"
-                                            label="Your Message"
-                                            value={formData.message}
-                                            onChange={handleInputChange}
-                                            required
-                                            fullWidth
-                                            multiline
-                                            rows={3}
-                                            size="small"
-                                            sx={fieldSx}
-                                        />
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            startIcon={<Send />}
-                                            fullWidth
-                                            sx={{
-                                                py: 1.25,
-                                                fontWeight: 600,
-                                                textTransform: 'none',
-                                                mt: 0.5
-                                            }}
-                                        >
-                                            Send Message
-                                        </Button>
-                                    </Stack>
-                                </Box>
-                            </CardContent>
-                        </Card>
+                    <Box sx={innerPanelSx}>
+                        <SubHeading accent={sectionAccent}>Send a Message</SubHeading>
+                        <Box
+                            component="form"
+                            onSubmit={handleSubmit}
+                            aria-label="Contact form"
+                        >
+                            <Stack spacing={1.5}>
+                                <TextField
+                                    name="name"
+                                    label="Your Name"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    required
+                                    fullWidth
+                                    size="small"
+                                    sx={fieldSx}
+                                />
+                                <TextField
+                                    name="email"
+                                    label="Your Email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    required
+                                    fullWidth
+                                    size="small"
+                                    sx={fieldSx}
+                                />
+                                <TextField
+                                    name="subject"
+                                    label="Subject (Optional)"
+                                    value={formData.subject}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                    size="small"
+                                    sx={fieldSx}
+                                />
+                                <TextField
+                                    name="message"
+                                    label="Your Message"
+                                    value={formData.message}
+                                    onChange={handleInputChange}
+                                    required
+                                    fullWidth
+                                    multiline
+                                    rows={3}
+                                    size="small"
+                                    sx={fieldSx}
+                                />
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    startIcon={<Send />}
+                                    fullWidth
+                                    sx={{
+                                        py: 1.25,
+                                        fontWeight: 600,
+                                        textTransform: 'none',
+                                        mt: 0.5,
+                                    }}
+                                >
+                                    Send Message
+                                </Button>
+                            </Stack>
+                        </Box>
                     </Box>
                 </Box>
 
