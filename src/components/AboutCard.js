@@ -1,41 +1,48 @@
 import React from 'react';
-import { Card, CardContent, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack, useTheme } from '@mui/material';
 import about from '../data/about';
+import { ACCENT_PALETTE, resolveAccent } from '../theme/accents';
 
 const AboutCard = () => {
+    const theme = useTheme();
+    const isDark = theme.palette.mode === 'dark';
+    const accent = resolveAccent(ACCENT_PALETTE.indigo, isDark);
+
     const paragraphs = about[0].about.split('\n\n').slice(1);
+    const closingIndex = paragraphs.length - 1;
 
     return (
-        <Card
+        <Box
+            component="section"
+            aria-label="About Soren"
             sx={{
-                backgroundColor: 'background.paper',
-                borderRadius: '16px',
-                border: (theme) =>
-                    `1px solid ${
-                        theme.palette.mode === 'dark'
-                            ? 'rgba(255, 255, 255, 0.08)'
-                            : 'rgba(0, 0, 0, 0.08)'
-                    }`,
+                py: { xs: 1, md: 2 },
+                px: { xs: 3, md: 5 },
+                position: 'relative',
+                borderLeft: `4px solid ${accent}`,
+                ml: { xs: 0, md: 1 },
             }}
         >
-            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                <Stack spacing={2}>
-                    {paragraphs.map((p, i) => (
-                        <Typography
-                            key={i}
-                            variant="body1"
-                            sx={{
-                                color: 'text.primary',
-                                lineHeight: 1.7,
-                                fontSize: { xs: '1rem', md: '1.0625rem' },
-                            }}
-                        >
-                            {p}
-                        </Typography>
-                    ))}
-                </Stack>
-            </CardContent>
-        </Card>
+            <Stack spacing={2.5}>
+                {paragraphs.map((p, i) => (
+                    <Typography
+                        key={i}
+                        variant="body1"
+                        sx={{
+                            color: 'text.primary',
+                            lineHeight: 1.75,
+                            fontSize: { xs: '1.0625rem', md: '1.125rem' },
+                            fontStyle: i === closingIndex ? 'italic' : 'normal',
+                            ...(i === closingIndex && {
+                                color: 'text.secondary',
+                            }),
+                        }}
+                    >
+                        {p}
+                    </Typography>
+                ))}
+            </Stack>
+        </Box>
     );
 };
 
