@@ -22,8 +22,9 @@ import {
     Business,
 } from '@mui/icons-material';
 import experienceData from '../data/experience';
+import { SECTION_ACCENTS, resolveAccent } from '../theme/accents';
 
-const SECTION_ACCENT = { light: '#0097a7', dark: '#26c6da' };
+const SECTION_ACCENT = SECTION_ACCENTS.experience;
 
 const MONTHS = {
     January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
@@ -54,7 +55,7 @@ const ExperienceCard = () => {
         .filter((exp) => exp.title !== 'Graphic Designer')
         .sort((a, b) => parseDate(b.startDate) - parseDate(a.startDate));
 
-    const sectionAccent = isDark ? SECTION_ACCENT.dark : SECTION_ACCENT.light;
+    const sectionAccent = resolveAccent(SECTION_ACCENT, isDark);
 
     return (
         <Card

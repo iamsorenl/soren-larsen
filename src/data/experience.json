@@ -20,8 +20,8 @@
             "Full-Stack Development"
         ],
         "highlightColor": {
-            "light": "#8b5cf6",
-            "dark": "#a78bfa"
+            "light": "#7986cb",
+            "dark": "#9fa8da"
         },
         "category": "professional"
     },
@@ -45,8 +45,8 @@
             "Natural Language Processing (NLP)"
         ],
         "highlightColor": {
-            "light": "#f59e0b",
-            "dark": "#fbbf24"
+            "light": "#0097a7",
+            "dark": "#26c6da"
         },
         "category": "professional"
     },
@@ -69,8 +69,8 @@
             "Natural Language Processing (NLP)"
         ],
         "highlightColor": {
-            "light": "#0ea5e9",
-            "dark": "#38bdf8"
+            "light": "#5d8a66",
+            "dark": "#81c784"
         },
         "category": "professional"
     },
@@ -93,8 +93,8 @@
             "Business Information Systems"
         ],
         "highlightColor": {
-            "light": "#003c6c",
-            "dark": "#fdc700"
+            "light": "#d4a017",
+            "dark": "#ffd54f"
         },
         "category": "teaching"
     },
@@ -121,8 +121,8 @@
             "Full-Stack Development"
         ],
         "highlightColor": {
-            "light": "#10b981",
-            "dark": "#34d399"
+            "light": "#e85a4f",
+            "dark": "#ff8a80"
         },
         "category": "professional"
     }
