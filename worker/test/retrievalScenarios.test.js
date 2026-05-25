@@ -126,18 +126,6 @@ describe('education retrieval', () => {
   });
 });
 
-describe('certifications retrieval', () => {
-  it('"what certifications has he earned" includes the certifications section', () => {
-    const sections = retrieveContext('What certifications has he earned?');
-    expect(sections.certifications).toBeDefined();
-  });
-
-  it('out-of-topic question omits certifications', () => {
-    const sections = retrieveContext("What was Soren's most recent role?");
-    expect(sections.certifications).toBeUndefined();
-  });
-});
-
 describe('prompt token budget', () => {
   const RECRUITER_QUERIES = [
     "What was Soren's most recent role?",
@@ -146,7 +134,6 @@ describe('prompt token budget', () => {
     'What projects has he worked on?',
     'Has he used Python in any of his work?',
     'Where did he study?',
-    'What certifications has he earned?',
     'Tell me about No RAGrets.',
     'What is his tech stack?',
     'How can I get in touch with him?',
@@ -161,7 +148,7 @@ describe('prompt token budget', () => {
 
   it('worst-case multi-section query stays under MAX_PROMPT_TOKENS', () => {
     const tokens = estimateTokens(
-      buildSystemPrompt(null, 'Tell me about all his jobs and projects and certifications and education.')
+      buildSystemPrompt(null, 'Tell me about all his jobs and projects and education.')
     );
     expect(tokens).toBeLessThan(MAX_PROMPT_TOKENS);
   });

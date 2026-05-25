@@ -79,10 +79,6 @@ describe('retrieveContext', () => {
     if (sections.projects) expect(sections.projects.length).toBeLessThanOrEqual(3);
   });
 
-  it('omits certifications when query has no relevant keywords or topic', () => {
-    const sections = retrieveContext("What's his favorite color?");
-    expect(sections.certifications).toBeUndefined();
-  });
 });
 
 describe('estimateTokens', () => {

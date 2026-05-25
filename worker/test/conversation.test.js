@@ -150,7 +150,7 @@ describe('token budget safety margin', () => {
   it('worst-case prompt × variance factor still fits TPM single-request', () => {
     const sp = buildSystemPrompt(
       null,
-      'Tell me about all his jobs and projects and certifications and education.'
+      'Tell me about all his jobs and projects and education.'
     );
     const worstCaseRequest = estimateRequestTokens({
       systemPrompt: sp,
@@ -202,7 +202,7 @@ describe('token estimate sanity for realistic conversations', () => {
   });
 
   it('a chat history of just one mega-message + topical query 413s without a summary', () => {
-    const sp = buildSystemPrompt(null, 'List ALL his jobs and projects and certifications.');
+    const sp = buildSystemPrompt(null, 'List ALL his jobs and projects.');
     const giantHistory = [{ role: 'user', content: 'x'.repeat(20000) }];
     expect(estimateRequestTokens({ systemPrompt: sp, messages: giantHistory })).toBeGreaterThan(MAX_PROMPT_TOKENS);
   });

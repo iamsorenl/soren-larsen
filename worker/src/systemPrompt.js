@@ -3,7 +3,6 @@ import experience from './data/experience.json';
 import projects from './data/projects.json';
 import skills from './data/skills.json';
 import education from './data/education.json';
-import certifications from './data/certifications.json';
 import highlights from './data/highlights.json';
 import contact from './data/contact.json';
 
@@ -62,10 +61,6 @@ const SECTION_TOPIC_KEYWORDS = {
     'create', 'creating', 'repo', 'repos', 'github repo', 'shipped',
     'shipping', 'side project',
   ],
-  certifications: [
-    'cert', 'certs', 'certification', 'certifications', 'license', 'licenses',
-    'credential', 'credentials',
-  ],
   education: [
     'school', 'schools', 'university', 'universities', 'college', 'colleges',
     'degree', 'degrees', 'education', 'academic', 'gpa', 'ucsc',
@@ -86,9 +81,8 @@ function isSectionRelevant(queryLower, sectionName) {
 //   targets experience ("roles", "work history", etc.), include all roles so
 //   list-style questions get full coverage; otherwise add up to 2 entry-level
 //   keyword matches.
-// - projects / certifications: include the full list when topically targeted;
-//   otherwise fall back to entry-level top-K matches (or omit if nothing
-//   scores).
+// - projects: include the full list when topically targeted; otherwise fall
+//   back to entry-level top-K matches (or omit if nothing scores).
 export function retrieveContext(latestUserMessage) {
   const queryLower = (latestUserMessage || '').toLowerCase();
   const keywords = extractKeywords(latestUserMessage);
@@ -113,13 +107,6 @@ export function retrieveContext(latestUserMessage) {
   } else {
     const matched = topKEntries(projects, keywords, 3);
     if (matched.length > 0) sections.projects = matched;
-  }
-
-  if (isSectionRelevant(queryLower, 'certifications')) {
-    sections.certifications = certifications;
-  } else {
-    const matched = topKEntries(certifications, keywords, 3);
-    if (matched.length > 0) sections.certifications = matched;
   }
 
   return sections;
