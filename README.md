@@ -1,6 +1,6 @@
 # Soren Larsen Portfolio
 
-Welcome to my portfolio repository! This is a modern, responsive personal website built to showcase my skills, projects, and professional experiences as an AI & Software Systems Engineer. The portfolio features a sophisticated design with dark/light theme support and data-driven content management.
+Welcome to my portfolio repository! This is a modern, responsive personal website built to showcase my skills, projects, and professional experiences as an AI & Full-Stack Engineer. The portfolio features a typographic, palette-driven design with dark/light theme support and data-driven content management.
 
 ## 🚀 Live Demo
 
@@ -24,17 +24,21 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 
 - **Dark/Light Theme Toggle**: Seamless theme switching with persistent user preference
 - **Responsive Design**: Optimized for all screen sizes (mobile, tablet, desktop)
-- **Glassmorphism Effects**: Modern UI with backdrop blur and transparency
-- **Smooth Animations**: Engaging transitions and hover effects
-- **Professional Color Schemes**: Carefully selected color palettes for both themes
+- **Editorial Typography**: Fraunces serif for display headlines (hero name, section h2s), Inter for body, JetBrains Mono for eyebrow labels
+- **Unified Accent Palette**: A single 5-color palette (indigo, cyan, coral, gold, sage) in `src/theme/accents.js` drives every section accent and per-entry color, so the page reads as one designed system
+- **Frosted-Glass Navigation**: Theme-aware translucent AppBar with backdrop-blur, primary-color underline on the active section
+- **Smooth Animations**: Smooth scroll-to-section nav, hero photo carousel cross-fade, chat-FAB section-transition wiggle
 
-### 📱 **Enhanced Components**
+### 📱 **Components**
 
-- **Dynamic Navigation**: Responsive navbar that adapts to screen size
-- **Interactive Cards**: Expandable sections with detailed information
-- **Photo Carousel**: Dynamic image rotation showcasing personal moments
-- **Contact Form**: Functional contact form with email integration
-- **Skill Visualization**: Professional skill assessment with proficiency levels
+- **Hero**: Two-column typographic intro — name in Fraunces, role line, tagline, CTA row (Resume / Contact / GitHub), photo carousel on the right (stacks on mobile)
+- **Shared `SectionHeader`**: Every content card uses the same `<SectionHeader eyebrow title icon accent />` pattern for visual coherence
+- **Hybrid card treatment**: Each section sits on `background.paper` with a divider border; per-entry color rotation through the unified palette
+- **Interactive Cards**: Expandable Experience / Projects rows, Education accordions with diploma links, collapsible Skills categories
+- **Photo Carousel**: 11-image cross-fade in the Hero with clickable dot indicators (focus-visible keyboard support)
+- **Contact Form**: Mailto-backed form alongside a direct-contact panel
+- **Skill Visualization**: Per-category chips sorted by proficiency level; Expert chips render bolder with a soft accent ring; hover any chip for the proficiency label
+- **Footer**: Centered byline + GitHub / LinkedIn / Email icon links on a quiet divider-bordered band
 
 ### 📊 **Data-Driven Architecture**
 
@@ -58,27 +62,34 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 src/
 ├── components/           # React components
 │   ├── chat/             # "Soren's Assistant" chat widget (ChatWidget, ChatPanel, etc.)
-│   ├── EnhancedAboutCard.js
-│   ├── EnhancedContactCard.js
-│   ├── EnhancedEducationCard.js
-│   ├── EnhancedExperienceCard.js
-│   ├── EnhancedProjectCard.js
-│   ├── EnhancedSkillCard.js
-│   ├── EnhancedCertifications.js
-│   └── Navigation.js
+│   ├── Hero.js           # Two-column hero: name + role + tagline + CTAs + photo carousel
+│   ├── AboutCard.js      # Slim editorial pull-quote (the bio paragraphs the hero doesn't cover)
+│   ├── ExperienceCard.js
+│   ├── ProjectCard.js
+│   ├── SkillCard.js
+│   ├── EducationCard.js
+│   ├── ContactCard.js
+│   ├── SectionHeader.js  # Shared eyebrow + Fraunces h2 + accent-tinted icon
+│   ├── Copyright.js      # Bottom-of-page footer with social icon links
+│   ├── Navigation.js
+│   ├── CardLayout.js     # Lazy-loads section cards in order
+│   ├── Body.js           # Page-level grid (Hero → About → CardLayout → Footer)
+│   ├── ErrorBoundary.js
+│   └── ...               # Plus EducationPopUpCard, ReadMoreText, NotFound
 ├── contexts/             # React Context providers
 │   └── ThemeContext.js
 ├── data/                 # JSON data files
 │   ├── about.json
-│   ├── certifications.json
 │   ├── contact.json
 │   ├── education.json
-│   ├── experience.json
+│   ├── experience.json   # Each entry carries its own highlightColor
 │   ├── highlights.json
 │   ├── projects.json
-│   └── skills.json
-├── images/               # Static assets
-└── theme.js              # Material-UI theme configuration
+│   └── skills.json       # Each skill has { name, level, proficiency }
+├── images/               # Static assets (hero carousel photos)
+├── theme.js              # MUI theme (palette, typography, MuiCard/MuiButton overrides)
+└── theme/
+    └── accents.js        # Unified accent palette + per-section signature colors
 
 worker/                   # Cloudflare Worker backend for the chat widget
 ├── src/
@@ -94,7 +105,7 @@ worker/                   # Cloudflare Worker backend for the chat widget
 │   ├── rateLimit.js      # KV-backed per-IP rate limit
 │   ├── cors.js           # CORS helpers
 │   └── constants.js      # README_MAX_TOKENS / README_CACHE_TTL
-├── test/                 # Vitest unit + scenario tests (118 tests)
+├── test/                 # Vitest unit + scenario tests (114 tests)
 ├── scripts/sync-data.mjs # Copies src/data/*.json → worker/src/data/
 ├── wrangler.jsonc        # Worker config + KV bindings (RATE_LIMIT, README_CACHE)
 └── README.md             # Worker setup + deploy guide
@@ -102,53 +113,55 @@ worker/                   # Cloudflare Worker backend for the chat widget
 
 ## 🎯 Portfolio Sections
 
+### **Hero**
+
+- Name in Fraunces serif, role line ("AI & Full-Stack Engineer • Founding Engineer @ Levangie Laboratories"), tagline pulled from `about.json`
+- Three CTAs: Resume (anchor download), Contact (smooth-scroll to contact section), GitHub
+- 11-image cross-fading photo carousel on the right at desktop widths, stacked below the text on mobile, with clickable + focus-visible dot indicators
+- Subtle indigo-tinted gradient background that's the page's single colored block
+
 ### **About**
 
-- Personal introduction and current role
-- Quick highlights with dynamic icons
-- Professional headshot carousel
-- Data sourced from `highlights.json` and `about.json`
+- Two-paragraph editorial pull-quote with a left accent bar (the prose that the hero tagline doesn't cover)
+- Closing sentence italicized in `text.secondary` for a sign-off feel
+- Sourced from `about.json`; paragraph 1 is intentionally skipped because it duplicates the hero tagline
 
 ### **Experience**
 
-- Comprehensive professional history
-- Company-specific color coding (data-driven)
-- Expandable detailed descriptions
-- Skills and achievements for each role
-- External links to company websites
+- JetBrains Mono "EXPERIENCE" eyebrow + Fraunces "Where I've worked" h2 with cyan accent
+- Per-employer left-border accent colors pulled from the unified palette (`src/theme/accents.js`)
+- Expandable detailed descriptions with location, skills chips, external company link
 
 ### **Projects**
 
-- Featured development projects
-- Technology stack indicators
-- Live demo and GitHub links
-- Detailed project descriptions
+- "Projects" eyebrow + "What I've built" h2 with coral accent
+- Per-entry palette-rotated left-border accents
+- Compact row with title + dates + top tools, expand for full description + GitHub link
 
 ### **Skills**
 
-- Categorized skill sets (Languages, Frameworks, Tools)
-- Proficiency level indicators
-- Visual skill assessment
-- Data-driven skill management
+- "Technical Skills" eyebrow + "What I work with" h2 with gold accent
+- Six categories: Languages, AI / LLM Systems, Frameworks, Data & Infra, ML / NLP Research, Developer Workflows
+- Each category gets its own palette accent; collapsible card with a colored left border
+- Chips sorted by `level` descending; Expert chips render bolder with a soft accent ring; hover for the proficiency label
 
 ### **Education**
 
-- Academic background
-- Relevant coursework
-- Achievements and honors
-
-### **Certifications**
-
-- Professional certifications
-- Expandable view with "Show More/Less" functionality
-- Certification details and dates
+- "Education" eyebrow + "Where I studied" h2 with sage accent
+- Per-entry palette colors (indigo / coral / gold rotation)
+- Expandable accordions for description + relevant coursework
+- Diploma PDF buttons when available
 
 ### **Contact**
 
-- Multiple contact methods
-- Functional contact form
-- Social media links
-- Resume download option
+- "Contact" eyebrow + "Get in touch" h2 with indigo accent
+- Direct panel: Phone / Email / GitHub / LinkedIn, each as a real anchor with its own palette accent
+- Send-a-Message panel: form with mailto submission
+
+### **Footer**
+
+- Centered byline + GitHub / LinkedIn / Email icon links
+- Divider-top border, no colored band (sits flush against the page background)
 
 ## 🚀 Getting Started
 
@@ -233,7 +246,7 @@ This opens `http://localhost:6006` with a sidebar of all stories. The toolbar ha
 
 2. Run `npm run storybook` — your story appears in the sidebar.
 
-3. If your component imports data directly from `src/data/`, refactor it to accept props (with a default fall-through to the imported data so the live site still works). See `EnhancedCertifications.js` for the pattern.
+3. If your component imports data directly from `src/data/`, refactor it to accept props (with a default fall-through to the imported data so the live site still works) so stories can pass mock fixtures.
 
 ## 📝 Content Management
 
@@ -242,11 +255,10 @@ This opens `http://localhost:6006` with a sidebar of all stories. The toolbar ha
 All portfolio content is managed through JSON files in the `src/data/` directory:
 
 - **Personal Info**: Edit `about.json` and `highlights.json`
-- **Work Experience**: Update `experience.json` (includes highlight colors)
+- **Work Experience**: Update `experience.json` (includes per-employer `highlightColor`)
 - **Projects**: Modify `projects.json`
-- **Skills**: Update `skills.json` with proficiency levels
+- **Skills**: Update `skills.json` — each skill has `name`, `level` (0–100), and `proficiency` ("Expert" / "Advanced" / "Intermediate" / "Familiar"). The card sorts chips by `level` descending and surfaces Expert with bolder weight + accent ring.
 - **Education**: Edit `education.json`
-- **Certifications**: Update `certifications.json`
 - **Contact Info**: Modify `contact.json`
 
 ### Adding New Experience
@@ -268,9 +280,10 @@ When adding new work experience, include the `highlightColor` property:
 
 The portfolio supports comprehensive theming with:
 
-- **Light Mode**: Professional blue and white color scheme
-- **Dark Mode**: Modern dark theme with blue accents
-- **Persistent Theme**: User preference saved in localStorage
+- **Light Mode**: Near-white surfaces, indigo accents, the hero on a soft indigo wash
+- **Dark Mode**: `#0a0e27` page background with darker indigo surfaces; same palette adjusted for contrast
+- **Unified accent palette** (`src/theme/accents.js`): indigo / cyan / coral / gold / sage, each with light and dark variants. `SECTION_ACCENTS` maps each section to a signature color; entry rotations pull from the same palette.
+- **Persistent Theme**: User preference saved in localStorage; respects system preference on first visit
 - **Smooth Transitions**: Animated theme switching
 
 ## 🚀 Deployment
