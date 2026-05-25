@@ -12,6 +12,7 @@ import {
 import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
 import resumePDF from '../data/SorenLarsenResume.pdf';
+import { ACCENT_PALETTE, resolveAccent } from '../theme/accents';
 
 import headshot1 from '../images/Headshot1.jpg';
 import headshot2 from '../images/Headshot2.jpg';
@@ -55,6 +56,10 @@ const Hero = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    // Theme primary in dark mode is #1a237e (near-black indigo), which
+    // disappears into the hero's dark gradient on outlined buttons.
+    // Use the lighter palette indigo so the CTAs read against both modes.
+    const outlinedColor = resolveAccent(ACCENT_PALETTE.indigo, isDark);
 
     const [imgIndex, setImgIndex] = useState(0);
     useEffect(() => {
@@ -174,7 +179,15 @@ const Hero = () => {
                         onClick={scrollToContact}
                         variant="outlined"
                         startIcon={<ContactMail />}
-                        sx={{ px: 3 }}
+                        sx={{
+                            px: 3,
+                            color: outlinedColor,
+                            borderColor: outlinedColor,
+                            '&:hover': {
+                                borderColor: outlinedColor,
+                                backgroundColor: `${outlinedColor}1A`,
+                            },
+                        }}
                     >
                         Contact
                     </Button>
@@ -185,7 +198,15 @@ const Hero = () => {
                         rel="noopener noreferrer"
                         variant="outlined"
                         startIcon={<GitHub />}
-                        sx={{ px: 3 }}
+                        sx={{
+                            px: 3,
+                            color: outlinedColor,
+                            borderColor: outlinedColor,
+                            '&:hover': {
+                                borderColor: outlinedColor,
+                                backgroundColor: `${outlinedColor}1A`,
+                            },
+                        }}
                     >
                         GitHub
                     </Button>
