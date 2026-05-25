@@ -32,18 +32,13 @@ import {
 } from '../theme/accents';
 import SectionHeader from './SectionHeader';
 
-const ENTRY_ACCENTS = {
-    'University of California Santa Cruz_M.S. in Natural Language Processing': ACCENT_PALETTE.indigo,
-    'University of California Santa Cruz_default': ACCENT_PALETTE.sage,
-    'La Jolla High School_default': ACCENT_PALETTE.gold,
-};
-
-const resolveEntryAccent = (education, isDark) => {
-    const exact = ENTRY_ACCENTS[`${education.school}_${education.degree || 'default'}`];
-    if (exact) return resolveAccent(exact, isDark);
-    const schoolDefault = ENTRY_ACCENTS[`${education.school}_default`];
-    return resolveAccent(schoolDefault || ACCENT_PALETTE.indigo, isDark);
-};
+// Distinct entry colors so the section isn't monochrome with sage.
+// Avoids sage (the section accent) on entries so the eyebrow stands apart.
+const ENTRY_ACCENT_ROTATION = [
+    ACCENT_PALETTE.indigo,
+    ACCENT_PALETTE.coral,
+    ACCENT_PALETTE.gold,
+];
 
 const getStatus = (diploma) => {
     if (diploma === 'in progress') return { text: 'In Progress', color: '#ff9800' };
@@ -60,6 +55,7 @@ const EducationCard = () => {
             sx={{
                 backgroundColor: 'background.paper',
                 borderRadius: '16px',
+                height: '100%',
                 border: (t) =>
                     `1px solid ${
                         t.palette.mode === 'dark'
@@ -79,7 +75,10 @@ const EducationCard = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
                     {educationData.map((education, index) => {
                         const status = getStatus(education.diploma);
-                        const accent = resolveEntryAccent(education, isDark);
+                        const accent = resolveAccent(
+                            ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length],
+                            isDark,
+                        );
                         const hasExpandableContent =
                             education.description ||
                             (education.relevantCoursework &&
