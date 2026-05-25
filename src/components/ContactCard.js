@@ -163,6 +163,7 @@ ${formData.email}`;
             sx={{
                 backgroundColor: 'background.paper',
                 borderRadius: '16px',
+                height: '100%',
                 border: (t) =>
                     `1px solid ${
                         t.palette.mode === 'dark'
