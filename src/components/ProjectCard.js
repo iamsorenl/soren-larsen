@@ -11,68 +11,88 @@ import {
     Collapse,
     Link,
     useTheme,
-    useMediaQuery
+    useMediaQuery,
 } from '@mui/material';
-import {
-    GitHub,
-    ExpandMore,
-    ExpandLess,
-    Code
-} from '@mui/icons-material';
+import { GitHub, ExpandMore, ExpandLess, Code } from '@mui/icons-material';
 import projectsData from '../data/projects';
+import {
+    ACCENT_PALETTE,
+    SECTION_ACCENTS,
+    resolveAccent,
+} from '../theme/accents';
+import SectionHeader from './SectionHeader';
 
-const getToolColor = (tool) => {
-    const toolColors = {
-        'Python': '#3776ab',
-        'PyTorch': '#ee4c2c',
-        'TensorFlow': '#ff6f00',
-        'React': '#61dafb',
-        'JavaScript': '#f7df1e',
-        'Node.js': '#339933',
-        'Scikit-learn': '#f7931e',
-        'Pandas': '#150458',
-        'Numpy': '#013243',
-        'HTML': '#e34f26',
-        'CSS': '#1572b6',
-        'SQL': '#336791',
-        'Git': '#f05032',
-    };
-    return toolColors[tool] || '#666666';
+const TOOL_COLORS = {
+    Python: '#3776ab',
+    PyTorch: '#ee4c2c',
+    TensorFlow: '#ff6f00',
+    React: '#61dafb',
+    JavaScript: '#f7df1e',
+    'Node.js': '#339933',
+    'Scikit-learn': '#f7931e',
+    Pandas: '#150458',
+    Numpy: '#013243',
+    HTML: '#e34f26',
+    CSS: '#1572b6',
+    SQL: '#336791',
+    Git: '#f05032',
+};
+const getToolColor = (tool) => TOOL_COLORS[tool] || '#666666';
+
+const ENTRY_ACCENT_ROTATION = [
+    ACCENT_PALETTE.indigo,
+    ACCENT_PALETTE.cyan,
+    ACCENT_PALETTE.sage,
+    ACCENT_PALETTE.gold,
+    ACCENT_PALETTE.coral,
+];
+
+const MONTHS = {
+    January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+    July: 6, August: 7, September: 8, October: 9, November: 10, December: 11,
+};
+const parseDate = (str) => {
+    if (!str) return 0;
+    const [month, year] = str.split(' ');
+    return new Date(parseInt(year, 10), MONTHS[month] ?? 0).getTime();
 };
 
-/* Project card */
-const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
+const ProjectEntry = ({ project, accent, expanded, onToggle, isMobile }) => (
     <Card
         sx={{
-            mb: 1,
             backgroundColor: 'background.paper',
-            border: (theme) =>
-                `1px solid ${theme.palette.mode === 'dark'
-                    ? 'rgba(255, 255, 255, 0.08)'
-                    : 'rgba(0, 0, 0, 0.08)'}`,
-            transition: 'all 0.3s ease'
+            border: (t) => `1px solid ${t.palette.divider}`,
+            transition: 'all 0.2s ease',
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+                content: '""',
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: '4px',
+                backgroundColor: accent,
+            },
         }}
     >
-        <CardContent sx={{ py: 1.5, px: 2, '&:last-child': { pb: 1.5 } }}>
+        <CardContent sx={{ py: 1.75, px: 3, pl: 4, '&:last-child': { pb: 1.75 } }}>
             <Box
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    gap: 1
+                    gap: 1,
                 }}
             >
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography
-                        variant="subtitle2"
+                        variant="subtitle1"
                         sx={{
-                            fontWeight: 600,
+                            fontWeight: 700,
                             color: 'text.primary',
                             lineHeight: 1.3,
-                            ...(isMobile && {
-                                fontSize: '0.85rem',
-                                wordBreak: 'break-word'
-                            })
+                            ...(isMobile && { fontSize: '0.95rem', wordBreak: 'break-word' }),
                         }}
                     >
                         {project.title}
@@ -87,14 +107,10 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
                 </Box>
 
                 {!isMobile && (
-                    <Stack
-                        direction="row"
-                        spacing={0.5}
-                        sx={{ flexShrink: 0, alignItems: 'center' }}
-                    >
-                        {project.tools.slice(0, 3).map((tool, i) => (
+                    <Stack direction="row" spacing={0.5} sx={{ flexShrink: 0, alignItems: 'center' }}>
+                        {project.tools.slice(0, 3).map((tool) => (
                             <Chip
-                                key={i}
+                                key={tool}
                                 label={tool}
                                 size="small"
                                 sx={{
@@ -102,7 +118,7 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
                                     color: 'white',
                                     fontWeight: 500,
                                     fontSize: '0.7rem',
-                                    height: 22
+                                    height: 22,
                                 }}
                             />
                         ))}
@@ -118,46 +134,40 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
                 )}
 
                 <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0, alignItems: 'center' }}>
-                    <Button
-                        component={Link}
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="outlined"
-                        size="small"
-                        startIcon={<GitHub fontSize="small" />}
-                        sx={{
-                            borderColor: (theme) =>
-                                theme.palette.mode === 'dark'
-                                    ? 'rgba(100, 181, 246, 0.6)'
-                                    : 'primary.main',
-                            color: (theme) =>
-                                theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.main',
-                            textTransform: 'none',
-                            fontWeight: 600,
-                            fontSize: '0.72rem',
-                            py: 0.4,
-                            px: 1,
-                            whiteSpace: 'nowrap',
-                            minWidth: 0,
-                            '&:hover': {
-                                borderColor: (theme) =>
-                                    theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.dark',
-                                backgroundColor: (theme) =>
-                                    theme.palette.mode === 'dark'
-                                        ? 'rgba(100, 181, 246, 0.08)'
-                                        : 'rgba(63, 81, 181, 0.06)'
-                            }
-                        }}
-                    >
-                        View on GitHub
-                    </Button>
+                    {project.link && (
+                        <Button
+                            component={Link}
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="outlined"
+                            size="small"
+                            startIcon={<GitHub fontSize="small" />}
+                            sx={{
+                                borderColor: accent,
+                                color: accent,
+                                textTransform: 'none',
+                                fontWeight: 600,
+                                fontSize: '0.72rem',
+                                py: 0.4,
+                                px: 1,
+                                whiteSpace: 'nowrap',
+                                minWidth: 0,
+                                '&:hover': {
+                                    borderColor: accent,
+                                    backgroundColor: `${accent}14`,
+                                },
+                            }}
+                        >
+                            View on GitHub
+                        </Button>
+                    )}
                     <IconButton
                         onClick={onToggle}
                         size="small"
-                        sx={{
-                            color: (theme) => theme.palette.mode === 'dark' ? '#64b5f6' : 'primary.main'
-                        }}
+                        aria-label={expanded ? `Collapse ${project.title}` : `Expand ${project.title}`}
+                        aria-expanded={expanded}
+                        sx={{ color: accent }}
                     >
                         {expanded ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
                     </IconButton>
@@ -165,10 +175,15 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
             </Box>
 
             {isMobile && (
-                <Stack direction="row" spacing={0.5} sx={{ mt: 1, flexWrap: 'wrap', gap: 0.5 }}>
-                    {project.tools.slice(0, 3).map((tool, i) => (
+                <Stack
+                    direction="row"
+                    useFlexGap
+                    flexWrap="wrap"
+                    sx={{ mt: 1, gap: 0.5 }}
+                >
+                    {project.tools.slice(0, 3).map((tool) => (
                         <Chip
-                            key={i}
+                            key={tool}
                             label={tool}
                             size="small"
                             sx={{
@@ -176,7 +191,7 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
                                 color: 'white',
                                 fontWeight: 500,
                                 fontSize: '0.7rem',
-                                height: 22
+                                height: 22,
                             }}
                         />
                     ))}
@@ -192,7 +207,7 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
             )}
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid rgba(0, 0, 0, 0.1)' }}>
+                <Box sx={{ mt: 1.5, pt: 1.5, borderTop: (t) => `1px solid ${t.palette.divider}` }}>
                     <Typography
                         variant="body2"
                         color="text.secondary"
@@ -200,13 +215,18 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
                     >
                         {project.description}
                     </Typography>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 600 }}>
-                        Technologies Used:
+                    <Typography variant="subtitle2" sx={{ mb: 0.75, fontWeight: 600 }}>
+                        Technologies
                     </Typography>
-                    <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
-                        {project.tools.map((tool, i) => (
+                    <Stack
+                        direction="row"
+                        useFlexGap
+                        flexWrap="wrap"
+                        sx={{ gap: 0.5 }}
+                    >
+                        {project.tools.map((tool) => (
                             <Chip
-                                key={i}
+                                key={tool}
                                 label={tool}
                                 size="small"
                                 sx={{
@@ -214,7 +234,7 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
                                     color: 'white',
                                     fontWeight: 500,
                                     fontSize: '0.7rem',
-                                    height: 22
+                                    height: 22,
                                 }}
                             />
                         ))}
@@ -228,74 +248,59 @@ const CompactCard = ({ project, expanded, onToggle, isMobile }) => (
 const ProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
     const theme = useTheme();
+    const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const allProjects = [...projectsData].sort((a, b) => {
-        const parseDate = (str) => {
-            if (!str) return 0;
-            const parts = str.split(' ');
-            const months = { January: 0, February: 1, March: 2, April: 3, May: 4, June: 5, July: 6, August: 7, September: 8, October: 9, November: 10, December: 11 };
-            return new Date(parseInt(parts[1]), months[parts[0]] || 0).getTime();
-        };
-        return parseDate(b.startDate) - parseDate(a.startDate);
-    });
+    const allProjects = [...projectsData].sort(
+        (a, b) => parseDate(b.startDate) - parseDate(a.startDate),
+    );
 
     const handleExpandClick = (id) => {
         setExpandedProject(expandedProject === id ? null : id);
     };
 
+    const sectionAccent = resolveAccent(SECTION_ACCENTS.projects, isDark);
+
     return (
         <Card
             sx={{
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
-                height: '100%',
-                width: '100%',
-                mb: 1,
+                backgroundColor: 'background.paper',
                 borderRadius: '16px',
-                background: (theme) =>
-                    theme.palette.mode === 'dark'
-                        ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
-                        : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'
+                border: (t) =>
+                    `1px solid ${
+                        t.palette.mode === 'dark'
+                            ? 'rgba(255, 255, 255, 0.08)'
+                            : 'rgba(0, 0, 0, 0.08)'
+                    }`,
             }}
         >
-            <CardContent sx={{ p: 3 }}>
-                {/* ---- Section heading ---- */}
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                    <Code sx={{ mr: 2, fontSize: 28 }} />
-                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                        Projects
-                    </Typography>
-                </Box>
+            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                <SectionHeader
+                    eyebrow="Projects"
+                    title="What I've built"
+                    icon={<Code />}
+                    accent={sectionAccent}
+                />
 
-                {/* ---- All projects, chronological, scrollable ---- */}
-                <Box
-                    sx={{
-                        maxHeight: 600,
-                        overflowY: 'auto',
-                        pr: 1,
-                        '&::-webkit-scrollbar': { width: '6px' },
-                        '&::-webkit-scrollbar-track': {
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            borderRadius: '3px'
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            background: 'rgba(255, 255, 255, 0.3)',
-                            borderRadius: '3px',
-                            '&:hover': { background: 'rgba(255, 255, 255, 0.5)' }
-                        }
-                    }}
-                >
-                    {allProjects.map((project, index) => (
-                        <CompactCard
-                            key={`project-${index}`}
-                            project={project}
-                            expanded={expandedProject === `project-${index}`}
-                            onToggle={() => handleExpandClick(`project-${index}`)}
-                            isMobile={isMobile}
-                        />
-                    ))}
-                </Box>
+                <Stack spacing={1.25}>
+                    {allProjects.map((project, index) => {
+                        const accent = resolveAccent(
+                            ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length],
+                            isDark,
+                        );
+                        const id = `project-${index}`;
+                        return (
+                            <ProjectEntry
+                                key={id}
+                                project={project}
+                                accent={accent}
+                                expanded={expandedProject === id}
+                                onToggle={() => handleExpandClick(id)}
+                                isMobile={isMobile}
+                            />
+                        );
+                    })}
+                </Stack>
             </CardContent>
         </Card>
     );
