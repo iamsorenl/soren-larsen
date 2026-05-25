@@ -11,14 +11,6 @@ import {
 } from '@mui/material';
 import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
-
-const scrollToContact = (event) => {
-    event.preventDefault();
-    const el = document.getElementById('contact');
-    if (el) {
-        window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
-    }
-};
 import resumePDF from '../data/SorenLarsenResume.pdf';
 
 import headshot1 from '../images/Headshot1.jpg';
@@ -47,6 +39,14 @@ const IMAGE_URLS = [
     frontierTower,
 ];
 const INTERVAL_MS = 8000;
+
+const scrollToContact = (event) => {
+    event.preventDefault();
+    const el = document.getElementById('contact');
+    if (el) {
+        window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+    }
+};
 
 const TAGLINE =
     'An AI and full-stack engineer working at the intersection of NLP, product, and platform engineering.';
