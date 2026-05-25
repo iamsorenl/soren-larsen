@@ -6,7 +6,6 @@ import experienceData from './data/experience.json';
 import educationData from './data/education.json';
 import projectsData from './data/projects.json';
 import contactData from './data/contact.json';
-import certificationsData from './data/certifications.json';
 import skillsData from './data/skills.json';
 
 // JSDOM doesn't implement matchMedia; MUI's useMediaQuery and the ThemeContext
@@ -38,7 +37,9 @@ const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 describe('App', () => {
     test('renders without crashing', async () => {
         render(<App />);
-        expect(await screen.findByText('Soren Larsen')).toBeInTheDocument();
+        // 'Soren Larsen' now appears in both the navbar and the hero h1.
+        const matches = await screen.findAllByText('Soren Larsen');
+        expect(matches.length).toBeGreaterThan(0);
     });
 
     test('renders all main section headings', async () => {
@@ -47,7 +48,6 @@ describe('App', () => {
         expect(await screen.findByRole('heading', { name: /^Projects$/i, level: 4 })).toBeInTheDocument();
         expect(await screen.findByRole('heading', { name: /^Experience$/i, level: 4 })).toBeInTheDocument();
         expect(await screen.findByRole('heading', { name: /Technical Skills/i, level: 4 })).toBeInTheDocument();
-        expect(await screen.findByRole('heading', { name: /Certifications/i, level: 4 })).toBeInTheDocument();
         expect(await screen.findByRole('heading', { name: /^Education$/i, level: 4 })).toBeInTheDocument();
         expect(await screen.findByRole('heading', { name: /^Contact$/i, level: 4 })).toBeInTheDocument();
     });
@@ -67,9 +67,6 @@ describe('App', () => {
 
         // Projects: first project title.
         await screen.findAllByText(new RegExp(escapeRegex(projectsData[0].title), 'i'));
-
-        // Certifications: first certification name.
-        await screen.findAllByText(new RegExp(escapeRegex(certificationsData[0].name), 'i'));
 
         // Skills: first language name from skills.json.
         await screen.findAllByText(new RegExp(escapeRegex(skillsData.languages[0].name), 'i'));

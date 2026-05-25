@@ -8,7 +8,6 @@ const ExperienceCard = lazy(() => import('./ExperienceCard'));
 const SkillCard = lazy(() => import('./SkillCard'));
 const EducationCard = lazy(() => import('./EducationCard'));
 const ContactCard = lazy(() => import('./ContactCard'));
-const Certifications = lazy(() => import('./Certifications'));
 
 const SectionFallback = () => (
     <Box
@@ -40,11 +39,6 @@ const CardLayout = () => {
             <Grid item xs={12} md={12} id="skills">
                 <Suspense fallback={<SectionFallback />}>
                     <SkillCard />
-                </Suspense>
-            </Grid>
-            <Grid item xs={12} md={12}>
-                <Suspense fallback={<SectionFallback />}>
-                    <Certifications />
                 </Suspense>
             </Grid>
             <Grid item xs={12} md={6} id="education">

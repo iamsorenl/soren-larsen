@@ -23,27 +23,6 @@ export const mockShortProject = {
     tools: ['Python']
 };
 
-export const mockCertifications = [
-    {
-        name: 'Machine Learning Specialization',
-        issuer: 'Coursera',
-        dateEarned: 'November 2023',
-        link: 'https://example.com/certs/ml-specialization'
-    },
-    {
-        name: 'Mayhem Certified',
-        issuer: 'ForAllSecure',
-        dateEarned: 'May 2023',
-        link: 'https://example.com/certs/mayhem'
-    },
-    {
-        name: 'AI For Everyone',
-        issuer: 'Coursera',
-        dateEarned: 'July 2023',
-        link: 'https://example.com/certs/ai-for-everyone'
-    }
-];
-
 export const mockExperience = {
     company: 'Example Labs',
     title: 'Software Engineer',
