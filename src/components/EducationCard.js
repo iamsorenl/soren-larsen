@@ -13,79 +13,86 @@ import {
     AccordionSummary,
     AccordionDetails,
     useTheme,
-    Avatar
+    Avatar,
 } from '@mui/material';
 import {
     School,
     ExpandMore,
     OpenInNew,
     Description,
-    MenuBook
+    MenuBook,
 } from '@mui/icons-material';
 import educationData from '../data/education';
 import diplomaPDF from '../data/CertifiedElectronicDiploma.pdf';
 import diplomaPDF2 from '../data/CertifiedElectronicDiploma2.pdf';
+import {
+    ACCENT_PALETTE,
+    SECTION_ACCENTS,
+    resolveAccent,
+} from '../theme/accents';
+import SectionHeader from './SectionHeader';
+
+const ENTRY_ACCENTS = {
+    'University of California Santa Cruz_M.S. in Natural Language Processing': ACCENT_PALETTE.indigo,
+    'University of California Santa Cruz_default': ACCENT_PALETTE.sage,
+    'La Jolla High School_default': ACCENT_PALETTE.gold,
+};
+
+const resolveEntryAccent = (education, isDark) => {
+    const exact = ENTRY_ACCENTS[`${education.school}_${education.degree || 'default'}`];
+    if (exact) return resolveAccent(exact, isDark);
+    const schoolDefault = ENTRY_ACCENTS[`${education.school}_default`];
+    return resolveAccent(schoolDefault || ACCENT_PALETTE.indigo, isDark);
+};
+
+const getStatus = (diploma) => {
+    if (diploma === 'in progress') return { text: 'In Progress', color: '#ff9800' };
+    return { text: 'Completed', color: '#4caf50' };
+};
 
 const EducationCard = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
-
-    const getEducationColor = (school) => {
-        const colors = {
-            'University of California Santa Cruz': isDark ? '#fdc700' : '#003c6c',
-            'La Jolla High School': isDark ? '#34d399' : '#10b981'
-        };
-        return colors[school] || '#666666';
-    };
-
-    const getEducationStatus = (diploma) => {
-        switch (diploma) {
-            case 'yes':
-                return { text: 'Completed', color: '#4caf50' };
-            case 'in progress':
-                return { text: 'In Progress', color: '#ff9800' };
-            default:
-                return { text: 'Completed', color: '#4caf50' };
-        }
-    };
+    const sectionAccent = resolveAccent(SECTION_ACCENTS.education, isDark);
 
     return (
         <Card
             sx={{
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
-                height: '100%',
-                width: '100%',
-                mb: 1,
+                backgroundColor: 'background.paper',
                 borderRadius: '16px',
-                background: (t) => t.palette.mode === 'dark'
-                    ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
-                    : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'
+                border: (t) =>
+                    `1px solid ${
+                        t.palette.mode === 'dark'
+                            ? 'rgba(255, 255, 255, 0.08)'
+                            : 'rgba(0, 0, 0, 0.08)'
+                    }`,
             }}
         >
-            <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <School sx={{ mr: 2, fontSize: 28 }} />
-                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                        Education
-                    </Typography>
-                </Box>
+            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                <SectionHeader
+                    eyebrow="Education"
+                    title="Where I studied"
+                    icon={<School />}
+                    accent={sectionAccent}
+                />
 
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
                     {educationData.map((education, index) => {
-                        const status = getEducationStatus(education.diploma);
-                        const schoolColor = getEducationColor(education.school);
-                        const hasExpandableContent = education.description || (education.relevantCoursework && education.relevantCoursework.length > 0);
+                        const status = getStatus(education.diploma);
+                        const accent = resolveEntryAccent(education, isDark);
+                        const hasExpandableContent =
+                            education.description ||
+                            (education.relevantCoursework &&
+                                education.relevantCoursework.length > 0);
 
                         return (
                             <Accordion
-                                key={index}
+                                key={`${education.school}-${education.degree || index}`}
                                 disableGutters
                                 elevation={0}
                                 sx={{
                                     backgroundColor: 'background.paper',
-                                    backdropFilter: 'blur(10px)',
-                                    border: (t) => `1px solid ${t.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+                                    border: (t) => `1px solid ${t.palette.divider}`,
                                     borderRadius: '8px !important',
                                     '&:before': { display: 'none' },
                                     position: 'relative',
@@ -97,12 +104,16 @@ const EducationCard = () => {
                                         top: 0,
                                         bottom: 0,
                                         width: '4px',
-                                        backgroundColor: schoolColor
-                                    }
+                                        backgroundColor: accent,
+                                    },
                                 }}
                             >
                                 <AccordionSummary
-                                    expandIcon={hasExpandableContent ? <ExpandMore sx={{ color: isDark ? '#64b5f6' : 'primary.main' }} /> : null}
+                                    expandIcon={
+                                        hasExpandableContent ? (
+                                            <ExpandMore sx={{ color: accent }} />
+                                        ) : null
+                                    }
                                     sx={{
                                         pl: 2.5,
                                         pr: 2,
@@ -111,16 +122,16 @@ const EducationCard = () => {
                                             my: 1,
                                             alignItems: 'center',
                                             gap: 1,
-                                            flexWrap: { xs: 'wrap', sm: 'nowrap' }
-                                        }
+                                            flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                        },
                                     }}
                                 >
                                     <Avatar
                                         sx={{
                                             width: 28,
                                             height: 28,
-                                            backgroundColor: schoolColor,
-                                            flexShrink: 0
+                                            backgroundColor: accent,
+                                            flexShrink: 0,
                                         }}
                                     >
                                         <School sx={{ fontSize: 16 }} />
@@ -131,7 +142,7 @@ const EducationCard = () => {
                                             sx={{
                                                 fontWeight: 700,
                                                 color: 'text.primary',
-                                                lineHeight: 1.3
+                                                lineHeight: 1.3,
                                             }}
                                         >
                                             {education.degree || 'High School Diploma'}
@@ -140,12 +151,13 @@ const EducationCard = () => {
                                             variant="caption"
                                             sx={{
                                                 fontWeight: 600,
-                                                color: schoolColor,
+                                                color: accent,
                                                 display: 'block',
-                                                lineHeight: 1.2
+                                                lineHeight: 1.2,
                                             }}
                                         >
-                                            {education.school}{education.dates ? ` · ${education.dates}` : ''}
+                                            {education.school}
+                                            {education.dates ? ` · ${education.dates}` : ''}
                                         </Typography>
                                         {education.description && (
                                             <Typography
@@ -160,59 +172,66 @@ const EducationCard = () => {
                                                     mt: 0.5,
                                                     '.Mui-expanded &': {
                                                         WebkitLineClamp: 'unset',
-                                                        overflow: 'visible'
-                                                    }
+                                                        overflow: 'visible',
+                                                    },
                                                 }}
                                             >
                                                 {education.description}
                                             </Typography>
                                         )}
                                     </Box>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
-                                        <Chip
-                                            label={status.text}
-                                            size="small"
-                                            sx={{
-                                                backgroundColor: status.color,
-                                                color: 'white',
-                                                fontWeight: 500,
-                                                fontSize: '0.7rem',
-                                                display: { xs: 'none', sm: 'inline-flex' }
-                                            }}
-                                        />
-                                        <Tooltip title="Visit Institution Website" arrow>
-                                            <IconButton
-                                                component={Link}
-                                                href={education.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                size="small"
-                                                onClick={(e) => e.stopPropagation()}
-                                                sx={{
-                                                    color: isDark ? '#64b5f6' : 'primary.main',
-                                                    '&:hover': {
-                                                        backgroundColor: isDark ? 'rgba(100, 181, 246, 0.15)' : 'rgba(26, 35, 126, 0.15)'
-                                                    }
-                                                }}
-                                            >
-                                                <OpenInNew fontSize="small" />
-                                            </IconButton>
-                                        </Tooltip>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 0.5,
+                                            flexShrink: 0,
+                                        }}
+                                    >
                                         {education.diploma === 'yes' && (
-                                            <Tooltip title="View Diploma" arrow>
+                                            <Chip
+                                                label={status.text}
+                                                size="small"
+                                                sx={{
+                                                    backgroundColor: status.color,
+                                                    color: 'white',
+                                                    fontWeight: 500,
+                                                    fontSize: '0.7rem',
+                                                    display: { xs: 'none', sm: 'inline-flex' },
+                                                }}
+                                            />
+                                        )}
+                                        {education.link && (
+                                            <Tooltip title="Visit institution website" arrow>
+                                                <IconButton
+                                                    component={Link}
+                                                    href={education.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    size="small"
+                                                    aria-label={`Open ${education.school} website`}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    sx={{ color: accent }}
+                                                >
+                                                    <OpenInNew fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
+                                        {education.diploma === 'yes' && (
+                                            <Tooltip title="View diploma" arrow>
                                                 <IconButton
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        const pdfFile = education.diplomaFile === 'CertifiedElectronicDiploma2.pdf' ? diplomaPDF2 : diplomaPDF;
+                                                        const pdfFile =
+                                                            education.diplomaFile ===
+                                                            'CertifiedElectronicDiploma2.pdf'
+                                                                ? diplomaPDF2
+                                                                : diplomaPDF;
                                                         window.open(pdfFile, '_blank');
                                                     }}
                                                     size="small"
-                                                    sx={{
-                                                        color: isDark ? '#64b5f6' : 'primary.main',
-                                                        '&:hover': {
-                                                            backgroundColor: isDark ? 'rgba(100, 181, 246, 0.15)' : 'rgba(26, 35, 126, 0.15)'
-                                                        }
-                                                    }}
+                                                    aria-label={`View ${education.degree || education.school} diploma`}
+                                                    sx={{ color: accent }}
                                                 >
                                                     <Description fontSize="small" />
                                                 </IconButton>
@@ -220,40 +239,63 @@ const EducationCard = () => {
                                         )}
                                     </Box>
                                 </AccordionSummary>
-                                {education.relevantCoursework && education.relevantCoursework.length > 0 && (
-                                    <AccordionDetails sx={{ pl: 2.5, pt: 0, pb: 2 }}>
-                                        <Box sx={{ borderTop: '1px solid rgba(0, 0, 0, 0.08)', pt: 2 }}>
-                                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-                                                <MenuBook sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
-                                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                                                    Relevant Coursework ({education.relevantCoursework.length})
-                                                </Typography>
+                                {education.relevantCoursework &&
+                                    education.relevantCoursework.length > 0 && (
+                                        <AccordionDetails sx={{ pl: 2.5, pt: 0, pb: 2 }}>
+                                            <Box
+                                                sx={{
+                                                    borderTop: (t) =>
+                                                        `1px solid ${t.palette.divider}`,
+                                                    pt: 2,
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        mb: 1.5,
+                                                    }}
+                                                >
+                                                    <MenuBook
+                                                        sx={{
+                                                            fontSize: 16,
+                                                            mr: 1,
+                                                            color: 'text.secondary',
+                                                        }}
+                                                    />
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        sx={{ fontWeight: 600 }}
+                                                    >
+                                                        Relevant coursework (
+                                                        {education.relevantCoursework.length})
+                                                    </Typography>
+                                                </Box>
+                                                <Grid container spacing={1}>
+                                                    {education.relevantCoursework.map((course) => (
+                                                        <Grid item xs={12} sm={6} md={4} key={course}>
+                                                            <Chip
+                                                                label={course}
+                                                                size="small"
+                                                                variant="outlined"
+                                                                sx={{
+                                                                    width: '100%',
+                                                                    justifyContent: 'flex-start',
+                                                                    fontSize: '0.75rem',
+                                                                    height: 'auto',
+                                                                    py: 0.5,
+                                                                    '& .MuiChip-label': {
+                                                                        whiteSpace: 'normal',
+                                                                        textAlign: 'left',
+                                                                    },
+                                                                }}
+                                                            />
+                                                        </Grid>
+                                                    ))}
+                                                </Grid>
                                             </Box>
-                                            <Grid container spacing={1}>
-                                                {education.relevantCoursework.map((course, courseIndex) => (
-                                                    <Grid item xs={12} sm={6} md={4} key={courseIndex}>
-                                                        <Chip
-                                                            label={course}
-                                                            size="small"
-                                                            variant="outlined"
-                                                            sx={{
-                                                                width: '100%',
-                                                                justifyContent: 'flex-start',
-                                                                fontSize: '0.75rem',
-                                                                height: 'auto',
-                                                                py: 0.5,
-                                                                '& .MuiChip-label': {
-                                                                    whiteSpace: 'normal',
-                                                                    textAlign: 'left'
-                                                                }
-                                                            }}
-                                                        />
-                                                    </Grid>
-                                                ))}
-                                            </Grid>
-                                        </Box>
-                                    </AccordionDetails>
-                                )}
+                                        </AccordionDetails>
+                                    )}
                             </Accordion>
                         );
                     })}
