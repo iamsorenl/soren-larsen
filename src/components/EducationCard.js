@@ -187,19 +187,17 @@ const EducationCard = () => {
                                             flexShrink: 0,
                                         }}
                                     >
-                                        {education.diploma === 'yes' && (
-                                            <Chip
-                                                label={status.text}
-                                                size="small"
-                                                sx={{
-                                                    backgroundColor: status.color,
-                                                    color: 'white',
-                                                    fontWeight: 500,
-                                                    fontSize: '0.7rem',
-                                                    display: { xs: 'none', sm: 'inline-flex' },
-                                                }}
-                                            />
-                                        )}
+                                        <Chip
+                                            label={status.text}
+                                            size="small"
+                                            sx={{
+                                                backgroundColor: status.color,
+                                                color: 'white',
+                                                fontWeight: 500,
+                                                fontSize: '0.7rem',
+                                                display: { xs: 'none', sm: 'inline-flex' },
+                                            }}
+                                        />
                                         {education.link && (
                                             <Tooltip title="Visit institution website" arrow>
                                                 <IconButton
