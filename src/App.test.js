@@ -42,13 +42,20 @@ describe('App', () => {
         expect(matches.length).toBeGreaterThan(0);
     });
 
-    test('renders all main section headings', async () => {
+    test('renders all main section labels', async () => {
         render(<App />);
-        expect(await screen.findByRole('heading', { name: /^Projects$/i, level: 4 })).toBeInTheDocument();
-        expect(await screen.findByRole('heading', { name: /^Experience$/i, level: 4 })).toBeInTheDocument();
-        expect(await screen.findByRole('heading', { name: /Technical Skills/i, level: 4 })).toBeInTheDocument();
-        expect(await screen.findByRole('heading', { name: /^Education$/i, level: 4 })).toBeInTheDocument();
-        expect(await screen.findByRole('heading', { name: /^Contact$/i, level: 4 })).toBeInTheDocument();
+        // Each section surfaces its name in either the heading or an eyebrow
+        // label. Text-presence is used so this test survives section-by-section
+        // header redesigns (h4 → h2 + Fraunces / mono-eyebrow pattern).
+        const expectPresent = async (re) => {
+            const matches = await screen.findAllByText(re);
+            expect(matches.length).toBeGreaterThan(0);
+        };
+        await expectPresent(/Projects/i);
+        await expectPresent(/Experience/i);
+        await expectPresent(/Technical Skills/i);
+        await expectPresent(/Education/i);
+        await expectPresent(/Contact/i);
     });
 
     test('renders data from JSON files across sections', async () => {
