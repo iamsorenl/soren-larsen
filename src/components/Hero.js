@@ -9,8 +9,16 @@ import {
     useTheme,
     useMediaQuery,
 } from '@mui/material';
-import { Description, Email, GitHub } from '@mui/icons-material';
+import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
+
+const scrollToContact = (event) => {
+    event.preventDefault();
+    const el = document.getElementById('contact');
+    if (el) {
+        window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+    }
+};
 import resumePDF from '../data/SorenLarsenResume.pdf';
 
 import headshot1 from '../images/Headshot1.jpg';
@@ -162,12 +170,13 @@ const Hero = () => {
                     </Button>
                     <Button
                         component="a"
-                        href={`mailto:${contact[0].email}`}
+                        href="#contact"
+                        onClick={scrollToContact}
                         variant="outlined"
-                        startIcon={<Email />}
+                        startIcon={<ContactMail />}
                         sx={{ px: 3 }}
                     >
-                        Email
+                        Contact
                     </Button>
                     <Button
                         component="a"
