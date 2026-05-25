@@ -23,6 +23,7 @@ import {
 } from '@mui/icons-material';
 import experienceData from '../data/experience';
 import { SECTION_ACCENTS, resolveAccent } from '../theme/accents';
+import SectionHeader from './SectionHeader';
 
 const SECTION_ACCENT = SECTION_ACCENTS.experience;
 
@@ -71,35 +72,12 @@ const ExperienceCard = () => {
             }}
         >
             <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                <Box sx={{ mb: 3 }}>
-                    <Typography
-                        variant="overline"
-                        sx={{
-                            fontFamily: '"JetBrains Mono", "Roboto Mono", monospace',
-                            color: sectionAccent,
-                            letterSpacing: '0.14em',
-                            fontSize: '0.75rem',
-                            fontWeight: 600,
-                        }}
-                    >
-                        Experience
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
-                        <Work sx={{ mr: 1.5, fontSize: 32, color: sectionAccent }} />
-                        <Typography
-                            variant="h4"
-                            component="h2"
-                            sx={{
-                                fontFamily: '"Fraunces", "Times New Roman", serif',
-                                fontWeight: 600,
-                                color: 'text.primary',
-                                fontSize: { xs: '1.75rem', md: '2.25rem' },
-                            }}
-                        >
-                            Where I&apos;ve worked
-                        </Typography>
-                    </Box>
-                </Box>
+                <SectionHeader
+                    eyebrow="Experience"
+                    title="Where I've worked"
+                    icon={<Work />}
+                    accent={sectionAccent}
+                />
 
                 <Stack spacing={1.5}>
                     {sortedExperiences.map((experience, index) => {
