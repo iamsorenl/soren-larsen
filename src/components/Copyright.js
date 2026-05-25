@@ -37,15 +37,11 @@ const CopyrightCard = () => {
                 px: { xs: 2, md: 3 },
                 borderTop: (t) => `1px solid ${t.palette.divider}`,
                 display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                justifyContent: 'space-between',
+                flexDirection: 'column',
                 alignItems: 'center',
-                gap: { xs: 1.5, sm: 2 },
+                gap: 1.5,
             }}
         >
-            <Typography variant="body2" color="text.secondary">
-                © {currentYear} Soren Larsen
-            </Typography>
             <Stack direction="row" spacing={0.5}>
                 {links.map((link) => (
                     <Tooltip key={link.label} title={link.label} arrow>
@@ -66,6 +62,9 @@ const CopyrightCard = () => {
                     </Tooltip>
                 ))}
             </Stack>
+            <Typography variant="body2" color="text.secondary">
+                © {currentYear} Soren Larsen
+            </Typography>
         </Box>
     );
 };
