@@ -44,7 +44,6 @@ describe('App', () => {
 
     test('renders all main section headings', async () => {
         render(<App />);
-        expect(await screen.findByRole('heading', { name: /^About$/i, level: 4 })).toBeInTheDocument();
         expect(await screen.findByRole('heading', { name: /^Projects$/i, level: 4 })).toBeInTheDocument();
         expect(await screen.findByRole('heading', { name: /^Experience$/i, level: 4 })).toBeInTheDocument();
         expect(await screen.findByRole('heading', { name: /Technical Skills/i, level: 4 })).toBeInTheDocument();
@@ -55,8 +54,11 @@ describe('App', () => {
     test('renders data from JSON files across sections', async () => {
         render(<App />);
 
-        // About: first ~20 chars of the about blurb should appear on the page.
-        const aboutSnippet = aboutData[0].about.slice(0, 20);
+        // About: the slimmed card renders paragraphs 2+ of the bio.
+        // Pick a snippet from paragraph 2 (the UCSC backstory) — paragraph 1 is
+        // intentionally skipped because it duplicates the hero tagline.
+        const paragraphs = aboutData[0].about.split('\n\n');
+        const aboutSnippet = paragraphs[1].slice(0, 20);
         await screen.findAllByText(new RegExp(escapeRegex(aboutSnippet), 'i'));
 
         // Experience: most recent company name.
