@@ -1,18 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {
-    Card,
-    CardContent,
-    Typography,
-    Box,
-    Avatar,
-    Chip,
-    Stack,
-    useTheme,
-    useMediaQuery,
-    Fade,
-    Button,
-    Tooltip
-} from '@mui/material';
+import React from 'react';
+import { Card, CardContent, Typography, Box, Chip, Stack } from '@mui/material';
 import {
     Person,
     School,
@@ -20,229 +7,100 @@ import {
     Code,
     Psychology,
     SurfingOutlined,
-    Description
 } from '@mui/icons-material';
 import { GiSpermWhale } from 'react-icons/gi';
 import about from '../data/about';
 import highlightsData from '../data/highlights';
-import resumePDF from '../data/SorenLarsenResume.pdf';
-import headshot1 from '../images/Headshot1.jpg';
-import headshot2 from '../images/Headshot2.jpg';
-import turtle from '../images/Turtle.jpg';
-import surf from '../images/Surf.jpg';
-import halfdome from '../images/HalfDome.jpg';
-import expressive from '../images/Expressive.JPG';
-import peru from '../images/Peru.JPG';
-import slugfest from '../images/SlugFest.JPG';
-import caffeineHack from '../images/caffeine_hack.jpeg';
-import posterPresentation from '../images/Poster_Presentation.JPG';
-import frontierTower from '../images/FrontierTower.jpg';
 
-const imageUrls = [headshot1, expressive, halfdome, headshot2, turtle, peru, slugfest, surf, caffeineHack, posterPresentation, frontierTower];
+const ICON_MAP = {
+    School: <School />,
+    Work: <Work />,
+    Code: <Code />,
+    Psychology: <Psychology />,
+    SurfingOutlined: <SurfingOutlined />,
+    FaWhale: <GiSpermWhale />,
+};
+
+const renderHighlightIcon = (iconName) => ICON_MAP[iconName] || <Person />;
 
 const AboutCard = () => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
-        }, 8000); // Change image every 8 seconds
-
-        return () => clearInterval(interval);
-    }, []);
-
-    const getIconComponent = (iconName) => {
-        const iconMap = {
-            'School': <School />,
-            'Work': <Work />,
-            'Code': <Code />,
-            'Psychology': <Psychology />,
-            'SurfingOutlined': <SurfingOutlined />,
-            'FaWhale': <GiSpermWhale />
-        };
-        return iconMap[iconName] || <Person />;
-    };
-
-    const highlights = highlightsData.map(highlight => ({
-        icon: getIconComponent(highlight.icon),
-        text: highlight.text,
-        color: highlight.color
+    const highlights = highlightsData.map((h) => ({
+        icon: renderHighlightIcon(h.icon),
+        text: h.text,
+        color: h.color,
     }));
 
     return (
-        <Card 
-            sx={{ 
-                backgroundColor: 'primary.main', 
-                color: 'primary.contrastText', 
-                height: '100%', 
-                width: '100%', 
-                mb: 1, 
+        <Card
+            sx={{
+                backgroundColor: 'background.paper',
                 borderRadius: '16px',
-                background: (theme) => theme.palette.mode === 'dark' 
-                    ? 'linear-gradient(135deg, #1a237e 0%, #283593 100%)'
-                    : 'linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%)'
+                border: (theme) =>
+                    `1px solid ${
+                        theme.palette.mode === 'dark'
+                            ? 'rgba(255, 255, 255, 0.08)'
+                            : 'rgba(0, 0, 0, 0.08)'
+                    }`,
             }}
         >
-            <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Person sx={{ mr: 2, fontSize: 28 }} />
-                        <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                            About
-                        </Typography>
-                    </Box>
-                    
-                    {/* Stylistic Resume Download Button */}
-                    <Tooltip title="Download Resume" arrow>
-                        <Button
-                            component="a"
-                            href={resumePDF}
-                            download
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            variant="contained"
-                            startIcon={<Description />}
-                            sx={{
-                                backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                color: 'white',
-                                backdropFilter: 'blur(10px)',
-                                border: '1px solid rgba(255, 255, 255, 0.2)',
-                                fontWeight: 600,
-                                px: 3,
-                                py: 1,
-                                borderRadius: '12px',
-                                textTransform: 'none',
-                                fontSize: '0.9rem',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.25)',
-                                    transform: 'translateY(-2px)',
-                                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)'
-                                },
-                                transition: 'all 0.3s ease'
-                            }}
-                        >
-                            Resume
-                        </Button>
-                    </Tooltip>
+            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                    <Person sx={{ mr: 2, fontSize: 28, color: 'text.primary' }} />
+                    <Typography
+                        variant="h4"
+                        sx={{ fontWeight: 700, color: 'text.primary' }}
+                    >
+                        About
+                    </Typography>
                 </Box>
 
-                <Box 
-                    sx={{ 
-                        display: 'flex', 
-                        flexDirection: isMobile ? 'column' : 'row',
-                        gap: 3,
-                        alignItems: isMobile ? 'center' : 'flex-start'
-                    }}
-                >
-                    {/* Profile Image */}
-                    <Box sx={{ position: 'relative', flexShrink: 0 }}>
-                        <Fade in={true} timeout={1000}>
-                            <Avatar
-                                src={imageUrls[currentImageIndex]}
-                                imgProps={{
-                                    loading: currentImageIndex === 0 ? 'eager' : 'lazy',
-                                    decoding: 'async',
-                                    alt: 'Soren Larsen'
-                                }}
-                                variant="rounded"
+                <Box sx={{ mb: 3 }}>
+                    <Typography
+                        variant="overline"
+                        sx={{
+                            fontFamily: '"JetBrains Mono", "Roboto Mono", monospace',
+                            color: 'text.secondary',
+                            letterSpacing: '0.12em',
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                        }}
+                    >
+                        Quick Highlights
+                    </Typography>
+                    <Stack
+                        direction="row"
+                        spacing={1}
+                        useFlexGap
+                        flexWrap="wrap"
+                        sx={{ mt: 1.5, gap: 1 }}
+                    >
+                        {highlights.map((h, i) => (
+                            <Chip
+                                key={i}
+                                icon={h.icon}
+                                label={h.text}
                                 sx={{
-                                    width: isMobile ? 280 : 340,
-                                    height: isMobile ? 320 : 400,
-                                    borderRadius: '16px',
-                                    border: '4px solid rgba(255, 255, 255, 0.2)',
-                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-                                    transition: 'all 1.5s ease-in-out'
+                                    backgroundColor: h.color,
+                                    color: 'white',
+                                    fontWeight: 500,
+                                    fontSize: '0.85rem',
+                                    '& .MuiChip-icon': { color: 'white' },
                                 }}
                             />
-                        </Fade>
-                        
-                        {/* Image indicators */}
-                        <Box 
-                            sx={{ 
-                                display: 'flex', 
-                                justifyContent: 'center', 
-                                mt: 2, 
-                                gap: 1 
-                            }}
-                        >
-                            {imageUrls.map((_, index) => (
-                                <Box
-                                    key={index}
-                                    sx={{
-                                        width: 8,
-                                        height: 8,
-                                        borderRadius: '50%',
-                                        backgroundColor: index === currentImageIndex 
-                                            ? 'rgba(255, 255, 255, 0.8)' 
-                                            : 'rgba(255, 255, 255, 0.3)',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                />
-                            ))}
-                        </Box>
-                    </Box>
-
-                    {/* Content */}
-                    <Box sx={{ flex: 1 }}>
-                        {/* Highlights */}
-                        <Box sx={{ mb: 3 }}>
-                            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                                Quick Highlights
-                            </Typography>
-                            <Stack 
-                                direction="row" 
-                                spacing={1} 
-                                sx={{ 
-                                    flexWrap: 'wrap', 
-                                    gap: 1,
-                                    justifyContent: isMobile ? 'center' : 'flex-start'
-                                }}
-                            >
-                                {highlights.map((highlight, index) => (
-                                    <Chip
-                                        key={index}
-                                        icon={highlight.icon}
-                                        label={highlight.text}
-                                        sx={{
-                                            backgroundColor: highlight.color,
-                                            color: 'white',
-                                            fontWeight: 500,
-                                            fontSize: '0.85rem',
-                                            '& .MuiChip-icon': {
-                                                color: 'white'
-                                            }
-                                        }}
-                                    />
-                                ))}
-                            </Stack>
-                        </Box>
-
-                        {/* About Text */}
-                        <Card 
-                            sx={{ 
-                                backgroundColor: 'background.paper',
-                                backdropFilter: 'blur(10px)',
-                                border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                            }}
-                        >
-                            <CardContent sx={{ p: 3 }}>
-                                <Typography 
-                                    variant="body1" 
-                                    color="text.primary"
-                                    sx={{ 
-                                        lineHeight: 1.7,
-                                        whiteSpace: 'pre-line',
-                                        textAlign: isMobile ? 'center' : 'left'
-                                    }}
-                                >
-                                    {about[0].about}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Box>
+                        ))}
+                    </Stack>
                 </Box>
+
+                <Typography
+                    variant="body1"
+                    sx={{
+                        color: 'text.primary',
+                        lineHeight: 1.7,
+                        whiteSpace: 'pre-line',
+                    }}
+                >
+                    {about[0].about}
+                </Typography>
             </CardContent>
         </Card>
     );
