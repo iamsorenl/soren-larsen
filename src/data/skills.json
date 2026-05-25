@@ -40,6 +40,8 @@
     "mlNlpResearch": [
         { "name": "PyTorch", "level": 90, "proficiency": "Expert" },
         { "name": "Hugging Face Transformers", "level": 85, "proficiency": "Advanced" },
+        { "name": "Fine-tuning", "level": 80, "proficiency": "Advanced" },
+        { "name": "Model Evaluation", "level": 80, "proficiency": "Advanced" },
         { "name": "Information Extraction", "level": 80, "proficiency": "Advanced" },
         { "name": "Embeddings", "level": 80, "proficiency": "Advanced" },
         { "name": "NER", "level": 75, "proficiency": "Advanced" }
@@ -47,6 +49,9 @@
     "developerWorkflows": [
         { "name": "Claude Code", "level": 85, "proficiency": "Advanced" },
         { "name": "Git", "level": 90, "proficiency": "Expert" },
-        { "name": "Testing", "level": 80, "proficiency": "Advanced" }
+        { "name": "Pytest", "level": 85, "proficiency": "Advanced" },
+        { "name": "Vitest", "level": 80, "proficiency": "Advanced" },
+        { "name": "TDD", "level": 80, "proficiency": "Advanced" },
+        { "name": "Code Review", "level": 85, "proficiency": "Advanced" }
     ]
 }
