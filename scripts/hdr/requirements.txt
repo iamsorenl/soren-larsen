@@ -1,0 +1,4 @@
+Pillow>=11
+numpy>=1.26
+pypng>=0.20
+pytest>=7
