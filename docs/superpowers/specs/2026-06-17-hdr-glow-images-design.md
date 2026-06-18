@@ -41,7 +41,7 @@ adds impact without harming usability.
 ### Pipeline — single committed script
 
 `scripts/hdr/encode.py` (Python + Pillow + numpy), using the **selective-highlight
-PQ method**:
+PQ method**, emitting **AVIF tagged via CICP**:
 
 1. Decode the source image.
 2. Identify bright, low-saturation pixels (whites / specular highlights / sky).
@@ -49,20 +49,27 @@ PQ method**:
    create HDR headroom; pin colored pixels at the **203-nit SDR reference** so they
    keep their original color. This selectivity is what keeps photos natural (only
    highlights glow) instead of uniformly blown out.
-4. Embed a **Rec2020 + PQ ICC profile** so macOS / the browser treats the JPEG as
-   HDR. A known-good profile is committed at `scripts/hdr/rec2020-pq.icc` so the
-   pipeline is self-contained and reproducible (no "borrow an ICC from a random
-   HDR image online" step).
-5. Write output as `<name>.hdr.jpg` alongside the originals in `src/images/`.
+4. Output a **Rec2020 + PQ AVIF** whose color space is declared via **CICP nclx
+   codes** baked into the bitstream — primaries `9` (BT.2020), transfer `16` (PQ /
+   ST 2084), matrix `9` (BT.2020 NCL). **No ICC profile file is needed or sourced.**
+   This sidesteps the fragile "borrow an ICC from a random HDR image" step entirely.
+   Encoding via `avifenc` (libavif) with explicit CICP and full-range flags.
+5. Write output as `<name>.hdr.avif` alongside the originals in `src/images/`.
 
 The same script serves both jobs: photos (selective highlight boost) and, for a
 future Phase 2 synthetic mark, pushing pure white to maximum brightness.
 
+**Format decision:** AVIF + CICP chosen over JPEG + PQ-ICC because macOS ships no
+PQ ICC profile (the bundled `ITU-2020.icc` uses an SDR parametric TRC, not PQ —
+verified), so the JPEG route would require sourcing/generating a profile. AVIF
+carries the HDR tag natively. Supported in Chrome and Safari 16.4+ (the
+verification targets).
+
 ### Integration
 
-- Swap the entries in `IMAGE_URLS` (`src/components/Hero.js`) to the `.hdr.jpg`
+- Swap the entries in `IMAGE_URLS` (`src/components/Hero.js`) to the `.hdr.avif`
   variants.
-- PQ-tagged JPEGs are color-managed; modern browsers tonemap them back to normal on
+- PQ-tagged AVIFs are color-managed; modern browsers tonemap them back to normal on
   SDR displays. No `<picture>`/media-query switching needed unless verification
   reveals a fallback problem.
 
@@ -87,6 +94,7 @@ Per phase, on the XDR display:
 ## Tooling
 
 - `pip3 install Pillow numpy`
+- `brew install libavif` — provides `avifenc` for AVIF + CICP encoding.
 - `brew install librsvg` — only if Phase 2 uses a vector source.
 
 ## Risks
@@ -94,5 +102,7 @@ Per phase, on the XDR display:
 - **SDR fallback looks wrong** — mitigated by explicit SDR verification gate.
 - **Photos look oversaturated / artificial** — mitigated by selective-highlight
   encoding and tuning the brightness/saturation thresholds; verified by eye.
-- **File size growth** — HDR JPEGs are somewhat larger; check against the carousel's
-  lazy-loading and acceptable page weight.
+- **File size** — AVIF typically compresses smaller than the source JPEGs, but
+  verify total carousel weight against the existing lazy-loading.
+- **Firefox AVIF-PQ tonemapping** — out of the stated Chrome/Safari target, but
+  worth a glance so it at least falls back sanely rather than breaking.
