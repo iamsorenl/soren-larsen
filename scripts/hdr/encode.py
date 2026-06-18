@@ -32,8 +32,18 @@ def boost_highlights(linear_rgb, *, bright=0.5, sat_max=0.2, target_nits=1000.0)
 
 
 def encode_pq_png(src_path, dst_png, *, bright=0.5, sat_max=0.2, target_nits=1000.0):
-    """Full pipeline: SDR JPEG -> Rec2020/PQ 16-bit PNG."""
-    srgb = np.asarray(Image.open(src_path).convert("RGB"), dtype=np.float64) / 255.0
+    """Full pipeline: SDR image -> Rec2020/PQ 16-bit PNG.
+
+    Preserves an alpha channel when the source has one (for transparent marks).
+    Alpha is coverage, not light, so it is NOT PQ-encoded — only the RGB is.
+    """
+    img = Image.open(src_path)
+    has_alpha = img.mode in ("RGBA", "LA") or "transparency" in img.info
+    img = img.convert("RGBA" if has_alpha else "RGB")
+    arr = np.asarray(img, dtype=np.float64) / 255.0
+    srgb = arr[..., :3]
+    alpha = arr[..., 3] if has_alpha else None
+
     linear709 = srgb_to_linear(srgb)
     linear2020 = linear709 @ REC709_TO_REC2020.T
     abs_nits = boost_highlights(
@@ -41,12 +51,20 @@ def encode_pq_png(src_path, dst_png, *, bright=0.5, sat_max=0.2, target_nits=100
     )
     pq_input = np.clip(abs_nits / PQ_MAX_NITS, 0.0, 1.0)
     code = pq_oetf(pq_input)
-    out = np.round(code * 65535.0).astype(np.uint16)  # shape (H, W, 3)
-    # Pillow cannot save 3-channel 16-bit PNG, so use pypng. It wants rows of
-    # interleaved RGB samples: reshape (H, W, 3) -> (H, W*3).
-    height, width = out.shape[:2]
-    rows = out.reshape(height, width * 3)
+    out = np.round(code * 65535.0).astype(np.uint16)  # (H, W, 3)
+
+    if has_alpha:
+        alpha16 = np.round(np.clip(alpha, 0.0, 1.0) * 65535.0).astype(np.uint16)
+        out = np.concatenate([out, alpha16[..., None]], axis=-1)  # (H, W, 4)
+
+    # Pillow cannot save multi-channel 16-bit PNG, so use pypng. It wants rows of
+    # interleaved samples: reshape (H, W, C) -> (H, W*C).
+    height, width, channels = out.shape
+    rows = out.reshape(height, width * channels)
     with open(dst_png, "wb") as f:
-        writer = png.Writer(width=width, height=height, bitdepth=16, greyscale=False)
+        writer = png.Writer(
+            width=width, height=height, bitdepth=16,
+            greyscale=False, alpha=has_alpha,
+        )
         writer.write(f, rows.tolist())
     return dst_png

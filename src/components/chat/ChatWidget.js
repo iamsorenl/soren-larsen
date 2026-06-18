@@ -3,6 +3,7 @@ import { Fab, Tooltip, Box, Typography, Fade, useTheme } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatPanel from './ChatPanel';
 import { useChat } from './useChat';
+import fabGlow from '../../images/marks/fab-glow.hdr.avif';
 
 const NAV_SECTIONS = [
     'about',
@@ -167,6 +168,22 @@ function ChatWidget() {
                             </Typography>
                         </Box>
                     </Fade>
+
+                    <Box
+                        component="img"
+                        src={fabGlow}
+                        alt=""
+                        aria-hidden="true"
+                        sx={{
+                            position: 'fixed',
+                            bottom: -4,
+                            right: -4,
+                            width: 96,
+                            height: 96,
+                            pointerEvents: 'none',
+                            zIndex: theme.zIndex.modal,
+                        }}
+                    />
 
                     <Tooltip title="Ask my assistant" placement="left">
                         <Fab

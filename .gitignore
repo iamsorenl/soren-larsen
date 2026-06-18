@@ -20,3 +20,6 @@ storybook-static/
 *.log
 *.lock
 *.pid
+# Python bytecode (HDR build tooling)
+__pycache__/
+*.pyc

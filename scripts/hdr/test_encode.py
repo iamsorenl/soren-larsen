@@ -29,6 +29,24 @@ def test_dark_pixel_not_boosted():
     assert out_nits.max() <= SDR_WHITE_NITS + 1e-6
 
 
+def test_encode_pq_png_preserves_alpha(tmp_path):
+    # A transparent-background white mark must stay RGBA with alpha intact.
+    import png
+    src = tmp_path / "mark.png"
+    rgba = np.zeros((4, 4, 4), dtype=np.uint8)
+    rgba[1:3, 1:3] = [255, 255, 255, 255]  # opaque white square in the middle
+    Image.fromarray(rgba, "RGBA").save(src)
+    dst = tmp_path / "mark16.png"
+    encode_pq_png(str(src), str(dst), target_nits=1000.0)
+    reader = png.Reader(filename=str(dst))
+    width, height, rows, info = reader.read()
+    assert info["alpha"] is True
+    data = np.array([np.asarray(r, dtype=np.uint16) for r in rows]).reshape(4, 4, 4)
+    # Corners fully transparent, center fully opaque.
+    assert data[0, 0, 3] == 0
+    assert data[1, 1, 3] == 65535
+
+
 def test_encode_pq_png_writes_16bit(tmp_path):
     # Build a tiny white JPEG, encode it, confirm a 16-bit PNG comes out
     # whose brightest code exceeds the SDR reference code.

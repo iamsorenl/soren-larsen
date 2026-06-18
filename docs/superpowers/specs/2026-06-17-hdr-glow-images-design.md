@@ -1,7 +1,32 @@
 # HDR "Glowing" Images — Design
 
 **Date:** 2026-06-17
-**Status:** Approved, pending implementation plan
+**Status:** Implemented (pivoted — see Outcome)
+
+## Outcome (what shipped)
+
+The original plan was to glow the Hero **photo carousel**. The Phase 0 proof of
+concept revealed photos — especially portraits — look bad with the glow (skin
+highlights bloom and wash out). **Photos were dropped entirely.**
+
+We pivoted to **synthetic white marks**, which is exactly the case the admired
+logos (Knot API, cosmos.so) use and where the effect looks crisp and intentional.
+Shipped four glowing elements, each as a Rec2020/PQ AVIF that glows in dark mode
+on HDR displays, with a solid-indigo fallback in light mode (a white glow is
+invisible on a light background):
+
+1. **Navbar monogram** — a standalone glowing "SL" (Fraunces) brand mark.
+2. **Hero accent** — a glowing sparkle beside the "Soren Larsen" headline.
+3. **Theme-toggle sun** — the dark-mode sun icon glows (light-mode moon unchanged).
+4. **Chat FAB halo** — a soft glowing aura behind the chat button.
+
+Reusable pieces: `src/components/GlowMark.js` (theme-aware mark) and
+`scripts/hdr/make_marks.py` (regenerates every asset deterministically). The
+encoder gained alpha-channel support for transparent marks. All text stays live.
+
+The design below documents the original photo approach for historical context.
+
+---
 
 ## Problem / Motivation
 

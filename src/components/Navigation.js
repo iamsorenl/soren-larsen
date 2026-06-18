@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
     AppBar,
     Toolbar,
-    Typography,
     Button,
     Box,
     useScrollTrigger,
@@ -27,6 +26,8 @@ import {
     SettingsBrightness,
 } from '@mui/icons-material';
 import { useThemeMode } from '../contexts/ThemeContext';
+import GlowMark from './GlowMark';
+import sunGlow from '../images/marks/sun-glow.hdr.avif';
 
 const navigationItems = [
     { label: 'About', id: 'about' },
@@ -157,19 +158,19 @@ const Navigation = () => {
                     }}
                 >
                     <Toolbar>
-                        <Typography
-                            component="div"
+                        <Box
                             sx={{
                                 flexGrow: 1,
-                                fontFamily: '"Fraunces", "Times New Roman", serif',
-                                fontWeight: 600,
-                                fontSize: '1.25rem',
-                                color: 'text.primary',
-                                letterSpacing: '-0.01em',
+                                display: 'flex',
+                                alignItems: 'center',
                             }}
                         >
-                            Soren Larsen
-                        </Typography>
+                            <GlowMark
+                                variant="monogram"
+                                size={30}
+                                alt="Soren Larsen"
+                            />
+                        </Box>
 
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             <IconButton
@@ -177,7 +178,17 @@ const Navigation = () => {
                                 aria-label="Change theme"
                                 sx={{ color: 'text.primary' }}
                             >
-                                {isDark ? <Brightness7 /> : <Brightness4 />}
+                                {isDark ? (
+                                    <Box
+                                        component="img"
+                                        src={sunGlow}
+                                        alt=""
+                                        aria-hidden="true"
+                                        sx={{ width: 24, height: 24, display: 'block' }}
+                                    />
+                                ) : (
+                                    <Brightness4 />
+                                )}
                             </IconButton>
 
                             {isMobile ? (

@@ -13,6 +13,7 @@ import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
 import resumePDF from '../data/SorenLarsenResume.pdf';
 import { ACCENT_PALETTE, resolveAccent } from '../theme/accents';
+import GlowMark from './GlowMark';
 
 import headshot1 from '../images/Headshot1.jpg';
 import headshot2 from '../images/Headshot2.jpg';
@@ -104,19 +105,28 @@ const Hero = () => {
                     Portfolio
                 </Typography>
 
-                <Typography
-                    component="h1"
+                <Box
                     sx={{
-                        fontFamily: '"Fraunces", "Times New Roman", serif',
-                        fontWeight: 700,
-                        fontSize: { xs: '2.75rem', md: '4rem' },
-                        lineHeight: 1.1,
-                        color: 'text.primary',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: { xs: 1.5, md: 2 },
                         mt: 0.5,
                     }}
                 >
-                    Soren Larsen
-                </Typography>
+                    <Typography
+                        component="h1"
+                        sx={{
+                            fontFamily: '"Fraunces", "Times New Roman", serif',
+                            fontWeight: 700,
+                            fontSize: { xs: '2.75rem', md: '4rem' },
+                            lineHeight: 1.1,
+                            color: 'text.primary',
+                        }}
+                    >
+                        Soren Larsen
+                    </Typography>
+                    <GlowMark variant="accent" size={32} />
+                </Box>
 
                 <Typography
                     component="p"

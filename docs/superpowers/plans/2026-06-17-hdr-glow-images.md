@@ -4,6 +4,16 @@
 
 **Goal:** Make the Hero photo carousel physically glow on HDR displays (MacBook Pro XDR, iPhone 12+) by re-encoding the photos as Rec2020/PQ AVIF, while all text stays live.
 
+> **OUTCOME / PIVOT (2026-06-17):** Tasks 0–3 (encoder + Phase 0 POC) were built as
+> written. The POC showed glowing *photos* look bad (portraits wash out), so
+> Task 4 (batch the carousel) was **abandoned**. We pivoted to **synthetic white
+> marks** instead: navbar "SL" monogram, hero sparkle accent, glowing theme-toggle
+> sun, and a chat-FAB halo — each a PQ AVIF that glows in dark mode with an
+> indigo light-mode fallback. New work beyond this plan: alpha support in the
+> encoder (`scripts/hdr/encode.py`), `scripts/hdr/make_marks.py` (deterministic
+> asset generator), and `src/components/GlowMark.js`. See the spec's "Outcome"
+> section. The photo-carousel tasks below are retained for historical context.
+
 **Architecture:** A build-time Python tool (`scripts/hdr/`) decodes each source JPEG, boosts bright low-saturation highlights up the PQ curve into HDR headroom while pinning colored pixels at the 203-nit SDR reference, writes a 10/16-bit PQ-encoded PNG, then tags it as Rec2020/PQ AVIF via `avifenc --cicp 9/16/9`. The React Hero swaps its image list to the `.hdr.avif` variants. Browsers tonemap back to normal on SDR displays, so the same files degrade gracefully.
 
 **Tech Stack:** Python 3 + Pillow + numpy (encoder), `avifenc` from libavif (container/CICP tagging), pytest (encoder tests), React 18 + MUI (existing site).
