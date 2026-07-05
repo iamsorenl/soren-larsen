@@ -14,7 +14,7 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 - **Firebase Hosting**: Static site hosting and deployment
 - **Cloudflare Workers**: Edge-deployed serverless backend for the chat widget
 - **Groq (Llama 3.3 70B)**: Free-tier open-source LLM powering "Soren's Assistant"
-- **Cloudflare KV**: Per-IP rate limiting for the chat endpoint
+- **Cloudflare KV**: Per-IP and global rate limiting for the chat endpoint
 - **React Context API**: State management for theme switching
 - **CSS3**: Advanced styling with gradients, animations, and responsive design
 
@@ -25,7 +25,7 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 - **Dark/Light Theme Toggle**: Seamless theme switching with persistent user preference
 - **Responsive Design**: Optimized for all screen sizes (mobile, tablet, desktop)
 - **Editorial Typography**: Fraunces serif for display headlines (hero name, section h2s), Inter for body, JetBrains Mono for eyebrow labels
-- **Unified Accent Palette**: A single 5-color palette (indigo, cyan, coral, gold, sage) in `src/theme/accents.js` drives every section accent and per-entry color, so the page reads as one designed system
+- **Unified Accent Palette**: A single 5-color palette (indigo, cyan, coral, gold, sage) is resolved per-mode into the MUI theme as `theme.palette.accents` / `theme.palette.sectionAccents` (raw values in `src/themeAccents.js`), so every section accent and per-entry color reads from one source and components never branch on light/dark themselves
 - **Frosted-Glass Navigation**: Theme-aware translucent AppBar with backdrop-blur, primary-color underline on the active section
 - **Smooth Animations**: Smooth scroll-to-section nav, hero photo carousel cross-fade, chat-FAB section-transition wiggle
 
@@ -50,7 +50,7 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 
 - **Floating chat bubble** bottom-right on every page; mobile-friendly bottom sheet with scrim; FAB hides when the panel is open
 - **Grounded in the JSON content** — entry-level retrieval picks only the relevant `experience`, `projects`, `skills`, etc. for each question
-- **GitHub README tool** — when a visitor asks for deeper detail about a project than the JSON summary covers, the model invokes a `fetch_repo_readme` tool that pulls the repo's README from GitHub (PAT-authenticated), section-scores it against the question, and answers from the real source. Results cached in Cloudflare KV for 24h.
+- **GitHub README tool** — when a visitor asks for deeper detail about a project than the JSON summary covers, the model invokes a `fetch_repo_readme` tool that pulls the repo's README from GitHub, section-scores it against the question, and answers from the real source. The tool is allowlisted to the repos linked in `projects.json`; successful reads are cached in Cloudflare KV for 24h and failures get a short negative-cache marker.
 - **Streaming responses** from Groq's Llama 3.3 70B with auto-summarization once chat history grows past a token budget; animated dots placeholder bridges the wait before the first token arrives
 - **Recruiter-focused guardrails** — facts only, redirects opinions/logistics to the contact section, never invents experience; resume links are shared directly (autolinkified to a downloadable PDF)
 - **Distinct rate-limit messages** — visitors hitting their own per-IP cap, the Groq per-minute cap, or the daily-token cap each see a specific inline explanation rather than a generic upstream error
@@ -74,11 +74,11 @@ src/
 │   ├── Navigation.js
 │   ├── CardLayout.js     # Lazy-loads section cards in order
 │   ├── Body.js           # Page-level grid (Hero → About → CardLayout → Footer)
-│   ├── ErrorBoundary.js
-│   └── ...               # Plus EducationPopUpCard, ReadMoreText, NotFound
+│   ├── ErrorBoundary.js  # Also wraps each lazy section so one bad chunk can't blank the page
+│   └── GlowMark.js       # HDR brand marks
 ├── contexts/             # React Context providers
 │   └── ThemeContext.js
-├── data/                 # JSON data files
+├── data/                 # JSON data files (PDFs live in public/, not here)
 │   ├── about.json
 │   ├── contact.json
 │   ├── education.json
@@ -86,26 +86,27 @@ src/
 │   ├── highlights.json
 │   ├── projects.json
 │   └── skills.json       # Each skill has { name, level, proficiency }
-├── images/               # Static assets (hero carousel photos)
-├── theme.js              # MUI theme (palette, typography, MuiCard/MuiButton overrides)
-└── theme/
-    └── accents.js        # Unified accent palette + per-section signature colors
+├── images/               # Static assets (hero carousel photos, optimized to ≤~250KB each)
+├── utils/
+│   └── dates.js          # Shared month-parsing used by Project + Experience cards
+├── themeAccents.js       # Raw accent palette + per-section colors (folded into the theme)
+└── theme.js              # MUI theme (palette + accents, typography, MuiCard/MuiButton overrides)
 
 worker/                   # Cloudflare Worker backend for the chat widget
 ├── src/
 │   ├── index.js          # Router for /api/chat and /api/summarize
-│   ├── chat.js           # Two-phase chat handler (Groq tool-use + streaming)
-│   ├── summarize.js      # JSON summarize handler
-│   ├── groq.js           # Groq client (streaming + non-streaming + tool support)
+│   ├── chat.js           # Chat handler: validation + single streaming Groq call w/ tool-use
+│   ├── summarize.js      # JSON summarize handler (same message validation)
+│   ├── groq.js           # Groq streaming client (tool support, timeouts, stream-error surfacing)
 │   ├── systemPrompt.js   # Entry-level RAG + token estimation
-│   ├── tools.js          # Tool specs + dispatcher (fetch_repo_readme)
-│   ├── github.js         # GitHub README fetch (PAT auth, 403 → auth vs rate-limit)
+│   ├── tools.js          # Tool specs + dispatcher (fetch_repo_readme, allowlisted to own repos)
+│   ├── github.js         # GitHub README fetch (403 → auth vs rate-limit)
 │   ├── readmeExtract.js  # Markdown section-scored extraction
-│   ├── readmeCache.js    # 24h KV cache for fetched READMEs
-│   ├── rateLimit.js      # KV-backed per-IP rate limit
+│   ├── readmeCache.js    # 24h KV cache (+ short-TTL negative cache for failures)
+│   ├── rateLimit.js      # KV-backed per-IP + global rate limits
 │   ├── cors.js           # CORS helpers
-│   └── constants.js      # README_MAX_TOKENS / README_CACHE_TTL
-├── test/                 # Vitest unit + scenario tests (114 tests)
+│   └── constants.js      # Token/cache/validation limits
+├── test/                 # Vitest unit + scenario tests (143 tests)
 ├── scripts/sync-data.mjs # Copies src/data/*.json → worker/src/data/
 ├── wrangler.jsonc        # Worker config + KV bindings (RATE_LIMIT, README_CACHE)
 └── README.md             # Worker setup + deploy guide
@@ -129,7 +130,7 @@ worker/                   # Cloudflare Worker backend for the chat widget
 ### **Experience**
 
 - JetBrains Mono "EXPERIENCE" eyebrow + Fraunces "Where I've worked" h2 with cyan accent
-- Per-employer left-border accent colors pulled from the unified palette (`src/theme/accents.js`)
+- Per-employer left-border accent colors pulled from the unified palette (`theme.palette.accents`)
 - Expandable detailed descriptions with location, skills chips, external company link
 
 ### **Projects**
@@ -282,7 +283,7 @@ The portfolio supports comprehensive theming with:
 
 - **Light Mode**: Near-white surfaces, indigo accents, the hero on a soft indigo wash
 - **Dark Mode**: `#0a0e27` page background with darker indigo surfaces; same palette adjusted for contrast
-- **Unified accent palette** (`src/theme/accents.js`): indigo / cyan / coral / gold / sage, each with light and dark variants. `SECTION_ACCENTS` maps each section to a signature color; entry rotations pull from the same palette.
+- **Unified accent palette** (`src/themeAccents.js`, resolved into `theme.palette.accents` / `theme.palette.sectionAccents`): indigo / cyan / coral / gold / sage, each with light and dark variants. Each section maps to a signature color; entry rotations pull from the same palette. Components read the already-resolved color from the theme rather than branching on the current mode.
 - **Persistent Theme**: User preference saved in localStorage; respects system preference on first visit
 - **Smooth Transitions**: Animated theme switching
 
@@ -309,7 +310,7 @@ The portfolio is deployed using Firebase Hosting:
 
 ### Chat Widget Backend (Cloudflare Worker)
 
-The chat widget on the site is powered by a separate Cloudflare Worker that proxies Groq completions, holds the Groq API key + GitHub PAT as secrets, and rate-limits per-IP via Cloudflare KV. See `worker/README.md` for full setup. Quick reference:
+The chat widget on the site is powered by a separate Cloudflare Worker that proxies Groq completions, holds the Groq API key (and an optional GitHub PAT) as secrets, and rate-limits per-IP and globally via Cloudflare KV. See `worker/README.md` for full setup. Quick reference:
 
 ```bash
 cd worker
@@ -325,6 +326,13 @@ npm run deploy                                   # deploys to *.workers.dev
 The `GITHUB_TOKEN` secret enables the `fetch_repo_readme` tool the chat uses for deeper project answers; lifetime must be ≤366 days to satisfy the strictest org policies among the linked repos.
 
 The React build reads the Worker URL from `REACT_APP_CHAT_WORKER_URL`. Locally, leave it unset to use the `http://localhost:8787` dev fallback; for production set it via `.env.production.local` or the `CHAT_WORKER_URL` GitHub Actions secret (consumed by `.github/workflows/deploy.yml`).
+
+### CI & Content-Security-Policy
+
+- **CI** — `.github/workflows/ci.yml` runs frontend lint/test/build **and** the worker's Vitest suite on every PR; `deploy.yml` gates the Firebase deploy on the worker tests passing. (The worker itself is still deployed manually via `cd worker && npm run deploy` — no Cloudflare token is stored in CI.)
+- **CSP** — `firebase.json` serves a Content-Security-Policy. Because it uses `script-src 'self'`, the committed root `.env` sets `INLINE_RUNTIME_CHUNK=false` so CRA emits the webpack runtime as an external file instead of an inline `<script>`. If you add a third-party origin (analytics, fonts, an image host), widen the matching CSP directive in `firebase.json` or the resource will be blocked.
+
+> The hero/carousel photos in `src/images/` are optimized (longest edge ≤1200px, ≤~250KB each) — keep new additions in that range so the bundle stays light.
 
 ## 🔧 Technical Highlights
 
