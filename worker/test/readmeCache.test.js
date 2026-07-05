@@ -1,14 +1,24 @@
 import { describe, it, expect, vi } from 'vitest';
-import { normalizeSlug, getCachedReadme, putCachedReadme } from '../src/readmeCache.js';
+import {
+  normalizeSlug,
+  getCachedReadme,
+  putCachedReadme,
+  getUnavailableMarker,
+  putUnavailableMarker,
+  README_NEGATIVE_TTL_SECONDS,
+} from '../src/readmeCache.js';
 
 class MockKV {
-  constructor() { this.store = new Map(); }
+  constructor() { this.store = new Map(); this.putOpts = new Map(); }
   async get(key, type) {
     const v = this.store.get(key);
     if (v === undefined) return null;
     return type === 'json' ? JSON.parse(v) : v;
   }
-  async put(key, value, opts) { this.store.set(key, String(value)); }
+  async put(key, value, opts) {
+    this.store.set(key, String(value));
+    this.putOpts.set(key, opts);
+  }
 }
 
 describe('normalizeSlug', () => {
@@ -61,5 +71,40 @@ describe('getCachedReadme / putCachedReadme', () => {
     kv.store.set('odd/key', JSON.stringify({ fetchedAt: '2024-01-01' }));
     const result = await getCachedReadme(kv, 'odd/key');
     expect(result).toBeNull();
+  });
+});
+
+describe('getUnavailableMarker / putUnavailableMarker', () => {
+  it('returns null when no marker is stored', async () => {
+    const kv = new MockKV();
+    expect(await getUnavailableMarker(kv, 'iamsorenl/edumuse')).toBeNull();
+  });
+
+  it('round-trips a marker with its reason', async () => {
+    const kv = new MockKV();
+    await putUnavailableMarker(kv, 'iamsorenl/parkme', 'readme not found');
+    const marker = await getUnavailableMarker(kv, 'iamsorenl/parkme');
+    expect(marker).toEqual({ reason: 'readme not found' });
+  });
+
+  it('stores the marker under a prefixed key with the short negative TTL', async () => {
+    const kv = new MockKV();
+    await putUnavailableMarker(kv, 'iamsorenl/parkme', 'github network error');
+    expect(kv.store.has('unavailable:iamsorenl/parkme')).toBe(true);
+    expect(kv.putOpts.get('unavailable:iamsorenl/parkme')).toEqual({
+      expirationTtl: README_NEGATIVE_TTL_SECONDS,
+    });
+    expect(README_NEGATIVE_TTL_SECONDS).toBe(600);
+  });
+
+  it('does not collide with the positive README cache for the same slug', async () => {
+    const kv = new MockKV();
+    await putUnavailableMarker(kv, 'iamsorenl/edumuse', 'github rate limit hit');
+    expect(await getCachedReadme(kv, 'iamsorenl/edumuse')).toBeNull();
+    await putCachedReadme(kv, 'iamsorenl/edumuse', '## Arch');
+    expect(await getCachedReadme(kv, 'iamsorenl/edumuse')).toBe('## Arch');
+    expect(await getUnavailableMarker(kv, 'iamsorenl/edumuse')).toEqual({
+      reason: 'github rate limit hit',
+    });
   });
 });

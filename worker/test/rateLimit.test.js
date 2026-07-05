@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { checkRateLimit, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '../src/rateLimit.js';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { checkRateLimit, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, GLOBAL_RATE_LIMIT_MAX } from '../src/rateLimit.js';
 
 class MockKV {
   constructor() { this.store = new Map(); }
@@ -13,6 +13,7 @@ class MockKV {
 
 let kv;
 beforeEach(() => { kv = new MockKV(); });
+afterEach(() => { vi.restoreAllMocks(); });
 
 describe('checkRateLimit', () => {
   it('allows the first request', async () => {
@@ -45,5 +46,30 @@ describe('checkRateLimit', () => {
       const r = await checkRateLimit(kv, 'local');
       expect(r.allowed).toBe(true);
     }
+  });
+
+  it('global cap blocks even when every IP is under the per-IP limit', async () => {
+    // Pin time so the test can't straddle a minute-window boundary.
+    vi.spyOn(Date, 'now').mockReturnValue(1_700_000_000_000);
+    // Each request comes from a distinct IP, so per-IP counts stay at 1.
+    for (let i = 0; i < GLOBAL_RATE_LIMIT_MAX; i++) {
+      const r = await checkRateLimit(kv, `10.0.${Math.floor(i / 250)}.${i % 250}`);
+      expect(r.allowed).toBe(true);
+    }
+    const blocked = await checkRateLimit(kv, '10.9.9.9');
+    expect(blocked.allowed).toBe(false);
+    expect(blocked.retryAfterSec).toBeGreaterThan(0);
+  });
+
+  it('global counter resets in a new minute window', async () => {
+    const t0 = 1_700_000_000_000;
+    const nowSpy = vi.spyOn(Date, 'now').mockReturnValue(t0);
+    for (let i = 0; i < GLOBAL_RATE_LIMIT_MAX + 1; i++) {
+      await checkRateLimit(kv, `10.1.${Math.floor(i / 250)}.${i % 250}`);
+    }
+    // Advance into the next minute window — a fresh global key applies.
+    nowSpy.mockReturnValue(t0 + RATE_LIMIT_WINDOW_MS);
+    const r = await checkRateLimit(kv, '10.9.9.10');
+    expect(r.allowed).toBe(true);
   });
 });
