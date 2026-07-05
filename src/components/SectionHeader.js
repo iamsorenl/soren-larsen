@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
+import { FONT_DISPLAY, FONT_MONO } from '../theme';
 
 const SectionHeader = ({ eyebrow, title, icon, accent }) => (
     <Box sx={{ mb: 3 }}>
         <Typography
             variant="overline"
             sx={{
-                fontFamily: '"JetBrains Mono", "Roboto Mono", monospace',
+                fontFamily: FONT_MONO,
                 color: accent,
                 letterSpacing: '0.14em',
                 fontSize: '0.75rem',
@@ -37,7 +38,7 @@ const SectionHeader = ({ eyebrow, title, icon, accent }) => (
                 variant="h4"
                 component="h2"
                 sx={{
-                    fontFamily: '"Fraunces", "Times New Roman", serif',
+                    fontFamily: FONT_DISPLAY,
                     fontWeight: 600,
                     color: 'text.primary',
                     fontSize: { xs: '1.75rem', md: '2.25rem' },

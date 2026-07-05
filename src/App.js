@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import './App.css';
 import Navigation from './components/Navigation';
 import Body from './components/Body';
 import ErrorBoundary from './components/ErrorBoundary';
-import ChatWidget from './components/chat/ChatWidget';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Box } from '@mui/material';
+
+const ChatWidget = lazy(() => import('./components/chat/ChatWidget'));
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
           <Box sx={{ pt: 8 }}>
             <Body />
           </Box>
-          <ChatWidget />
+          <Suspense fallback={null}>
+            <ChatWidget />
+          </Suspense>
         </div>
       </ErrorBoundary>
     </ThemeProvider>

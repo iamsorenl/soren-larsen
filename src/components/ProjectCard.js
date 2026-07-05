@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
     Card,
     CardContent,
@@ -15,11 +15,7 @@ import {
 } from '@mui/material';
 import { GitHub, ExpandMore, ExpandLess, Code } from '@mui/icons-material';
 import projectsData from '../data/projects';
-import {
-    ACCENT_PALETTE,
-    SECTION_ACCENTS,
-    resolveAccent,
-} from '../theme/accents';
+import { parseDate } from '../utils/dates';
 import SectionHeader from './SectionHeader';
 
 const TOOL_COLORS = {
@@ -39,25 +35,9 @@ const TOOL_COLORS = {
 };
 const getToolColor = (tool) => TOOL_COLORS[tool] || '#666666';
 
-const ENTRY_ACCENT_ROTATION = [
-    ACCENT_PALETTE.indigo,
-    ACCENT_PALETTE.cyan,
-    ACCENT_PALETTE.sage,
-    ACCENT_PALETTE.gold,
-    ACCENT_PALETTE.coral,
-];
+const ENTRY_ACCENT_ROTATION = ['indigo', 'cyan', 'sage', 'gold', 'coral'];
 
-const MONTHS = {
-    January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
-    July: 6, August: 7, September: 8, October: 9, November: 10, December: 11,
-};
-const parseDate = (str) => {
-    if (!str) return 0;
-    const [month, year] = str.split(' ');
-    return new Date(parseInt(year, 10), MONTHS[month] ?? 0).getTime();
-};
-
-const ProjectEntry = ({ project, accent, expanded, onToggle, isMobile }) => (
+const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile }) => (
     <Card
         sx={{
             backgroundColor: 'background.paper',
@@ -88,6 +68,7 @@ const ProjectEntry = ({ project, accent, expanded, onToggle, isMobile }) => (
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography
                         variant="subtitle1"
+                        component="h3"
                         sx={{
                             fontWeight: 700,
                             color: 'text.primary',
@@ -163,7 +144,7 @@ const ProjectEntry = ({ project, accent, expanded, onToggle, isMobile }) => (
                         </Button>
                     )}
                     <IconButton
-                        onClick={onToggle}
+                        onClick={() => onToggle(entryId)}
                         size="small"
                         aria-label={expanded ? `Collapse ${project.title}` : `Expand ${project.title}`}
                         aria-expanded={expanded}
@@ -243,23 +224,28 @@ const ProjectEntry = ({ project, accent, expanded, onToggle, isMobile }) => (
             </Collapse>
         </CardContent>
     </Card>
-);
+));
+
+ProjectEntry.displayName = 'ProjectEntry';
 
 const ProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
     const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const allProjects = [...projectsData].sort(
-        (a, b) => parseDate(b.startDate) - parseDate(a.startDate),
+    const allProjects = useMemo(
+        () =>
+            [...projectsData].sort(
+                (a, b) => parseDate(b.startDate) - parseDate(a.startDate),
+            ),
+        [],
     );
 
-    const handleExpandClick = (id) => {
-        setExpandedProject(expandedProject === id ? null : id);
-    };
+    const handleExpandClick = useCallback((id) => {
+        setExpandedProject((current) => (current === id ? null : id));
+    }, []);
 
-    const sectionAccent = resolveAccent(SECTION_ACCENTS.projects, isDark);
+    const sectionAccent = theme.palette.sectionAccents.projects;
 
     return (
         <Card
@@ -284,18 +270,19 @@ const ProjectCard = () => {
 
                 <Stack spacing={1.25}>
                     {allProjects.map((project, index) => {
-                        const accent = resolveAccent(
-                            ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length],
-                            isDark,
-                        );
+                        const accent =
+                            theme.palette.accents[
+                                ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length]
+                            ];
                         const id = `project-${index}`;
                         return (
                             <ProjectEntry
                                 key={id}
                                 project={project}
                                 accent={accent}
+                                entryId={id}
                                 expanded={expandedProject === id}
-                                onToggle={() => handleExpandClick(id)}
+                                onToggle={handleExpandClick}
                                 isMobile={isMobile}
                             />
                         );

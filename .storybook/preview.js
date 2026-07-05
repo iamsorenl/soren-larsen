@@ -1,13 +1,10 @@
 import React from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import getTheme from '../src/theme';
-import getSurfTheme from '../src/theme/surfTheme';
 
 const themes = {
     'classic-light': getTheme('light'),
-    'classic-dark': getTheme('dark'),
-    'surf-light': getSurfTheme('light'),
-    'surf-dark': getSurfTheme('dark')
+    'classic-dark': getTheme('dark')
 };
 
 /** @type { import('@storybook/react').Preview } */
@@ -23,9 +20,7 @@ const preview = {
             default: 'classic-light',
             values: [
                 { name: 'classic-light', value: themes['classic-light'].palette.background.default },
-                { name: 'classic-dark', value: themes['classic-dark'].palette.background.default },
-                { name: 'surf-light', value: themes['surf-light'].palette.background.default },
-                { name: 'surf-dark', value: themes['surf-dark'].palette.background.default }
+                { name: 'classic-dark', value: themes['classic-dark'].palette.background.default }
             ]
         }
     },
@@ -38,9 +33,7 @@ const preview = {
                 icon: 'paintbrush',
                 items: [
                     { value: 'classic-light', icon: 'sun', title: 'Classic Light' },
-                    { value: 'classic-dark', icon: 'moon', title: 'Classic Dark' },
-                    { value: 'surf-light', icon: 'sun', title: 'Surf Light' },
-                    { value: 'surf-dark', icon: 'moon', title: 'Surf Dark' }
+                    { value: 'classic-dark', icon: 'moon', title: 'Classic Dark' }
                 ],
                 dynamicTitle: true
             }

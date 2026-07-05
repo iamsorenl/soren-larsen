@@ -25,6 +25,11 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
+      // Allow callers (e.g. per-section boundaries) to supply a compact
+      // fallback instead of the full-page one.
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
       return (
         <Container
           maxWidth="sm"
@@ -72,6 +77,7 @@ class ErrorBoundary extends React.Component {
 
 ErrorBoundary.propTypes = {
   children: PropTypes.node.isRequired,
+  fallback: PropTypes.node,
 };
 
 export default ErrorBoundary;
