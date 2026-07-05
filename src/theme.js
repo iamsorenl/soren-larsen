@@ -1,8 +1,17 @@
 import { createTheme } from '@mui/material/styles';
+import { resolveAccents, resolveSectionAccents } from './themeAccents';
+
+// Centralized font stacks. Fraunces for display headings, JetBrains Mono
+// for eyebrow labels and coded accents; body text uses typography.fontFamily.
+export const FONT_DISPLAY = '"Fraunces", "Times New Roman", serif';
+export const FONT_MONO = '"JetBrains Mono", "Roboto Mono", monospace';
 
 const getTheme = (mode) => createTheme({
     palette: {
         mode,
+        // Mode-resolved accent colors (see src/themeAccents.js for raw data).
+        accents: resolveAccents(mode),
+        sectionAccents: resolveSectionAccents(mode),
         primary: {
             main: mode === 'dark' ? '#1a237e' : '#7986cb', // Darker purple for dark mode, lighter for light mode
             light: mode === 'dark' ? '#534bae' : '#aab6fe',

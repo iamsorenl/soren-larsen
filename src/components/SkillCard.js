@@ -22,11 +22,6 @@ import {
     ExpandLess,
 } from '@mui/icons-material';
 import skillsData from '../data/skills';
-import {
-    ACCENT_PALETTE,
-    SECTION_ACCENTS,
-    resolveAccent,
-} from '../theme/accents';
 import SectionHeader from './SectionHeader';
 
 const CATEGORIES = [
@@ -34,50 +29,49 @@ const CATEGORIES = [
         key: 'languages',
         label: 'Languages',
         icon: <Code />,
-        accent: ACCENT_PALETTE.indigo,
+        accent: 'indigo',
         data: skillsData.languages,
     },
     {
         key: 'aiLlmSystems',
         label: 'AI / LLM Systems',
         icon: <Psychology />,
-        accent: ACCENT_PALETTE.coral,
+        accent: 'coral',
         data: skillsData.aiLlmSystems,
     },
     {
         key: 'frameworks',
         label: 'Frameworks',
         icon: <Extension />,
-        accent: ACCENT_PALETTE.sage,
+        accent: 'sage',
         data: skillsData.frameworks,
     },
     {
         key: 'dataInfra',
         label: 'Data & Infra',
         icon: <Cloud />,
-        accent: ACCENT_PALETTE.cyan,
+        accent: 'cyan',
         data: skillsData.dataInfra,
     },
     {
         key: 'mlNlpResearch',
         label: 'ML / NLP Research',
         icon: <TextFields />,
-        accent: ACCENT_PALETTE.gold,
+        accent: 'gold',
         data: skillsData.mlNlpResearch,
     },
     {
         key: 'developerWorkflows',
         label: 'Developer Workflows',
         icon: <Terminal />,
-        accent: ACCENT_PALETTE.indigo,
+        accent: 'indigo',
         data: skillsData.developerWorkflows,
     },
 ];
 
 const SkillCard = () => {
     const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
-    const sectionAccent = resolveAccent(SECTION_ACCENTS.skills, isDark);
+    const sectionAccent = theme.palette.sectionAccents.skills;
 
     const [expanded, setExpanded] = useState(() =>
         Object.fromEntries(CATEGORIES.map((c) => [c.key, true])),
@@ -110,7 +104,7 @@ const SkillCard = () => {
 
                 <Stack spacing={1.25}>
                     {CATEGORIES.map((category) => {
-                        const accent = resolveAccent(category.accent, isDark);
+                        const accent = theme.palette.accents[category.accent];
                         const isOpen = expanded[category.key];
                         return (
                             <Card

@@ -60,7 +60,10 @@ const Navigation = () => {
     const { setLightMode, setDarkMode, setSystemMode, isDark } = useThemeMode();
 
     useEffect(() => {
-        const handleScroll = () => {
+        let rafId = null;
+
+        const updateActiveSection = () => {
+            rafId = null;
             const sections = navigationItems.map((item) => document.getElementById(item.id));
             const scrollPosition = window.scrollY + 100;
 
@@ -73,8 +76,21 @@ const Navigation = () => {
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        // Throttle with requestAnimationFrame: at most one state update per
+        // frame, no matter how many scroll events fire.
+        const handleScroll = () => {
+            if (rafId === null) {
+                rafId = window.requestAnimationFrame(updateActiveSection);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (rafId !== null) {
+                window.cancelAnimationFrame(rafId);
+            }
+        };
     }, []);
 
     const scrollToSection = (sectionId) => {

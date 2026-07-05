@@ -22,18 +22,14 @@ import {
     Send,
 } from '@mui/icons-material';
 import contactInfo from '../data/contact';
-import {
-    ACCENT_PALETTE,
-    SECTION_ACCENTS,
-    resolveAccent,
-} from '../theme/accents';
+import { FONT_MONO } from '../theme';
 import SectionHeader from './SectionHeader';
 
 const SubHeading = ({ children, accent }) => (
     <Typography
         variant="overline"
         sx={{
-            fontFamily: '"JetBrains Mono", "Roboto Mono", monospace',
+            fontFamily: FONT_MONO,
             color: accent,
             letterSpacing: '0.14em',
             fontSize: '0.7rem',
@@ -62,7 +58,8 @@ const ContactCard = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const { phone, email, github, linkedin } = contactInfo[0];
 
-    const sectionAccent = resolveAccent(SECTION_ACCENTS.contact, isDark);
+    const { accents } = theme.palette;
+    const sectionAccent = theme.palette.sectionAccents.contact;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -103,7 +100,7 @@ ${formData.email}`;
             label: 'Phone',
             value: phone,
             href: `tel:${phone}`,
-            accent: resolveAccent(ACCENT_PALETTE.sage, isDark),
+            accent: accents.sage,
             external: false,
         },
         {
@@ -111,7 +108,7 @@ ${formData.email}`;
             label: 'Email',
             value: email,
             href: `mailto:${email}`,
-            accent: resolveAccent(ACCENT_PALETTE.indigo, isDark),
+            accent: accents.indigo,
             external: false,
         },
         {
@@ -119,7 +116,7 @@ ${formData.email}`;
             label: 'GitHub',
             value: 'github.com/iamsorenl',
             href: github,
-            accent: resolveAccent(ACCENT_PALETTE.coral, isDark),
+            accent: accents.coral,
             external: true,
         },
         {
@@ -127,7 +124,7 @@ ${formData.email}`;
             label: 'LinkedIn',
             value: 'linkedin.com/in/soren-larsen',
             href: linkedin,
-            accent: resolveAccent(ACCENT_PALETTE.cyan, isDark),
+            accent: accents.cyan,
             external: true,
         },
     ];

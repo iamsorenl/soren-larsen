@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Link, Typography, useTheme } from '@mui/material';
+import { Box, GlobalStyles, Link, Typography, useTheme } from '@mui/material';
 
 const URL_REGEX = /https?:\/\/[^\s<>()]+[^\s<>().,;:!?]/g;
+
+// Cursor-blink keyframes, hoisted to a single module-level definition and
+// rendered exactly once by ChatPanel. Previously every bubble emitted its own
+// <style>@keyframes</style> tag, forcing style recalcs on each streamed token.
+export const chatCursorBlinkStyles = (
+    <GlobalStyles styles={{ '@keyframes chat-cursor-blink': { to: { visibility: 'hidden' } } }} />
+);
 
 // Walks `content`, splitting it into plain-text runs and URL runs without
 // relying on `.test()` (which has a sticky-lastIndex bug under the /g flag).
@@ -79,14 +86,13 @@ function ChatMessage({ role, content, isStreaming }) {
                     bgcolor: isUser ? theme.palette.primary.main : theme.palette.action.hover,
                     color: isUser ? theme.palette.primary.contrastText : theme.palette.text.primary,
                 }}
-                role={isUser ? undefined : 'log'}
-                aria-live={isUser ? undefined : 'polite'}
             >
                 <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                     {showDots ? (
                         <Box
                             component="span"
                             data-testid="dots-placeholder"
+                            aria-hidden="true"
                             sx={{ opacity: 0.7, fontStyle: 'italic' }}
                         >
                             {'.'.repeat(dotCount)}
@@ -95,7 +101,11 @@ function ChatMessage({ role, content, isStreaming }) {
                         <>
                             {renderRichContent(content)}
                             {isStreaming && content && (
-                                <Box component="span" sx={{ ml: 0.25, animation: 'blink 1s steps(2, start) infinite' }}>
+                                <Box
+                                    component="span"
+                                    aria-hidden="true"
+                                    sx={{ ml: 0.25, animation: 'chat-cursor-blink 1s steps(2, start) infinite' }}
+                                >
                                     ▍
                                 </Box>
                             )}
@@ -103,9 +113,10 @@ function ChatMessage({ role, content, isStreaming }) {
                     )}
                 </Typography>
             </Box>
-            <style>{`@keyframes blink { to { visibility: hidden; } }`}</style>
         </Box>
     );
 }
 
-export default ChatMessage;
+// Memoized so streaming token updates to the newest bubble don't re-render
+// every prior bubble in the transcript (props of settled messages are stable).
+export default React.memo(ChatMessage);

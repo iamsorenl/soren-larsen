@@ -1,14 +1,47 @@
 import { corsHeaders } from './cors.js';
 import { checkRateLimit, clientIp } from './rateLimit.js';
 import { buildSystemPrompt, estimateRequestTokens, MAX_PROMPT_TOKENS } from './systemPrompt.js';
-import { groqChatStream, groqChatNonStreaming, GroqUpstreamError } from './groq.js';
+import { groqChatStream, groqChatStreamAuto, GroqUpstreamError } from './groq.js';
 import { TOOLS_SPEC, executeToolCall } from './tools.js';
+import { MAX_MESSAGES, MAX_MESSAGE_CHARS } from './constants.js';
 
 function jsonError(status, error, message, extraHeaders = {}) {
   return new Response(JSON.stringify({ error, message }), {
     status,
     headers: { 'Content-Type': 'application/json', ...extraHeaders },
   });
+}
+
+/**
+ * Validate a client-supplied messages array. Client messages are spread
+ * directly after the system prompt when calling Groq, so we must reject
+ * anything that could smuggle in extra 'system'/'tool' turns or oversized
+ * payloads.
+ * @param {unknown} messages
+ * @returns {string|null} human-readable error message, or null when valid
+ */
+export function validateMessages(messages) {
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return 'messages must be a non-empty array.';
+  }
+  if (messages.length > MAX_MESSAGES) {
+    return `messages must contain at most ${MAX_MESSAGES} entries.`;
+  }
+  for (const m of messages) {
+    if (typeof m !== 'object' || m === null || Array.isArray(m)) {
+      return 'each message must be an object.';
+    }
+    if (m.role !== 'user' && m.role !== 'assistant') {
+      return "each message role must be 'user' or 'assistant'.";
+    }
+    if (typeof m.content !== 'string' || m.content.length === 0) {
+      return 'each message content must be a non-empty string.';
+    }
+    if (m.content.length > MAX_MESSAGE_CHARS) {
+      return `each message content must be at most ${MAX_MESSAGE_CHARS} characters.`;
+    }
+  }
+  return null;
 }
 
 export async function handleChat(request, env) {
@@ -20,8 +53,9 @@ export async function handleChat(request, env) {
     return jsonError(400, 'bad_request', 'Invalid JSON body.', cors);
   }
   const { messages, sessionSummary } = body || {};
-  if (!Array.isArray(messages) || messages.length === 0) {
-    return jsonError(400, 'bad_request', 'messages must be a non-empty array.', cors);
+  const validationError = validateMessages(messages);
+  if (validationError) {
+    return jsonError(400, 'bad_request', validationError, cors);
   }
 
   const ip = clientIp(request);
@@ -50,8 +84,11 @@ export async function handleChat(request, env) {
   }
 
   try {
-    // Phase 1: non-streaming call with tools to detect if the model wants to call a tool
-    const phase1Message = await groqChatNonStreaming({
+    // Single streaming call with tools. If the model answers directly we pipe
+    // its content deltas straight through; if it emits tool_calls the deltas
+    // are buffered and assembled so we can execute the tool and stream a
+    // second call with the tool result appended.
+    const first = await groqChatStreamAuto({
       apiKey: env.GROQ_API_KEY,
       model: env.GROQ_MODEL,
       messages,
@@ -60,17 +97,9 @@ export async function handleChat(request, env) {
       tool_choice: 'auto',
     });
 
-    const toolCalls = phase1Message.tool_calls;
-
-    if (!toolCalls || toolCalls.length === 0) {
-      // No tool call — re-issue as streaming and pipe back to client
-      const stream = await groqChatStream({
-        apiKey: env.GROQ_API_KEY,
-        model: env.GROQ_MODEL,
-        messages,
-        systemPrompt,
-      });
-      return new Response(stream, {
+    if (first.kind === 'content') {
+      // No tool call — pipe the same stream back to the client. One upstream call.
+      return new Response(first.stream, {
         status: 200,
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
@@ -80,8 +109,8 @@ export async function handleChat(request, env) {
       });
     }
 
-    // Phase 2: execute the first tool call and stream back the final answer
-    const toolCall = toolCalls[0];
+    // Tool path: execute the first tool call and stream back the final answer
+    const toolCall = first.toolCalls[0];
     const toolResultContent = await executeToolCall(toolCall, env, latestUserMessage);
 
     // Build augmented message list: original + assistant tool_call msg + tool result msg
@@ -90,7 +119,7 @@ export async function handleChat(request, env) {
       ...messages,
       {
         role: 'assistant',
-        content: phase1Message.content ?? null,
+        content: null,
         tool_calls: [toolCall],
       },
       {
@@ -112,7 +141,7 @@ export async function handleChat(request, env) {
         ...messages,
         {
           role: 'assistant',
-          content: phase1Message.content ?? null,
+          content: null,
           tool_calls: [toolCall],
         },
         {
@@ -143,7 +172,7 @@ export async function handleChat(request, env) {
       // Map Groq's own 429s onto more informative responses so the widget can
       // tell the visitor what's actually happening instead of "upstream error".
       if (err.status === 429) {
-        const { isDailyLimit, retryAfterSec } = parseGroqRateLimit(err.message);
+        const { isDailyLimit, retryAfterSec } = parseGroqRateLimit(err);
         return jsonError(
           429,
           isDailyLimit ? 'service_capacity' : 'service_busy',
@@ -160,12 +189,37 @@ export async function handleChat(request, env) {
   }
 }
 
-// Parses Groq's 429 error body for the retry hint and whether it's the daily
-// (TPD) cap vs the per-minute (TPM/RPM) cap. Groq formats look like:
+// Interprets a Groq 429. Prefers Groq's structured response headers
+// (retry-after, x-ratelimit-remaining-requests for the daily RPD cap,
+// x-ratelimit-remaining-tokens for the per-minute TPM cap) and falls back to
+// parsing the error body only for whatever the headers don't answer.
+function parseGroqRateLimit(err) {
+  let { isDailyLimit, retryAfterSec } = parseGroqRateLimitBody(err.message || '');
+  const headers = err.headers;
+  if (headers && typeof headers.get === 'function') {
+    const retryAfter = headers.get('retry-after');
+    if (retryAfter !== null && Number.isFinite(Number(retryAfter))) {
+      retryAfterSec = Math.max(1, Math.ceil(Number(retryAfter)));
+    }
+    // Requests are capped per day (RPD); tokens are capped per minute (TPM).
+    // A zeroed remaining-requests header therefore means the daily cap.
+    const remainingRequests = headers.get('x-ratelimit-remaining-requests');
+    const remainingTokens = headers.get('x-ratelimit-remaining-tokens');
+    if (remainingRequests !== null && Number(remainingRequests) <= 0) {
+      isDailyLimit = true;
+    } else if (remainingTokens !== null && Number(remainingTokens) <= 0) {
+      isDailyLimit = false;
+    }
+  }
+  return { isDailyLimit, retryAfterSec };
+}
+
+// Fallback: parses Groq's 429 error body for the retry hint and whether it's
+// the daily (TPD) cap vs the per-minute (TPM/RPM) cap. Groq formats look like:
 //   "Rate limit reached ... on tokens per day (TPD): Limit ..., Please try
 //    again in 4m45.984s. ..."
 //   "Rate limit reached ... on tokens per minute (TPM): ... try again in 7.37s"
-function parseGroqRateLimit(message) {
+function parseGroqRateLimitBody(message) {
   const isDailyLimit = /tokens per day|TPD/i.test(message);
   // Capture "try again in Xm Ys" or "Xs" — convert to whole seconds.
   let retryAfterSec = isDailyLimit ? 3600 : 60;

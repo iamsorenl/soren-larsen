@@ -4,15 +4,21 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Tooltip from '@mui/material/Tooltip';
-import ChatMessage from './ChatMessage';
+import ChatMessage, { chatCursorBlinkStyles } from './ChatMessage';
 import SuggestedPrompts from './SuggestedPrompts';
-import { ERROR_COPY } from './chatConfig';
+import { ERROR_COPY, rateLimitedCopy } from './chatConfig';
+
+// A streamed message must be within this many pixels of the bottom for the
+// panel to keep auto-scrolling. If the user has scrolled up to read earlier
+// history, new tokens no longer yank them back down.
+const NEAR_BOTTOM_PX = 80;
 
 function ChatPanel({ open, onClose, chat }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const inputRef = useRef(null);
     const scrollRef = useRef(null);
+    const nearBottomRef = useRef(true);
     const [draft, setDraft] = useState('');
 
     useEffect(() => {
@@ -20,10 +26,18 @@ function ChatPanel({ open, onClose, chat }) {
     }, [open]);
 
     useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        const el = scrollRef.current;
+        if (el && nearBottomRef.current) {
+            el.scrollTop = el.scrollHeight;
         }
     }, [chat.messages, chat.status]);
+
+    const handleScroll = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+        nearBottomRef.current =
+            el.scrollHeight - el.scrollTop - el.clientHeight < NEAR_BOTTOM_PX;
+    };
 
     useEffect(() => {
         if (!open) return undefined;
@@ -64,6 +78,7 @@ function ChatPanel({ open, onClose, chat }) {
 
     return (
         <>
+            {chatCursorBlinkStyles}
             {isMobile && (
                 <Box
                     onClick={onClose}
@@ -106,13 +121,21 @@ function ChatPanel({ open, onClose, chat }) {
                     </Box>
                 </Box>
 
-                <Box ref={scrollRef} sx={{ flex: 1, overflowY: 'auto', px: 1.5, py: 1 }}>
+                <Box
+                    ref={scrollRef}
+                    onScroll={handleScroll}
+                    role="log"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    aria-label="Conversation"
+                    sx={{ flex: 1, overflowY: 'auto', px: 1.5, py: 1 }}
+                >
                     {chat.messages.length === 0 ? (
                         <SuggestedPrompts onSelect={onSelectPrompt} />
                     ) : (
                         chat.messages.map((m, i) => (
                             <ChatMessage
-                                key={i}
+                                key={m.id ?? i}
                                 role={m.role}
                                 content={m.content}
                                 isStreaming={chat.status === 'streaming' && i === chat.messages.length - 1 && m.role === 'assistant'}
@@ -120,7 +143,7 @@ function ChatPanel({ open, onClose, chat }) {
                         ))
                     )}
                     {chat.status === 'rateLimited' && (
-                        <ChatMessage role="assistant" content={ERROR_COPY.rateLimited} isStreaming={false} />
+                        <ChatMessage role="assistant" content={rateLimitedCopy(chat.retryAfterSec)} isStreaming={false} />
                     )}
                     {chat.status === 'serviceBusy' && (
                         <ChatMessage role="assistant" content={ERROR_COPY.serviceBusy} isStreaming={false} />
@@ -136,7 +159,7 @@ function ChatPanel({ open, onClose, chat }) {
                 {(chat.status === 'error') && (
                     <Box sx={{ px: 2, py: 1, bgcolor: theme.palette.error.main, color: theme.palette.error.contrastText }}>
                         <Typography variant="caption">
-                            {chat.errorKind === 'upstream' ? ERROR_COPY.upstream : ERROR_COPY.network}
+                            {ERROR_COPY[chat.errorKind] || ERROR_COPY.network}
                         </Typography>
                     </Box>
                 )}

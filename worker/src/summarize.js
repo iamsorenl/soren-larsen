@@ -2,6 +2,7 @@ import { corsHeaders } from './cors.js';
 import { checkRateLimit, clientIp } from './rateLimit.js';
 import { SUMMARIZE_SYSTEM_PROMPT } from './systemPrompt.js';
 import { groqChatJson, GroqUpstreamError } from './groq.js';
+import { validateMessages } from './chat.js';
 
 function jsonError(status, error, message, extraHeaders = {}) {
   return new Response(JSON.stringify({ error, message }), {
@@ -19,8 +20,9 @@ export async function handleSummarize(request, env) {
     return jsonError(400, 'bad_request', 'Invalid JSON body.', cors);
   }
   const { messages, priorSummary } = body || {};
-  if (!Array.isArray(messages) || messages.length === 0) {
-    return jsonError(400, 'bad_request', 'messages must be a non-empty array.', cors);
+  const validationError = validateMessages(messages);
+  if (validationError) {
+    return jsonError(400, 'bad_request', validationError, cors);
   }
 
   const ip = clientIp(request);

@@ -7,6 +7,7 @@
     "sync-data": "node scripts/sync-data.mjs",
     "dev": "npm run sync-data && wrangler dev",
     "deploy": "npm run sync-data && wrangler deploy",
+    "pretest": "npm run sync-data",
     "test": "vitest run",
     "test:watch": "vitest"
   },

@@ -1,12 +1,10 @@
 import React from 'react';
 import { Box, Typography, Stack, useTheme } from '@mui/material';
 import about from '../data/about';
-import { ACCENT_PALETTE, resolveAccent } from '../theme/accents';
 
 const AboutCard = () => {
     const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
-    const accent = resolveAccent(ACCENT_PALETTE.indigo, isDark);
+    const accent = theme.palette.accents.indigo;
 
     const paragraphs = about[0].about.split('\n\n').slice(1);
     const closingIndex = paragraphs.length - 1;

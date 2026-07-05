@@ -11,8 +11,7 @@ import {
 } from '@mui/material';
 import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
-import resumePDF from '../data/SorenLarsenResume.pdf';
-import { ACCENT_PALETTE, resolveAccent } from '../theme/accents';
+import { FONT_DISPLAY, FONT_MONO } from '../theme';
 import GlowMark from './GlowMark';
 
 import headshot1 from '../images/Headshot1.jpg';
@@ -60,16 +59,27 @@ const Hero = () => {
     // Theme primary in dark mode is #1a237e (near-black indigo), which
     // disappears into the hero's dark gradient on outlined buttons.
     // Use the lighter palette indigo so the CTAs read against both modes.
-    const outlinedColor = resolveAccent(ACCENT_PALETTE.indigo, isDark);
+    const outlinedColor = theme.palette.accents.indigo;
+
+    const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
 
     const [imgIndex, setImgIndex] = useState(0);
+    const [carouselPaused, setCarouselPaused] = useState(false);
     useEffect(() => {
+        // No auto-advance for users who prefer reduced motion, and pause the
+        // rotation while the image area is hovered or focused.
+        if (prefersReducedMotion || carouselPaused) {
+            return undefined;
+        }
         const id = setInterval(
             () => setImgIndex((i) => (i + 1) % IMAGE_URLS.length),
             INTERVAL_MS,
         );
         return () => clearInterval(id);
-    }, []);
+    }, [prefersReducedMotion, carouselPaused]);
+
+    const pauseCarousel = () => setCarouselPaused(true);
+    const resumeCarousel = () => setCarouselPaused(false);
 
     return (
         <Box
@@ -95,7 +105,7 @@ const Hero = () => {
                 <Typography
                     variant="overline"
                     sx={{
-                        fontFamily: '"JetBrains Mono", "Roboto Mono", monospace',
+                        fontFamily: FONT_MONO,
                         color: isDark ? 'secondary.light' : 'primary.dark',
                         letterSpacing: '0.14em',
                         fontSize: '0.75rem',
@@ -116,7 +126,7 @@ const Hero = () => {
                     <Typography
                         component="h1"
                         sx={{
-                            fontFamily: '"Fraunces", "Times New Roman", serif',
+                            fontFamily: FONT_DISPLAY,
                             fontWeight: 700,
                             fontSize: { xs: '2.75rem', md: '4rem' },
                             lineHeight: 1.1,
@@ -173,7 +183,7 @@ const Hero = () => {
                 >
                     <Button
                         component="a"
-                        href={resumePDF}
+                        href="/SorenLarsenResume.pdf"
                         download
                         target="_blank"
                         rel="noopener noreferrer"
@@ -224,6 +234,10 @@ const Hero = () => {
             </Box>
 
             <Box
+                onMouseEnter={pauseCarousel}
+                onMouseLeave={resumeCarousel}
+                onFocus={pauseCarousel}
+                onBlur={resumeCarousel}
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -231,7 +245,7 @@ const Hero = () => {
                     justifySelf: { xs: 'center', md: 'end' },
                 }}
             >
-                <Fade in key={imgIndex} timeout={1200}>
+                <Fade in key={imgIndex} timeout={prefersReducedMotion ? 0 : 1200}>
                     <Avatar
                         src={IMAGE_URLS[imgIndex]}
                         imgProps={{

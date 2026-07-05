@@ -23,22 +23,11 @@ import {
     MenuBook,
 } from '@mui/icons-material';
 import educationData from '../data/education';
-import diplomaPDF from '../data/CertifiedElectronicDiploma.pdf';
-import diplomaPDF2 from '../data/CertifiedElectronicDiploma2.pdf';
-import {
-    ACCENT_PALETTE,
-    SECTION_ACCENTS,
-    resolveAccent,
-} from '../theme/accents';
 import SectionHeader from './SectionHeader';
 
 // Distinct entry colors so the section isn't monochrome with sage.
 // Avoids sage (the section accent) on entries so the eyebrow stands apart.
-const ENTRY_ACCENT_ROTATION = [
-    ACCENT_PALETTE.indigo,
-    ACCENT_PALETTE.coral,
-    ACCENT_PALETTE.gold,
-];
+const ENTRY_ACCENT_ROTATION = ['indigo', 'coral', 'gold'];
 
 const getStatus = (diploma) => {
     if (diploma === 'in progress') return { text: 'In Progress', color: '#ff9800' };
@@ -47,8 +36,7 @@ const getStatus = (diploma) => {
 
 const EducationCard = () => {
     const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
-    const sectionAccent = resolveAccent(SECTION_ACCENTS.education, isDark);
+    const sectionAccent = theme.palette.sectionAccents.education;
 
     return (
         <Card
@@ -75,10 +63,10 @@ const EducationCard = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
                     {educationData.map((education, index) => {
                         const status = getStatus(education.diploma);
-                        const accent = resolveAccent(
-                            ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length],
-                            isDark,
-                        );
+                        const accent =
+                            theme.palette.accents[
+                                ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length]
+                            ];
                         const hasExpandableContent =
                             education.description ||
                             (education.relevantCoursework &&
@@ -138,6 +126,7 @@ const EducationCard = () => {
                                     <Box sx={{ flex: 1, minWidth: 0 }}>
                                         <Typography
                                             variant="body2"
+                                            component="h3"
                                             sx={{
                                                 fontWeight: 700,
                                                 color: 'text.primary',
@@ -222,8 +211,8 @@ const EducationCard = () => {
                                                         const pdfFile =
                                                             education.diplomaFile ===
                                                             'CertifiedElectronicDiploma2.pdf'
-                                                                ? diplomaPDF2
-                                                                : diplomaPDF;
+                                                                ? '/CertifiedElectronicDiploma2.pdf'
+                                                                : '/CertifiedElectronicDiploma.pdf';
                                                         window.open(pdfFile, '_blank');
                                                     }}
                                                     size="small"

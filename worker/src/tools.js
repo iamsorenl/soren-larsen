@@ -1,7 +1,27 @@
 import { parseGithubUrl, fetchReadmeRaw, GithubNotFoundError, GithubAuthError, GithubRateLimitError, GithubNetworkError } from './github.js';
 import { extractRelevantSections } from './readmeExtract.js';
-import { getCachedReadme, putCachedReadme, normalizeSlug } from './readmeCache.js';
+import { getCachedReadme, putCachedReadme, getUnavailableMarker, putUnavailableMarker, normalizeSlug } from './readmeCache.js';
 import { README_MAX_TOKENS } from './constants.js';
+import projects from './data/projects.json';
+
+// Allowlist of owner/repo slugs (lowercase) built from the GitHub links in
+// projects.json. fetch_repo_readme only ever fetches Soren's own project
+// repos — any other github.com URL the model asks for (prompt injection,
+// hallucinated URLs, abuse) is rejected without touching GitHub.
+const ALLOWED_REPOS = new Set(
+  projects
+    .map((p) => p.link)
+    .filter((link) => typeof link === 'string' && /github\.com\//i.test(link))
+    .map((link) => {
+      try {
+        const { owner, repo } = parseGithubUrl(link);
+        return `${owner.toLowerCase()}/${repo.toLowerCase()}`;
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean)
+);
 
 export const TOOLS_SPEC = [
   {
@@ -59,17 +79,37 @@ async function fetchRepoReadme(argsStr, env, userQuestion) {
     return JSON.stringify({ status: 'unavailable', reason: `invalid github url: ${err.message}` });
   }
 
+  if (!ALLOWED_REPOS.has(`${owner.toLowerCase()}/${repo.toLowerCase()}`)) {
+    return "I can only fetch READMEs from Soren's own project repositories.";
+  }
+
   const slug = normalizeSlug(owner, repo);
 
-  // KV cache lookup
+  // KV cache lookup — positive entries first, then the short-TTL negative
+  // marker so known-bad repos aren't refetched on every request.
   if (env.README_CACHE) {
     try {
       const cached = await getCachedReadme(env.README_CACHE, slug);
       if (cached) return cached;
+      const marker = await getUnavailableMarker(env.README_CACHE, slug);
+      if (marker) {
+        return JSON.stringify({ status: 'unavailable', reason: marker.reason });
+      }
     } catch (err) {
       console.error('readme cache get error', err);
     }
   }
+
+  const unavailable = async (reason) => {
+    if (env.README_CACHE) {
+      try {
+        await putUnavailableMarker(env.README_CACHE, slug, reason);
+      } catch (err) {
+        console.error('readme negative cache put error', err);
+      }
+    }
+    return JSON.stringify({ status: 'unavailable', reason });
+  };
 
   // Fetch from GitHub with PAT auth when configured. The token comes from
   // env.GITHUB_TOKEN (Cloudflare Worker secret).
@@ -79,26 +119,26 @@ async function fetchRepoReadme(argsStr, env, userQuestion) {
   } catch (err) {
     if (err instanceof GithubNotFoundError) {
       console.error('github readme not found', { owner, repo });
-      return JSON.stringify({ status: 'unavailable', reason: 'readme not found' });
+      return unavailable('readme not found');
     }
     if (err instanceof GithubRateLimitError) {
       console.error('github rate limit', { owner, repo, detail: err.detail });
-      return JSON.stringify({ status: 'unavailable', reason: 'github rate limit hit' });
+      return unavailable('github rate limit hit');
     }
     if (err instanceof GithubAuthError) {
       console.error('github auth error', { owner, repo, detail: err.detail });
-      return JSON.stringify({ status: 'unavailable', reason: 'github auth error' });
+      return unavailable('github auth error');
     }
     if (err instanceof GithubNetworkError) {
       console.error('github network error', err.message);
-      return JSON.stringify({ status: 'unavailable', reason: 'github network error' });
+      return unavailable('github network error');
     }
     console.error('unexpected github error', err);
-    return JSON.stringify({ status: 'unavailable', reason: 'github fetch failed' });
+    return unavailable('github fetch failed');
   }
 
   if (!markdown || !markdown.trim()) {
-    return JSON.stringify({ status: 'unavailable', reason: 'empty readme' });
+    return unavailable('empty readme');
   }
 
   const sections = extractRelevantSections(markdown, userQuestion, README_MAX_TOKENS);

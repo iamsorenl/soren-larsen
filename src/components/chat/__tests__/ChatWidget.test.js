@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ChatWidget from '../ChatWidget';
+import * as useChatModule from '../useChat';
 
 const theme = createTheme();
 
@@ -49,5 +50,28 @@ describe('ChatWidget FAB visibility', () => {
             screen.getByRole('button', { name: /open chat with soren's assistant/i })
         ).toBeInTheDocument();
         expect(screen.queryByText("Soren's Assistant")).not.toBeInTheDocument();
+    });
+
+    test('closing the panel cancels any in-flight request', () => {
+        const cancel = jest.fn();
+        const spy = jest.spyOn(useChatModule, 'useChat').mockReturnValue({
+            messages: [],
+            status: 'idle',
+            errorKind: null,
+            retryAfterSec: 0,
+            send: jest.fn(),
+            cancel,
+            reset: jest.fn(),
+        });
+        try {
+            render(withTheme(<ChatWidget />));
+            fireEvent.click(
+                screen.getByRole('button', { name: /open chat with soren's assistant/i })
+            );
+            fireEvent.click(screen.getByLabelText('Close chat'));
+            expect(cancel).toHaveBeenCalledTimes(1);
+        } finally {
+            spy.mockRestore();
+        }
     });
 });
