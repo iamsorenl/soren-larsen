@@ -46,7 +46,10 @@ beforeAll(() => {
     if (typeof global.TextDecoder === 'undefined') global.TextDecoder = TextDecoder;
 });
 
-afterEach(() => { jest.restoreAllMocks(); });
+afterEach(() => {
+    jest.restoreAllMocks();
+    jest.useRealTimers();
+});
 
 // ---------------------------------------------------------------------------
 // Helper
@@ -97,6 +100,123 @@ test('streamChat throws ChatApiError with kind "upstream" on 5xx', async () => {
             // consume
         }
     })()).rejects.toMatchObject({ kind: 'upstream' });
+});
+
+test('streamChat throws ChatApiError with kind "badRequest" on 400', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue(new FakeResponse('nope', { status: 400 }));
+    await expect((async () => {
+        // eslint-disable-next-line no-unused-vars
+        for await (const _chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
+            // consume
+        }
+    })()).rejects.toMatchObject({ kind: 'badRequest' });
+});
+
+test('streamChat maps a stalled first byte to a "network" error', async () => {
+    jest.useFakeTimers();
+    jest.spyOn(global, 'fetch').mockImplementation(() => new Promise(() => { /* never settles */ }));
+
+    const iterator = streamChat({ messages: [{ role: 'user', content: 'hi' }] });
+    const first = iterator.next();
+    jest.advanceTimersByTime(20001);
+    await expect(first).rejects.toMatchObject({ kind: 'network' });
+});
+
+test('streamChat maps a mid-stream stall to a "network" error, keeping earlier chunks', async () => {
+    jest.useFakeTimers();
+    const encoder = new TextEncoder();
+    const body = new ReadableStream({
+        start(c) {
+            c.enqueue(encoder.encode('par'));
+            // never closes, never enqueues again → inactivity watchdog fires
+        },
+    });
+    jest.spyOn(global, 'fetch').mockResolvedValue(new FakeResponse(body, { status: 200 }));
+
+    const chunks = [];
+    const consume = (async () => {
+        for await (const chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
+            chunks.push(chunk);
+        }
+    })();
+    // Flush microtasks so the first chunk arrives and the second read pends.
+    for (let i = 0; i < 20; i++) await Promise.resolve();
+    jest.advanceTimersByTime(20001);
+
+    await expect(consume).rejects.toMatchObject({ kind: 'network' });
+    expect(chunks).toEqual(['par']);
+});
+
+test('streamChat maps a mid-stream rejection to "upstream", keeping earlier chunks', async () => {
+    const encoder = new TextEncoder();
+    // Deliver one chunk, then error on the next pull so the first read
+    // resolves before the failure (erroring inside start() would discard
+    // the queued chunk entirely).
+    let pullCount = 0;
+    const body = new ReadableStream({
+        pull(c) {
+            pullCount++;
+            if (pullCount === 1) c.enqueue(encoder.encode('par'));
+            else c.error(new Error('worker exploded mid-response'));
+        },
+    });
+    jest.spyOn(global, 'fetch').mockResolvedValue(new FakeResponse(body, { status: 200 }));
+
+    const chunks = [];
+    await expect((async () => {
+        for await (const chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
+            chunks.push(chunk);
+        }
+    })()).rejects.toMatchObject({ kind: 'upstream' });
+    expect(chunks).toEqual(['par']);
+});
+
+test('streamChat lets an AbortError propagate as a cancel, not an upstream error', async () => {
+    const encoder = new TextEncoder();
+    const abortErr = new Error('aborted');
+    abortErr.name = 'AbortError';
+    const body = new ReadableStream({
+        start(c) {
+            c.enqueue(encoder.encode('par'));
+            c.error(abortErr);
+        },
+    });
+    jest.spyOn(global, 'fetch').mockResolvedValue(new FakeResponse(body, { status: 200 }));
+
+    await expect((async () => {
+        // eslint-disable-next-line no-unused-vars
+        for await (const _chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
+            // consume
+        }
+    })()).rejects.toMatchObject({ name: 'AbortError' });
+});
+
+test('streamChat flushes a buffered partial multi-byte sequence at stream end', async () => {
+    // 'hé' encodes to [0x68, 0xC3, 0xA9]; ending after 0xC3 leaves the decoder
+    // holding an incomplete sequence that only the final decode() flush emits.
+    const bytes = new TextEncoder().encode('hé');
+    const body = new ReadableStream({
+        start(c) {
+            c.enqueue(bytes.slice(0, 2));
+            c.close();
+        },
+    });
+    jest.spyOn(global, 'fetch').mockResolvedValue(new FakeResponse(body, { status: 200 }));
+
+    const chunks = [];
+    for await (const chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) {
+        chunks.push(chunk);
+    }
+    expect(chunks.join('')).toBe('h�');
+});
+
+test('summarize maps a hung request to a "network" error', async () => {
+    jest.useFakeTimers();
+    jest.spyOn(global, 'fetch').mockImplementation(() => new Promise(() => { /* never settles */ }));
+
+    const promise = summarize({ messages: [{ role: 'user', content: 'hi' }] });
+    jest.advanceTimersByTime(20001);
+    await expect(promise).rejects.toMatchObject({ kind: 'network' });
 });
 
 test('summarize returns the summary string', async () => {
