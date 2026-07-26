@@ -152,6 +152,51 @@ function mergeToolCallDeltas(acc, deltas) {
   }
 }
 
+const OPEN_TAG = '<function=';
+const CLOSE_TAG = '</function>';
+
+/**
+ * llama-3.3 sometimes leaks its native tool-call syntax
+ * (<function=name>{...}</function>) into plain content instead of emitting a
+ * structured tool_calls delta — especially in the second call after a tool
+ * result, where Groq renders the prior tool call to the model in that format.
+ * This stateful filter strips those tags from streamed text; state is needed
+ * because a tag can be split across deltas. push() returns text that is safe
+ * to emit, flush() returns whatever remains once the stream ends (dropping
+ * any unterminated tag).
+ */
+export function createFunctionTagFilter() {
+  let buf = '';
+  const strip = (s) =>
+    s.replace(/<function=[^>]*>[\s\S]*?<\/function>/g, '').replace(/<\/function>/g, '');
+  return {
+    push(text) {
+      buf = strip(buf + text);
+      // Hold back from the first incomplete tag, or from a tail that could
+      // still turn out to be the start of one.
+      let hold = buf.indexOf(OPEN_TAG);
+      if (hold === -1) {
+        hold = buf.length;
+        for (let i = Math.max(0, buf.length - CLOSE_TAG.length + 1); i < buf.length; i++) {
+          const tail = buf.slice(i);
+          if (OPEN_TAG.startsWith(tail) || CLOSE_TAG.startsWith(tail)) {
+            hold = i;
+            break;
+          }
+        }
+      }
+      const out = buf.slice(0, hold);
+      buf = buf.slice(hold);
+      return out;
+    },
+    flush() {
+      const out = strip(buf).replace(/<function=[\s\S]*$/, '');
+      buf = '';
+      return out;
+    },
+  };
+}
+
 /**
  * Race a reader.read() against the stream inactivity watchdog. If no chunk
  * arrives within STREAM_INACTIVITY_MS the read rejects with a
@@ -221,16 +266,23 @@ function createSseEventReader(upstream) {
  */
 function contentStream(events, firstChunk) {
   const encoder = new TextEncoder();
+  const filter = createFunctionTagFilter();
   return new ReadableStream({
     async start(controller) {
       try {
-        if (firstChunk) controller.enqueue(encoder.encode(firstChunk));
+        const emit = (text) => {
+          const out = filter.push(text);
+          if (out) controller.enqueue(encoder.encode(out));
+        };
+        if (firstChunk) emit(firstChunk);
         while (true) {
           const event = await events.next();
           if (event === null) break;
           const text = event.choices?.[0]?.delta?.content;
-          if (text) controller.enqueue(encoder.encode(text));
+          if (text) emit(text);
         }
+        const rest = filter.flush();
+        if (rest) controller.enqueue(encoder.encode(rest));
         controller.close();
       } catch (err) {
         console.error('groq stream error', err);

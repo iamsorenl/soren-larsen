@@ -109,6 +109,24 @@ describe('parseSseToText', () => {
     await expect(pending).rejects.toBeInstanceOf(GroqUpstreamError);
     expect(errSpy).toHaveBeenCalledWith('groq stream error', expect.any(Error));
   });
+
+  it('strips leaked llama tool-call syntax, even split across deltas', async () => {
+    const upstream = sseStream([
+      'data: {"choices":[{"delta":{"content":"For more detail, <function=fetch_repo"}}]}\n\n',
+      'data: {"choices":[{"delta":{"content":"_readme>{\\"github_url\\": \\"http://github.com/iamsorenl\\"}</func"}}]}\n\n',
+      'data: {"choices":[{"delta":{"content":"tion> may provide more insight."}}]}\n\n',
+      'data: [DONE]\n\n',
+    ]);
+    expect(await readAll(parseSseToText(upstream))).toBe('For more detail,  may provide more insight.');
+  });
+
+  it('drops an unterminated leaked tool-call tag at end of stream', async () => {
+    const upstream = sseStream([
+      'data: {"choices":[{"delta":{"content":"Sure. <function=fetch_repo_readme>{\\"github_url\\""}}]}\n\n',
+      'data: [DONE]\n\n',
+    ]);
+    expect(await readAll(parseSseToText(upstream))).toBe('Sure. ');
+  });
 });
 
 describe('groqChatStream', () => {
