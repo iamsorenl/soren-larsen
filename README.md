@@ -25,7 +25,7 @@ Welcome to my portfolio repository! This is a modern, responsive personal websit
 - **Dark/Light Theme Toggle**: Seamless theme switching with persistent user preference
 - **Responsive Design**: Optimized for all screen sizes (mobile, tablet, desktop)
 - **Editorial Typography**: Fraunces serif for display headlines (hero name, section h2s), Inter for body, JetBrains Mono for eyebrow labels
-- **Unified Accent Palette**: A single 5-color palette (indigo, cyan, coral, gold, sage) is resolved per-mode into the MUI theme as `theme.palette.accents` / `theme.palette.sectionAccents` (raw values in `src/themeAccents.js`), so every section accent and per-entry color reads from one source and components never branch on light/dark themselves
+- **Single Brand Hue**: One blue-leaning indigo (`theme.palette.primary`, per-mode value in `src/theme.js`) drives every accent: section eyebrows and icons, card left borders, buttons, links, and the hero glow. Chips are neutral; only tech-stack chips keep their real logo colors
 - **Frosted-Glass Navigation**: Theme-aware translucent AppBar with backdrop-blur, primary-color underline on the active section
 - **Smooth Animations**: Smooth scroll-to-section nav, hero photo carousel cross-fade, chat-FAB section-transition wiggle
 
@@ -89,7 +89,6 @@ src/
 ├── images/               # Static assets (hero carousel photos, optimized to ≤~250KB each)
 ├── utils/
 │   └── dates.js          # Shared month-parsing used by Project + Experience cards
-├── themeAccents.js       # Raw accent palette + per-section colors (folded into the theme)
 └── theme.js              # MUI theme (palette + accents, typography, MuiCard/MuiButton overrides)
 
 worker/                   # Cloudflare Worker backend for the chat widget
@@ -130,7 +129,7 @@ worker/                   # Cloudflare Worker backend for the chat widget
 ### **Experience**
 
 - JetBrains Mono "EXPERIENCE" eyebrow + Fraunces "Where I've worked" h2 with cyan accent
-- Per-employer left-border accent colors pulled from the unified palette (`theme.palette.accents`)
+- Brand-colored left border on every entry (`theme.palette.primary.main`)
 - Expandable detailed descriptions with location, skills chips, external company link
 
 ### **Projects**
@@ -149,7 +148,7 @@ worker/                   # Cloudflare Worker backend for the chat widget
 ### **Education**
 
 - "Education" eyebrow + "Where I studied" h2 with sage accent
-- Per-entry palette colors (indigo / coral / gold rotation)
+- Brand-colored left border per entry; status chips use the theme success / warning colors
 - Expandable accordions for description + relevant coursework
 - Diploma PDF buttons when available
 
@@ -283,7 +282,7 @@ The portfolio supports comprehensive theming with:
 
 - **Light Mode**: Near-white surfaces, indigo accents, the hero on a soft indigo wash
 - **Dark Mode**: `#0a0e27` page background with darker indigo surfaces; same palette adjusted for contrast
-- **Unified accent palette** (`src/themeAccents.js`, resolved into `theme.palette.accents` / `theme.palette.sectionAccents`): indigo / cyan / coral / gold / sage, each with light and dark variants. Each section maps to a signature color; entry rotations pull from the same palette. Components read the already-resolved color from the theme rather than branching on the current mode.
+- **Single brand hue**: `theme.palette.primary` is the only accent (`#4c5fd0` light / `#8fa0f2` dark). Sections, entries, chips, buttons, and links all read from it, so components never carry their own colors or branch on the current mode.
 - **Persistent Theme**: User preference saved in localStorage; respects system preference on first visit
 - **Smooth Transitions**: Animated theme switching
 

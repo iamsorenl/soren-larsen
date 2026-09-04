@@ -9,6 +9,7 @@ import {
     useTheme,
     useMediaQuery,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
 import { FONT_DISPLAY, FONT_MONO } from '../theme';
@@ -56,10 +57,7 @@ const Hero = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    // Theme primary in dark mode is #1a237e (near-black indigo), which
-    // disappears into the hero's dark gradient on outlined buttons.
-    // Use the lighter palette indigo so the CTAs read against both modes.
-    const outlinedColor = theme.palette.accents.indigo;
+    const outlinedColor = theme.palette.primary.main;
 
     const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
 
@@ -96,9 +94,7 @@ const Hero = () => {
                 background: isDark
                     ? 'linear-gradient(160deg, #0d1240 0%, #111827 100%)'
                     : 'linear-gradient(160deg, #eef0fb 0%, #f5f5f5 100%)',
-                border: isDark
-                    ? '1px solid rgba(121, 134, 203, 0.18)'
-                    : '1px solid rgba(121, 134, 203, 0.25)',
+                border: `1px solid ${alpha(theme.palette.primary.main, isDark ? 0.22 : 0.3)}`,
             }}
         >
             <Box>
@@ -106,7 +102,7 @@ const Hero = () => {
                     variant="overline"
                     sx={{
                         fontFamily: FONT_MONO,
-                        color: isDark ? 'secondary.light' : 'primary.dark',
+                        color: isDark ? 'primary.light' : 'primary.dark',
                         letterSpacing: '0.14em',
                         fontSize: '0.75rem',
                         fontWeight: 600,
@@ -154,7 +150,7 @@ const Hero = () => {
                         aria-hidden="true"
                         sx={{
                             mx: 1.25,
-                            color: isDark ? 'secondary.light' : 'primary.main',
+                            color: isDark ? 'primary.light' : 'primary.main',
                         }}
                     >
                         •
@@ -258,9 +254,7 @@ const Hero = () => {
                             width: isMobile ? 280 : 340,
                             height: isMobile ? 320 : 400,
                             borderRadius: '16px',
-                            border: isDark
-                                ? '4px solid rgba(255, 255, 255, 0.18)'
-                                : '4px solid rgba(121, 134, 203, 0.30)',
+                            border: `4px solid ${alpha(theme.palette.primary.main, isDark ? 0.35 : 0.3)}`,
                             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.22)',
                         }}
                     />
@@ -287,11 +281,11 @@ const Hero = () => {
                                             : 'primary.main'
                                         : isDark
                                           ? 'rgba(255,255,255,0.28)'
-                                          : 'rgba(121,134,203,0.40)',
+                                          : alpha(theme.palette.primary.main, 0.4),
                                 transition: 'background-color 0.3s ease',
                                 '&:focus-visible': {
                                     outline: '2px solid',
-                                    outlineColor: isDark ? 'secondary.light' : 'primary.main',
+                                    outlineColor: isDark ? 'primary.light' : 'primary.main',
                                     outlineOffset: 2,
                                 },
                             }}

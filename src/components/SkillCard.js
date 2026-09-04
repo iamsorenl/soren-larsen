@@ -29,49 +29,42 @@ const CATEGORIES = [
         key: 'languages',
         label: 'Languages',
         icon: <Code />,
-        accent: 'indigo',
         data: skillsData.languages,
     },
     {
         key: 'aiLlmSystems',
         label: 'AI / LLM Systems',
         icon: <Psychology />,
-        accent: 'coral',
         data: skillsData.aiLlmSystems,
     },
     {
         key: 'frameworks',
         label: 'Frameworks',
         icon: <Extension />,
-        accent: 'sage',
         data: skillsData.frameworks,
     },
     {
         key: 'dataInfra',
         label: 'Data & Infra',
         icon: <Cloud />,
-        accent: 'cyan',
         data: skillsData.dataInfra,
     },
     {
         key: 'mlNlpResearch',
         label: 'ML / NLP Research',
         icon: <TextFields />,
-        accent: 'gold',
         data: skillsData.mlNlpResearch,
     },
     {
         key: 'developerWorkflows',
         label: 'Developer Workflows',
         icon: <Terminal />,
-        accent: 'indigo',
         data: skillsData.developerWorkflows,
     },
 ];
 
 const SkillCard = () => {
     const theme = useTheme();
-    const sectionAccent = theme.palette.sectionAccents.skills;
 
     const [expanded, setExpanded] = useState(() =>
         Object.fromEntries(CATEGORIES.map((c) => [c.key, true])),
@@ -99,12 +92,11 @@ const SkillCard = () => {
                     eyebrow="Technical Skills"
                     title="What I work with"
                     icon={<Code />}
-                    accent={sectionAccent}
                 />
 
                 <Stack spacing={1.25}>
                     {CATEGORIES.map((category) => {
-                        const accent = theme.palette.accents[category.accent];
+                        const accent = theme.palette.primary.main;
                         const isOpen = expanded[category.key];
                         return (
                             <Card
@@ -177,8 +169,8 @@ const SkillCard = () => {
                                                 ml: 1.25,
                                                 height: 22,
                                                 fontSize: '0.75rem',
-                                                backgroundColor: accent,
-                                                color: 'white',
+                                                bgcolor: 'primary.main',
+                                                color: 'primary.contrastText',
                                                 fontWeight: 600,
                                             }}
                                         />
@@ -227,8 +219,6 @@ const SkillCard = () => {
                                                             <Chip
                                                                 label={skillName}
                                                                 sx={{
-                                                                    backgroundColor: accent,
-                                                                    color: 'white',
                                                                     fontWeight: isExpert ? 700 : 500,
                                                                     opacity: isLow ? 0.72 : 1,
                                                                     ...(isExpert && {

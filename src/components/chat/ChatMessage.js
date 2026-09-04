@@ -31,12 +31,7 @@ function renderRichContent(content) {
                 rel="noopener noreferrer"
                 underline="always"
                 sx={{
-                    // Mode-aware link color so it never falls back to MUI's
-                    // default magenta. Dark mode pulls the warm yellow accent
-                    // already used on the Education card; light mode uses the
-                    // classic Material "link blue".
-                    color: (theme) =>
-                        theme.palette.mode === 'dark' ? '#fdc700' : '#64b5f6',
+                    color: 'primary.main',
                     fontWeight: 600,
                     wordBreak: 'break-all',
                 }}
