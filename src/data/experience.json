@@ -19,10 +19,6 @@
             "Artificial Intelligence (AI)",
             "Full-Stack Development"
         ],
-        "highlightColor": {
-            "light": "#7986cb",
-            "dark": "#9fa8da"
-        },
         "category": "professional"
     },
     {
@@ -44,10 +40,6 @@
             "Machine Learning",
             "Natural Language Processing (NLP)"
         ],
-        "highlightColor": {
-            "light": "#0097a7",
-            "dark": "#26c6da"
-        },
         "category": "professional"
     },
     {
@@ -68,10 +60,6 @@
             "Software Development",
             "Natural Language Processing (NLP)"
         ],
-        "highlightColor": {
-            "light": "#5d8a66",
-            "dark": "#81c784"
-        },
         "category": "professional"
     },
     {
@@ -92,10 +80,6 @@
             "University Teaching",
             "Business Information Systems"
         ],
-        "highlightColor": {
-            "light": "#d4a017",
-            "dark": "#ffd54f"
-        },
         "category": "teaching"
     },
     {
@@ -120,10 +104,6 @@
             "Software Development",
             "Full-Stack Development"
         ],
-        "highlightColor": {
-            "light": "#e85a4f",
-            "dark": "#ff8a80"
-        },
         "category": "professional"
     }
 ]

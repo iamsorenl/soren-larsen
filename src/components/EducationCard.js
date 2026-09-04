@@ -25,18 +25,13 @@ import {
 import educationData from '../data/education';
 import SectionHeader from './SectionHeader';
 
-// Distinct entry colors so the section isn't monochrome with sage.
-// Avoids sage (the section accent) on entries so the eyebrow stands apart.
-const ENTRY_ACCENT_ROTATION = ['indigo', 'coral', 'gold'];
-
 const getStatus = (diploma) => {
-    if (diploma === 'in progress') return { text: 'In Progress', color: '#ff9800' };
-    return { text: 'Completed', color: '#4caf50' };
+    if (diploma === 'in progress') return { text: 'In Progress', color: 'warning' };
+    return { text: 'Completed', color: 'success' };
 };
 
 const EducationCard = () => {
     const theme = useTheme();
-    const sectionAccent = theme.palette.sectionAccents.education;
 
     return (
         <Card
@@ -57,16 +52,12 @@ const EducationCard = () => {
                     eyebrow="Education"
                     title="Where I studied"
                     icon={<School />}
-                    accent={sectionAccent}
                 />
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
                     {educationData.map((education, index) => {
                         const status = getStatus(education.diploma);
-                        const accent =
-                            theme.palette.accents[
-                                ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length]
-                            ];
+                        const accent = theme.palette.primary.main;
                         const hasExpandableContent =
                             education.description ||
                             (education.relevantCoursework &&
@@ -179,9 +170,8 @@ const EducationCard = () => {
                                         <Chip
                                             label={status.text}
                                             size="small"
+                                            color={status.color}
                                             sx={{
-                                                backgroundColor: status.color,
-                                                color: 'white',
                                                 fontWeight: 500,
                                                 fontSize: '0.7rem',
                                                 display: { xs: 'none', sm: 'inline-flex' },

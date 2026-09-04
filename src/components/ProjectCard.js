@@ -35,8 +35,6 @@ const TOOL_COLORS = {
 };
 const getToolColor = (tool) => TOOL_COLORS[tool] || '#666666';
 
-const ENTRY_ACCENT_ROTATION = ['indigo', 'cyan', 'sage', 'gold', 'coral'];
-
 const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile }) => (
     <Card
         sx={{
@@ -245,7 +243,6 @@ const ProjectCard = () => {
         setExpandedProject((current) => (current === id ? null : id));
     }, []);
 
-    const sectionAccent = theme.palette.sectionAccents.projects;
 
     return (
         <Card
@@ -265,15 +262,11 @@ const ProjectCard = () => {
                     eyebrow="Projects"
                     title="What I've built"
                     icon={<Code />}
-                    accent={sectionAccent}
                 />
 
                 <Stack spacing={1.25}>
                     {allProjects.map((project, index) => {
-                        const accent =
-                            theme.palette.accents[
-                                ENTRY_ACCENT_ROTATION[index % ENTRY_ACCENT_ROTATION.length]
-                            ];
+                        const accent = theme.palette.primary.main;
                         const id = `project-${index}`;
                         return (
                             <ProjectEntry

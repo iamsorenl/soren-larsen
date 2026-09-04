@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles';
-import { resolveAccents, resolveSectionAccents } from './themeAccents';
 
 // Centralized font stacks. Fraunces for display headings, JetBrains Mono
 // for eyebrow labels and coded accents; body text uses typography.fontFamily.
@@ -9,24 +8,14 @@ export const FONT_MONO = '"JetBrains Mono", "Roboto Mono", monospace';
 const getTheme = (mode) => createTheme({
     palette: {
         mode,
-        // Mode-resolved accent colors (see src/themeAccents.js for raw data).
-        accents: resolveAccents(mode),
-        sectionAccents: resolveSectionAccents(mode),
+        // One brand hue for both modes: a blue-leaning indigo. MUI derives
+        // light/dark/contrastText from main.
         primary: {
-            main: mode === 'dark' ? '#1a237e' : '#7986cb', // Darker purple for dark mode, lighter for light mode
-            light: mode === 'dark' ? '#534bae' : '#aab6fe',
-            dark: mode === 'dark' ? '#000051' : '#49599a',
-            contrastText: '#ffffff',
-        },
-        secondary: {
-            main: '#00bcd4',
-            light: '#62efff',
-            dark: '#008ba3',
-            contrastText: '#000000',
+            main: mode === 'dark' ? '#8fa0f2' : '#4c5fd0',
         },
         background: {
             default: mode === 'dark' ? '#0a0e27' : '#f5f5f5',
-            paper: mode === 'dark' ? '#1e1e1e' : '#ffffff',
+            paper: mode === 'dark' ? '#141c40' : '#ffffff',
         },
         text: {
             primary: mode === 'dark' ? '#ffffff' : '#212121',

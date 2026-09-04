@@ -58,8 +58,7 @@ const ContactCard = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const { phone, email, github, linkedin } = contactInfo[0];
 
-    const { accents } = theme.palette;
-    const sectionAccent = theme.palette.sectionAccents.contact;
+    const sectionAccent = theme.palette.primary.main;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -100,7 +99,7 @@ ${formData.email}`;
             label: 'Phone',
             value: phone,
             href: `tel:${phone}`,
-            accent: accents.sage,
+            accent: sectionAccent,
             external: false,
         },
         {
@@ -108,7 +107,7 @@ ${formData.email}`;
             label: 'Email',
             value: email,
             href: `mailto:${email}`,
-            accent: accents.indigo,
+            accent: sectionAccent,
             external: false,
         },
         {
@@ -116,7 +115,7 @@ ${formData.email}`;
             label: 'GitHub',
             value: 'github.com/iamsorenl',
             href: github,
-            accent: accents.coral,
+            accent: sectionAccent,
             external: true,
         },
         {
@@ -124,7 +123,7 @@ ${formData.email}`;
             label: 'LinkedIn',
             value: 'linkedin.com/in/soren-larsen',
             href: linkedin,
-            accent: accents.cyan,
+            accent: sectionAccent,
             external: true,
         },
     ];
@@ -174,7 +173,6 @@ ${formData.email}`;
                     eyebrow="Contact"
                     title="Get in touch"
                     icon={<ContactMail />}
-                    accent={sectionAccent}
                 />
 
                 <Box

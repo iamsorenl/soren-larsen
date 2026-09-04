@@ -4,7 +4,7 @@ import about from '../data/about';
 
 const AboutCard = () => {
     const theme = useTheme();
-    const accent = theme.palette.accents.indigo;
+    const accent = theme.palette.primary.main;
 
     const paragraphs = about[0].about.split('\n\n').slice(1);
     const closingIndex = paragraphs.length - 1;

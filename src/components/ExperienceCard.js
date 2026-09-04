@@ -169,12 +169,7 @@ const ExperienceEntry = React.memo(({ experience, accent, entryId, expanded, onT
                             key={skill}
                             label={skill}
                             size="small"
-                            sx={{
-                                backgroundColor: accent,
-                                color: 'white',
-                                fontWeight: 500,
-                                fontSize: '0.75rem',
-                            }}
+                            sx={{ fontWeight: 500, fontSize: '0.75rem' }}
                         />
                     ))}
                 </Stack>
@@ -188,16 +183,11 @@ ExperienceEntry.displayName = 'ExperienceEntry';
 const ExperienceCard = () => {
     const [expandedExperience, setExpandedExperience] = useState(null);
     const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
 
     const handleExpandClick = useCallback((id) => {
         setExpandedExperience((current) => (current === id ? null : id));
     }, []);
 
-    const getCompanyColor = (experience) =>
-        experience.highlightColor
-            ? isDark ? experience.highlightColor.dark : experience.highlightColor.light
-            : '#666666';
 
     const sortedExperiences = useMemo(
         () =>
@@ -207,7 +197,6 @@ const ExperienceCard = () => {
         [],
     );
 
-    const sectionAccent = theme.palette.sectionAccents.experience;
 
     return (
         <Card
@@ -227,7 +216,6 @@ const ExperienceCard = () => {
                     eyebrow="Experience"
                     title="Where I've worked"
                     icon={<Work />}
-                    accent={sectionAccent}
                 />
 
                 <Stack spacing={1.5}>
@@ -235,7 +223,7 @@ const ExperienceCard = () => {
                         <ExperienceEntry
                             key={`${experience.company}-${experience.startDate}`}
                             experience={experience}
-                            accent={getCompanyColor(experience)}
+                            accent={theme.palette.primary.main}
                             entryId={index}
                             expanded={expandedExperience === index}
                             onToggle={handleExpandClick}

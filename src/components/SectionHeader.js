@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import { FONT_DISPLAY, FONT_MONO } from '../theme';
 
-const SectionHeader = ({ eyebrow, title, icon, accent }) => (
+const SectionHeader = ({ eyebrow, title, icon }) => (
     <Box sx={{ mb: 3 }}>
         <Typography
             variant="overline"
             sx={{
                 fontFamily: FONT_MONO,
-                color: accent,
+                color: 'primary.main',
                 letterSpacing: '0.14em',
                 fontSize: '0.75rem',
                 fontWeight: 600,
@@ -25,7 +25,7 @@ const SectionHeader = ({ eyebrow, title, icon, accent }) => (
                     aria-hidden="true"
                     sx={{
                         mr: 1.5,
-                        color: accent,
+                        color: 'primary.main',
                         fontSize: 32,
                         display: 'inline-flex',
                         '& > *': { fontSize: 'inherit' },
@@ -55,7 +55,6 @@ SectionHeader.propTypes = {
     eyebrow: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     icon: PropTypes.node,
-    accent: PropTypes.string,
 };
 
 export default SectionHeader;
