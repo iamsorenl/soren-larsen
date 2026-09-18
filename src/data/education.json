@@ -6,7 +6,7 @@
         "link": "https://nlp.ucsc.edu",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma2.pdf",
-        "description": "Specialized in advanced computational approaches to language understanding, generation, and dialogue systems. Focused coursework in machine learning, deep learning, and data-driven linguistic analysis for NLP. Engaged in interdisciplinary collaboration across linguistics, cognitive science, and AI. Built a strong foundation in both theoretical concepts and practical applications of modern NLP techniques. Practical experience across departments in AI Engineering and AI Agents.",
+        "description": "An NLP program focused on language modeling, retrieval, and evaluation. My capstone was No RAGrets, a scientific literature review system I built with an industry sponsor.",
         "relevantCoursework": [
             "Natural Language Processing",
             "Deep Learning for Natural Language Processing",
@@ -23,36 +23,20 @@
         "link": "https://admissions.ucsc.edu/programs/computer-science",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma.pdf",
-        "description": "Built a strong foundation in core areas such as algorithms, systems design, and software development. Gained hands-on experience through project-based learning that bridged theory and real-world application. Explored advanced topics including artificial intelligence and natural language processing, preparing for both academic research and industry roles. Developed collaboration and problem-solving skills in a team-oriented environment supported by modern labs and tools.",
+        "description": "Core computer science, with algorithms, systems, and full stack web development. I took the NLP course here first, and that is what sent me to the master's program.",
         "relevantCoursework": [
-            "Advanced Linear Algebra",
-            "Applied Discrete Mathematics",
-            "Business Information Systems",
-            "Calculus",
-            "Computer Architecture",
-            "Computer Systems and Assembly Language",
-            "Computer Systems and C Programming",
-            "Computational Models",
             "Data Structures and Algorithms",
+            "Intro to Algorithm Analysis",
+            "Computational Models",
+            "Computer Architecture",
+            "Computer Systems and C Programming",
+            "Principles of Computer System Design",
             "Foundations of Programming Languages",
             "Full Stack Web Development",
-            "Intro to Algorithm Analysis",
-            "Intro to Probability Theory",
-            "Intro to Proof and Problem Solving",
             "Intro to Software Engineering",
             "Mobile Applications",
             "Natural Language Processing",
-            "Principles of Computer System Design",
-            "Programming Abstractions: Python",
-            "Vector Calculus"
+            "Programming Abstractions: Python"
         ]
-    },
-    {
-        "school": "La Jolla High School",
-        "degree": "",
-        "dates": "Sep 2015 - Jun 2019",
-        "link": "https://lajollahigh.sandiegounified.org/",
-        "diploma": "no",
-        "relevantCoursework": []
     }
 ]

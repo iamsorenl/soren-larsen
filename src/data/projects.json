@@ -20,6 +20,36 @@
         ]
     },
     {
+        "title": "HomeHelper",
+        "startDate": "April 2025",
+        "endDate": "June 2025",
+        "muiIcon": "Handyman",
+        "category": "featured",
+        "description": "Team project. A graduate multi-agent appliance-repair assistant built by six people, where I owned three of the seven inference-time components.\n- Built the orchestrator, the Critic agent, and a synthetic self-practice environment that used repair corpora to improve the system through automated feedback\n- Built the video and image agent with a 4-bit vision-language model, Whisper transcription, and three-level caching\n- Built the React and WebSocket interface",
+        "tools": [
+            "Python",
+            "Vision-Language Models",
+            "Whisper",
+            "React",
+            "WebSocket"
+        ]
+    },
+    {
+        "title": "Ranked AI League",
+        "startDate": "July 2026",
+        "endDate": "July 2026",
+        "link": "https://iamsorenl.github.io/Fable-5-Soccer-Game/",
+        "muiIcon": "SportsSoccer",
+        "category": "featured",
+        "description": "Built a browser soccer game with an AI-managed ranked ladder, where the match simulation runs server side so ranked results stay consistent.\n- Set up magic-link authentication and a Postgres database with row-level security and schema migrations\n- Moved the shared simulation engine into a Deno Edge Function that runs inside an RPC transaction\n- Personal project, built to learn Supabase end to end",
+        "tools": [
+            "Supabase",
+            "Postgres",
+            "Deno",
+            "TypeScript"
+        ]
+    },
+    {
         "title": "EduMUSE",
         "startDate": "May 2025",
         "endDate": "June 2025",
