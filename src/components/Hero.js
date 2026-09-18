@@ -51,7 +51,7 @@ const scrollToContact = (event) => {
 };
 
 const TAGLINE =
-    'An AI and full-stack engineer working at the intersection of NLP, product, and platform engineering.';
+    'An AI and full-stack engineer in Santa Cruz, working on AI agents, developer tools, and applied NLP.';
 
 const Hero = () => {
     const theme = useTheme();
