@@ -6,7 +6,7 @@
         "startDate": "February 2026",
         "endDate": "September 2026",
         "link": "https://levangielabs.com/",
-        "description": "Product and platform engineering on a two-engineer founding team building an AI-agent platform, owning product and platform infrastructure while the other founding engineer led the core agent architecture. Work spanned direct customer conversations, prototype demos, implementation, launch support, and production debugging — over a period where the platform grew from fewer than five users to hundreds across individual and enterprise accounts.\n- Embedded Chat Product: Built the production embedded web-chat product that unblocked an enterprise customer's pilot and purchase, later deployed for additional enterprise customers.\n- Organizations & Billing: Built multi-tenant organization and billing infrastructure from scratch — centralized employee access and administration, shared billing and memory, and production payment, refund, and balance-transfer operations — enabling the company's first organizational customer.\n- Agent Runtime: Built a GCP/Docker container runtime from scratch that launches isolated agent workloads on demand from a shared image, eliminating the waiting and crash failures the platform previously hit under load.\n- Release Engineering & Reliability: Introduced CI/CD with a one-command release and rollback across development, staging, and production, and led production hardening (async auth paths, circuit breakers, event-loop observability) that cut service boot memory from 594 MB to 147 MB and stopped a recurring crash cascade.\n- Core Technologies: Python (FastAPI), TypeScript (Next.js/React), PostgreSQL, Docker, and Cloud Infrastructure (GCP).",
+        "description": "Levangie builds AI agent products. I was one of two engineers and owned the platform side, the infrastructure, the deploys, the API and the frontend. I built the embedded chat product that turned an enterprise pilot into a purchase, the multi-tenant billing that brought on the first organizational customer, and the container runtime that carried us from under five users to hundreds.",
         "skills": [
             "Python",
             "FastAPI",
@@ -28,7 +28,7 @@
         "startDate": "June 2025",
         "endDate": "January 2026",
         "link": "https://graywhale.ai/",
-        "description": "Applied AI Research & Prototype Engineering for an enterprise AI platform. Focused on rigorous evaluation methodology, agentic system prototypes, and high-fidelity data pipelines for internal research and customer-facing demonstrations.\n- AI Evaluation & Benchmarking: Designed and executed comparative retrieval evaluations using peer-reviewed methodology (ARES, NAACL 2024) on the KILT benchmark corpus; conducted function-calling performance assessments using the Berkeley Function Calling Leaderboard (BFCL).\n- Agent System Prototypes: Architected and built a multi-agent orchestration platform featuring planner-executor decoupling, dynamic agent discovery, and tiered query routing; the agent-wrapper layer standardized how specialized agents connect to the orchestrator and was adopted by all three co-engineers, onboarding roughly 5–10 specialized agents.\n- Technical Evaluation: Analyzed tool-calling and RAG workflows across latency, accuracy, and token usage to provide data-driven insights for inference-cost and architectural decisions.\n- Data Strategy: Engineered pipelines to transform unstructured input into structured, model-ready formats, unblocking downstream research and evaluation cycles.\n- Core Technologies: Python, LangGraph, sentence-transformers, FAISS, BM25, and OpenAI.",
+        "description": "Gray Whale is an enterprise AI company building what they call Large Interaction Models. I ran the retrieval evaluation and found that a 700-document benchmark could not separate the semantic approaches we were testing, so rather than force a result out of it we moved to a function-calling evaluation we could actually get a signal from. I also built the agent wrapper the other engineers used, and a native audio-filter plugin that ran speech to text on device with whisper.cpp.",
         "skills": [
             "Python",
             "LangGraph",
@@ -49,7 +49,7 @@
         "startDate": "May 2025",
         "endDate": "September 2025",
         "link": "https://getonda.ai/",
-        "description": "Worked on AI-powered product development for a consumer surf forecasting platform through its iOS and Android launch. Sole developer responsible for the conversational AI assistant inside the app's existing mobile codebase, focused on assistant quality, observability, and translating user-domain needs into technical implementation.\n- Production Assistant Redesign: Diagnosed a defect where retrieval and prompting misread a surfer's skill level and produced wrong recommendations; redesigned the assistant behavior, shipped it to production, and validated response correctness and retrieval grounding against a fixed evaluation dataset.\n- Observability & Reliability: Engineered an end-to-end tracing pipeline using LangSmith (Python / Google Gemini / GCP) to monitor model behavior, troubleshoot pipeline failures, and provide the team with visibility into inference costs and latency.\n- R&D & Quality Assurance: Designed and executed experiments across prompts and retrieval strategies to improve assistant response quality and grounding in real-time data.\n- Product Strategy: Contributed surfer-domain expertise to product design and feature discussions, informing technical decisions to align with the needs of the core user base.",
+        "description": "Onda is a surf forecasting app. I owned the production chatbot. Traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset.",
         "skills": [
             "Python",
             "LangSmith",
@@ -69,7 +69,7 @@
         "startDate": "September 2024",
         "endDate": "December 2025",
         "link": "https://engineering.ucsc.edu/",
-        "description": "Served as a Teaching Assistant for Artificial Intelligence and Information Systems courses, supporting 150+ students through technical mentorship and course operations.\n- AI Technical Instruction: Mentored students on AI fundamentals for CSE 140, covering machine learning, search algorithms, and neural methods.\n- Systems & Methodology: Led discussions on SQL, Relational Databases, and Agile/Scrum, bridging the gap between technical implementation and business requirements.\n- Engineering Operations: Managed technical course infrastructure, including autograders and assessment workflows, for large-scale student cohorts.",
+        "description": "I mentored more than 150 students across CSE 140, TIM 50 and TIM 58, covering AI fundamentals, databases and systems analysis. I ran the Gradescope autograders for those courses and helped maintain the Pacman assignment repo that CSE 140 runs on.",
         "skills": [
             "Artificial Intelligence (AI)",
             "Machine Learning",
@@ -89,7 +89,7 @@
         "startDate": "April 2024",
         "endDate": "June 2025",
         "link": "https://boardal.app/",
-        "description": "Full-stack product engineering for a mobile marketplace app. First hire after the founders and the only non-founder engineer, building alongside a co-founder to take features from initial product discussion through production iOS releases, helping scale the platform to 20,000+ registered users. After beginning the M.S. program at UCSC in September 2024, continued in a maintenance capacity — supporting releases, bug fixes, and feature upkeep through June 2025.\n- Mobile Product Development: Built consumer-facing features end-to-end in Flutter and Firebase, including user-defined custom alerts with optimized push delivery that measurably increased daily active users, chat architecture enhancements, and dynamic content widgets.\n- AI-Powered Internal Tooling: Engineered a custom GPT workflow integrated with the Google Sheets API to generate outreach and marketing content for the summer intern team, standardizing messaging and accelerating content production.\n- Core Technologies: Flutter, Firebase (Firestore, Cloud Messaging), OpenAI API, and iOS Deployment.",
+        "description": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders, and the only engineer on the app. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and shipped the iOS releases.",
         "skills": [
             "Flutter",
             "Firebase",
