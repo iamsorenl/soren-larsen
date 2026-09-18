@@ -73,16 +73,47 @@ function isSectionRelevant(queryLower, sectionName) {
   return SECTION_TOPIC_KEYWORDS[sectionName].some((kw) => queryLower.includes(kw));
 }
 
+// Headline-only forms. List-style questions ("what are all his roles?") need
+// coverage of every entry, not the full description of every entry — inlining
+// all of them costs ~2.2k tokens per section and blows the TPM ceiling on
+// tool-calling turns, which make two Groq calls.
+function compactExperience(e) {
+  return {
+    company: e.company,
+    title: e.title,
+    startDate: e.startDate,
+    endDate: e.endDate,
+    location: e.location,
+  };
+}
+
+function compactProject(p) {
+  return {
+    title: p.title,
+    subtitle: p.subtitle,
+    startDate: p.startDate,
+    endDate: p.endDate,
+    link: p.link,
+  };
+}
+
+// Skill levels/proficiency labels drive the UI's progress bars; the model only
+// ever needs the names, which costs ~175 tokens instead of ~1120.
+function compactSkills(s) {
+  return Object.fromEntries(Object.entries(s).map(([k, v]) => [k, v.map((i) => i.name)]));
+}
+
 // Retrieves the entries to inline for a given query.
 //
 // Strategy:
-// - about / contact / highlights / skills / education: always included (small).
-// - experience: always pin the most recent role. If the question topically
-//   targets experience ("roles", "work history", etc.), include all roles so
-//   list-style questions get full coverage; otherwise add up to 2 entry-level
-//   keyword matches.
-// - projects: include the full list when topically targeted; otherwise fall
-//   back to entry-level top-K matches (or omit if nothing scores).
+// - about / contact / highlights / education: always included (small).
+// - skills: always included, names only.
+// - experience: always pin the most recent role in full. If the question
+//   topically targets experience ("roles", "work history", etc.), every other
+//   role is included in headline-only form so list-style questions still see
+//   the complete set; the best keyword match is kept in full.
+// - projects: same treatment when topically targeted; otherwise fall back to
+//   entry-level top-K matches (or omit if nothing scores).
 export function retrieveContext(latestUserMessage) {
   const queryLower = (latestUserMessage || '').toLowerCase();
   const keywords = extractKeywords(latestUserMessage);
@@ -91,11 +122,14 @@ export function retrieveContext(latestUserMessage) {
   sections.about = about;
   sections.contact = contact;
   sections.highlights = highlights;
-  sections.skills = skills;
+  sections.skills = compactSkills(skills);
   sections.education = education;
 
   if (isSectionRelevant(queryLower, 'experience')) {
-    sections.experience = experience;
+    // Full detail for the current role plus the best keyword match; every other
+    // role in headline form so "list all his jobs" still has complete coverage.
+    const detailed = new Set([experience[0], ...topKEntries(experience.slice(1), keywords, 1)]);
+    sections.experience = experience.map((e) => (detailed.has(e) ? e : compactExperience(e)));
   } else {
     const recentExperience = experience.slice(0, 1);
     const matchedExperience = topKEntries(experience.slice(1), keywords, 2);
@@ -103,7 +137,8 @@ export function retrieveContext(latestUserMessage) {
   }
 
   if (isSectionRelevant(queryLower, 'projects')) {
-    sections.projects = projects;
+    const detailed = new Set(topKEntries(projects, keywords, 2));
+    sections.projects = projects.map((p) => (detailed.has(p) ? p : compactProject(p)));
   } else {
     const matched = topKEntries(projects, keywords, 3);
     if (matched.length > 0) sections.projects = matched;
@@ -161,11 +196,13 @@ export function estimateRequestTokens({ systemPrompt, messages }) {
   return total;
 }
 
-// Per-request token budget. Set so two typical requests within a minute fit
-// under Groq's 12k TPM free-tier cap. Worst-case multi-section queries can
-// approach this ceiling; the frontend's auto-summarize-then-retry recovers
-// when a request would push over it.
-export const MAX_PROMPT_TOKENS = 6000;
+// Per-request token budget. A tool-calling turn makes TWO Groq calls within the
+// same minute, so this must stay under half of the free-tier TPM cap — which
+// dropped from 12k to 8k when llama-3.3-70b-versatile was decommissioned on
+// 2026-08-16 (gpt-oss-120b, gpt-oss-20b and qwen3-27b are all 8k). Worst-case
+// multi-section queries can approach this ceiling; the frontend's
+// auto-summarize-then-retry recovers when a request would push over it.
+export const MAX_PROMPT_TOKENS = 3800;
 
 export const SUMMARIZE_SYSTEM_PROMPT = `You summarize chat conversations on a recruiter-facing portfolio site.
 Produce a concise summary (max 3 sentences) of what the visitor asked and what Soren's Assistant said.

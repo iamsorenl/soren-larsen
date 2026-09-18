@@ -15,8 +15,8 @@
     }
   ],
   "vars": {
-    "GROQ_MODEL": "llama-3.3-70b-versatile",
-    "GROQ_SUMMARY_MODEL": "llama-3.3-70b-versatile",
+    "GROQ_MODEL": "openai/gpt-oss-120b",
+    "GROQ_SUMMARY_MODEL": "openai/gpt-oss-120b",
     "ALLOWED_ORIGINS": "https://larsensoren.com,https://www.larsensoren.com,https://soren-larsen.web.app,http://localhost:3000"
   },
   "observability": {

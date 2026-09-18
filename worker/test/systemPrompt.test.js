@@ -104,8 +104,26 @@ describe('estimateRequestTokens', () => {
 });
 
 describe('MAX_PROMPT_TOKENS', () => {
-  it('is set so two requests fit under Groq free-tier 12k TPM', () => {
-    expect(MAX_PROMPT_TOKENS * 2).toBeLessThanOrEqual(12000);
+  // Groq's free tier dropped to 8k TPM when llama-3.3-70b-versatile was
+  // decommissioned (2026-08-16). A tool-calling turn makes two Groq calls,
+  // so the per-request budget must leave both under that ceiling.
+  it('is set so two requests fit under Groq free-tier 8k TPM', () => {
+    expect(MAX_PROMPT_TOKENS * 2).toBeLessThanOrEqual(8000);
+  });
+
+  it('keeps worst-case section-spanning queries under budget for two calls', () => {
+    // Queries that topically hit experience + projects + education at once —
+    // the combination that blew past 8k TPM and broke tool calls in prod.
+    const worstCase = [
+      'Tell me about all his work experience, every project he built, and his education',
+      'List all roles, jobs, companies, projects, apps, tools, degrees and coursework',
+      'What has he worked on, what did he build, and where did he study?',
+    ];
+    for (const q of worstCase) {
+      const tokens = estimateTokens(buildSystemPrompt(null, q));
+      expect(tokens).toBeLessThanOrEqual(MAX_PROMPT_TOKENS);
+      expect(tokens * 2).toBeLessThanOrEqual(8000);
+    }
   });
 });
 
