@@ -241,6 +241,7 @@ const EducationCard = () => {
                                                     />
                                                     <Typography
                                                         variant="subtitle2"
+                                                        component="p"
                                                         sx={{ fontWeight: 600 }}
                                                     >
                                                         Relevant coursework (

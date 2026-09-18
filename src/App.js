@@ -14,7 +14,7 @@ function App() {
       <ErrorBoundary>
         <div className="App">
           <Navigation />
-          <Box sx={{ pt: 8 }}>
+          <Box component="main" sx={{ pt: 8 }}>
             <Body />
           </Box>
           <Suspense fallback={null}>

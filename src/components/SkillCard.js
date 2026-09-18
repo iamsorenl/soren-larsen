@@ -158,6 +158,7 @@ const SkillCard = () => {
                                         </Box>
                                         <Typography
                                             variant="subtitle1"
+                                            component="p"
                                             sx={{ fontWeight: 600, color: 'text.primary' }}
                                         >
                                             {category.label}
@@ -178,6 +179,7 @@ const SkillCard = () => {
                                     <IconButton
                                         component="span"
                                         size="small"
+                                        aria-hidden="true"
                                         sx={{ color: 'text.secondary', pointerEvents: 'none' }}
                                         tabIndex={-1}
                                     >

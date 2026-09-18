@@ -268,21 +268,29 @@ const Hero = () => {
                             onClick={() => setImgIndex(i)}
                             aria-label={`Show photo ${i + 1} of ${IMAGE_URLS.length}`}
                             sx={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: '50%',
+                                width: 24,
+                                height: 24,
+                                padding: 0,
                                 border: 'none',
-                                p: 0,
+                                background: 'none',
                                 cursor: 'pointer',
-                                backgroundColor:
-                                    i === imgIndex
-                                        ? isDark
-                                            ? 'rgba(255,255,255,0.85)'
-                                            : 'primary.main'
-                                        : isDark
-                                          ? 'rgba(255,255,255,0.28)'
-                                          : alpha(theme.palette.primary.main, 0.4),
-                                transition: 'background-color 0.3s ease',
+                                display: 'grid',
+                                placeItems: 'center',
+                                '&::after': {
+                                    content: '""',
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: '50%',
+                                    backgroundColor:
+                                        i === imgIndex
+                                            ? isDark
+                                                ? 'rgba(255,255,255,0.85)'
+                                                : 'primary.main'
+                                            : isDark
+                                              ? 'rgba(255,255,255,0.28)'
+                                              : alpha(theme.palette.primary.main, 0.4),
+                                    transition: 'background-color 0.3s ease',
+                                },
                                 '&:focus-visible': {
                                     outline: '2px solid',
                                     outlineColor: isDark ? 'primary.light' : 'primary.main',
