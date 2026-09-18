@@ -6,7 +6,7 @@
         "startDate": "February 2026",
         "endDate": "September 2026",
         "link": "https://levangielabs.com/",
-        "description": "Levangie builds AI agent products. I was one of two engineers and owned the platform side, the infrastructure, the deploys, the API and the frontend. I built the embedded chat product that turned an enterprise pilot into a purchase, the multi-tenant billing that brought on the first organizational customer, and the container runtime that carried us from under five users to hundreds.",
+        "description": "Levangie builds AI agent products. I was one of two engineers and owned the platform side, the infrastructure, the deploys, the API and the frontend. Most of the work came out of customer conversations, from the first requirements through demos, launch and production troubleshooting. I built the embedded chat product that turned an enterprise pilot into a purchase, the multi-tenant billing that brought on the first organizational customer, and the container runtime that carried us from under five users to hundreds. I built the CI pipeline and a one-command release with rollback, and when the platform kept falling over under load I pulled the front-loading out of startup and took boot memory from 594 MB to 147 MB.",
         "skills": [
             "Python",
             "FastAPI",
@@ -28,7 +28,7 @@
         "startDate": "June 2025",
         "endDate": "January 2026",
         "link": "https://graywhale.ai/",
-        "description": "Gray Whale is an enterprise AI company building what they call Large Interaction Models. I ran the retrieval evaluation and found that a 700-document benchmark could not separate the semantic approaches we were testing, so rather than force a result out of it we moved to a function-calling evaluation we could actually get a signal from. I also built the agent wrapper the other engineers used, and a native audio-filter plugin that ran speech to text on device with whisper.cpp.",
+        "description": "Gray Whale is an enterprise AI company building what they call Large Interaction Models. I ran the retrieval evaluation and found that a 700-document benchmark could not separate the semantic approaches we were testing, so rather than force a result out of it we moved to a function-calling evaluation we could actually get a signal from. I built the wrapper the other three engineers used to connect their tools and their specialized agents, and I hosted the Developer Camp hackathon and built the formatter people used to get their own data into the shape the platform wanted. I also built a native audio-filter plugin that ran speech to text on device with whisper.cpp. I stayed on afterward for light product testing and advisory work.",
         "skills": [
             "Python",
             "LangGraph",
@@ -49,7 +49,7 @@
         "startDate": "May 2025",
         "endDate": "September 2025",
         "link": "https://getonda.ai/",
-        "description": "Onda is a surf forecasting app. I owned the production chatbot. Traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset.",
+        "description": "Onda is a surf forecasting app. I owned the production chatbot inside a codebase the rest of the team built, and I set up the LangSmith tracing that let us see what the model was actually doing. The traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset.",
         "skills": [
             "Python",
             "LangSmith",
@@ -69,7 +69,7 @@
         "startDate": "September 2024",
         "endDate": "December 2025",
         "link": "https://engineering.ucsc.edu/",
-        "description": "I mentored more than 150 students across CSE 140, TIM 50 and TIM 58, covering AI fundamentals, databases and systems analysis. I ran the Gradescope autograders for those courses and helped maintain the Pacman assignment repo that CSE 140 runs on.",
+        "description": "I was a TA for CSE 140, TIM 50 and TIM 58, and mentored more than 150 students across them. In the AI course that meant office hours and section on search, machine learning and neural methods, and in the information systems courses it was SQL and relational databases, agile and UML modeling, mostly walking project teams through their designs. I ran the Gradescope autograders and helped maintain the Pacman assignment repo that CSE 140 runs on.",
         "skills": [
             "Artificial Intelligence (AI)",
             "Machine Learning",
@@ -89,7 +89,7 @@
         "startDate": "April 2024",
         "endDate": "June 2025",
         "link": "https://boardal.app/",
-        "description": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders, and the only engineer on the app. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and shipped the iOS releases.",
+        "description": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders and the only engineer on the app, and I carried the technical side. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and shipped the iOS releases. Toward the end I built a custom GPT wired to the Google Sheets API so the marketing interns could write personalized outreach from customer records and track who had been contacted.",
         "skills": [
             "Flutter",
             "Firebase",
