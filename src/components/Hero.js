@@ -155,7 +155,7 @@ const Hero = () => {
                     >
                         •
                     </Box>
-                    Founding Engineer @ Levangie Laboratories
+                    Product &amp; Forward Deployed Engineer
                 </Typography>
 
                 <Typography
