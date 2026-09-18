@@ -19,7 +19,7 @@ const getTheme = (mode) => createTheme({
         },
         text: {
             primary: mode === 'dark' ? '#ffffff' : '#212121',
-            secondary: mode === 'dark' ? '#b0bec5' : '#757575',
+            secondary: mode === 'dark' ? '#b0bec5' : '#6b6b6b',
         },
         grey: {
             50: '#fafafa',
