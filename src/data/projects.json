@@ -45,7 +45,7 @@
         "link": "https://github.com/shannonrumsey/UCSC_RAG",
         "muiIcon": "Abc",
         "category": "featured",
-        "description": "Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services. Designed the system to improve answer quality and factual reliability through retrieval, evaluation, and mobile delivery.\n- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)",
+        "description": "Team project. Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services.\n- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)",
         "tools": [
             "NLP",
             "Python",
@@ -65,7 +65,7 @@
         "link": "https://github.com/iamsorenl/soren-larsen",
         "muiIcon": "Abc",
         "category": "featured",
-        "description": "Designed and maintain a responsive personal portfolio to showcase projects, experience, and technical work. Built with React, Node.js, Material UI, and Firebase, with a focus on clean presentation, usability, and cross-device compatibility.\n- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests",
+        "description": "This site. React and MUI on Firebase, with a chat widget that answers questions about my work. The chat runs on a Cloudflare Worker and compacts its own context to stay inside the token budget. The build also injects static HTML into the page so crawlers and resume screeners that do not run JavaScript can still read everything.\n- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests",
         "tools": [
             "React",
             "Node.js",
@@ -102,7 +102,7 @@
         "link": "https://github.com/iamsorenl/bilstm-crf-character-cnn-ner",
         "muiIcon": "Abc",
         "category": "nlp",
-        "description": "Built a biomedical NER model using a BiLSTM-CRF architecture with character-level CNN features and static word embeddings, focused on sequence labeling for scientific text.\n- Modeled entity extraction for DNA, RNA, proteins, cell types, and cell lines on NLPBA 2004 dataset\n- Compared CRF, softmax-margin, and SVM-margin losses\n- Used padded minibatches, masking, and hyperparameter tuning\n- Reached F1 of approximately 0.59",
+        "description": "Built a biomedical NER model using a BiLSTM-CRF architecture with character level CNN features and static word embeddings.\n- Modeled entity extraction for DNA, RNA, proteins, cell types, and cell lines on NLPBA 2004 dataset\n- Compared CRF, softmax-margin, and SVM-margin losses\n- Used padded minibatches, masking, and hyperparameter tuning\n- Reached F1 of approximately 0.59",
         "tools": [
             "NLP",
             "Python",
@@ -118,7 +118,7 @@
         "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
         "muiIcon": "Abc",
         "category": "nlp",
-        "description": "Built a transformer-based autoregressive language model on the Penn Treebank dataset, focusing on sequence prediction, long-range dependency modeling, and perplexity reduction.\n- Implemented a Transformer Encoder with sinusoidal positional encoding and multi-head attention\n- Tuned embedding size, batch size, and learning rate\n- Reduced test perplexity from 83.35 to 39.11\n- Analyzed architecture-performance tradeoffs",
+        "description": "Built a transformer based autoregressive language model on the Penn Treebank dataset.\n- Implemented a Transformer Encoder with sinusoidal positional encoding and multi-head attention\n- Tuned embedding size, batch size, and learning rate\n- Reduced test perplexity from 83.35 to 39.11\n- Analyzed architecture-performance tradeoffs",
         "tools": [
             "NLP",
             "AI",
