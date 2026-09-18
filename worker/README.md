@@ -1,6 +1,6 @@
 # Soren's Assistant — Cloudflare Worker
 
-Backend for the chat widget on larsensoren.com. Streams Groq Llama 3.1 8B Instant responses, grounded in copies of `src/data/*.json`.
+Backend for the chat widget on larsensoren.com. Streams Groq openai/gpt-oss-120b responses, grounded in copies of `src/data/*.json`.
 
 ## One-time setup
 

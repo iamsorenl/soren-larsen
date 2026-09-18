@@ -169,7 +169,7 @@ function ChatPanel({ open, onClose, chat }) {
                         inputRef={inputRef}
                         fullWidth
                         size="small"
-                        aria-label="Ask about Soren's experience"
+                        inputProps={{ 'aria-label': "Ask about Soren's experience" }}
                         placeholder="Ask about Soren's experience..."
                         value={draft}
                         onChange={(e) => setDraft(e.target.value)}

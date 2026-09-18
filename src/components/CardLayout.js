@@ -22,7 +22,7 @@ const SectionFallback = () => (
             width: '100%'
         }}
     >
-        <CircularProgress />
+        <CircularProgress aria-label="Loading section" />
     </Box>
 );
 

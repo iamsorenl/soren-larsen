@@ -38,6 +38,13 @@ describe('ChatPanel rendering', () => {
         expect(screen.getByText("Soren's Assistant")).toBeInTheDocument();
     });
 
+    test('chat input has its accessible name on the input element itself, not just a wrapper', () => {
+        const chat = makeChat();
+        render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
+        const input = screen.getByRole('textbox', { name: "Ask about Soren's experience" });
+        expect(input.tagName).toBe('INPUT');
+    });
+
     test('empty state shows suggested prompt chips', () => {
         const chat = makeChat();
         render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
