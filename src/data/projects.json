@@ -6,7 +6,7 @@
         "link": "https://github.com/No-RAGrets-Research/No-RAGrets-Master",
         "muiIcon": "Abc",
         "category": "featured",
-        "subtitle": "M.S. NLP Capstone — Industry-Sponsored Graduate Capstone — Featured by Santa Cruz Works",
+        "subtitle": "M.S. NLP Capstone, Industry-Sponsored Graduate Capstone, Featured by Santa Cruz Works",
         "description": "Industry-sponsored graduate capstone completed in partnership with CarbonBridge. Built an applied NLP system for scientific literature triage, extraction, and knowledge graph exploration to support research in sustainable fuel innovation.\n- Developed an open-source pipeline for extracting entities, relationships, and technical concepts from scientific literature\n- Integrated Docling and Qwen vision-language models for document parsing and information extraction\n- Built a React-based interface for graph exploration and AI-assisted literature review\n- Set up FastAPI, Dgraph, and containerized infrastructure to support continued use and future development\n- Documented architecture and technical decisions to enable project handoff to future contributors",
         "tools": [
             "NLP",
@@ -128,7 +128,7 @@
         ]
     },
     {
-        "title": "ParkMe – Peer-to-Peer Parking App",
+        "title": "ParkMe, Peer-to-Peer Parking App",
         "startDate": "January 2023",
         "endDate": "March 2023",
         "link": "https://github.com/iamsorenl/ParkMe",

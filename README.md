@@ -341,6 +341,10 @@ The React build reads the Worker URL from `REACT_APP_CHAT_WORKER_URL`. Locally, 
 - **Cross-Browser Compatible**: Tested across major browsers
 - **Mobile-First Design**: Progressive enhancement approach
 
+## Manual follow-ups
+
+- **Google Search Console verification** — not yet set up. There is no GSC property for this site, and creating one plus generating a verification token has to be done by the owner in the GSC console; it cannot be scripted or invented here. Once the property exists, add the verification meta tag to `public/index.html` and submit `public/sitemap.xml` from within GSC.
+
 ## 📞 Contact
 
 Feel free to reach out for collaborations or inquiries:
