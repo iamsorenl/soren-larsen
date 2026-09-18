@@ -125,12 +125,26 @@ const getTheme = (mode) => createTheme({
         },
         MuiButton: {
             styleOverrides: {
-                root: {
+                root: ({ theme }) => ({
                     borderRadius: 8,
                     textTransform: 'none',
                     fontWeight: 600,
                     padding: '10px 24px',
-                },
+                    '&.Mui-focusVisible': {
+                        outline: `2px solid ${theme.palette.primary.main}`,
+                        outlineOffset: 2,
+                    },
+                }),
+            },
+        },
+        MuiIconButton: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    '&.Mui-focusVisible': {
+                        outline: `2px solid ${theme.palette.primary.main}`,
+                        outlineOffset: 2,
+                    },
+                }),
             },
         },
         MuiChip: {
