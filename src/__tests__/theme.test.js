@@ -14,7 +14,11 @@ describe('focus visibility', () => {
         const buttonStyle = typeof button === 'function' ? button({ theme }) : button;
         const iconButtonStyle = typeof iconButton === 'function' ? iconButton({ theme }) : iconButton;
 
-        expect(JSON.stringify(buttonStyle)).toMatch(/focusVisible/);
-        expect(JSON.stringify(iconButtonStyle)).toMatch(/focusVisible/);
+        [buttonStyle, iconButtonStyle].forEach((style) => {
+            const rule = style?.['&.Mui-focusVisible'];
+            expect(rule).toBeDefined();
+            expect(rule.outline).toMatch(/^2px solid /);
+            expect(rule.outline).not.toBe('none');
+        });
     });
 });
