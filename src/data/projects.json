@@ -165,13 +165,13 @@
         "coursework": true
     },
     {
-        "title": "ParkMe",
+        "title": "Kinlot",
         "startDate": "January 2023",
         "endDate": "Present",
-        "link": "https://github.com/iamsorenl/ParkMe2",
+        "link": "https://github.com/iamsorenl/kinlot",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "A peer-to-peer marketplace for renting out private parking spaces. Built first as an undergrad team project that never made it online, then rebuilt solo in 2026 so there would actually be a running version.\n- 2023, team: product owner and full-stack developer. Led feature scoping and technical planning, built backend endpoints for listings and rentals, configured Google Cloud and mapping services, worked across Flutter, Node.js, TypeScript and PostgreSQL\n- 2026, solo rebuild: Next.js on Neon Postgres, scrypt password hashing with HMAC-signed session cookies, Leaflet maps over OpenStreetMap, real geocoded listings, deployed on Vercel\n- The rebuild is what the demo link points at",
+        "description": "A peer-to-peer marketplace for renting out a private driveway or parking space. It started as ParkMe, an undergrad team project that never made it online, and I rebuilt it solo in 2026 so there would be a version anyone could open.\n- 2023, team: product owner and full-stack developer. Led feature scoping and technical planning, built backend endpoints for listings and rentals, configured Google Cloud and mapping services, and worked across Flutter, Node.js, TypeScript and PostgreSQL\n- 2026, solo rebuild on Next.js, Neon Postgres and Vercel. Reservations are overlap-checked in the insert and again by a Postgres GIST exclusion constraint, so double-booking is impossible at the database level rather than merely unlikely\n- scrypt password hashing with HMAC-signed session cookies and a timing-safe login path, Leaflet maps over OpenStreetMap, address geocoding, and photo uploads validated by magic bytes instead of the content-type the browser claims\n- Coordination only. Money changes hands between users off-platform, which keeps it clear of payments and the liability that comes with them",
         "tools": [
             "Next.js",
             "TypeScript",
