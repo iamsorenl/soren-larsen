@@ -6,7 +6,7 @@
         "link": "https://github.com/No-RAGrets-Research/No-RAGrets-Master",
         "video": "https://youtu.be/2yX1e5xogUQ",
         "muiIcon": "Abc",
-        "category": "featured",
+        "category": "sponsored",
         "subtitle": "M.S. NLP Capstone, Industry-Sponsored Graduate Capstone, Featured by Santa Cruz Works",
         "description": "Industry-sponsored graduate capstone completed in partnership with CarbonBridge. Built an applied NLP system for scientific literature triage, extraction, and knowledge graph exploration to support research in sustainable fuel innovation.\n- Developed an open-source pipeline for extracting entities, relationships, and technical concepts from scientific literature\n- Integrated Docling and Qwen vision-language models for document parsing and information extraction\n- Built a React-based interface for graph exploration and AI-assisted literature review\n- Set up FastAPI, Dgraph, and containerized infrastructure to support continued use and future development\n- Documented architecture and technical decisions to enable project handoff to future contributors",
         "tools": [
@@ -25,7 +25,7 @@
         "startDate": "April 2025",
         "endDate": "June 2025",
         "muiIcon": "Handyman",
-        "category": "featured",
+        "category": "sponsored",
         "description": "Team project. A graduate multi-agent appliance-repair assistant built by six people, where I owned three of the seven inference-time components. Industry-sponsored, so the code stays private and there is no public repository to link. Happy to walk through the architecture.\n- Built the orchestrator, the Critic agent, and a synthetic self-practice environment that used repair corpora to improve the system through automated feedback\n- Built the video and image agent with a 4-bit vision-language model, Whisper transcription, and three-level caching\n- Built the React and WebSocket interface",
         "tools": [
             "Python",
@@ -42,7 +42,7 @@
         "link": "https://github.com/iamsorenl/arcade-soccer",
         "demo": "https://iamsorenl.github.io/arcade-soccer/",
         "muiIcon": "SportsSoccer",
-        "category": "featured",
+        "category": "personal",
         "description": "Built a browser soccer game with an AI-managed ranked ladder, where the match simulation runs server side so ranked results stay consistent.\n- Set up magic-link authentication and a Postgres database with row-level security and schema migrations\n- Moved the shared simulation engine into a Deno Edge Function that runs inside an RPC transaction\n- Personal project, built to learn Supabase end to end",
         "tools": [
             "Supabase",
@@ -58,7 +58,7 @@
         "link": "https://github.com/iamsorenl/EduMUSE",
         "video": "https://youtu.be/LAdN2gNdSyM",
         "muiIcon": "Abc",
-        "category": "featured",
+        "category": "school",
         "description": "Built an AI-powered educational system that turns study materials into interactive learning experiences through multi-agent orchestration, document interaction, and adaptive content generation.\n- Designed specialized agents for concept extraction, summarization, and quiz generation\n- Built a modular pipeline for comparing web search, LLM synthesis, and hybrid retrieval approaches\n- Developed a React-based interface with PDF upload, text selection, and real-time content generation\n- Integrated Flask-based backend services and PDF tooling to support downloadable assessments and summaries\n- Extended the system with podcast-style audio generation to support multimodal learning",
         "tools": [
             "AI",
@@ -77,7 +77,7 @@
         "endDate": "March 2025",
         "link": "https://github.com/shannonrumsey/UCSC_RAG",
         "muiIcon": "Abc",
-        "category": "featured",
+        "category": "school",
         "description": "Team project. Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services.\n- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)",
         "tools": [
             "NLP",
@@ -98,7 +98,7 @@
         "link": "https://github.com/iamsorenl/soren-larsen",
         "demo": "https://larsensoren.com",
         "muiIcon": "Abc",
-        "category": "featured",
+        "category": "personal",
         "description": "This site. React and MUI on Firebase, with a chat widget that answers questions about my work. The chat runs on a Cloudflare Worker and compacts its own context to stay inside the token budget. The build also injects static HTML into the page so crawlers and resume screeners that do not run JavaScript can still read everything.\n- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests",
         "tools": [
             "React",
@@ -116,7 +116,7 @@
         "endDate": "February 2025",
         "link": "https://github.com/iamsorenl/Transformer_QA",
         "muiIcon": "Abc",
-        "category": "nlp",
+        "category": "school",
         "description": "Studied the robustness of transformer-based question answering across in-domain, adversarial, and out-of-domain settings, with a focus on adapting RoBERTa to biomedical QA tasks using parameter-efficient fine-tuning.\n- Evaluated RoBERTa on SQuAD 2.0 and Covid-QA to analyze robustness under domain shift\n- Applied LoRA-based fine-tuning to improve performance on biomedical text while reducing trainable parameters\n- Implemented sliding-window inference and CLS-token masking for long contexts and unanswerable questions\n- Achieved +6.41 EM / +14.84 F1 on Covid-QA dev set and +5.33 EM / +10.54 F1 on test\n- Analyzed failure modes under ambiguity and contradiction",
         "tools": [
             "NLP",
@@ -127,7 +127,8 @@
             "Domain Adaptation",
             "LoRA",
             "Machine Learning"
-        ]
+        ],
+        "coursework": true
     },
     {
         "title": "BiLSTM-CRF for Named Entity Recognition",
@@ -135,7 +136,7 @@
         "endDate": "March 2025",
         "link": "https://github.com/iamsorenl/bilstm-crf-character-cnn-ner",
         "muiIcon": "Abc",
-        "category": "nlp",
+        "category": "school",
         "description": "Built a biomedical NER model using a BiLSTM-CRF architecture with character level CNN features and static word embeddings.\n- Modeled entity extraction for DNA, RNA, proteins, cell types, and cell lines on NLPBA 2004 dataset\n- Compared CRF, softmax-margin, and SVM-margin losses\n- Used padded minibatches, masking, and hyperparameter tuning\n- Reached F1 of approximately 0.59",
         "tools": [
             "NLP",
@@ -143,7 +144,8 @@
             "PyTorch",
             "NER",
             "Deep Learning"
-        ]
+        ],
+        "coursework": true
     },
     {
         "title": "Autoregressive Language Modeling with Transformers (Penn Treebank)",
@@ -151,7 +153,7 @@
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
         "muiIcon": "Abc",
-        "category": "nlp",
+        "category": "school",
         "description": "Built a transformer based autoregressive language model on the Penn Treebank dataset.\n- Implemented a Transformer Encoder with sinusoidal positional encoding and multi-head attention\n- Tuned embedding size, batch size, and learning rate\n- Reduced test perplexity from 83.35 to 39.11\n- Analyzed architecture-performance tradeoffs",
         "tools": [
             "NLP",
@@ -159,23 +161,28 @@
             "Python",
             "PyTorch",
             "Transformers"
-        ]
+        ],
+        "coursework": true
     },
     {
-        "title": "ParkMe, Peer-to-Peer Parking App",
+        "title": "ParkMe",
         "startDate": "January 2023",
-        "endDate": "March 2023",
-        "link": "https://github.com/iamsorenl/ParkMe",
+        "endDate": "Present",
+        "link": "https://github.com/iamsorenl/ParkMe2",
         "muiIcon": "Abc",
-        "category": "fullstack",
-        "description": "Served as Product Owner and full-stack developer for a mobile app that lets users list and rent private parking spaces.\n- Led feature scoping, technical planning, and team coordination\n- Built backend endpoints for listing management and rental transactions\n- Configured Google Cloud and mapping services\n- Contributed across the stack using Flutter, Node.js, TypeScript, TSOA, PostgreSQL\n- Helped design client-server integration and database structure",
+        "category": "personal",
+        "description": "A peer-to-peer marketplace for renting out private parking spaces. Built first as an undergrad team project that never made it online, then rebuilt solo in 2026 so there would actually be a running version.\n- 2023, team: product owner and full-stack developer. Led feature scoping and technical planning, built backend endpoints for listings and rentals, configured Google Cloud and mapping services, worked across Flutter, Node.js, TypeScript and PostgreSQL\n- 2026, solo rebuild: Next.js on Neon Postgres, scrypt password hashing with HMAC-signed session cookies, Leaflet maps over OpenStreetMap, real geocoded listings, deployed on Vercel\n- The rebuild is what the demo link points at",
         "tools": [
-            "Flutter",
-            "Full-Stack Development",
-            "Product Management",
-            "Node.js",
+            "Next.js",
             "TypeScript",
-            "PostgreSQL"
-        ]
+            "PostgreSQL",
+            "Leaflet",
+            "Vercel",
+            "Flutter",
+            "Node.js",
+            "Full-Stack Development",
+            "Product Management"
+        ],
+        "demo": "https://park-me2.vercel.app"
     }
 ]

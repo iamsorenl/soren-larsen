@@ -299,20 +299,32 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
 
 ProjectEntry.displayName = 'ProjectEntry';
 
+const SECTIONS = [
+    { key: 'sponsored', label: 'Sponsored', note: 'Built with an industry partner.' },
+    { key: 'personal', label: 'Personal', note: 'Built because I wanted them to exist.' },
+    { key: 'school', label: 'School', note: 'Graduate and undergraduate coursework.' },
+];
+
 const ProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
     const [showCoursework, setShowCoursework] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    // Coursework is real work but it dilutes the list, so it sits behind a toggle.
-    const { featured, coursework } = useMemo(() => {
+    // Grouped by how the work came about, strongest provenance first. Pure
+    // assignments stay demoted behind a toggle inside the school group.
+    const { groups, coursework } = useMemo(() => {
         const sorted = [...projectsData].sort(
             (a, b) => parseDate(b.startDate) - parseDate(a.startDate),
         );
         return {
-            featured: sorted.filter((p) => p.category !== 'nlp'),
-            coursework: sorted.filter((p) => p.category === 'nlp'),
+            groups: SECTIONS.map((section) => ({
+                ...section,
+                items: sorted.filter(
+                    (p) => p.category === section.key && !p.coursework,
+                ),
+            })).filter((section) => section.items.length > 0),
+            coursework: sorted.filter((p) => p.coursework),
         };
     }, []);
 
@@ -341,22 +353,44 @@ const ProjectCard = () => {
                     icon={<Code />}
                 />
 
-                <Stack spacing={1.25}>
-                    {featured.map((project) => (
-                        <ProjectEntry
-                            key={project.title}
-                            project={project}
-                            accent={theme.palette.primary.main}
-                            entryId={project.title}
-                            expanded={expandedProject === project.title}
-                            onToggle={handleExpandClick}
-                            isMobile={isMobile}
-                        />
-                    ))}
-                </Stack>
+                {groups.map((section, i) => (
+                    <Box key={section.key} sx={{ mt: i === 0 ? 0 : 3.5 }}>
+                        <Typography
+                            variant="overline"
+                            sx={{
+                                display: 'block',
+                                fontWeight: 700,
+                                letterSpacing: '0.08em',
+                                color: 'text.primary',
+                            }}
+                        >
+                            {section.label}
+                        </Typography>
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ display: 'block', mb: 1.25 }}
+                        >
+                            {section.note}
+                        </Typography>
+                        <Stack spacing={1.25}>
+                            {section.items.map((project) => (
+                                <ProjectEntry
+                                    key={project.title}
+                                    project={project}
+                                    accent={theme.palette.primary.main}
+                                    entryId={project.title}
+                                    expanded={expandedProject === project.title}
+                                    onToggle={handleExpandClick}
+                                    isMobile={isMobile}
+                                />
+                            ))}
+                        </Stack>
+                    </Box>
+                ))}
 
                 {coursework.length > 0 && (
-                    <Box sx={{ mt: 2 }}>
+                    <Box sx={{ mt: 1.5 }}>
                         <Button
                             onClick={() => setShowCoursework((v) => !v)}
                             size="small"

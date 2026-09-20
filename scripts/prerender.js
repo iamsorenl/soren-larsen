@@ -81,9 +81,27 @@ function build() {
     if (job.skills?.length) out.push(`<p>Skills: ${job.skills.map(esc).join(', ')}</p>`);
   }
 
+  // Mirrors SECTIONS in src/components/ProjectCard.js so the static view a
+  // crawler or resume screener reads is grouped the same way the page is.
+  const PROJECT_SECTIONS = [
+    ['sponsored', 'Sponsored projects'],
+    ['personal', 'Personal projects'],
+    ['school', 'School projects'],
+  ];
+
   out.push('<h2>Projects</h2>');
-  for (const p of projects) {
-    out.push(`<h3>${p.link ? link(p.link, p.title) : esc(p.title)}</h3>`);
+  const ordered = PROJECT_SECTIONS.flatMap(([key, label]) => {
+    const items = projects.filter((p) => p.category === key);
+    return items.length ? [{ heading: label }, ...items] : [];
+  });
+  const listed = new Set(ordered.filter((p) => p.title).map((p) => p.title));
+  const leftovers = projects.filter((p) => !listed.has(p.title));
+  for (const p of [...ordered, ...leftovers]) {
+    if (p.heading) {
+      out.push(`<h3>${esc(p.heading)}</h3>`);
+      continue;
+    }
+    out.push(`<h4>${p.link ? link(p.link, p.title) : esc(p.title)}</h4>`);
     if (p.demo) out.push(`<p>${link(p.demo, 'Live demo')}</p>`);
     if (p.video) out.push(`<p>${link(p.video, 'Watch demo')}</p>`);
     if (p.subtitle) out.push(`<p>${esc(p.subtitle)}</p>`);
