@@ -1,5 +1,15 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { executeToolCall, TOOLS_SPEC } from '../src/tools.js';
+import projects from '../src/data/projects.json';
+
+// tools.js builds its allowlist from the GitHub links in projects.json, so a
+// hardcoded slug here goes stale the moment a project's link changes (it did:
+// ParkMe was repointed at ParkMe2 and this suite went red). Take a real repo
+// from the same source the allowlist is built from.
+const ALLOWED_REPO_URL = projects.find((p) =>
+  /^https:\/\/github\.com\/[^/]+\/[^/]+$/.test(p.link || ''),
+).link;
+const ALLOWED_REPO_SLUG = ALLOWED_REPO_URL.replace('https://github.com/', '').toLowerCase();
 
 afterEach(() => { vi.restoreAllMocks(); });
 
@@ -63,7 +73,7 @@ describe('executeToolCall', () => {
         function: {
           name: 'fetch_repo_readme',
           // Allowlisted repo — passes the allowlist, then GitHub 404s
-          arguments: JSON.stringify({ github_url: 'https://github.com/iamsorenl/ParkMe' }),
+          arguments: JSON.stringify({ github_url: ALLOWED_REPO_URL }),
         },
       },
       { ...baseEnv, README_CACHE: new MockKV() },
@@ -168,7 +178,7 @@ describe('executeToolCall', () => {
     const toolCall = {
       function: {
         name: 'fetch_repo_readme',
-        arguments: JSON.stringify({ github_url: 'https://github.com/iamsorenl/ParkMe' }),
+        arguments: JSON.stringify({ github_url: ALLOWED_REPO_URL }),
       },
     };
     const env = { ...baseEnv, README_CACHE: kv };
@@ -176,7 +186,7 @@ describe('executeToolCall', () => {
     // First call — hits GitHub, 404s, and writes an 'unavailable' marker
     const r1 = await executeToolCall(toolCall, env, 'tell me about ParkMe');
     expect(JSON.parse(r1).status).toBe('unavailable');
-    expect(kv.store.has('unavailable:iamsorenl/parkme')).toBe(true);
+    expect(kv.store.has(`unavailable:${ALLOWED_REPO_SLUG}`)).toBe(true);
     const callsAfterFirst = fetchSpy.mock.calls.length;
 
     // Second call — served from the negative cache, no new GitHub fetch
