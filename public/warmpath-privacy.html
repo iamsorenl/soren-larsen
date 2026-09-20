@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WarmPath — Privacy Policy</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1a1a1a; --muted: #5c5c5c; --rule: #e3e3e3; --accent: #0b5fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14161a; --fg: #e8e8e8; --muted: #a0a4ab; --rule: #2a2d33; --accent: #7aa2ff; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 42rem; margin: 0 auto; padding: 3.5rem 16px 5rem; }
+  h1 { font-size: 1.75rem; line-height: 1.25; margin: 0 0 .35rem; letter-spacing: -.015em; }
+  h2 { font-size: 1.05rem; margin: 2.25rem 0 .6rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 2rem; font-size: .95rem; }
+  p, li { color: var(--fg); }
+  ul { padding-left: 1.15rem; }
+  li { margin: .35rem 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0 1.25rem; }
+  footer { color: var(--muted); font-size: .875rem; }
+  code { background: var(--rule); padding: .1em .35em; border-radius: 3px; font-size: .9em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>WarmPath — Privacy Policy</h1>
+  <p class="sub">Last updated 20 September 2026</p>
+
+  <p>WarmPath is a personal job-search tool built and run by Soren Larsen. It runs locally on his
+  own computer. It has one user, and that user is its author. It is not a product, it is not
+  offered to anyone else, and it has no sign-up.</p>
+
+  <h2>What it accesses</h2>
+  <p>WarmPath asks for two read-only Google permissions, for the author's own Google Account only:</p>
+  <ul>
+    <li><code>gmail.readonly</code> — to read job-alert emails and application confirmation and
+      rejection emails in the author's own mailbox, so that job postings and application statuses
+      can be tracked automatically rather than typed in by hand.</li>
+    <li><code>contacts.readonly</code> — to read the author's own contacts, so that people already
+      known to him can be matched to companies that are hiring.</li>
+  </ul>
+  <p>Both permissions are read-only. WarmPath cannot send, modify, or delete email or contacts.</p>
+
+  <h2>What it stores, and where</h2>
+  <p>Extracted job postings, company names, application statuses, and contact details are stored in
+  a PostgreSQL database on the author's own computer. Nothing is uploaded to a server, a hosted
+  database, or any cloud service.</p>
+
+  <h2>What it shares</h2>
+  <p>Nothing. Data obtained through these permissions is never sold, transferred, or disclosed to
+  any third party. It is not used for advertising, and it is not used to train any machine-learning
+  model. There are no analytics and no third-party trackers in WarmPath.</p>
+
+  <h2>Limited Use</h2>
+  <p>WarmPath's use of information received from Google APIs adheres to the
+  <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener noreferrer">Google API Services User Data Policy</a>,
+  including the Limited Use requirements.</p>
+
+  <h2>Retention and removal</h2>
+  <p>Data stays in the local database until the author deletes it. Access can be revoked at any time
+  from <a href="https://myaccount.google.com/permissions" rel="noopener noreferrer">Google Account permissions</a>,
+  which immediately ends WarmPath's ability to read anything.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy: <a href="mailto:iamsorenl@gmail.com">iamsorenl@gmail.com</a></p>
+
+  <hr>
+  <footer><a href="/">larsensoren.com</a></footer>
+</main>
+</body>
+</html>
