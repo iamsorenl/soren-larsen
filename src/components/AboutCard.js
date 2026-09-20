@@ -6,7 +6,7 @@ const AboutCard = () => {
     const theme = useTheme();
     const accent = theme.palette.primary.main;
 
-    const paragraphs = about[0].about.split('\n\n').slice(1);
+    const paragraphs = about[0].about.split("\n\n");
     const closingIndex = paragraphs.length - 1;
 
     return (

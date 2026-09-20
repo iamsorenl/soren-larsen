@@ -61,11 +61,10 @@ describe('App', () => {
     test('renders data from JSON files across sections', async () => {
         render(<App />);
 
-        // About: the slimmed card renders paragraphs 2+ of the bio.
-        // Pick a snippet from paragraph 2 (the UCSC backstory) — paragraph 1 is
-        // intentionally skipped because it duplicates the hero tagline.
-        const paragraphs = aboutData[0].about.split('\n\n');
-        const aboutSnippet = paragraphs[1].slice(0, 20);
+        // About: the card renders every paragraph of the bio, including the
+        // opening line that names the M.S. and the Levangie founding-engineer role.
+        const paragraphs = aboutData[0].about.split("\n\n");
+        const aboutSnippet = paragraphs[0].slice(0, 20);
         await screen.findAllByText(new RegExp(escapeRegex(aboutSnippet), 'i'));
 
         // Experience: most recent company name.

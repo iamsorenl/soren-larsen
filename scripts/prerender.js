@@ -84,6 +84,8 @@ function build() {
   out.push('<h2>Projects</h2>');
   for (const p of projects) {
     out.push(`<h3>${p.link ? link(p.link, p.title) : esc(p.title)}</h3>`);
+    if (p.demo) out.push(`<p>${link(p.demo, 'Live demo')}</p>`);
+    if (p.video) out.push(`<p>${link(p.video, 'Watch demo')}</p>`);
     if (p.subtitle) out.push(`<p>${esc(p.subtitle)}</p>`);
     out.push(`<p>${dates(p.startDate, p.endDate)}</p>`);
     out.push(paras(p.description));

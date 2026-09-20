@@ -48,7 +48,7 @@
         "location": "Remote",
         "startDate": "May 2025",
         "endDate": "September 2025",
-        "link": "https://getonda.ai/",
+        "link": "https://getonda.com/",
         "description": "Onda is a surf forecasting app. I owned the production chatbot inside a codebase the rest of the team built, and I set up the LangSmith tracing that let us see what the model was actually doing. The traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset.",
         "skills": [
             "Python",

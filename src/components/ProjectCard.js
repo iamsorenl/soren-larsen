@@ -13,7 +13,7 @@ import {
     useTheme,
     useMediaQuery,
 } from '@mui/material';
-import { GitHub, ExpandMore, ExpandLess, Code } from '@mui/icons-material';
+import { GitHub, ExpandMore, ExpandLess, Code, Launch, PlayArrow } from '@mui/icons-material';
 import projectsData from '../data/projects';
 import { parseDate } from '../utils/dates';
 import SectionHeader from './SectionHeader';
@@ -35,7 +35,19 @@ const TOOL_COLORS = {
 };
 const getToolColor = (tool) => TOOL_COLORS[tool] || '#666666';
 
-const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile }) => (
+// projects.json descriptions are "summary\n- bullet\n- bullet". The summary
+// carries the pitch, so it stays visible; only the bullets collapse.
+const splitDescription = (description) => {
+    const [summary, ...bullets] = String(description).split('\n-');
+    return {
+        summary: summary.trim(),
+        detail: bullets.map((b) => `- ${b.trim()}`).join('\n'),
+    };
+};
+
+const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile }) => {
+    const { summary, detail } = splitDescription(project.description);
+    return (
     <Card
         sx={{
             backgroundColor: 'background.paper',
@@ -113,6 +125,58 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
                 )}
 
                 <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0, alignItems: 'center' }}>
+                    {project.demo && (
+                        <Button
+                            component={Link}
+                            href={project.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="contained"
+                            size="small"
+                            disableElevation
+                            startIcon={<Launch fontSize="small" />}
+                            sx={{
+                                backgroundColor: accent,
+                                textTransform: 'none',
+                                fontWeight: 600,
+                                fontSize: '0.72rem',
+                                py: 0.4,
+                                px: 1,
+                                whiteSpace: 'nowrap',
+                                minWidth: 0,
+                            }}
+                        >
+                            Live demo
+                        </Button>
+                    )}
+                    {project.video && (
+                        <Button
+                            component={Link}
+                            href={project.video}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="outlined"
+                            size="small"
+                            startIcon={<PlayArrow fontSize="small" />}
+                            sx={{
+                                borderColor: accent,
+                                color: accent,
+                                textTransform: 'none',
+                                fontWeight: 600,
+                                fontSize: '0.72rem',
+                                py: 0.4,
+                                px: 1,
+                                whiteSpace: 'nowrap',
+                                minWidth: 0,
+                                '&:hover': {
+                                    borderColor: accent,
+                                    backgroundColor: `${accent}14`,
+                                },
+                            }}
+                        >
+                            Watch demo
+                        </Button>
+                    )}
                     {project.link && (
                         <Button
                             component={Link}
@@ -153,6 +217,14 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
                 </Box>
             </Box>
 
+            <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mt: 1, lineHeight: 1.6 }}
+            >
+                {summary}
+            </Typography>
+
             {isMobile && (
                 <Stack
                     direction="row"
@@ -192,7 +264,7 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
                         color="text.secondary"
                         sx={{ lineHeight: 1.6, whiteSpace: 'pre-line', mb: 1.5 }}
                     >
-                        {project.description}
+                        {detail}
                     </Typography>
                     <Typography variant="subtitle2" sx={{ mb: 0.75, fontWeight: 600 }}>
                         Technologies
@@ -222,22 +294,27 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
             </Collapse>
         </CardContent>
     </Card>
-));
+    );
+});
 
 ProjectEntry.displayName = 'ProjectEntry';
 
 const ProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
+    const [showCoursework, setShowCoursework] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const allProjects = useMemo(
-        () =>
-            [...projectsData].sort(
-                (a, b) => parseDate(b.startDate) - parseDate(a.startDate),
-            ),
-        [],
-    );
+    // Coursework is real work but it dilutes the list, so it sits behind a toggle.
+    const { featured, coursework } = useMemo(() => {
+        const sorted = [...projectsData].sort(
+            (a, b) => parseDate(b.startDate) - parseDate(a.startDate),
+        );
+        return {
+            featured: sorted.filter((p) => p.category !== 'nlp'),
+            coursework: sorted.filter((p) => p.category === 'nlp'),
+        };
+    }, []);
 
     const handleExpandClick = useCallback((id) => {
         setExpandedProject((current) => (current === id ? null : id));
@@ -265,22 +342,47 @@ const ProjectCard = () => {
                 />
 
                 <Stack spacing={1.25}>
-                    {allProjects.map((project, index) => {
-                        const accent = theme.palette.primary.main;
-                        const id = `project-${index}`;
-                        return (
-                            <ProjectEntry
-                                key={id}
-                                project={project}
-                                accent={accent}
-                                entryId={id}
-                                expanded={expandedProject === id}
-                                onToggle={handleExpandClick}
-                                isMobile={isMobile}
-                            />
-                        );
-                    })}
+                    {featured.map((project) => (
+                        <ProjectEntry
+                            key={project.title}
+                            project={project}
+                            accent={theme.palette.primary.main}
+                            entryId={project.title}
+                            expanded={expandedProject === project.title}
+                            onToggle={handleExpandClick}
+                            isMobile={isMobile}
+                        />
+                    ))}
                 </Stack>
+
+                {coursework.length > 0 && (
+                    <Box sx={{ mt: 2 }}>
+                        <Button
+                            onClick={() => setShowCoursework((v) => !v)}
+                            size="small"
+                            aria-expanded={showCoursework}
+                            endIcon={showCoursework ? <ExpandLess /> : <ExpandMore />}
+                            sx={{ textTransform: 'none', fontWeight: 600 }}
+                        >
+                            {showCoursework ? 'Hide' : 'Show'} NLP coursework ({coursework.length})
+                        </Button>
+                        <Collapse in={showCoursework} timeout="auto" unmountOnExit>
+                            <Stack spacing={1.25} sx={{ mt: 1.25 }}>
+                                {coursework.map((project) => (
+                                    <ProjectEntry
+                                        key={project.title}
+                                        project={project}
+                                        accent={theme.palette.primary.main}
+                                        entryId={project.title}
+                                        expanded={expandedProject === project.title}
+                                        onToggle={handleExpandClick}
+                                        isMobile={isMobile}
+                                    />
+                                ))}
+                            </Stack>
+                        </Collapse>
+                    </Box>
+                )}
             </CardContent>
         </Card>
     );
