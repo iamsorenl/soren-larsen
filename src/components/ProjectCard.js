@@ -66,16 +66,17 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
             },
         }}
     >
-        <CardContent sx={{ py: 1.75, px: 3, pl: 4, '&:last-child': { pb: 1.75 } }}>
+        <CardContent sx={{ py: 1.75, px: { xs: 2, sm: 3 }, pl: { xs: 2.5, sm: 4 }, '&:last-child': { pb: 1.75 } }}>
             <Box
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    flexWrap: 'wrap',
                     gap: 1,
                 }}
             >
-                <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Box sx={{ flex: '1 1 180px', minWidth: 0 }}>
                     <Typography
                         variant="subtitle1"
                         component="h3"
@@ -124,7 +125,7 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
                     </Stack>
                 )}
 
-                <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0, alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, alignItems: 'center' }}>
                     {project.demo && (
                         <Button
                             component={Link}

@@ -114,7 +114,7 @@ const EducationCard = () => {
                                     >
                                         <School sx={{ fontSize: 16 }} />
                                     </Avatar>
-                                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                                    <Box sx={{ flex: '1 1 180px', minWidth: 0 }}>
                                         <Typography
                                             variant="body2"
                                             component="h3"

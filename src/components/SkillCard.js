@@ -223,6 +223,10 @@ const SkillCard = () => {
                                                                 sx={{
                                                                     fontWeight: isExpert ? 700 : 500,
                                                                     opacity: isLow ? 0.72 : 1,
+                                                                    // Long names wrap instead of truncating on narrow phones
+                                                                    height: 'auto',
+                                                                    minHeight: 32,
+                                                                    '& .MuiChip-label': { whiteSpace: 'normal', py: 0.5 },
                                                                     ...(isExpert && {
                                                                         boxShadow: `0 0 0 2px ${accent}40`,
                                                                     }),
