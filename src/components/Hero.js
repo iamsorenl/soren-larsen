@@ -85,10 +85,10 @@ const Hero = () => {
             aria-label="Introduction"
             sx={{
                 py: { xs: 5, md: 7 },
-                px: { xs: 3, md: 5 },
+                px: { xs: 2.5, sm: 3, md: 5 },
                 borderRadius: '16px',
                 display: 'grid',
-                gridTemplateColumns: { xs: '1fr', md: '1fr 360px' },
+                gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: '1fr 360px' },
                 gap: { xs: 4, md: 5 },
                 alignItems: 'center',
                 background: isDark
@@ -124,7 +124,7 @@ const Hero = () => {
                         sx={{
                             fontFamily: FONT_DISPLAY,
                             fontWeight: 700,
-                            fontSize: { xs: '2.75rem', md: '4rem' },
+                            fontSize: { xs: '2rem', sm: '2.75rem', md: '4rem' },
                             lineHeight: 1.1,
                             color: 'text.primary',
                         }}
@@ -144,11 +144,14 @@ const Hero = () => {
                         lineHeight: 1.5,
                     }}
                 >
-                    AI &amp; Full-Stack Engineer
+                    <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>
+                        AI &amp; Full-Stack Engineer
+                    </Box>
                     <Box
                         component="span"
                         aria-hidden="true"
                         sx={{
+                            display: { xs: 'none', sm: 'inline' },
                             mx: 1.25,
                             color: isDark ? 'primary.light' : 'primary.main',
                         }}
@@ -238,6 +241,7 @@ const Hero = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    width: '100%',
                     justifySelf: { xs: 'center', md: 'end' },
                 }}
             >
@@ -251,7 +255,8 @@ const Hero = () => {
                         }}
                         variant="rounded"
                         sx={{
-                            width: isMobile ? 280 : 340,
+                            width: '100%',
+                            maxWidth: isMobile ? 280 : 340,
                             height: isMobile ? 320 : 400,
                             borderRadius: '16px',
                             border: `4px solid ${alpha(theme.palette.primary.main, isDark ? 0.35 : 0.3)}`,
@@ -260,7 +265,7 @@ const Hero = () => {
                     />
                 </Fade>
 
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 1 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', mt: 2, gap: 1 }}>
                     {IMAGE_URLS.map((_, i) => (
                         <Box
                             key={i}
