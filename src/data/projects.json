@@ -184,5 +184,85 @@
             "Product Management"
         ],
         "demo": "https://kinlot.vercel.app"
+    },
+    {
+        "title": "local-agent-bench",
+        "startDate": "September 2026",
+        "endDate": "September 2026",
+        "link": "https://github.com/iamsorenl/local-agent-bench",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "I wanted to know if a model small enough to run on a laptop could drive a real tool using agent. I built one with web search, page reading and a calculator, then ran five open models through the same 15 tasks, three times each.\n- gpt-oss 20B passed 43 of 45 runs. Most of the others stalled at the same step, searching but never opening the page to read the answer\n- Every model resisted the prompt injection tasks, though only some went on to finish them\n- Tested whether one extra hint sentence in each tool description helps. It helped some models and hurt others\n- Fully local and free to run, and the results table is generated straight from the run logs",
+        "tools": [
+            "Python",
+            "LangGraph",
+            "MCP",
+            "Ollama",
+            "LLM Evaluation"
+        ]
+    },
+    {
+        "title": "team-build",
+        "startDate": "October 2026",
+        "endDate": "October 2026",
+        "link": "https://github.com/iamsorenl/team-build",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "A plugin for Claude Code and Codex that keeps a team in sync when everyone is driving their own coding agent on one repo. I built it after a hackathon where we kept redoing work because one person's discovery never reached anyone else's agent.\n- Shared decisions, API contracts and the team roster live in repo files that every agent reads\n- A simple routine picks one integrator, runs spikes before the work is split, and merges often\n- Hooks and a sync check work in both Claude Code and Codex",
+        "tools": [
+            "Claude Code",
+            "Codex",
+            "Python",
+            "Agent Tooling"
+        ]
+    },
+    {
+        "title": "StockPulse",
+        "startDate": "July 2026",
+        "endDate": "Present",
+        "link": "https://github.com/iamsorenl/stockpulse",
+        "demo": "https://stockpulse-6q41.onrender.com",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "A live stock app that puts price trends and crowd sentiment on the same chart.\n- Candlestick charts with 20 and 50 day moving averages, plus markers on the days where sentiment and price agree or split\n- gpt-oss 20B on Groq scores sentiment from Reddit, ApeWisdom and news feeds\n- Per IP rate limits and a global daily cap on model calls, since anyone can use it\n- FastAPI backend with a SQLite cache and a React frontend, hosted on Render",
+        "tools": [
+            "FastAPI",
+            "Python",
+            "React",
+            "TypeScript",
+            "SQLite",
+            "Groq"
+        ]
+    },
+    {
+        "title": "SLAC Accelerator Fault Investigator",
+        "startDate": "September 2026",
+        "endDate": "September 2026",
+        "link": "https://github.com/iamsorenl/slac-investigator",
+        "demo": "https://iamsorenl.github.io/slac-investigator/",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "Team project from the Flower Collaborative Agent Hackathon at Stanford, built on real data from the machines that power SLAC's particle accelerator.\n- Three agents each hold their own slice of instrument data and send back only a summary, so under 1 percent of the raw data gets shared\n- An orchestrator combines the summaries into a verdict for a human, and no tool can touch the equipment\n- I wrote the spec and the GitHub issues the team's coding agents built from\n- After the event I hosted the live demo from my fork so it stays up for free",
+        "tools": [
+            "Python",
+            "Flower",
+            "FastAPI",
+            "Multi-Agent Systems"
+        ]
+    },
+    {
+        "title": "Component Kits",
+        "startDate": "September 2026",
+        "endDate": "September 2026",
+        "link": "https://github.com/iamsorenl/llm-kit",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "Four small open source libraries I pulled out of code I kept rewriting across projects.\n- llm-kit, LLM calls for Ollama and OpenAI compatible APIs plus JSON reply parsing, in TypeScript and Python\n- chat-ui, a React chat hook and panel with streaming and abort\n- gh-graphql, a GitHub GraphQL client with retries, rate limit waits and resumable paging\n- http-cache, a disk cached HTTP GET with atomic writes\n- Each one has tests, and my other projects now use them",
+        "tools": [
+            "TypeScript",
+            "Python",
+            "React",
+            "Open Source"
+        ]
     }
 ]
