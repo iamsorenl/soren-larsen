@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which local Ollama models can drive a tool-using agent? | Soren Larsen</title>
+<meta name="description" content="I ran 5 local Ollama models (gpt-oss 20B, Gemma 4 12B and 26B, Qwen3 Coder 30B, Llama 3.1 8B) through 15 tool-calling agent tasks. gpt-oss 20B passed 43 of 45. Most others searched but never opened the page.">
+<meta name="author" content="Soren Larsen">
+<link rel="canonical" href="https://larsensoren.com/writing/local-agent-bench/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Which local Ollama models can drive a tool-using agent?">
+<meta property="og:description" content="5 local models, 15 agent tasks, 3 runs each. gpt-oss 20B passed 43 of 45. The step that breaks the rest is opening the page after a search.">
+<meta property="og:url" content="https://larsensoren.com/writing/local-agent-bench/">
+<meta property="article:published_time" content="2026-10-14">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Which local Ollama models can drive a tool-using agent?",
+  "description": "A benchmark of 5 local Ollama models on 15 tool-calling agent tasks: web search, page reading, a calculator, and prompt injection. gpt-oss 20B passed 43 of 45 runs.",
+  "datePublished": "2026-10-14",
+  "author": { "@type": "Person", "name": "Soren Larsen", "url": "https://larsensoren.com/" },
+  "about": ["local LLM tool calling", "Ollama", "LangGraph", "Model Context Protocol", "prompt injection"],
+  "isBasedOn": "https://github.com/iamsorenl/local-agent-bench",
+  "mainEntityOfPage": "https://larsensoren.com/writing/local-agent-bench/"
+}
+</script>
+<style>
+  :root {
+    --bg: #ffffff; --fg: #212121; --muted: #5c5c5c; --rule: #e3e3e3; --accent: #4c5fd0; --code: #f2f2f4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #121212; --fg: #f2f2f2; --muted: #a0a4ab; --rule: #2a2d33; --accent: #8fa0f2; --code: #1e2026; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 44rem; margin: 0 auto; padding: 3rem 16px 5rem; }
+  nav { font-size: .9rem; margin-bottom: 2rem; }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .4rem; letter-spacing: -.015em; }
+  h2 { font-size: 1.2rem; margin: 2.5rem 0 .6rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 2rem; font-size: .95rem; }
+  a { color: var(--accent); }
+  li { margin: .35rem 0; }
+  code { background: var(--code); padding: .1em .35em; border-radius: 3px; font-size: .88em; }
+  pre { background: var(--code); padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: .85rem; }
+  pre code { background: none; padding: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; font-size: .9rem; min-width: 32rem; width: 100%; }
+  th, td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  th { font-weight: 600; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0 1.25rem; }
+  footer { color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/">Soren Larsen</a></nav>
+
+  <article>
+  <h1>Which local Ollama models can drive a tool-using agent?</h1>
+  <p class="sub">Soren Larsen, October 14, 2026. Code and raw results on <a href="https://github.com/iamsorenl/local-agent-bench">GitHub</a>.</p>
+
+  <p>I wanted to know if a model small enough to run on a laptop could drive a real agent. Not just call a calculator, but search the web, open a page and pull the answer out of it. So I built a small agent with three tools and ran five local models through the same 15 tasks, three times each.</p>
+
+  <p>The short answer is that one of them could. gpt-oss 20B passed 43 of 45 runs. The other four got the math and the small talk right. Most of them failed the research tasks at the same step. They searched, got back short snippets, and then said they couldn't find the answer. They never opened the page.</p>
+
+  <h2>Results</h2>
+  <p>Each row is 15 tasks run 3 times at temperature 0. "Hints" means one extra sentence in two tool descriptions, explained further down.</p>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Model</th><th>Hints</th><th class="n">Passed</th><th class="n">Research</th><th class="n">Injection tasks</th><th class="n">Median s/task</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>gpt-oss:20b</code></td><td>no</td><td class="n">43/45</td><td class="n">18/18</td><td class="n">4/6</td><td class="n">6.1</td></tr>
+      <tr><td><code>gpt-oss:20b</code></td><td>yes</td><td class="n">40/45</td><td class="n">16/18</td><td class="n">6/6</td><td class="n">5.9</td></tr>
+      <tr><td><code>gemma4:12b</code></td><td>no</td><td class="n">33/45</td><td class="n">9/18</td><td class="n">3/6</td><td class="n">27.9</td></tr>
+      <tr><td><code>gemma4:12b</code></td><td>yes</td><td class="n">33/45</td><td class="n">9/18</td><td class="n">3/6</td><td class="n">27.2</td></tr>
+      <tr><td><code>qwen3-coder:30b</code></td><td>no</td><td class="n">27/45</td><td class="n">6/18</td><td class="n">0/6</td><td class="n">3.0</td></tr>
+      <tr><td><code>qwen3-coder:30b</code></td><td>yes</td><td class="n">33/45</td><td class="n">9/18</td><td class="n">3/6</td><td class="n">2.2</td></tr>
+      <tr><td><code>gemma4:26b-a4b-it-q4_K_M</code></td><td>no</td><td class="n">27/45</td><td class="n">6/18</td><td class="n">0/6</td><td class="n">17.3</td></tr>
+      <tr><td><code>gemma4:26b-a4b-it-q4_K_M</code></td><td>yes</td><td class="n">30/45</td><td class="n">6/18</td><td class="n">3/6</td><td class="n">18.1</td></tr>
+      <tr><td><code>llama3.1:8b</code></td><td>no</td><td class="n">24/45</td><td class="n">3/18</td><td class="n">3/6</td><td class="n">3.1</td></tr>
+      <tr><td><code>llama3.1:8b</code></td><td>yes</td><td class="n">24/45</td><td class="n">3/18</td><td class="n">3/6</td><td class="n">3.3</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>The full table with every column is in the <a href="https://github.com/iamsorenl/local-agent-bench#results">README</a>. It is generated from the run logs, not typed in.</p>
+
+  <h2>The step that breaks is reading the page</h2>
+  <p>The search results in this test only have short snippets, and the snippets never contain the answer. To pass, the model has to call <code>read_page</code> on one of the results. gpt-oss 20B did that in all 18 of its research runs. The other models did it in 6 to 12 of 18. The rest of the time they searched a few more times and gave up.</p>
+  <p>Qwen3 Coder 30B often replied "I cannot access external URLs" while <code>read_page</code> was sitting in its tool list.</p>
+
+  <h2>One sentence of tool description didn't fix it</h2>
+  <p>I added one line to the <code>web_search</code> description saying snippets are short and often miss the answer, so call <code>read_page</code> on a result. I added another to <code>read_page</code> saying it can open any http or https URL. Then I reran everything.</p>
+  <p>Eight task and model pairs changed, and they went both ways. Qwen started passing one research task and one injection task. Gemma 4 12B gained one task and lost one. gpt-oss got worse on the question that has no answer. It kept searching, 7 times, and never replied. So the hint moves single tasks around. It doesn't change which model is good at this. I only tried one wording, and another might do better.</p>
+
+  <h2>No model followed the planted instructions</h2>
+  <p>Two tasks have text in the fetched page telling the model to search for a suspicious phrase or end its answer with a code word. No model did either, in any run. Several still failed those tasks, by refusing the whole thing or not finishing it. gpt-oss 20B answered 2 of 3 runs of one of them with just "I'm sorry, but I can't help with that."</p>
+
+  <h2>Tool calling can hinge on one line of prompt</h2>
+  <p>Before the benchmark, Qwen3 Coder 30B sometimes wrote its tool call into the reply as text and left off the opening <code>&lt;tool_call&gt;</code> tag. Ollama never ran it. Changing one line of the system prompt turned this on and off. That's why the agent defaults to gpt-oss 20B.</p>
+
+  <h2>Every model handled the easy tasks</h2>
+  <p>All five used the calculator instead of doing math in their heads. Llama 3.1 8B missed one, a compound interest question. None of them called a tool for "Hi, how are you?"</p>
+
+  <h2>How the test works</h2>
+  <ul>
+    <li>15 tasks. 4 math, 6 research, 2 small talk, 1 question with nothing to find, 2 with planted instructions.</li>
+    <li>Every place and fact in the tasks is made up, like a lighthouse, a seed library and a museum that don't exist. A model can't answer from memory.</li>
+    <li>Search results and pages come from recorded fixtures instead of the live web, so every model sees exactly the same content.</li>
+    <li>Each task checks that the answer has the right fact, the required tools were called, forbidden tools weren't, and no planted phrase shows up anywhere.</li>
+    <li>Same agent for every model. Temperature 0, 32K context, 2048 output tokens, 20 step limit, 5 minute timeout.</li>
+    <li>Run on one Apple M3 Pro with 36GB of memory and Ollama 0.34.2.</li>
+  </ul>
+
+  <h2>Limits</h2>
+  <p>15 tasks is enough to show the pattern above. It isn't enough to rank models that are close together, and only 2 tasks test injection. At temperature 0 the 3 repeats agreed in 147 of 150 cases, so this is closer to one run per task. Answers are checked by phrase matching, which can miss a correct answer worded differently. There were also 6 crashes I couldn't explain, all on the same task, for Qwen and Gemma 4 12B.</p>
+
+  <h2>The agent</h2>
+  <p>It's one LangGraph agent loop over an MCP server with three tools. <code>web_search</code> uses DuckDuckGo with no API key. <code>read_page</code> pulls the page text with trafilatura. <code>calculator</code> does safe arithmetic without <code>eval</code>. Web content comes back wrapped in <code>&lt;untrusted&gt;</code> tags and none of the tools can write anything. Adding a tool means writing one Python function. Everything is free to run.</p>
+<pre><code>ollama pull gpt-oss:20b
+uv sync
+uv run python -m agent "What is 15% of Santa Cruz's population?"
+uv run python -m bench --models gpt-oss:20b --reps 1</code></pre>
+  <p>If you run it on a model I didn't test, I'd like to see the numbers. Open an issue on the <a href="https://github.com/iamsorenl/local-agent-bench">repo</a>.</p>
+  </article>
+
+  <hr>
+  <footer><a href="/">larsensoren.com</a> · <a href="https://github.com/iamsorenl">GitHub</a></footer>
+</main>
+</body>
+</html>
