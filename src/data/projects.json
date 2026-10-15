@@ -240,6 +240,9 @@
         "endDate": "September 2026",
         "link": "https://github.com/iamsorenl/slac-investigator",
         "demo": "https://iamsorenl.github.io/slac-investigator/",
+        "links": [
+            { "label": "Flower Hub", "url": "https://flower.ai/apps/iamsorenl/slac-investigator/" }
+        ],
         "muiIcon": "Abc",
         "category": "personal",
         "description": "Team project from the Flower Collaborative Agent Hackathon at Stanford, built on real data from the machines that power SLAC's particle accelerator.\n- Three agents each hold their own slice of instrument data and send back only a summary, so under 1 percent of the raw data gets shared\n- An orchestrator combines the summaries into a verdict for a human, and no tool can touch the equipment\n- I wrote the spec and the GitHub issues the team's coding agents built from\n- After the event I hosted the live demo from my fork so it stays up for free",

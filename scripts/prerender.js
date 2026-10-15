@@ -2,7 +2,8 @@
 /**
  * Injects the site's content into build/index.html as real HTML so crawlers
  * that don't execute JavaScript (LLM bots, ATS scrapers, curl) can read it.
- * React clears #root when it mounts, so this is invisible to real visitors.
+ * It's hidden with CSS (shown again under <noscript>) so visitors don't see it
+ * flash before the JS bundle loads; React then replaces it on mount.
  *
  * Source of truth stays src/data/*.json — the same files the components and
  * the chat worker read. Runs after `react-scripts build`.
@@ -104,6 +105,7 @@ function build() {
     out.push(`<h4>${p.link ? link(p.link, p.title) : esc(p.title)}</h4>`);
     if (p.demo) out.push(`<p>${link(p.demo, 'Live demo')}</p>`);
     if (p.video) out.push(`<p>${link(p.video, 'Watch demo')}</p>`);
+    for (const l of p.links || []) out.push(`<p>${link(l.url, l.label)}</p>`);
     if (p.subtitle) out.push(`<p>${esc(p.subtitle)}</p>`);
     out.push(`<p>${dates(p.startDate, p.endDate)}</p>`);
     out.push(paras(p.description));
@@ -153,7 +155,12 @@ function main() {
     throw new Error(`could not find ${MARKER} in ${TARGET}. Did the CRA build output change?`);
   }
 
-  fs.writeFileSync(TARGET, page.replace(MARKER, `<div id="root">${html}</div>`));
+  // Inline <style> only: the CSP allows inline styles but not inline scripts.
+  const hide = '<style>.prerender{display:none}</style><noscript><style>.prerender{display:block}</style></noscript>';
+  fs.writeFileSync(
+    TARGET,
+    page.replace('</head>', `${hide}</head>`).replace(MARKER, `<div id="root"><div class="prerender">${html}</div></div>`),
+  );
   console.log(`prerender: injected ${html.length} bytes into build/index.html`);
 }
 
