@@ -104,6 +104,7 @@ function build() {
     out.push(`<h4>${p.link ? link(p.link, p.title) : esc(p.title)}</h4>`);
     if (p.demo) out.push(`<p>${link(p.demo, 'Live demo')}</p>`);
     if (p.video) out.push(`<p>${link(p.video, 'Watch demo')}</p>`);
+    for (const l of p.links || []) out.push(`<p>${link(l.url, l.label)}</p>`);
     if (p.subtitle) out.push(`<p>${esc(p.subtitle)}</p>`);
     out.push(`<p>${dates(p.startDate, p.endDate)}</p>`);
     out.push(paras(p.description));

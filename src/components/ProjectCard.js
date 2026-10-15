@@ -45,6 +45,46 @@ const splitDescription = (description) => {
     };
 };
 
+// Card buttons, in display order. `demo`, `video` and `link` (GitHub) are
+// shorthands; anything else goes in `links: [{ "label", "url" }]`.
+const projectLinks = (project) => [
+    project.demo && { label: 'Live demo', url: project.demo, icon: <Launch fontSize="small" />, primary: true },
+    project.video && { label: 'Watch demo', url: project.video, icon: <PlayArrow fontSize="small" /> },
+    ...(project.links || []).map((l) => ({ ...l, icon: <Launch fontSize="small" /> })),
+    project.link && { label: 'View on GitHub', url: project.link, icon: <GitHub fontSize="small" /> },
+].filter(Boolean);
+
+const LinkButton = ({ href, icon, primary, accent, children }) => (
+    <Button
+        component={Link}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        variant={primary ? 'contained' : 'outlined'}
+        size="small"
+        disableElevation
+        startIcon={icon}
+        sx={{
+            ...(primary
+                ? { backgroundColor: accent }
+                : {
+                      borderColor: accent,
+                      color: accent,
+                      '&:hover': { borderColor: accent, backgroundColor: `${accent}14` },
+                  }),
+            textTransform: 'none',
+            fontWeight: 600,
+            fontSize: '0.72rem',
+            py: 0.4,
+            px: 1,
+            whiteSpace: 'nowrap',
+            minWidth: 0,
+        }}
+    >
+        {children}
+    </Button>
+);
+
 const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile }) => {
     const { summary, detail } = splitDescription(project.description);
     return (
@@ -126,86 +166,11 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
                 )}
 
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, alignItems: 'center' }}>
-                    {project.demo && (
-                        <Button
-                            component={Link}
-                            href={project.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            variant="contained"
-                            size="small"
-                            disableElevation
-                            startIcon={<Launch fontSize="small" />}
-                            sx={{
-                                backgroundColor: accent,
-                                textTransform: 'none',
-                                fontWeight: 600,
-                                fontSize: '0.72rem',
-                                py: 0.4,
-                                px: 1,
-                                whiteSpace: 'nowrap',
-                                minWidth: 0,
-                            }}
-                        >
-                            Live demo
-                        </Button>
-                    )}
-                    {project.video && (
-                        <Button
-                            component={Link}
-                            href={project.video}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            variant="outlined"
-                            size="small"
-                            startIcon={<PlayArrow fontSize="small" />}
-                            sx={{
-                                borderColor: accent,
-                                color: accent,
-                                textTransform: 'none',
-                                fontWeight: 600,
-                                fontSize: '0.72rem',
-                                py: 0.4,
-                                px: 1,
-                                whiteSpace: 'nowrap',
-                                minWidth: 0,
-                                '&:hover': {
-                                    borderColor: accent,
-                                    backgroundColor: `${accent}14`,
-                                },
-                            }}
-                        >
-                            Watch demo
-                        </Button>
-                    )}
-                    {project.link && (
-                        <Button
-                            component={Link}
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            variant="outlined"
-                            size="small"
-                            startIcon={<GitHub fontSize="small" />}
-                            sx={{
-                                borderColor: accent,
-                                color: accent,
-                                textTransform: 'none',
-                                fontWeight: 600,
-                                fontSize: '0.72rem',
-                                py: 0.4,
-                                px: 1,
-                                whiteSpace: 'nowrap',
-                                minWidth: 0,
-                                '&:hover': {
-                                    borderColor: accent,
-                                    backgroundColor: `${accent}14`,
-                                },
-                            }}
-                        >
-                            View on GitHub
-                        </Button>
-                    )}
+                    {projectLinks(project).map(({ label, url, icon, primary }) => (
+                        <LinkButton key={url} href={url} icon={icon} primary={primary} accent={accent}>
+                            {label}
+                        </LinkButton>
+                    ))}
                     <IconButton
                         onClick={() => onToggle(entryId)}
                         size="small"

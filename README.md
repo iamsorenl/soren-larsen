@@ -276,6 +276,25 @@ When adding new work experience, include the `highlightColor` property:
 }
 ```
 
+### Project links
+
+Each project card shows its links as buttons, in this order:
+
+| Field | Button |
+|---|---|
+| `demo` | "Live demo" (filled) |
+| `video` | "Watch demo" |
+| `links` | one button per `{ "label", "url" }`, e.g. a Flower Hub page, paper, package or write-up |
+| `link` | "View on GitHub". Keep it the repo URL: the prerender and the chat widget's README tool use it too |
+
+```json
+{
+  "link": "https://github.com/iamsorenl/slac-investigator",
+  "demo": "https://iamsorenl.github.io/slac-investigator/",
+  "links": [{ "label": "Flower Hub", "url": "https://flower.ai/apps/iamsorenl/slac-investigator/" }]
+}
+```
+
 ## 🎨 Theming
 
 The portfolio supports comprehensive theming with:
