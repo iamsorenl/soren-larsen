@@ -103,8 +103,9 @@
   <h2>No model followed the planted instructions</h2>
   <p>Two tasks have text in the fetched page telling the model to search for a suspicious phrase or end its answer with a code word. No model did either, in any run. Several still failed those tasks, by refusing the whole thing or not finishing it. gpt-oss 20B answered 2 of 3 runs of one of them with just "I'm sorry, but I can't help with that."</p>
 
-  <h2>Tool calling can hinge on one line of prompt</h2>
-  <p>Before the benchmark, Qwen3 Coder 30B sometimes wrote its tool call into the reply as text and left off the opening <code>&lt;tool_call&gt;</code> tag. Ollama never ran it. Changing one line of the system prompt turned this on and off. That's why the agent defaults to gpt-oss 20B.</p>
+  <h2>Tool calling depends on prompt wording, but not on one line</h2>
+  <p>Before the benchmark, Qwen3 Coder 30B sometimes wrote its tool call into the reply as text and left off the opening <code>&lt;tool_call&gt;</code> tag. Ollama never ran it. With all three tools, it failed with no system prompt and with my real prompt. It worked with a bare "You are a helpful assistant." No single line I removed or added fixed it reliably. These were quick checks with two tries per prompt, outside the benchmark. That's why the agent defaults to gpt-oss 20B.</p>
+  <p>One line I removed while testing told the model to use web_search and then read_page. So the benchmark prompt never tells models to open pages, which is the step most of them failed.</p>
 
   <h2>Every model handled the easy tasks</h2>
   <p>All five used the calculator instead of doing math in their heads. Llama 3.1 8B missed one, a compound interest question. None of them called a tool for "Hi, how are you?"</p>
