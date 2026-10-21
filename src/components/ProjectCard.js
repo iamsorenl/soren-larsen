@@ -268,7 +268,7 @@ ProjectEntry.displayName = 'ProjectEntry';
 const SECTIONS = [
     { key: 'sponsored', label: 'Sponsored', note: 'Built with an industry partner.' },
     { key: 'personal', label: 'Personal', note: 'Built because I wanted them to exist.' },
-    { key: 'school', label: 'School', note: 'Graduate and undergraduate coursework.' },
+    { key: 'school', label: 'School', note: 'Coursework from my M.S. in Natural Language Processing.' },
 ];
 
 const ProjectCard = () => {
