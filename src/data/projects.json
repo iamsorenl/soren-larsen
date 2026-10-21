@@ -111,60 +111,6 @@
         ]
     },
     {
-        "title": "Robustness and Domain Adaptation in Transformer-Based QA",
-        "startDate": "February 2025",
-        "endDate": "February 2025",
-        "link": "https://github.com/iamsorenl/Transformer_QA",
-        "muiIcon": "Abc",
-        "category": "school",
-        "description": "Studied the robustness of transformer-based question answering across in-domain, adversarial, and out-of-domain settings, with a focus on adapting RoBERTa to biomedical QA tasks using parameter-efficient fine-tuning.\n- Evaluated RoBERTa on SQuAD 2.0 and Covid-QA to analyze robustness under domain shift\n- Applied LoRA-based fine-tuning to improve performance on biomedical text while reducing trainable parameters\n- Implemented sliding-window inference and CLS-token masking for long contexts and unanswerable questions\n- Achieved +6.41 EM / +14.84 F1 on Covid-QA dev set and +5.33 EM / +10.54 F1 on test\n- Analyzed failure modes under ambiguity and contradiction",
-        "tools": [
-            "NLP",
-            "Python",
-            "PyTorch",
-            "Transformers",
-            "QA",
-            "Domain Adaptation",
-            "LoRA",
-            "Machine Learning"
-        ],
-        "coursework": true
-    },
-    {
-        "title": "BiLSTM-CRF for Named Entity Recognition",
-        "startDate": "February 2025",
-        "endDate": "March 2025",
-        "link": "https://github.com/iamsorenl/bilstm-crf-character-cnn-ner",
-        "muiIcon": "Abc",
-        "category": "school",
-        "description": "Built a biomedical NER model using a BiLSTM-CRF architecture with character level CNN features and static word embeddings.\n- Modeled entity extraction for DNA, RNA, proteins, cell types, and cell lines on NLPBA 2004 dataset\n- Compared CRF, softmax-margin, and SVM-margin losses\n- Used padded minibatches, masking, and hyperparameter tuning\n- Reached F1 of approximately 0.59",
-        "tools": [
-            "NLP",
-            "Python",
-            "PyTorch",
-            "NER",
-            "Deep Learning"
-        ],
-        "coursework": true
-    },
-    {
-        "title": "Autoregressive Language Modeling with Transformers (Penn Treebank)",
-        "startDate": "November 2024",
-        "endDate": "November 2024",
-        "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
-        "muiIcon": "Abc",
-        "category": "school",
-        "description": "Built a transformer based autoregressive language model on the Penn Treebank dataset.\n- Implemented a Transformer Encoder with sinusoidal positional encoding and multi-head attention\n- Tuned embedding size, batch size, and learning rate\n- Reduced test perplexity from 83.35 to 39.11\n- Analyzed architecture-performance tradeoffs",
-        "tools": [
-            "NLP",
-            "AI",
-            "Python",
-            "PyTorch",
-            "Transformers"
-        ],
-        "coursework": true
-    },
-    {
         "title": "local-agent-bench",
         "startDate": "September 2026",
         "endDate": "September 2026",
@@ -248,6 +194,69 @@
             "Python",
             "React",
             "Open Source"
+        ]
+    },
+    {
+        "title": "Sentinel: Cyber Incident Response Council",
+        "startDate": "October 2026",
+        "endDate": "October 2026",
+        "link": "https://github.com/arpinero/UCSC-AI-Hackathon",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "Team project from the UCSC AI Hackathon at SF Tech Week, in the Local AI track. A council of local agents investigates a simulated cyber incident, argues over the response, and stops to ask a human when it should not decide alone. Everything ran on one ASUS GX10 with no cloud calls.\n- I built the Compliance agent, which works out which breach notification rules an incident triggers (GDPR, SEC, HIPAA, NIS2 and others) and how long is left on each deadline\n- The model judges and Python counts. Deadlines and the hard rules for escalating to a human are computed in code, not left to the model\n- It vetoes destructive actions under a legal hold on any host whose evidence has not been preserved yet\n- Passed 21 of 21 ATT&CK-based cases and 25 of 25 cases modeled on public breaches with gemma4 26B, picked after sweeping other local models on the same cases",
+        "tools": [
+            "Python",
+            "Multi-Agent Systems",
+            "Ollama",
+            "Local LLMs"
+        ]
+    },
+    {
+        "title": "repo-impact",
+        "startDate": "October 2026",
+        "endDate": "October 2026",
+        "link": "https://github.com/iamsorenl/repo-impact",
+        "demo": "https://iamsorenl.github.io/repo-impact/",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "Point it at any GitHub repo and get a one-page dashboard of who moves the work forward, instead of who ships the most PRs.\n- PR count, commit count and lines changed score zero. Substantive reviews, changes to files other engineers also work in, and human-reviewed work count instead\n- Fetches every merged PR in the window one day at a time, so GitHub's 1,000 result search cap never drops any, and checks the counts match\n- Bots are left out of the scoring and the page reports how much review was automated. On PostHog over two weeks, 41 percent of merged PRs had only a bot approval\n- Every number on the page opens the formula and inputs behind it",
+        "tools": [
+            "Python",
+            "GitHub GraphQL API",
+            "Git",
+            "Data Visualization"
+        ]
+    },
+    {
+        "title": "self-healing-scraper",
+        "startDate": "October 2026",
+        "endDate": "October 2026",
+        "link": "https://github.com/iamsorenl/self-healing-scraper",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "A scraper that asks an LLM to write its CSS selectors once, then stays off the LLM until a site changes.\n- Normal runs use the saved selectors and make zero model calls\n- When a field breaks, only that field gets repaired, and the new selector is kept only if it passes the same checks as the old one\n- A per-run call budget caps model spend\n- The demo and tests run offline on saved pages with a recorded model answer, so no key or network is needed",
+        "tools": [
+            "Python",
+            "LLMs",
+            "Web Scraping",
+            "BeautifulSoup"
+        ]
+    },
+    {
+        "title": "policy-tree",
+        "startDate": "October 2026",
+        "endDate": "October 2026",
+        "link": "https://github.com/iamsorenl/policy-tree",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "Turns an insurer's published medical policy PDFs into rule trees that people can read and code can check, since prior authorization requests are judged against criteria written as prose.\n- Crawls a policy listing page, downloads each PDF, and cuts out the initial criteria section\n- An LLM turns the criteria into nested AND/OR rules, validated against a pydantic schema, with one retry that includes the validation error\n- Failed policies are stored with their error so they show up in the browser UI instead of disappearing\n- Works with OpenAI or any compatible server, including a local Ollama model, and the 33 tests run offline",
+        "tools": [
+            "Python",
+            "FastAPI",
+            "Pydantic",
+            "SQLite",
+            "LLMs",
+            "PDF Extraction"
         ]
     }
 ]
