@@ -91,7 +91,7 @@ describe('executeToolCall', () => {
         function: {
           name: 'fetch_repo_readme',
           // Allowlisted repo — passes the allowlist, then GitHub 403s
-          arguments: JSON.stringify({ github_url: 'https://github.com/iamsorenl/Transformer_QA' }),
+          arguments: JSON.stringify({ github_url: 'https://github.com/iamsorenl/local-agent-bench' }),
         },
       },
       { ...baseEnv, README_CACHE: new MockKV() },
