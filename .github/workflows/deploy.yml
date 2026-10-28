@@ -69,3 +69,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SOREN_LARSEN }}
           channelId: live
           projectId: soren-larsen
+          # 15.34.1 adds a serviceusage check the CI service account can't pass (403)
+          firebaseToolsVersion: 15.34.0
