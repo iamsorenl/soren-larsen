@@ -17,7 +17,9 @@
   "vars": {
     "GROQ_MODEL": "openai/gpt-oss-120b",
     "GROQ_SUMMARY_MODEL": "openai/gpt-oss-120b",
-    "ALLOWED_ORIGINS": "https://larsensoren.com,https://www.larsensoren.com,https://soren-larsen.web.app,http://localhost:3000"
+    "ALLOWED_ORIGINS": "https://larsensoren.com,https://www.larsensoren.com,https://soren-larsen.web.app,http://localhost:3000",
+    // Turnstile hostnames the live Worker accepts. Local dev overrides this in .dev.vars.
+    "TURNSTILE_HOSTNAMES": "larsensoren.com,www.larsensoren.com,soren-larsen.web.app"
   },
   "observability": {
     "enabled": true

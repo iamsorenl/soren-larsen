@@ -1,10 +1,11 @@
 import { WORKER_URL } from './chatConfig';
+import { getTurnstileToken } from './turnstile';
 
 export class ChatApiError extends Error {
     constructor(kind, message, retryAfterSec = 0) {
         super(message);
         // 'network' | 'upstream' | 'rateLimited' | 'serviceBusy' |
-        // 'serviceCapacity' | 'badRequest' | 'tooLarge'
+        // 'serviceCapacity' | 'badRequest' | 'tooLarge' | 'verification'
         this.kind = kind;
         this.retryAfterSec = retryAfterSec;
     }
@@ -40,11 +41,21 @@ function chainedController(signal) {
     return controller;
 }
 
-async function postJson(path, body, signal) {
+// Runs before the first-byte watchdog starts: a visitor may need a while to
+// answer an interactive challenge, and that isn't the worker being slow.
+async function turnstileToken(action) {
+    try {
+        return await getTurnstileToken(action);
+    } catch (err) {
+        throw new ChatApiError('verification', err.message);
+    }
+}
+
+async function postJson(path, body, signal, token) {
     try {
         return await fetch(`${WORKER_URL}${path}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'X-Turnstile-Token': token },
             body: JSON.stringify(body),
             signal,
         });
@@ -69,14 +80,16 @@ async function mapErrorResponse(res) {
         return new ChatApiError(kind, 'Rate limited', retryAfterSec);
     }
     if (res.status === 413) return new ChatApiError('tooLarge', 'Conversation too large');
+    if (res.status === 403) return new ChatApiError('verification', 'Verification failed');
     if (res.status >= 500) return new ChatApiError('upstream', `Status ${res.status}`);
     return new ChatApiError('badRequest', `Status ${res.status}`);
 }
 
 export async function* streamChat({ messages, sessionSummary = null, signal }) {
+    const token = await turnstileToken('chat');
     const controller = chainedController(signal);
     const res = await withTimeout(
-        postJson('/api/chat', { messages, sessionSummary }, controller.signal),
+        postJson('/api/chat', { messages, sessionSummary }, controller.signal, token),
         FIRST_BYTE_TIMEOUT_MS,
         'Timed out waiting for the assistant to respond',
         () => controller.abort()
@@ -115,9 +128,10 @@ export async function* streamChat({ messages, sessionSummary = null, signal }) {
 }
 
 export async function summarize({ messages, priorSummary = null, signal }) {
+    const token = await turnstileToken('summarize');
     const controller = chainedController(signal);
     const res = await withTimeout(
-        postJson('/api/summarize', { messages, priorSummary }, controller.signal),
+        postJson('/api/summarize', { messages, priorSummary }, controller.signal, token),
         FIRST_BYTE_TIMEOUT_MS,
         'Timed out waiting for the summarizer',
         () => controller.abort()

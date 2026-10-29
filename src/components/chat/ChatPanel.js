@@ -7,6 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ChatMessage, { chatCursorBlinkStyles } from './ChatMessage';
 import SuggestedPrompts from './SuggestedPrompts';
 import { ERROR_COPY, rateLimitedCopy } from './chatConfig';
+import { TURNSTILE_SLOT_ID } from './turnstile';
 
 // A streamed message must be within this many pixels of the bottom for the
 // panel to keep auto-scrolling. If the user has scrolled up to read earlier
@@ -163,6 +164,9 @@ function ChatPanel({ open, onClose, chat }) {
                         </Typography>
                     </Box>
                 )}
+
+                {/* Turnstile bot check renders here; empty unless Cloudflare wants a click. */}
+                <Box id={TURNSTILE_SLOT_ID} sx={{ display: 'flex', justifyContent: 'center' }} />
 
                 <Box sx={{ display: 'flex', gap: 1, p: 1, borderTop: `1px solid ${theme.palette.divider}` }}>
                     <TextField
