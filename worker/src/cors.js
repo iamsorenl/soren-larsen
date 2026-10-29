@@ -14,7 +14,7 @@ export function handlePreflight(request, env) {
     headers: {
       ...corsHeaders(request, env),
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Turnstile-Token',
       'Access-Control-Max-Age': '86400',
     },
   });

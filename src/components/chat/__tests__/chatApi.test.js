@@ -1,5 +1,8 @@
 /** @jest-environment node */
 import { streamChat, summarize } from '../chatApi';
+import { getTurnstileToken } from '../turnstile';
+
+jest.mock('../turnstile', () => ({ getTurnstileToken: jest.fn(() => Promise.resolve('test-token')) }));
 
 // ---------------------------------------------------------------------------
 // Minimal fake web globals for Jest 27 + Node 24 (jest-environment-node
@@ -65,6 +68,11 @@ function textStreamResponse(chunks, status = 200, headers = {}) {
     return new FakeResponse(body, { status, headers });
 }
 
+// Let the mocked Turnstile token resolve so the first-byte watchdog is armed.
+async function flushTurnstile() {
+    for (let i = 0; i < 5; i++) await Promise.resolve();
+}
+
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
@@ -118,6 +126,7 @@ test('streamChat maps a stalled first byte to a "network" error', async () => {
 
     const iterator = streamChat({ messages: [{ role: 'user', content: 'hi' }] });
     const first = iterator.next();
+    await flushTurnstile(); // watchdog starts only once the token is in hand
     jest.advanceTimersByTime(20001);
     await expect(first).rejects.toMatchObject({ kind: 'network' });
 });
@@ -215,6 +224,7 @@ test('summarize maps a hung request to a "network" error', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(() => new Promise(() => { /* never settles */ }));
 
     const promise = summarize({ messages: [{ role: 'user', content: 'hi' }] });
+    await flushTurnstile();
     jest.advanceTimersByTime(20001);
     await expect(promise).rejects.toMatchObject({ kind: 'network' });
 });
@@ -228,4 +238,31 @@ test('summarize returns the summary string', async () => {
     );
     const out = await summarize({ messages: [{ role: 'user', content: 'hi' }] });
     expect(out).toBe('visitor asked about X');
+});
+
+test('each request sends a fresh Turnstile token for its action', async () => {
+    getTurnstileToken.mockResolvedValueOnce('tok-chat').mockResolvedValueOnce('tok-sum');
+    const spy = jest.spyOn(global, 'fetch')
+        .mockResolvedValueOnce(textStreamResponse(['ok']));
+    // eslint-disable-next-line no-unused-vars
+    for await (const _chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) { /* consume */ }
+    expect(getTurnstileToken).toHaveBeenLastCalledWith('chat');
+    expect(spy.mock.calls[0][1].headers['X-Turnstile-Token']).toBe('tok-chat');
+});
+
+test('a 403 from the worker maps to kind "verification"', async () => {
+    getTurnstileToken.mockResolvedValueOnce('t');
+    jest.spyOn(global, 'fetch').mockResolvedValue(new FakeResponse('no', { status: 403 }));
+    await expect((async () => {
+        // eslint-disable-next-line no-unused-vars
+        for await (const _chunk of streamChat({ messages: [{ role: 'user', content: 'hi' }] })) { /* consume */ }
+    })()).rejects.toMatchObject({ kind: 'verification' });
+});
+
+test('a failed Turnstile challenge maps to kind "verification" without calling the worker', async () => {
+    getTurnstileToken.mockRejectedValueOnce(new Error('challenge failed'));
+    const spy = jest.spyOn(global, 'fetch');
+    await expect(summarize({ messages: [{ role: 'user', content: 'hi' }] }))
+        .rejects.toMatchObject({ kind: 'verification' });
+    expect(spy).not.toHaveBeenCalled();
 });

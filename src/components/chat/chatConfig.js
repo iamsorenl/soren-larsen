@@ -1,5 +1,9 @@
 export const WORKER_URL = process.env.REACT_APP_CHAT_WORKER_URL || 'http://localhost:8787';
 
+// Public Turnstile site key (widget 'larsensoren-chat'). Safe to ship; the
+// matching secret lives only on the worker.
+export const TURNSTILE_SITEKEY = process.env.REACT_APP_TURNSTILE_SITEKEY || '0x4AAAAAAFrmlrLoVeM3mAE-';
+
 export const GREETING = "Hi — I'm Soren's Assistant. Here are a few things I can help with:";
 
 export const SUGGESTED_PROMPTS = [
@@ -30,6 +34,7 @@ export const ERROR_COPY = {
     serviceCapacity: "The assistant has hit today's free-tier limit and is resting. Please try again in a few hours.",
     tooLarge: 'This conversation has gotten too long for me to handle. Use the clear button (top right) to start a fresh chat.',
     badRequest: "I couldn't process that message. Please rephrase it and try again.",
+    verification: "Couldn't verify this browser. Refresh the page and try again.",
 };
 
 // Rate-limit copy with the worker's Retry-After seconds interpolated. Falls
