@@ -3,7 +3,7 @@ import { checkRateLimit, clientIp } from './rateLimit.js';
 import { buildSystemPrompt, estimateRequestTokens, MAX_PROMPT_TOKENS } from './systemPrompt.js';
 import { groqChatStream, groqChatStreamAuto, GroqUpstreamError } from './groq.js';
 import { TOOLS_SPEC, executeToolCall } from './tools.js';
-import { MAX_MESSAGES, MAX_MESSAGE_CHARS } from './constants.js';
+import { MAX_MESSAGES, MAX_MESSAGE_CHARS, RETRIEVAL_USER_TURNS } from './constants.js';
 
 function jsonError(status, error, message, extraHeaders = {}) {
   return new Response(JSON.stringify({ error, message }), {
@@ -70,7 +70,15 @@ export async function handleChat(request, env) {
   }
 
   const latestUserMessage = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
-  const systemPrompt = buildSystemPrompt(sessionSummary || null, latestUserMessage);
+  // Retrieve facts from the last few user turns, not just the latest: a
+  // follow-up like "what about before that?" has no keywords of its own and
+  // would otherwise drop the section the conversation is about.
+  const retrievalQuery = messages
+    .filter((m) => m.role === 'user')
+    .slice(-RETRIEVAL_USER_TURNS)
+    .map((m) => m.content)
+    .join('\n');
+  const systemPrompt = buildSystemPrompt(sessionSummary || null, retrievalQuery);
 
   const estimatedTokens = estimateRequestTokens({ systemPrompt, messages });
   if (estimatedTokens > MAX_PROMPT_TOKENS) {
