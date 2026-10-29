@@ -43,11 +43,17 @@ function chainedController(signal) {
 
 // Runs before the first-byte watchdog starts: a visitor may need a while to
 // answer an interactive challenge, and that isn't the worker being slow.
+// One retry: the widget sometimes errors once on a clean browser, and our
+// error-callback removes it before Turnstile's own retry can run.
 async function turnstileToken(action) {
     try {
         return await getTurnstileToken(action);
-    } catch (err) {
-        throw new ChatApiError('verification', err.message);
+    } catch {
+        try {
+            return await getTurnstileToken(action);
+        } catch (err) {
+            throw new ChatApiError('verification', err.message);
+        }
     }
 }
 

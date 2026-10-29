@@ -259,8 +259,15 @@ test('a 403 from the worker maps to kind "verification"', async () => {
     })()).rejects.toMatchObject({ kind: 'verification' });
 });
 
+test('a single Turnstile error is retried once', async () => {
+    getTurnstileToken.mockRejectedValueOnce(new Error('flaky')).mockResolvedValueOnce('tok-retry');
+    const spy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(new Response(JSON.stringify({ summary: 's' }), { status: 200 }));
+    await summarize({ messages: [{ role: 'user', content: 'hi' }] });
+    expect(spy.mock.calls[0][1].headers['X-Turnstile-Token']).toBe('tok-retry');
+});
+
 test('a failed Turnstile challenge maps to kind "verification" without calling the worker', async () => {
-    getTurnstileToken.mockRejectedValueOnce(new Error('challenge failed'));
+    getTurnstileToken.mockRejectedValueOnce(new Error('challenge failed')).mockRejectedValueOnce(new Error('challenge failed'));
     const spy = jest.spyOn(global, 'fetch');
     await expect(summarize({ messages: [{ role: 'user', content: 'hi' }] }))
         .rejects.toMatchObject({ kind: 'verification' });
