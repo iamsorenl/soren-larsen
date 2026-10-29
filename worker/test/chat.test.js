@@ -391,3 +391,27 @@ describe('handleChat', () => {
     expect(json.error).toBe('upstream_error');
   });
 });
+
+describe('follow-up retrieval', () => {
+  it('a keyword-free follow-up still gets the earlier roles in the prompt', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockGroqStream('ok'));
+    const env = { ...baseEnv, RATE_LIMIT: new MockKV() };
+    const req = new Request('http://x/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({
+        messages: [
+          { role: 'user', content: "What was Soren's most recent role?" },
+          { role: 'assistant', content: 'Founding Engineer at Levangie Laboratories.' },
+          { role: 'user', content: 'nice what about before that?' },
+        ],
+      }),
+      headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '1.2.3.4' },
+    });
+    const res = await handleChat(req, env);
+    await res.text();
+    const system = JSON.parse(fetchSpy.mock.calls[0][1].body).messages[0].content;
+    for (const company of ['Gray Whale', 'Onda Sports', 'Boardal']) {
+      expect(system).toContain(company);
+    }
+  });
+});
