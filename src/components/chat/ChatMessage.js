@@ -10,6 +10,17 @@ export const chatCursorBlinkStyles = (
     <GlobalStyles styles={{ '@keyframes chat-cursor-blink': { to: { visibility: 'hidden' } } }} />
 );
 
+// The model sometimes answers with **bold** despite the plain-text rule, and
+// the bubble shows raw text, so render those runs as bold instead of asterisks.
+// split() with a capture group alternates plain text and bold text.
+function renderBold(text, key) {
+    return (
+        <React.Fragment key={key}>
+            {text.split(/\*\*(.+?)\*\*/g).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part))}
+        </React.Fragment>
+    );
+}
+
 // Walks `content`, splitting it into plain-text runs and URL runs without
 // relying on `.test()` (which has a sticky-lastIndex bug under the /g flag).
 function renderRichContent(content) {
@@ -21,7 +32,7 @@ function renderRichContent(content) {
     let match;
     while ((match = re.exec(content)) !== null) {
         if (match.index > cursor) {
-            out.push(<React.Fragment key={key++}>{content.slice(cursor, match.index)}</React.Fragment>);
+            out.push(renderBold(content.slice(cursor, match.index), key++));
         }
         out.push(
             <Link
@@ -42,7 +53,7 @@ function renderRichContent(content) {
         cursor = match.index + match[0].length;
     }
     if (cursor < content.length) {
-        out.push(<React.Fragment key={key++}>{content.slice(cursor)}</React.Fragment>);
+        out.push(renderBold(content.slice(cursor), key++));
     }
     return out;
 }
