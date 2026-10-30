@@ -146,16 +146,18 @@
         "startDate": "July 2026",
         "endDate": "Present",
         "link": "https://github.com/iamsorenl/stockpulse",
-        "demo": "https://stockpulse-6q41.onrender.com",
+        "demo": "https://t4brsvyq6qmnknw4lwquukjhhe0rsdqa.lambda-url.us-west-2.on.aws/",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "A live stock app that puts price trends and crowd sentiment on the same chart.\n- Candlestick charts with 20 and 50 day moving averages, plus markers on the days where sentiment and price agree or split\n- gpt-oss 20B on Groq scores sentiment from Reddit, ApeWisdom and news feeds\n- Per IP rate limits and a global daily cap on model calls, since anyone can use it\n- FastAPI backend with a SQLite cache and a React frontend, hosted on Render",
+        "description": "A live stock app that puts price trends and crowd sentiment on the same chart.\n- Candlestick charts with 20 and 50 day moving averages, plus markers on the days where sentiment and price agree or split\n- gpt-oss 20B on Groq scores sentiment from Reddit, ApeWisdom and news feeds\n- Runs on AWS Lambda as a container image, with DynamoDB for the cache and history and the API key in SSM. Every AWS resource is defined in Terraform\n- GitHub Actions deploys each merge to main, logging in to AWS through OIDC so no AWS keys are stored\n- Stays inside AWS's free tier: the app tracks its own usage and switches itself off at 80% of the free allowance. Per IP rate limits and a daily cap on model calls protect the Groq key",
         "tools": [
+            "AWS Lambda",
+            "Terraform",
             "FastAPI",
-            "Python",
             "React",
             "TypeScript",
-            "SQLite",
+            "Python",
+            "DynamoDB",
             "Groq"
         ]
     },
