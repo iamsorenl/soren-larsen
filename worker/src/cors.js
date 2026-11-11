@@ -4,6 +4,7 @@ export function corsHeaders(request, env) {
   const headers = { Vary: 'Origin' };
   if (origin && allowed.includes(origin)) {
     headers['Access-Control-Allow-Origin'] = origin;
+    headers['Access-Control-Expose-Headers'] = 'X-Chat-Action';
   }
   return headers;
 }

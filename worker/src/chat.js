@@ -2,7 +2,7 @@ import { corsHeaders } from './cors.js';
 import { checkRateLimit, clientIp } from './rateLimit.js';
 import { buildSystemPrompt, estimateRequestTokens, MAX_PROMPT_TOKENS } from './systemPrompt.js';
 import { groqChatStream, groqChatStreamAuto, GroqUpstreamError } from './groq.js';
-import { TOOLS_SPEC, executeToolCall } from './tools.js';
+import { TOOLS_SPEC, executeToolCall, resolveClientAction } from './tools.js';
 import { MAX_MESSAGES, MAX_MESSAGE_CHARS, RETRIEVAL_USER_TURNS } from './constants.js';
 
 function jsonError(status, error, message, extraHeaders = {}) {
@@ -118,8 +118,15 @@ export async function handleChat(request, env) {
     }
 
     // Tool path: execute the first tool call and stream back the final answer
-    const toolCall = first.toolCalls[0];
-    const toolResultContent = await executeToolCall(toolCall, env, latestUserMessage);
+    // One client action per turn: the first valid one wins. Only the resolved
+    // action (never raw model output) goes into the X-Chat-Action header.
+    const actions = first.toolCalls.map(resolveClientAction);
+    const actionIdx = actions.findIndex(Boolean);
+    const action = actionIdx >= 0 ? actions[actionIdx] : null;
+    const toolCall = first.toolCalls[Math.max(actionIdx, 0)];
+    const toolResultContent = action
+      ? 'Shown to the visitor.'
+      : await executeToolCall(toolCall, env, latestUserMessage);
 
     // Build augmented message list: original + assistant tool_call msg + tool result msg
     const toolCallId = toolCall.id || 'tc_0';
@@ -171,6 +178,7 @@ export async function handleChat(request, env) {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-store',
+        ...(action ? { 'X-Chat-Action': JSON.stringify(action) } : {}),
         ...cors,
       },
     });

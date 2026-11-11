@@ -23,6 +23,10 @@ const ALLOWED_REPOS = new Set(
     .filter(Boolean)
 );
 
+const PLAY_PROJECTS = projects.filter((p) => p.tab === 'play');
+const SECTIONS = ['experience', 'projects', 'skills', 'education', 'contact'];
+const TABS = ['play', 'research', 'how'];
+
 export const TOOLS_SPEC = [
   {
     type: 'function',
@@ -42,7 +46,78 @@ export const TOOLS_SPEC = [
       },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'show_contact',
+      description: "Show Soren's contact card to the visitor. Call when asked how to reach him or for his links.",
+      parameters: { type: 'object', properties: {} },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'go_to_section',
+      description: 'Scroll the page to a section. Call when the visitor asks where something is on the page.',
+      parameters: {
+        type: 'object',
+        properties: {
+          section: { type: 'string', enum: SECTIONS },
+          tab: { type: 'string', enum: TABS, description: 'Only for the projects section: which tab to open.' },
+        },
+        required: ['section'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'open_demo',
+      description: 'Open the live demo of one of Soren\'s projects. Call when the visitor asks to see something he built.',
+      parameters: {
+        type: 'object',
+        properties: { title: { type: 'string', enum: PLAY_PROJECTS.map((p) => p.title) } },
+        required: ['title'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'leave_note',
+      description: 'Open the note form so the visitor can leave Soren a message. Call when the visitor wants to message him.',
+      parameters: { type: 'object', properties: {} },
+    },
+  },
 ];
+
+/**
+ * Validate a client-action tool call against the enums and project data.
+ * Returns the resolved action, or null for anything invalid or not a client action.
+ */
+export function resolveClientAction(toolCall) {
+  const name = toolCall?.function?.name;
+  let args = {};
+  try {
+    args = JSON.parse(toolCall?.function?.arguments || '{}') || {};
+  } catch {
+    args = {};
+  }
+  if (name === 'show_contact') return { type: 'contact' };
+  if (name === 'leave_note') return { type: 'note' };
+  if (name === 'go_to_section') {
+    if (!SECTIONS.includes(args.section)) return null;
+    if (args.tab === undefined || args.tab === null) return { type: 'section', section: args.section };
+    if (!TABS.includes(args.tab)) return null;
+    return { type: 'section', section: args.section, tab: args.tab };
+  }
+  if (name === 'open_demo') {
+    const p = PLAY_PROJECTS.find((x) => x.title === args.title);
+    const url = p && (p.demo || p.video);
+    return url ? { type: 'demo', title: p.title, url } : null;
+  }
+  return null;
+}
 
 /**
  * Execute a tool call from the model and return the result string.

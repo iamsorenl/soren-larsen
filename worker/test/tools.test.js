@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { executeToolCall, TOOLS_SPEC } from '../src/tools.js';
+import { executeToolCall, TOOLS_SPEC, resolveClientAction } from '../src/tools.js';
 import projects from '../src/data/projects.json';
 
 // tools.js builds its allowlist from the GitHub links in projects.json, so a
@@ -218,5 +218,26 @@ describe('executeToolCall', () => {
     // Second call — should hit KV cache, NOT GitHub
     await executeToolCall(toolCall, env, 'tell me about EduMUSE');
     expect(fetchSpy.mock.calls.length).toBe(firstCallCount); // no new fetch
+  });
+});
+
+describe('resolveClientAction', () => {
+  const call = (name, args = {}) => ({ function: { name, arguments: JSON.stringify(args) } });
+  it('resolves valid actions', () => {
+    const sp = projects.find((p) => p.title === 'StockPulse');
+    expect(resolveClientAction(call('open_demo', { title: 'StockPulse' }))).toEqual({ type: 'demo', title: 'StockPulse', url: sp.demo || sp.video });
+    expect(resolveClientAction(call('show_contact'))).toEqual({ type: 'contact' });
+    expect(resolveClientAction(call('leave_note'))).toEqual({ type: 'note' });
+    expect(resolveClientAction(call('go_to_section', { section: 'projects', tab: 'play' }))).toEqual({ type: 'section', section: 'projects', tab: 'play' });
+    expect(resolveClientAction(call('open_demo', { title: 'Sentinel: Cyber Incident Response Council' })).url).toMatch(/^https:/);
+  });
+  it('rejects bad input', () => {
+    expect(resolveClientAction(call('open_demo', { title: 'policy-tree' }))).toBeNull();
+    expect(resolveClientAction(call('go_to_section', { section: 'blog' }))).toBeNull();
+    expect(resolveClientAction(call('go_to_section', { section: 'projects', tab: 'nope' }))).toBeNull();
+    expect(resolveClientAction(call('fetch_repo_readme', {}))).toBeNull();
+    expect(resolveClientAction({ function: { name: 'show_contact', arguments: '{bad' } })).toEqual({ type: 'contact' });
+    expect(resolveClientAction({ function: { name: 'open_demo', arguments: '{bad' } })).toBeNull();
+    expect(resolveClientAction(null)).toBeNull();
   });
 });
