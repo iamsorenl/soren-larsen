@@ -20,7 +20,7 @@ assert.ok(!build().includes('<h3> — '), 'blank degree left a dangling separato
 
 // Real data: the content crawlers came for must actually be present.
 const html = build();
-for (const needle of ['Soren Larsen', 'Causality', 'No RAGrets', 'Experience', 'Projects', 'Skills']) {
+for (const needle of ['Soren Larsen', 'Causality', 'No RAGrets', 'policy-tree', 'Experience', 'Projects', 'Skills']) {
   assert.ok(html.includes(needle), `missing ${needle}`);
 }
 assert.ok(html.length > 5000, `too short: ${html.length} bytes`);
