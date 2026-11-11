@@ -21,6 +21,12 @@ describe('buildSystemPrompt', () => {
     expect(p).toContain('CONTACT:');
   });
 
+  it('names the new ABOUT fields and includes their facts', () => {
+    const p = buildSystemPrompt(null, "Why did his contract end?");
+    expect(p).toContain('contractEnd, experienceSummary, strongestProject and now');
+    expect(p).toContain("brought on to take Causality's platform");
+  });
+
   it('appends summary when provided', () => {
     const p = buildSystemPrompt('Earlier: visitor asked about X.');
     expect(p).toContain('PRIOR CONVERSATION SUMMARY');
