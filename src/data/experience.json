@@ -1,12 +1,32 @@
 [
     {
-        "company": "Levangie Laboratories",
+        "company": "Self-Employed",
+        "title": "AI Engineer",
+        "location": "Santa Cruz, CA",
+        "startDate": "September 2026",
+        "endDate": "Present",
+        "link": "https://github.com/iamsorenl",
+        "description": "I build open source tools for AI agents and test where they break, then publish what I find.\n\nMy agent benchmark ran five laptop-sized models through 450 runs, and only one reliably finished research tasks. Most of the others searched the web and stopped before opening the page to read the answer. I also built team-build, a plugin that keeps a team's Claude Code and Codex agents in sync on one repo through a shared decision log on GitHub.",
+        "skills": [
+            "LLM Evaluation",
+            "Agentic AI Development",
+            "MCP",
+            "Claude Code",
+            "Python",
+            "LangGraph",
+            "Ollama",
+            "Open-Source Software"
+        ],
+        "category": "professional"
+    },
+    {
+        "company": "Causality",
         "title": "Founding Engineer",
         "location": "Remote",
         "startDate": "February 2026",
         "endDate": "September 2026",
-        "link": "https://levangielabs.com/",
-        "description": "Levangie builds AI agent products. I was one of two engineers and owned the platform side, the infrastructure, the deploys, the API and the frontend. Most of the work came out of customer conversations, from the first requirements through demos, launch and production troubleshooting. I built the embedded chat product that turned an enterprise pilot into a purchase, the multi-tenant billing that brought on the first organizational customer, and the container runtime that carried us from under five users to hundreds. I built the CI pipeline and a one-command release with rollback, and when the platform kept falling over under load I pulled the front-loading out of startup and took boot memory from 594 MB to 147 MB.",
+        "link": "https://causality.ai/",
+        "description": "Causality, formerly Levangie Laboratories, is building AI that learns how people judge, decide and act. Its learning architecture captures experience, so the context behind one decision can shape the next, and that experience carries over even when the underlying model changes. The platform is built for expert work in fields like real estate, energy, healthcare and law.\n\nAs a founding engineer on a two-person team, I took the platform from early pilots to paying enterprise customers.",
         "skills": [
             "Python",
             "FastAPI",
@@ -19,7 +39,8 @@
             "Artificial Intelligence (AI)",
             "Full-Stack Development"
         ],
-        "category": "professional"
+        "category": "professional",
+        "details": "Causality, formerly Levangie Laboratories, builds AI agent products. I was one of two engineers and owned the platform side, the infrastructure, the deploys, the API and the frontend. Most of the work came out of customer conversations, from the first requirements through demos, launch and production troubleshooting. I built the embedded chat product that turned an enterprise pilot into a purchase, the multi-tenant billing that brought on the first organizational customer, and the container runtime. I built the CI pipeline and a one-command release with rollback, and when the platform kept falling over under load I pulled the front-loading out of startup and took boot memory from 594 MB to 147 MB."
     },
     {
         "company": "Gray Whale",
@@ -28,7 +49,7 @@
         "startDate": "June 2025",
         "endDate": "January 2026",
         "link": "https://graywhale.ai/",
-        "description": "Gray Whale is an enterprise AI company building what they call Large Interaction Models. I ran the retrieval evaluation and found that a 700-document benchmark could not separate the semantic approaches we were testing, so rather than force a result out of it we moved to a function-calling evaluation we could actually get a signal from. I built the wrapper the other three engineers used to connect their tools and their specialized agents, and I hosted the Developer Camp hackathon and built the formatter people used to get their own data into the shape the platform wanted. I also built a native audio-filter plugin that ran speech to text on device with whisper.cpp. I stayed on afterward for light product testing and advisory work.",
+        "description": "Gray Whale builds the optimization layer between AI models and your application stack, called \"pre-thinking,\" based on $35M in DARPA-funded research and a new Large Interaction Model.\n\nThe engineering team built their tools on the agent framework I made, my benchmarks tested the model, and my prototypes showed up in demos for customers and in projects at the Developer Camp hackathon I hosted.",
         "skills": [
             "Python",
             "LangGraph",
@@ -40,16 +61,17 @@
             "Machine Learning",
             "Natural Language Processing (NLP)"
         ],
-        "category": "professional"
+        "category": "professional",
+        "details": "Gray Whale is an enterprise AI company building Large Interaction Models. I built the agent framework the other three engineers used to connect their tools and specialized agents, benchmarked the model, and hosted the Developer Camp hackathon, where I built the formatter people used to get their own data onto the platform. I also built a native audio-filter plugin that ran speech to text on device with whisper.cpp. I stayed on afterward for light product testing and advisory work."
     },
     {
         "company": "Onda Sports Inc.",
-        "title": "ML/AI Engineer (Part-Time)",
+        "title": "ML/AI Engineer",
         "location": "Remote",
         "startDate": "May 2025",
         "endDate": "September 2025",
         "link": "https://getonda.com/",
-        "description": "Onda is a surf forecasting app. I owned the production chatbot inside a codebase the rest of the team built, and I set up the LangSmith tracing that let us see what the model was actually doing. The traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset.",
+        "description": "Every surfer knows the feeling of driving to a spot the forecast called good and finding it way over their head. Onda is an AI surf app built to fix that, matching each surfer to the right conditions using live NOAA and buoy data.\n\nI owned the AI Surf Assistant through launch and caught it making the same mistake, pushing surfers past their ability. I redesigned it to respect each surfer's level and verified the fix against a fixed test set.",
         "skills": [
             "Python",
             "LangSmith",
@@ -60,7 +82,8 @@
             "Software Development",
             "Natural Language Processing (NLP)"
         ],
-        "category": "professional"
+        "category": "professional",
+        "details": "Onda is a surf forecasting app. I owned the production chatbot inside a codebase the rest of the team built, and I set up the LangSmith tracing that let us see what the model was actually doing. The traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset."
     },
     {
         "company": "Baskin Engineering at UCSC",
@@ -69,7 +92,7 @@
         "startDate": "September 2024",
         "endDate": "December 2025",
         "link": "https://engineering.ucsc.edu/",
-        "description": "I was a TA for CSE 140, TIM 50 and TIM 58, and mentored more than 150 students across them. In the AI course that meant office hours and section on search, machine learning and neural methods, and in the information systems courses it was SQL and relational databases, agile and UML modeling, mostly walking project teams through their designs. I ran the Gradescope autograders and helped maintain the Pacman assignment repo that CSE 140 runs on.",
+        "description": "I taught more than 150 UC Santa Cruz students how AI works and how to design software for real businesses.\n\nIn Artificial Intelligence, I took them from search algorithms and game playing to machine learning and neural networks, and kept the autograders and Pacman codebase behind the course running. In Business Information Systems and Systems Analysis and Design, I taught students to think like product engineers, turning a messy business problem into requirements, UML models, a SQL database and an agile plan, then coaching their project teams until the design held up.",
         "skills": [
             "Artificial Intelligence (AI)",
             "Machine Learning",
@@ -80,7 +103,8 @@
             "University Teaching",
             "Business Information Systems"
         ],
-        "category": "teaching"
+        "category": "teaching",
+        "details": "I was a TA for CSE 140, TIM 50 and TIM 58, and mentored more than 150 students across them. In the AI course that meant office hours and section on search, machine learning and neural methods, and in the information systems courses it was SQL and relational databases, agile and UML modeling, mostly walking project teams through their designs. I ran the Gradescope autograders and helped maintain the Pacman assignment repo that CSE 140 runs on."
     },
     {
         "company": "Boardal",
@@ -89,7 +113,7 @@
         "startDate": "April 2024",
         "endDate": "June 2025",
         "link": "https://boardal.app/",
-        "description": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders and the only engineer on the app, and I carried the technical side. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and shipped the iOS releases. Toward the end I built a custom GPT wired to the Google Sheets API so the marketing interns could write personalized outreach from customer records and track who had been contacted.",
+        "description": "Surfboards and gear get buried on general marketplace sites, so sellers get no views and surfers can't find the board they want. Boardal built a marketplace just for surf, and more than 20,000 surfers signed up.\n\nAs the first hire after the two founders, I built the app alongside one of them, including the saved search alerts that tell surfers the moment the board they want is listed, and shipped every iOS release.",
         "skills": [
             "Flutter",
             "Firebase",
@@ -104,6 +128,7 @@
             "Software Development",
             "Full-Stack Development"
         ],
-        "category": "professional"
+        "category": "professional",
+        "details": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders and the only engineer on the app, and I carried the technical side. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and shipped the iOS releases. Toward the end I built a custom GPT wired to the Google Sheets API so the marketing interns could write personalized outreach from customer records and track who had been contacted."
     }
 ]

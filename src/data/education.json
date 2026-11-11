@@ -6,7 +6,7 @@
         "link": "https://nlp.ucsc.edu",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma2.pdf",
-        "description": "An NLP program focused on language modeling, retrieval, and evaluation. My capstone was No RAGrets, a scientific literature review system I built with an industry sponsor.",
+        "description": "UC Santa Cruz's intensive NLP master's, taught at its Silicon Valley campus and built around industry-sponsored capstones. Mine was No RAGrets, built with CarbonBridge.",
         "relevantCoursework": [
             "Natural Language Processing",
             "Deep Learning for Natural Language Processing",
@@ -23,7 +23,7 @@
         "link": "https://admissions.ucsc.edu/programs/computer-science",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma.pdf",
-        "description": "Core computer science, with algorithms, systems, and full stack web development. I took the NLP course here first, and that is what sent me to the master's program.",
+        "description": "Computer science at UC Santa Cruz's Baskin School of Engineering. The NLP course I took here is what sent me back for the master's.",
         "relevantCoursework": [
             "Data Structures and Algorithms",
             "Intro to Algorithm Analysis",

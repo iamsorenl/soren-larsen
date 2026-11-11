@@ -135,6 +135,7 @@ function build() {
   if (contact.email) out.push(`<li>${link(`mailto:${contact.email}`, contact.email)}</li>`);
   if (contact.github) out.push(`<li>${link(contact.github, 'GitHub')}</li>`);
   if (contact.linkedin) out.push(`<li>${link(contact.linkedin, 'LinkedIn')}</li>`);
+  if (contact.x) out.push(`<li>${link(contact.x, 'X')}</li>`);
   if (contact.resumeUrl) out.push(`<li>${link(contact.resumeUrl, 'Resume (PDF)')}</li>`);
   out.push('</ul>');
 

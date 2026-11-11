@@ -158,7 +158,7 @@ const Hero = () => {
                     >
                         •
                     </Box>
-                    Product &amp; Forward Deployed Engineer
+                    Product Engineer
                 </Typography>
 
                 <Typography
