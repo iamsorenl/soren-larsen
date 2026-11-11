@@ -45,6 +45,9 @@ export async function sendNote(env, { name, email, message }) {
 // then rate limit (only valid notes count), then send.
 export async function handleNote(request, env) {
   const cors = corsHeaders(request, env);
+  if (Number(request.headers.get('Content-Length')) > 8192) {
+    return json(413, { error: 'too_large' }, cors);
+  }
   let body;
   try {
     body = await request.json();

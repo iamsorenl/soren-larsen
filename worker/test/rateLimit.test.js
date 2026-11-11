@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { checkNoteLimit, checkRateLimit, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, GLOBAL_RATE_LIMIT_MAX } from '../src/rateLimit.js';
+import { NOTE_GLOBAL_LIMIT_MAX, checkNoteLimit, checkRateLimit, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, GLOBAL_RATE_LIMIT_MAX } from '../src/rateLimit.js';
 
 class MockKV {
   constructor() { this.store = new Map(); }
@@ -90,5 +90,24 @@ describe('checkNoteLimit', () => {
     expect(kv.store.has('note:5.6.7.8')).toBe(true);
     await kv.put('note:5.6.7.8', JSON.stringify({ count: 3, windowStart: Date.now() - 3_600_001 }));
     expect((await checkNoteLimit(kv, '5.6.7.8')).allowed).toBe(true);
+  });
+});
+
+describe('checkNoteLimit global ceiling', () => {
+  it('blocks the 21st note across 20 different IPs', async () => {
+    vi.spyOn(Date, 'now').mockReturnValue(1_700_000_000_000);
+    for (let i = 0; i < NOTE_GLOBAL_LIMIT_MAX; i++) {
+      expect((await checkNoteLimit(kv, `10.0.0.${i + 1}`)).allowed).toBe(true);
+    }
+    const r = await checkNoteLimit(kv, '10.0.9.9');
+    expect(r.allowed).toBe(false);
+    expect(r.retryAfterSec).toBeGreaterThan(0);
+  });
+
+  it('skips the global counter for "local"', async () => {
+    for (let i = 0; i < NOTE_GLOBAL_LIMIT_MAX + 5; i++) {
+      expect((await checkNoteLimit(kv, 'local')).allowed).toBe(true);
+    }
+    expect([...kv.store.keys()].some((k) => k.startsWith('note-global:'))).toBe(false);
   });
 });

@@ -54,6 +54,8 @@ export async function checkRateLimit(kv, ip) {
 
 export const NOTE_LIMIT_MAX = 3;
 export const NOTE_LIMIT_WINDOW_MS = 3_600_000;
+// Hard ceiling on notes across ALL IPs per hour window, same idea as the chat global cap.
+export const NOTE_GLOBAL_LIMIT_MAX = 20;
 
 // Per-IP cap on notes (each one sends an email). Same shape as checkRateLimit,
 // separate key prefix and a one hour window.
@@ -74,6 +76,17 @@ export async function checkNoteLimit(kv, ip) {
   });
   if (count > NOTE_LIMIT_MAX) {
     const retryAfterSec = Math.ceil((windowStart + NOTE_LIMIT_WINDOW_MS - now) / 1000);
+    return { allowed: false, retryAfterSec: Math.max(retryAfterSec, 1) };
+  }
+
+  const windowId = Math.floor(now / NOTE_LIMIT_WINDOW_MS);
+  const globalKey = `note-global:${windowId}`;
+  const globalCount = (((await kv.get(globalKey, 'json')) || 0) + 1);
+  await kv.put(globalKey, JSON.stringify(globalCount), {
+    expirationTtl: Math.ceil(NOTE_LIMIT_WINDOW_MS / 1000) + 60,
+  });
+  if (globalCount > NOTE_GLOBAL_LIMIT_MAX) {
+    const retryAfterSec = Math.ceil(((windowId + 1) * NOTE_LIMIT_WINDOW_MS - now) / 1000);
     return { allowed: false, retryAfterSec: Math.max(retryAfterSec, 1) };
   }
   return { allowed: true, retryAfterSec: 0 };

@@ -73,6 +73,16 @@ describe('handleNote', () => {
     expect(f).not.toHaveBeenCalled();
   });
 
+  it('rejects an oversized Content-Length with 413 before parsing', async () => {
+    const f = stubFetch();
+    const req = mkReq(valid);
+    const big = new Request(req, { headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '1.2.3.4', 'Content-Length': '8193' } });
+    const res = await handleNote(big, mkEnv());
+    expect(res.status).toBe(413);
+    expect(await res.json()).toEqual({ error: 'too_large' });
+    expect(f).not.toHaveBeenCalled();
+  });
+
   it('rejects malformed JSON with 400', async () => {
     const f = stubFetch();
     const res = await handleNote(mkReq('{nope'), mkEnv());
