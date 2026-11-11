@@ -154,6 +154,38 @@ describe('basic send', () => {
     });
 });
 
+describe('wire filtering and local answers', () => {
+    test('empty assistant messages are not sent to the worker', async () => {
+        const spy = jest.spyOn(chatApi, 'streamChat').mockImplementation(() => fakeStream(['ok']));
+        seedSession([
+            { role: 'user', content: 'first' },
+            { role: 'assistant', content: '' },
+            { role: 'assistant', content: '   ' },
+        ]);
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('second'); });
+        expect(spy.mock.calls[0][0].messages).toEqual([
+            { role: 'user', content: 'first' },
+            { role: 'user', content: 'second' },
+        ]);
+    });
+
+    test("'How do I reach him?' ignores the rate-limit gate and clears the error", async () => {
+        const streamSpy = jest.spyOn(chatApi, 'streamChat').mockImplementation(() =>
+            throwingStream(new chatApi.ChatApiError('rateLimited', 'rl', 30))
+        );
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('hi'); });
+        await waitFor(() => expect(result.current.status).toBe('rateLimited'));
+
+        await act(async () => { await result.current.send('How do I reach him?'); });
+        expect(streamSpy).toHaveBeenCalledTimes(1);
+        expect(result.current.status).toBe('idle');
+        expect(result.current.errorKind).toBeNull();
+        expect(result.current.messages.at(-1).action).toEqual({ type: 'contact' });
+    });
+});
+
 describe('persistence', () => {
     test('persists on status transitions, not per streamed chunk', async () => {
         const saveSpy = jest.spyOn(sessionStore, 'saveSession');
@@ -570,6 +602,35 @@ describe('reset', () => {
         expect(roleContent(persisted.messages)).toEqual([
             { role: 'user', content: 'hi' },
             { role: 'assistant', content: 'ok' },
+        ]);
+    });
+});
+
+describe('actions', () => {
+    test('an action from the stream is stored on the assistant message and persisted', async () => {
+        jest.spyOn(chatApi, 'streamChat').mockImplementation(({ onAction }) =>
+            (async function* () {
+                onAction({ type: 'section', section: 'projects' });
+                yield 'ok';
+            })()
+        );
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('show projects'); });
+        const last = result.current.messages[result.current.messages.length - 1];
+        expect(last.action).toEqual({ type: 'section', section: 'projects' });
+        const saved = JSON.parse(sessionStorage.getItem(SESSION_KEY));
+        expect(saved.messages[saved.messages.length - 1].action).toEqual({ type: 'section', section: 'projects' });
+    });
+
+    test("'How do I reach him?' is answered locally with a contact action and no network call", async () => {
+        const spy = jest.spyOn(chatApi, 'streamChat');
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('How do I reach him?'); });
+        expect(spy).not.toHaveBeenCalled();
+        expect(result.current.status).toBe('idle');
+        expect(result.current.messages.map(({ role, content, action }) => ({ role, content, action }))).toEqual([
+            { role: 'user', content: 'How do I reach him?', action: undefined },
+            { role: 'assistant', content: "Here's how to reach Soren.", action: { type: 'contact' } },
         ]);
     });
 });

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, GlobalStyles, Link, Typography, useTheme } from '@mui/material';
+import ChatAction from './ChatAction';
 
 const URL_REGEX = /https?:\/\/[^\s<>()]+[^\s<>().,;:!?]/g;
 
@@ -58,7 +59,7 @@ function renderRichContent(content) {
     return out;
 }
 
-function ChatMessage({ role, content, isStreaming }) {
+function ChatMessage({ role, content, isStreaming, action, onNavigate }) {
     const theme = useTheme();
     const isUser = role === 'user';
     const showDots = !isUser && isStreaming && !content;
@@ -118,6 +119,7 @@ function ChatMessage({ role, content, isStreaming }) {
                         </>
                     )}
                 </Typography>
+                {!isUser && !isStreaming && action && <ChatAction action={action} onNavigate={onNavigate} />}
             </Box>
         </Box>
     );

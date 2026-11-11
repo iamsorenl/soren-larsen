@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import {
     Card,
     CardContent,
@@ -9,13 +9,16 @@ import {
     Button,
     IconButton,
     Collapse,
+    Tabs,
+    Tab,
     Link,
     useTheme,
     useMediaQuery,
 } from '@mui/material';
 import { GitHub, ExpandMore, ExpandLess, Code, Launch, PlayArrow } from '@mui/icons-material';
 import projectsData from '../data/projects';
-import { parseDate } from '../utils/dates';
+import contactInfo from '../data/contact';
+import DemoTile from './DemoTile';
 import SectionHeader from './SectionHeader';
 
 const TOOL_COLORS = {
@@ -262,39 +265,38 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
 
 ProjectEntry.displayName = 'ProjectEntry';
 
-const SECTIONS = [
-    { key: 'sponsored', label: 'Sponsored', note: 'Built with an industry partner.' },
-    { key: 'personal', label: 'Personal', note: 'Built because I wanted them to exist.' },
-    { key: 'school', label: 'School', note: 'Coursework from my M.S. in Natural Language Processing.' },
+const TABS = [
+    { key: 'play', label: 'Play with it' },
+    { key: 'how', label: 'How it works' },
+    { key: 'research', label: 'Research' },
 ];
 
 const ProjectCard = () => {
     const [expandedProject, setExpandedProject] = useState(null);
-    const [showCoursework, setShowCoursework] = useState(false);
+    const [tab, setTab] = useState('play');
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    // Grouped by how the work came about, strongest provenance first. Pure
-    // assignments stay demoted behind a toggle inside the school group.
-    const { groups, coursework } = useMemo(() => {
-        const sorted = [...projectsData].sort(
-            (a, b) => parseDate(b.startDate) - parseDate(a.startDate),
-        );
-        return {
-            groups: SECTIONS.map((section) => ({
-                ...section,
-                items: sorted.filter(
-                    (p) => p.category === section.key && !p.coursework,
-                ),
-            })).filter((section) => section.items.length > 0),
-            coursework: sorted.filter((p) => p.coursework),
+    // Only projects with a `tab` render here; the rest live on GitHub.
+    const tabs = useMemo(
+        () => TABS.map((t) => ({ ...t, items: projectsData.filter((p) => p.tab === t.key) }))
+            .filter((t) => t.items.length > 0),
+        [],
+    );
+
+    useEffect(() => {
+        const onTab = (e) => {
+            if (tabs.some((t) => t.key === e.detail)) setTab(e.detail);
         };
-    }, []);
+        window.addEventListener('portfolio:projects-tab', onTab);
+        return () => window.removeEventListener('portfolio:projects-tab', onTab);
+    }, [tabs]);
 
     const handleExpandClick = useCallback((id) => {
         setExpandedProject((current) => (current === id ? null : id));
     }, []);
 
+    const active = tabs.find((t) => t.key === tab) || tabs[0];
 
     return (
         <Card
@@ -316,70 +318,51 @@ const ProjectCard = () => {
                     icon={<Code />}
                 />
 
-                {groups.map((section, i) => (
-                    <Box key={section.key} sx={{ mt: i === 0 ? 0 : 3.5 }}>
-                        <Typography
-                            variant="overline"
-                            sx={{
-                                display: 'block',
-                                fontWeight: 700,
-                                letterSpacing: '0.08em',
-                                color: 'text.primary',
-                            }}
-                        >
-                            {section.label}
-                        </Typography>
-                        <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{ display: 'block', mb: 1.25 }}
-                        >
-                            {section.note}
-                        </Typography>
-                        <Stack spacing={1.25}>
-                            {section.items.map((project) => (
-                                <ProjectEntry
-                                    key={project.title}
-                                    project={project}
-                                    accent={theme.palette.primary.main}
-                                    entryId={project.title}
-                                    expanded={expandedProject === project.title}
-                                    onToggle={handleExpandClick}
-                                    isMobile={isMobile}
-                                />
-                            ))}
-                        </Stack>
-                    </Box>
-                ))}
+                <Tabs
+                    value={active.key}
+                    onChange={(_, v) => setTab(v)}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    sx={{ mb: 2, borderBottom: (t) => `1px solid ${t.palette.divider}` }}
+                >
+                    {tabs.map((t) => (
+                        <Tab key={t.key} value={t.key} label={t.label} sx={{ textTransform: 'none', fontWeight: 600 }} />
+                    ))}
+                </Tabs>
 
-                {coursework.length > 0 && (
-                    <Box sx={{ mt: 1.5 }}>
-                        <Button
-                            onClick={() => setShowCoursework((v) => !v)}
-                            size="small"
-                            aria-expanded={showCoursework}
-                            endIcon={showCoursework ? <ExpandLess /> : <ExpandMore />}
-                            sx={{ textTransform: 'none', fontWeight: 600 }}
-                        >
-                            {showCoursework ? 'Hide' : 'Show'} NLP coursework ({coursework.length})
-                        </Button>
-                        <Collapse in={showCoursework} timeout="auto" unmountOnExit>
-                            <Stack spacing={1.25} sx={{ mt: 1.25 }}>
-                                {coursework.map((project) => (
-                                    <ProjectEntry
-                                        key={project.title}
-                                        project={project}
-                                        accent={theme.palette.primary.main}
-                                        entryId={project.title}
-                                        expanded={expandedProject === project.title}
-                                        onToggle={handleExpandClick}
-                                        isMobile={isMobile}
-                                    />
-                                ))}
-                            </Stack>
-                        </Collapse>
+                {active.key === 'play' ? (
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
+                        {active.items.map((project) => (
+                            <DemoTile key={project.title} project={project} />
+                        ))}
                     </Box>
+                ) : (
+                    <Stack spacing={1.25}>
+                        {active.items.map((project) => (
+                            <ProjectEntry
+                                key={project.title}
+                                project={project}
+                                accent={theme.palette.primary.main}
+                                entryId={project.title}
+                                expanded={expandedProject === project.title}
+                                onToggle={handleExpandClick}
+                                isMobile={isMobile}
+                            />
+                        ))}
+                    </Stack>
                 )}
+
+                <Button
+                    component={Link}
+                    href={contactInfo[0].github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="small"
+                    startIcon={<GitHub />}
+                    sx={{ mt: 2, textTransform: 'none', fontWeight: 600 }}
+                >
+                    More on GitHub
+                </Button>
             </CardContent>
         </Card>
     );

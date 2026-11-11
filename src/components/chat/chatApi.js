@@ -91,7 +91,7 @@ async function mapErrorResponse(res) {
     return new ChatApiError('badRequest', `Status ${res.status}`);
 }
 
-export async function* streamChat({ messages, sessionSummary = null, signal }) {
+export async function* streamChat({ messages, sessionSummary = null, signal, onAction }) {
     const token = await turnstileToken('chat');
     const controller = chainedController(signal);
     const res = await withTimeout(
@@ -102,6 +102,12 @@ export async function* streamChat({ messages, sessionSummary = null, signal }) {
     );
     if (!res.ok) throw await mapErrorResponse(res);
     if (!res.body) throw new ChatApiError('upstream', 'No response body');
+    const header = res.headers.get('X-Chat-Action');
+    if (header && onAction) {
+        try {
+            onAction(JSON.parse(header));
+        } catch { /* ignore a malformed action header */ }
+    }
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     try {
@@ -145,4 +151,16 @@ export async function summarize({ messages, priorSummary = null, signal }) {
     if (!res.ok) throw await mapErrorResponse(res);
     const json = await res.json();
     return json.summary || '';
+}
+
+export async function sendNote({ name, email, message }) {
+    const token = await turnstileToken('note');
+    const controller = chainedController();
+    const res = await withTimeout(
+        postJson('/api/note', { name, email, message }, controller.signal, token),
+        FIRST_BYTE_TIMEOUT_MS,
+        'Timed out sending the note',
+        () => controller.abort()
+    );
+    if (!res.ok) throw await mapErrorResponse(res);
 }

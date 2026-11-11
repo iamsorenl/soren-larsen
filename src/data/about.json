@@ -3,6 +3,10 @@
         "about": "I finished my M.S. in NLP at UC Santa Cruz in December 2025, so I know what's going on inside the models most AI products are built on. Most recently I was a founding engineer at Causality, formerly Levangie Laboratories, one of two engineers building AI that learns how experts judge, decide and act.\n\nI like figuring out what people actually need and then building it myself.\n\nAlways happy to talk with people building thoughtful AI products, or about surfing.",
         "location": "Santa Cruz, CA. Open to relocating, and happy to work in person in SF, the Peninsula, or San Jose.",
         "lookingFor": "Product engineer and builder roles on AI products, in the Bay Area or fully remote in the US.",
-        "availability": "Available now. His founding engineer contract at Causality, formerly Levangie Laboratories, ended in September 2026."
+        "availability": "Available now. His founding engineer contract at Causality, formerly Levangie Laboratories, ended in September 2026.",
+        "contractEnd": "He was brought on to take Causality's platform and agents to a defined milestone, and the contract wrapped up in September 2026 once that work was delivered.",
+        "experienceSummary": "About two and a half years of professional engineering, starting at Boardal in April 2024, plus an M.S. in NLP. He's targeting junior to mid-level roles and is open to some senior roles where the scope fits.",
+        "strongestProject": "No RAGrets, his capstone partnership with CarbonBridge. He led the build of a tool that pulls findings out of scientific papers, links them in a knowledge graph, and traces every answer back to its source.",
+        "now": "He's packaging the dev tools that have helped him into open source projects and running small experiments like MCP tests and agent benchmarks. Next he's rebuilding the CarbonBridge tool as a public demo where you can feed in your own papers. After that comes a long-term surf agent project he plans to build in public."
     }
 ]

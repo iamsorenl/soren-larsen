@@ -21,6 +21,12 @@ describe('buildSystemPrompt', () => {
     expect(p).toContain('CONTACT:');
   });
 
+  it('names the new ABOUT fields and includes their facts', () => {
+    const p = buildSystemPrompt(null, "Why did his contract end?");
+    expect(p).toContain('contractEnd, experienceSummary, strongestProject and now');
+    expect(p).toContain("brought on to take Causality's platform");
+  });
+
   it('appends summary when provided', () => {
     const p = buildSystemPrompt('Earlier: visitor asked about X.');
     expect(p).toContain('PRIOR CONVERSATION SUMMARY');
@@ -130,5 +136,14 @@ describe('MAX_PROMPT_TOKENS', () => {
 describe('SUMMARIZE_SYSTEM_PROMPT', () => {
   it('instructs the model to be concise', () => {
     expect(SUMMARIZE_SYSTEM_PROMPT).toMatch(/concise|short|brief/i);
+  });
+});
+
+describe('deflection rule', () => {
+  it('has the model call show_contact only, with no text first', () => {
+    const p = buildSystemPrompt(null);
+    expect(p).toContain('call show_contact and write no text before or');
+    expect(p).toContain('Never state a');
+    expect(p).not.toContain('great question for Soren directly');
   });
 });

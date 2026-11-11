@@ -9,6 +9,7 @@ describe('corsHeaders', () => {
     const h = corsHeaders(req, env);
     expect(h['Access-Control-Allow-Origin']).toBe('https://a.com');
     expect(h['Vary']).toBe('Origin');
+    expect(h['Access-Control-Expose-Headers']).toBe('X-Chat-Action');
   });
 
   it('returns empty headers for disallowed origin', () => {

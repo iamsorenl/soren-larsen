@@ -14,6 +14,7 @@ import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
 import { FONT_DISPLAY, FONT_MONO } from '../theme';
 import GlowMark from './GlowMark';
+import DemoStrip from './DemoStrip';
 
 import headshot1 from '../images/Headshot1.jpg';
 import headshot2 from '../images/Headshot2.jpg';
@@ -84,19 +85,29 @@ const Hero = () => {
             component="section"
             aria-label="Introduction"
             sx={{
-                py: { xs: 5, md: 7 },
+                py: { xs: 4, md: 5 },
                 px: { xs: 2.5, sm: 3, md: 5 },
                 borderRadius: '16px',
                 display: 'grid',
-                gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: '1fr 360px' },
+                gridTemplateColumns: 'minmax(0, 1fr)',
                 gap: { xs: 4, md: 5 },
-                alignItems: 'center',
                 background: isDark
                     ? 'linear-gradient(160deg, #0d1240 0%, #111827 100%)'
                     : 'linear-gradient(160deg, #eef0fb 0%, #f5f5f5 100%)',
                 border: `1px solid ${alpha(theme.palette.primary.main, isDark ? 0.22 : 0.3)}`,
             }}
         >
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) 340px' },
+                    maxWidth: { md: 960 },
+                    width: '100%',
+                    mx: 'auto',
+                    gap: { xs: 4, md: 5 },
+                    alignItems: 'center',
+                }}
+            >
             <Box>
                 <Typography
                     variant="overline"
@@ -242,7 +253,7 @@ const Hero = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     width: '100%',
-                    justifySelf: { xs: 'center', md: 'end' },
+                    justifySelf: 'center',
                 }}
             >
                 <Fade in key={imgIndex} timeout={prefersReducedMotion ? 0 : 1200}>
@@ -306,6 +317,9 @@ const Hero = () => {
                     ))}
                 </Box>
             </Box>
+            </Box>
+
+            <DemoStrip />
         </Box>
     );
 };

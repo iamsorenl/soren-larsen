@@ -25,9 +25,15 @@ function extractKeywords(query) {
     .filter((w) => w.length > 2 && !STOPWORDS.has(w));
 }
 
+// Presentation-only fields (media paths, site-local media links) are not facts: keep them out of the prompt and scoring.
+const stringifyFacts = (v) =>
+  JSON.stringify(v, (k, x) =>
+    k === 'preview' || k === 'image' ? undefined : k === 'links' && Array.isArray(x) ? x.filter((l) => !l.url.startsWith('/')) : x
+  );
+
 function scoreEntry(entry, keywords) {
   if (keywords.length === 0) return 0;
-  const text = JSON.stringify(entry).toLowerCase();
+  const text = stringifyFacts(entry).toLowerCase();
   let score = 0;
   for (const kw of keywords) if (text.includes(kw)) score += 1;
   return score;
@@ -87,6 +93,16 @@ function compactExperience(e) {
   };
 }
 
+// `details` is long UI bullet copy that mostly repeats `description`; only
+// inline it when a query keyword actually hits it.
+function trimDetails(p, keywords) {
+  if (!p.details) return p;
+  const d = p.details.toLowerCase();
+  if (keywords.some((kw) => d.includes(kw))) return p;
+  const { details, ...rest } = p;
+  return rest;
+}
+
 function compactProject(p) {
   return {
     title: p.title,
@@ -138,9 +154,9 @@ export function retrieveContext(latestUserMessage) {
 
   if (isSectionRelevant(queryLower, 'projects')) {
     const detailed = new Set(topKEntries(projects, keywords, 2));
-    sections.projects = projects.map((p) => (detailed.has(p) ? p : compactProject(p)));
+    sections.projects = projects.map((p) => (detailed.has(p) ? trimDetails(p, keywords) : compactProject(p)));
   } else {
-    const matched = topKEntries(projects, keywords, 3);
+    const matched = topKEntries(projects, keywords, 3).map((p) => trimDetails(p, keywords));
     if (matched.length > 0) sections.projects = matched;
   }
 
@@ -151,7 +167,7 @@ function renderSections(sections) {
   // Compact JSON (no indent) — the model parses it fine and we save ~30% tokens
   // versus pretty-printed output.
   return Object.entries(sections)
-    .map(([name, data]) => `${name.toUpperCase()}:\n${JSON.stringify(data)}`)
+    .map(([name, data]) => `${name.toUpperCase()}:\n${stringifyFacts(data)}`)
     .join('\n\n');
 }
 
@@ -169,9 +185,18 @@ RULES:
   section — give the link.
 - ABOUT[0] has his location, what roles he's looking for, and his
   availability. Answer those questions directly from it.
+- ABOUT[0] also has contractEnd, experienceSummary, strongestProject and now. Use
+  them for why the last contract ended, years of experience and level, his
+  strongest project, and what he is working on.
 - If asked about salary, visa or work authorization, personal opinions, or
-  anything else not in FACTS, reply "That's a great question for Soren directly — you
-  can reach him via the Contact section."
+  anything else not in FACTS, call show_contact and write no text before or
+  after the call; the contact card says to ask Soren directly. Never state a
+  salary or work authorization status.
+- Call show_contact when asked how to reach him or for links.
+- Call open_demo when asked to see something he built.
+- Call go_to_section when asked where something is on the page.
+- Call leave_note when the visitor wants to message him.
+- Never mention tool names to the visitor.
 - If a question is partially answerable, answer what you can and redirect for the rest.
 - Refer to Soren in third person ("Soren", "he"). Never speak as Soren.
 - Keep answers under 4 sentences unless asked for detail. No marketing fluff.

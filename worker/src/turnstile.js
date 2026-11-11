@@ -10,7 +10,7 @@ export const TURNSTILE_HEADER = 'X-Turnstile-Token';
  * fresh one per request.
  * @param {Request} request
  * @param {object} env - needs TURNSTILE_SECRET and TURNSTILE_HOSTNAMES
- * @param {string} expectedAction - 'chat' | 'summarize'
+ * @param {string} expectedAction - 'chat' | 'summarize' | 'note'
  * @returns {Promise<boolean>}
  */
 export async function verifyTurnstile(request, env, expectedAction) {

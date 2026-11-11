@@ -24,3 +24,5 @@ storybook-static/
 __pycache__/
 *.pyc
 .superpowers/
+public/videos/gray-whale-surf-ranch.mp4
+public/videos/slac-xray-laser-explained.mp4

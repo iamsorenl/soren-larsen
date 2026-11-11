@@ -6,12 +6,10 @@ export const TURNSTILE_SITEKEY = process.env.REACT_APP_TURNSTILE_SITEKEY || '0x4
 
 export const GREETING = "Hi — I'm Soren's Assistant. Here are a few things I can help with:";
 
-export const SUGGESTED_PROMPTS = [
-    "What was Soren's most recent role?",
-    'What NLP projects has he worked on?',
-    "What's his tech stack?",
-    'How do I get in touch?',
-];
+export const STARTER_PROMPTS = ["What's he building now?", 'Show me his best demo', 'How do I reach him?'];
+
+// Answered locally (no network call) with a contact action.
+export const CONTACT_PROMPT = 'How do I reach him?';
 
 // Chat-history compaction. Token-based, not turn-based: short banter shouldn't
 // trigger an unnecessary summarize and a single long paste shouldn't be allowed

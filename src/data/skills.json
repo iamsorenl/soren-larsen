@@ -46,7 +46,10 @@
         { "name": "CI/CD", "level": 85, "proficiency": "Advanced" },
         { "name": "GCP", "level": 65, "proficiency": "Intermediate" },
         { "name": "Observability", "level": 85, "proficiency": "Advanced" },
-        { "name": "Production Debugging", "level": 85, "proficiency": "Advanced" }
+        { "name": "Production Debugging", "level": 85, "proficiency": "Advanced" },
+        { "name": "AWS", "level": 65, "proficiency": "Intermediate" },
+        { "name": "Terraform", "level": 65, "proficiency": "Intermediate" },
+        { "name": "DynamoDB", "level": 65, "proficiency": "Intermediate" }
     ],
     "mlNlpResearch": [
         { "name": "PyTorch", "level": 90, "proficiency": "Expert" },

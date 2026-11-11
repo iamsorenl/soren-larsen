@@ -82,8 +82,8 @@ function build() {
     if (job.skills?.length) out.push(`<p>Skills: ${job.skills.map(esc).join(', ')}</p>`);
   }
 
-  // Mirrors SECTIONS in src/components/ProjectCard.js so the static view a
-  // crawler or resume screener reads is grouped the same way the page is.
+  // Group projects by category so the static view a crawler or resume
+  // screener reads is organized like the page.
   const PROJECT_SECTIONS = [
     ['sponsored', 'Sponsored projects'],
     ['personal', 'Personal projects'],

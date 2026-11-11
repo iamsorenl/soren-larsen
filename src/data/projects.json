@@ -19,7 +19,8 @@
             "Python",
             "AI"
         ],
-        "details": "- Developed an open-source pipeline for extracting entities, relationships, and technical concepts from scientific literature\n- Integrated Docling and Qwen vision-language models for document parsing and information extraction\n- Built a React-based interface for graph exploration and AI-assisted literature review\n- Set up FastAPI, Dgraph, and containerized infrastructure to support continued use and future development\n- Documented architecture and technical decisions to enable project handoff to future contributors"
+        "details": "- Developed an open-source pipeline for extracting entities, relationships, and technical concepts from scientific literature\n- Integrated Docling and Qwen vision-language models for document parsing and information extraction\n- Built a React-based interface for graph exploration and AI-assisted literature review\n- Set up FastAPI, Dgraph, and containerized infrastructure to support continued use and future development\n- Documented architecture and technical decisions to enable project handoff to future contributors",
+        "tab": "research"
     },
     {
         "title": "HomeHelper",
@@ -38,21 +39,29 @@
         "details": "- Built the orchestrator, the Critic agent, and a synthetic self-practice environment that used repair corpora to improve the system through automated feedback\n- Built the video and image agent with a 4-bit vision-language model, Whisper transcription, and three-level caching\n- Built the React and WebSocket interface"
     },
     {
-        "title": "Ranked AI League",
-        "startDate": "July 2026",
-        "endDate": "July 2026",
-        "link": "https://github.com/iamsorenl/arcade-soccer",
-        "demo": "https://iamsorenl.github.io/arcade-soccer/",
-        "muiIcon": "SportsSoccer",
-        "category": "personal",
-        "description": "Built a browser soccer game with an AI-managed ranked ladder, where the match simulation runs server side so ranked results stay consistent.\nPlayers climb a ranked ladder, and every match is simulated on the server so nobody can fake a result. I built it to learn Supabase end to end, from sign in to the database rules that keep each player's data their own.",
-        "tools": [
-            "Supabase",
-            "Postgres",
-            "Deno",
-            "TypeScript"
+        "title": "SLAC Accelerator Fault Investigator",
+        "preview": { "poster": "/previews/slac.jpg", "video": "/previews/slac.mp4" },
+        "startDate": "September 2026",
+        "endDate": "September 2026",
+        "link": "https://github.com/iamsorenl/slac-investigator",
+        "demo": "https://iamsorenl.github.io/slac-investigator/",
+        "links": [
+            {
+                "label": "Flower Hub",
+                "url": "https://flower.ai/apps/iamsorenl/slac-investigator/"
+            }
         ],
-        "details": "- Set up magic-link authentication and a Postgres database with row-level security and schema migrations\n- Moved the shared simulation engine into a Deno Edge Function that runs inside an RPC transaction\n- Personal project, built to learn Supabase end to end"
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "AI agents that investigate glitches in the machines that power SLAC's particle accelerator, each one reading only its own slice of real data. Built at the Flower agent hackathon at Stanford.\nEach agent stays with its own instruments and shares only a short summary, then a lead agent tells a human whether the beam was hit and what caused it. I wrote the plan our team's coding agents built from, and I keep the live demo running so you can replay a real investigation.",
+        "tools": [
+            "Python",
+            "Flower",
+            "FastAPI",
+            "Multi-Agent Systems"
+        ],
+        "details": "- Three agents each hold their own slice of instrument data and send back only a summary, so under 1 percent of the raw data gets shared\n- An orchestrator combines the summaries into a verdict for a human, and no tool can touch the equipment\n- I wrote the spec and the GitHub issues the team's coding agents built from\n- After the event I hosted the live demo from my fork so it stays up for free",
+        "tab": "play"
     },
     {
         "title": "EduMUSE",
@@ -150,7 +159,26 @@
         "details": "- Shared decisions, API contracts and the team roster live in repo files that every agent reads\n- A simple routine picks one integrator, runs spikes before the work is split, and merges often\n- Hooks and a sync check work in both Claude Code and Codex"
     },
     {
+        "title": "Sentinel: Cyber Incident Response Council",
+        "startDate": "October 2026",
+        "endDate": "October 2026",
+        "link": "https://github.com/arpinero/UCSC-AI-Hackathon",
+        "muiIcon": "Abc",
+        "category": "personal",
+        "description": "A council of local AI agents that investigates a cyber attack, argues over the response, and asks a human before any big call. Built at the UCSC AI Hackathon and run on one ASUS GX10 with no cloud calls.\nI built the Compliance agent, which knows which breach laws an attack triggers and how long the company has to report. It also blocks any move that would destroy evidence the company is legally required to keep.",
+        "tools": [
+            "Python",
+            "Multi-Agent Systems",
+            "Ollama",
+            "Local LLMs"
+        ],
+        "details": "- I built the Compliance agent, which works out which breach notification rules an incident triggers (GDPR, SEC, HIPAA, NIS2 and others) and how long is left on each deadline\n- The model judges and Python counts. Deadlines and the hard rules for escalating to a human are computed in code, not left to the model\n- It vetoes destructive actions under a legal hold on any host whose evidence has not been preserved yet\n- Passed 21 of 21 ATT&CK-based cases and 25 of 25 cases modeled on public breaches with gemma4 26B, picked after sweeping other local models on the same cases",
+        "tab": "play",
+        "video": "https://www.youtube.com/watch?v=4D9yiXNAT0k"
+    },
+    {
         "title": "StockPulse",
+        "preview": { "poster": "/previews/stockpulse.jpg", "video": "/previews/stockpulse.mp4" },
         "startDate": "July 2026",
         "endDate": "Present",
         "link": "https://github.com/iamsorenl/stockpulse",
@@ -168,30 +196,8 @@
             "DynamoDB",
             "Groq"
         ],
-        "details": "- Candlestick charts with 20 and 50 day moving averages, plus markers on the days where sentiment and price agree or split\n- gpt-oss 20B on Groq scores sentiment from Reddit, ApeWisdom and news feeds\n- Runs on AWS Lambda as a container image, with DynamoDB for the cache and history and the API key in SSM. Every AWS resource is defined in Terraform\n- GitHub Actions deploys each merge to main, logging in to AWS through OIDC so no AWS keys are stored\n- Stays inside AWS's free tier: the app tracks its own usage and switches itself off at 80% of the free allowance. Per IP rate limits and a daily cap on model calls protect the Groq key"
-    },
-    {
-        "title": "SLAC Accelerator Fault Investigator",
-        "startDate": "September 2026",
-        "endDate": "September 2026",
-        "link": "https://github.com/iamsorenl/slac-investigator",
-        "demo": "https://iamsorenl.github.io/slac-investigator/",
-        "links": [
-            {
-                "label": "Flower Hub",
-                "url": "https://flower.ai/apps/iamsorenl/slac-investigator/"
-            }
-        ],
-        "muiIcon": "Abc",
-        "category": "personal",
-        "description": "AI agents that investigate glitches in the machines that power SLAC's particle accelerator, each one reading only its own slice of real data. Built at the Flower agent hackathon at Stanford.\nEach agent stays with its own instruments and shares only a short summary, then a lead agent tells a human whether the beam was hit and what caused it. I wrote the plan our team's coding agents built from, and I keep the live demo running so you can replay a real investigation.",
-        "tools": [
-            "Python",
-            "Flower",
-            "FastAPI",
-            "Multi-Agent Systems"
-        ],
-        "details": "- Three agents each hold their own slice of instrument data and send back only a summary, so under 1 percent of the raw data gets shared\n- An orchestrator combines the summaries into a verdict for a human, and no tool can touch the equipment\n- I wrote the spec and the GitHub issues the team's coding agents built from\n- After the event I hosted the live demo from my fork so it stays up for free"
+        "details": "- Candlestick charts with 20 and 50 day moving averages, plus markers on the days where sentiment and price agree or split\n- gpt-oss 20B on Groq scores sentiment from Reddit, ApeWisdom and news feeds\n- Runs on AWS Lambda as a container image, with DynamoDB for the cache and history and the API key in SSM. Every AWS resource is defined in Terraform\n- GitHub Actions deploys each merge to main, logging in to AWS through OIDC so no AWS keys are stored\n- Stays inside AWS's free tier: the app tracks its own usage and switches itself off at 80% of the free allowance. Per IP rate limits and a daily cap on model calls protect the Groq key",
+        "tab": "play"
     },
     {
         "title": "Component Kits",
@@ -210,20 +216,21 @@
         "details": "- llm-kit, LLM calls for Ollama and OpenAI compatible APIs plus JSON reply parsing, in TypeScript and Python\n- chat-ui, a React chat hook and panel with streaming and abort\n- gh-graphql, a GitHub GraphQL client with retries, rate limit waits and resumable paging\n- http-cache, a disk cached HTTP GET with atomic writes\n- Each one has tests, and my other projects now use them"
     },
     {
-        "title": "Sentinel: Cyber Incident Response Council",
-        "startDate": "October 2026",
-        "endDate": "October 2026",
-        "link": "https://github.com/arpinero/UCSC-AI-Hackathon",
-        "muiIcon": "Abc",
+        "title": "Ranked AI League",
+        "preview": { "poster": "/previews/league.jpg", "video": "/previews/league.mp4" },
+        "startDate": "July 2026",
+        "endDate": "July 2026",
+        "link": "https://github.com/iamsorenl/arcade-soccer",
+        "demo": "https://iamsorenl.github.io/arcade-soccer/",
+        "muiIcon": "SportsSoccer",
         "category": "personal",
-        "description": "A council of local AI agents that investigates a cyber attack, argues over the response, and asks a human before any big call. Built at the UCSC AI Hackathon and run on one ASUS GX10 with no cloud calls.\nI built the Compliance agent, which knows which breach laws an attack triggers and how long the company has to report. It also blocks any move that would destroy evidence the company is legally required to keep.",
+        "description": "Built a browser soccer game with an AI-managed ranked ladder, where every match is simulated on the server so ranked results stay consistent.\nPlayers climb a ranked ladder and nobody can fake a result. The game runs on GitHub Pages, and the league now runs on my own home server.",
         "tools": [
-            "Python",
-            "Multi-Agent Systems",
-            "Ollama",
-            "Local LLMs"
+            "TypeScript",
+            "Self-hosted"
         ],
-        "details": "- I built the Compliance agent, which works out which breach notification rules an incident triggers (GDPR, SEC, HIPAA, NIS2 and others) and how long is left on each deadline\n- The model judges and Python counts. Deadlines and the hard rules for escalating to a human are computed in code, not left to the model\n- It vetoes destructive actions under a legal hold on any host whose evidence has not been preserved yet\n- Passed 21 of 21 ATT&CK-based cases and 25 of 25 cases modeled on public breaches with gemma4 26B, picked after sweeping other local models on the same cases"
+        "details": "- Built magic-link sign in and per-player data rules\n- Kept one shared simulation engine so every ranked match is computed the same way on the server\n- Moved the league off its hosted backend onto my own home server in November 2026\n- Personal project",
+        "tab": "play"
     },
     {
         "title": "repo-impact",

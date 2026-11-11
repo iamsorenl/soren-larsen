@@ -15,6 +15,8 @@
     }
   ],
   "vars": {
+    // Where leave-a-note emails go. Server side only, never in client code.
+    "NOTE_TO_EMAIL": "iamsorenl@gmail.com",
     "GROQ_MODEL": "openai/gpt-oss-120b",
     "GROQ_SUMMARY_MODEL": "openai/gpt-oss-120b",
     "ALLOWED_ORIGINS": "https://larsensoren.com,https://www.larsensoren.com,https://soren-larsen.web.app,http://localhost:3000",

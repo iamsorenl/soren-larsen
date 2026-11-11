@@ -8,7 +8,6 @@ import {
     Collapse,
     IconButton,
     Stack,
-    Tooltip,
     useTheme,
 } from '@mui/material';
 import {
@@ -194,47 +193,19 @@ const SkillCard = () => {
                                             flexWrap="wrap"
                                             sx={{ gap: 1 }}
                                         >
-                                            {[...category.data]
-                                                .sort(
-                                                    (a, b) =>
-                                                        (b.level ?? 0) - (a.level ?? 0),
-                                                )
-                                                .map((skill, i) => {
-                                                    const isObj = typeof skill === 'object';
-                                                    const skillName = isObj ? skill.name : skill;
-                                                    const proficiency = isObj
-                                                        ? skill.proficiency
-                                                        : null;
-                                                    const isExpert = proficiency === 'Expert';
-                                                    const isLow =
-                                                        proficiency === 'Intermediate' ||
-                                                        proficiency === 'Familiar';
-                                                    return (
-                                                        <Tooltip
-                                                            key={`${category.key}-${i}`}
-                                                            title={proficiency || ''}
-                                                            disableHoverListener={!proficiency}
-                                                            disableFocusListener={!proficiency}
-                                                            disableTouchListener={!proficiency}
-                                                            arrow
-                                                        >
-                                                            <Chip
-                                                                label={skillName}
-                                                                sx={{
-                                                                    fontWeight: isExpert ? 700 : 500,
-                                                                    opacity: isLow ? 0.72 : 1,
-                                                                    // Long names wrap instead of truncating on narrow phones
-                                                                    height: 'auto',
-                                                                    minHeight: 32,
-                                                                    '& .MuiChip-label': { whiteSpace: 'normal', py: 0.5 },
-                                                                    ...(isExpert && {
-                                                                        boxShadow: `0 0 0 2px ${accent}40`,
-                                                                    }),
-                                                                }}
-                                                            />
-                                                        </Tooltip>
-                                                    );
-                                                })}
+                                            {category.data.map((skill, i) => (
+                                                <Chip
+                                                    key={`${category.key}-${i}`}
+                                                    label={typeof skill === 'object' ? skill.name : skill}
+                                                    sx={{
+                                                        fontWeight: 500,
+                                                        // Long names wrap instead of truncating on narrow phones
+                                                        height: 'auto',
+                                                        minHeight: 32,
+                                                        '& .MuiChip-label': { whiteSpace: 'normal', py: 0.5 },
+                                                    }}
+                                                />
+                                            ))}
                                         </Stack>
                                     </Box>
                                 </Collapse>

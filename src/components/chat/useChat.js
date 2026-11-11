@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { streamChat, summarize, ChatApiError } from './chatApi';
 import { loadSession, saveSession, clearSession } from './sessionStore';
 import { planCompaction, estimateMessageTokens } from './compaction';
-import { MAX_USER_MESSAGE_TOKENS } from './chatConfig';
+import { MAX_USER_MESSAGE_TOKENS, CONTACT_PROMPT } from './chatConfig';
 
 const STATUS = {
     IDLE: 'idle',
@@ -22,9 +22,13 @@ function statusForErrorKind(kind) {
     return STATUS.ERROR;
 }
 
-// Strip local-only fields (id) before putting messages on the wire.
+// Strip local-only fields (id) before putting messages on the wire. The worker
+// rejects empty content, so a blank assistant turn (e.g. an aborted stream)
+// would wedge every later request; drop those.
 function toWire(messages) {
-    return messages.map(({ role, content }) => ({ role, content }));
+    return messages
+        .filter((m) => typeof m.content === 'string' && m.content.trim() !== '')
+        .map(({ role, content }) => ({ role, content }));
 }
 
 export function useChat() {
@@ -89,6 +93,10 @@ export function useChat() {
             messages: toWire(messagesToSend),
             sessionSummary: summaryToSend,
             signal,
+            onAction: (action) => {
+                acc.action = action;
+                setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, action } : m)));
+            },
         })) {
             acc.text += chunk;
             const text = acc.text;
@@ -115,12 +123,28 @@ export function useChat() {
         // before React re-renders. The button's disabled state covers the UI;
         // this covers programmatic callers.
         if (abortRef.current) return;
+        const newUserMsg = { id: nextId(), role: 'user', content: trimmed };
+
+        // Local answer: no network call, no turnstile, so the rate-limit gate
+        // below doesn't apply, and a fresh answer clears any stale error.
+        if (trimmed === CONTACT_PROMPT) {
+            setErrorKind(null);
+            setStatus(STATUS.IDLE);
+            setRetryAfterSec(0);
+            const next = [
+                ...messages,
+                newUserMsg,
+                { id: nextId(), role: 'assistant', content: "Here's how to reach Soren.", action: { type: 'contact' } },
+            ];
+            setMessages(next);
+            persist(next, summary);
+            return;
+        }
+
         // Rate-limit gate: the worker told us when we may retry via
         // Retry-After. Don't burn requests before then.
         if (retryUntilRef.current > Date.now()) return;
         retryUntilRef.current = 0;
-
-        const newUserMsg = { id: nextId(), role: 'user', content: trimmed };
 
         // Pre-send guard: a single message this large can never succeed — the
         // 413 recovery path summarizes prior turns, which can't shrink the new
@@ -140,7 +164,7 @@ export function useChat() {
 
         const priorMessages = messages;
         const assistantMsg = { id: nextId(), role: 'assistant', content: '' };
-        const acc = { text: '' };
+        const acc = { text: '', action: null };
         setMessages([...priorMessages, newUserMsg, assistantMsg]);
         persist([...priorMessages, newUserMsg], summary);
 
@@ -148,7 +172,7 @@ export function useChat() {
             await consumeStream([...priorMessages, newUserMsg], summary, controller.signal, assistantMsg.id, acc);
             setStatus(STATUS.IDLE);
 
-            const finalMessages = [...priorMessages, newUserMsg, { ...assistantMsg, content: acc.text }];
+            const finalMessages = [...priorMessages, newUserMsg, { ...assistantMsg, content: acc.text, ...(acc.action && { action: acc.action }) }];
             let nextMessages = finalMessages;
             let nextSummary = summary;
 
@@ -180,7 +204,7 @@ export function useChat() {
                 // Keep partial assistant text if any streamed before the cancel.
                 persist(
                     acc.text
-                        ? [...priorMessages, newUserMsg, { ...assistantMsg, content: acc.text }]
+                        ? [...priorMessages, newUserMsg, { ...assistantMsg, content: acc.text, ...(acc.action && { action: acc.action }) }]
                         : [...priorMessages, newUserMsg],
                     summary
                 );
@@ -201,15 +225,16 @@ export function useChat() {
                     retrySummary = newSummary || null;
                     setSummary(retrySummary);
                     acc.text = '';
+                    acc.action = null;
                     retried = true;
                     setMessages([newUserMsg, { ...assistantMsg, content: '' }]);
                     await consumeStream([newUserMsg], retrySummary, controller.signal, assistantMsg.id, acc);
                     setStatus(STATUS.IDLE);
-                    persist([newUserMsg, { ...assistantMsg, content: acc.text }], retrySummary);
+                    persist([newUserMsg, { ...assistantMsg, content: acc.text, ...(acc.action && { action: acc.action }) }], retrySummary);
                     return;
                 } catch (retryErr) {
                     const retryMessages = retried
-                        ? (acc.text ? [newUserMsg, { ...assistantMsg, content: acc.text }] : [newUserMsg])
+                        ? (acc.text ? [newUserMsg, { ...assistantMsg, content: acc.text, ...(acc.action && { action: acc.action }) }] : [newUserMsg])
                         : [...priorMessages, newUserMsg];
                     if (retryErr.name === 'AbortError') {
                         setStatus(STATUS.IDLE);
@@ -227,7 +252,7 @@ export function useChat() {
             // the empty placeholder. Error copy is never message content.
             persist(
                 acc.text
-                    ? [...priorMessages, newUserMsg, { ...assistantMsg, content: acc.text }]
+                    ? [...priorMessages, newUserMsg, { ...assistantMsg, content: acc.text, ...(acc.action && { action: acc.action }) }]
                     : [...priorMessages, newUserMsg],
                 summary
             );

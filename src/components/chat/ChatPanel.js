@@ -139,6 +139,8 @@ function ChatPanel({ open, onClose, chat }) {
                                 key={m.id ?? i}
                                 role={m.role}
                                 content={m.content}
+                                action={m.action}
+                                onNavigate={onClose}
                                 isStreaming={chat.status === 'streaming' && i === chat.messages.length - 1 && m.role === 'assistant'}
                             />
                         ))

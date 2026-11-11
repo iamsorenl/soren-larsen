@@ -45,6 +45,7 @@
     {
         "company": "Gray Whale",
         "title": "AI Systems Consultant",
+        "image": "gray-whale",
         "location": "Remote",
         "startDate": "June 2025",
         "endDate": "January 2026",
@@ -62,6 +63,7 @@
             "Natural Language Processing (NLP)"
         ],
         "category": "professional",
+        "links": [{ "label": "Watch the surf video", "url": "/videos/gray-whale-surf-ranch-720p.mp4" }],
         "details": "Gray Whale is an enterprise AI company building Large Interaction Models. I built the agent framework the other three engineers used to connect their tools and specialized agents, benchmarked the model, and hosted the Developer Camp hackathon, where I built the formatter people used to get their own data onto the platform. I also built a native audio-filter plugin that ran speech to text on device with whisper.cpp. I stayed on afterward for light product testing and advisory work."
     },
     {
