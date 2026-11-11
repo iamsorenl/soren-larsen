@@ -54,3 +54,9 @@ test('company link renders as first Website chip opening in a new tab', () => {
     expect(chips[0]).toHaveAttribute('rel', 'noopener noreferrer');
     expect(chips[1]).toHaveTextContent('Repo');
 });
+
+test('tile shows abbreviated dates under the title', () => {
+    render(<ExperienceCard />);
+    expect(screen.getByText('Sep 2026 to Present')).toBeInTheDocument();
+    expect(screen.getByText('Apr 2024 to Present')).toBeInTheDocument();
+});

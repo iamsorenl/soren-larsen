@@ -9,6 +9,7 @@ const DemoTile = ({ project, compact = false }) => {
     const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
     const ref = useRef(null);
     const [inView, setInView] = useState(false);
+    const [posterFailed, setPosterFailed] = useState(false);
     const wantsVideo = Boolean(preview && preview.video) && !prefersReducedMotion;
 
     useEffect(() => {
@@ -47,16 +48,17 @@ const DemoTile = ({ project, compact = false }) => {
                 background: (t) =>
                     `linear-gradient(135deg, ${t.palette.primary.dark} 0%, ${t.palette.secondary.main} 100%)`,
                 '&:focus-visible': { outline: '2px solid', outlineOffset: 2 },
-                '&:hover img, &:hover video': { transform: 'scale(1.04)' },
+                ...(prefersReducedMotion ? {} : { '&:hover img, &:hover video': { transform: 'scale(1.04)' } }),
             }}
         >
-            {preview && preview.poster && (
+            {preview && preview.poster && !posterFailed && (
                 <Box
                     component="img"
                     src={preview.poster}
                     alt=""
                     loading="lazy"
-                    sx={{ ...mediaSx, position: 'absolute', inset: 0, transition: 'transform 0.3s ease' }}
+                    onError={() => setPosterFailed(true)}
+                    sx={{ ...mediaSx, position: 'absolute', inset: 0, transition: prefersReducedMotion ? 'none' : 'transform 0.3s ease' }}
                 />
             )}
             {wantsVideo && inView && (
@@ -68,7 +70,8 @@ const DemoTile = ({ project, compact = false }) => {
                     loop
                     autoPlay
                     playsInline
-                    sx={{ ...mediaSx, position: 'absolute', inset: 0, transition: 'transform 0.3s ease' }}
+                    preload="metadata"
+                    sx={{ ...mediaSx, position: 'absolute', inset: 0, transition: prefersReducedMotion ? 'none' : 'transform 0.3s ease' }}
                 />
             )}
             <Box

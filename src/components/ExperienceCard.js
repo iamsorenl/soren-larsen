@@ -25,6 +25,9 @@ const initials = (name) =>
         .join('')
         .slice(0, 2);
 
+// "September 2026" -> "Sep 2026"; "Present" stays as is.
+const abbrev = (d) => d.replace(/^([A-Za-z]{3})[A-Za-z]* (\d{4})$/, '$1 $2');
+
 const Tile = ({ experience, open, onToggle }) => {
     const src = experienceImages[experience.image];
     return (
@@ -69,6 +72,9 @@ const Tile = ({ experience, open, onToggle }) => {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {experience.title}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary" component="p" sx={{ mt: 0.5 }}>
+                        {abbrev(experience.startDate)} to {abbrev(experience.endDate)}
                     </Typography>
                 </Box>
             </CardActionArea>

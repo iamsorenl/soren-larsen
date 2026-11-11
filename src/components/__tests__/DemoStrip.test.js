@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import DemoStrip from '../DemoStrip';
 import DemoTile from '../DemoTile';
 import projects from '../../data/projects.json';
@@ -77,4 +77,15 @@ test('tile without preview still renders title and link', () => {
     render(<DemoTile project={play[1]} />);
     expect(screen.getByText(play[1].title)).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveAttribute('href', play[1].video);
+});
+
+test('broken poster hides the img and keeps the title fallback', () => {
+    mockMatchMedia(true);
+    const project = { ...play[0], preview: { poster: '/missing.jpg' } };
+    const { container } = render(<DemoTile project={project} />);
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    fireEvent.error(container.querySelector('img'));
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('img')).toBeNull();
+    expect(screen.getByText(project.title)).toBeInTheDocument();
 });

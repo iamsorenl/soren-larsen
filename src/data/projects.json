@@ -40,6 +40,7 @@
     },
     {
         "title": "SLAC Accelerator Fault Investigator",
+        "preview": { "poster": "/previews/slac.jpg", "video": "/previews/slac.mp4" },
         "startDate": "September 2026",
         "endDate": "September 2026",
         "link": "https://github.com/iamsorenl/slac-investigator",
@@ -177,6 +178,7 @@
     },
     {
         "title": "StockPulse",
+        "preview": { "poster": "/previews/stockpulse.jpg", "video": "/previews/stockpulse.mp4" },
         "startDate": "July 2026",
         "endDate": "Present",
         "link": "https://github.com/iamsorenl/stockpulse",
@@ -215,6 +217,7 @@
     },
     {
         "title": "Ranked AI League",
+        "preview": { "poster": "/previews/league.jpg", "video": "/previews/league.mp4" },
         "startDate": "July 2026",
         "endDate": "July 2026",
         "link": "https://github.com/iamsorenl/arcade-soccer",

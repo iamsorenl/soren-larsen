@@ -25,9 +25,15 @@ function extractKeywords(query) {
     .filter((w) => w.length > 2 && !STOPWORDS.has(w));
 }
 
+// Presentation-only fields (media paths, site-local media links) are not facts: keep them out of the prompt and scoring.
+const stringifyFacts = (v) =>
+  JSON.stringify(v, (k, x) =>
+    k === 'preview' || k === 'image' ? undefined : k === 'links' && Array.isArray(x) ? x.filter((l) => !l.url.startsWith('/')) : x
+  );
+
 function scoreEntry(entry, keywords) {
   if (keywords.length === 0) return 0;
-  const text = JSON.stringify(entry).toLowerCase();
+  const text = stringifyFacts(entry).toLowerCase();
   let score = 0;
   for (const kw of keywords) if (text.includes(kw)) score += 1;
   return score;
@@ -161,7 +167,7 @@ function renderSections(sections) {
   // Compact JSON (no indent) — the model parses it fine and we save ~30% tokens
   // versus pretty-printed output.
   return Object.entries(sections)
-    .map(([name, data]) => `${name.toUpperCase()}:\n${JSON.stringify(data)}`)
+    .map(([name, data]) => `${name.toUpperCase()}:\n${stringifyFacts(data)}`)
     .join('\n\n');
 }
 
