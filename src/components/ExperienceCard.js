@@ -7,149 +7,79 @@ import {
     Chip,
     Collapse,
     Stack,
-    Divider,
-    Link,
-    IconButton,
+    CardActionArea,
+    useMediaQuery,
     useTheme,
 } from '@mui/material';
-import {
-    Work,
-    LocationOn,
-    CalendarToday,
-    ExpandMore,
-    ExpandLess,
-    OpenInNew,
-    Business,
-} from '@mui/icons-material';
+import { Work } from '@mui/icons-material';
 import experienceData from '../data/experience';
+import experienceImages from '../data/experienceImages';
 import { parseDate } from '../utils/dates';
 import SectionHeader from './SectionHeader';
 
-const ExperienceEntry = React.memo(({ experience, accent, entryId, expanded, onToggle }) => (
-    <Card
-        sx={{
-            backgroundColor: 'background.paper',
-            border: (t) => `1px solid ${t.palette.divider}`,
-            transition: 'all 0.2s ease',
-            position: 'relative',
-            overflow: 'hidden',
-            '&::before': {
-                content: '""',
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: '4px',
-                backgroundColor: accent,
-            },
-        }}
-    >
-        <CardContent
-            sx={{ py: 2, px: 3, pl: 4, '&:last-child': { pb: 2 } }}
+const initials = (name) =>
+    name
+        .split(/[\s-]+/)
+        .filter((w) => /^[A-Za-z0-9]/.test(w))
+        .map((w) => w[0].toUpperCase())
+        .join('')
+        .slice(0, 2);
+
+const Tile = ({ experience, open, onToggle }) => {
+    const src = experienceImages[experience.image];
+    return (
+        <Card
+            sx={{
+                height: '100%',
+                border: (t) => `1px solid ${open ? t.palette.primary.main : t.palette.divider}`,
+            }}
         >
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: { xs: 'flex-start', sm: 'center' },
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: { xs: 1, sm: 0 },
-                }}
+            <CardActionArea
+                onClick={onToggle}
+                aria-expanded={open}
+                sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
             >
-                <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography
-                        variant="subtitle1"
-                        component="h3"
+                {src ? (
+                    <Box
+                        component="img"
+                        src={src}
+                        alt={experience.company}
+                        sx={{ width: '100%', height: 140, objectFit: 'cover' }}
+                    />
+                ) : (
+                    <Box
+                        aria-hidden="true"
                         sx={{
+                            height: 140,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            bgcolor: 'primary.main',
+                            color: 'primary.contrastText',
+                            fontSize: '2.5rem',
                             fontWeight: 700,
-                            color: 'text.primary',
-                            lineHeight: 1.3,
                         }}
                     >
+                        {initials(experience.company)}
+                    </Box>
+                )}
+                <Box sx={{ p: 2, flex: 1 }}>
+                    <Typography variant="subtitle1" component="h3" sx={{ fontWeight: 700, lineHeight: 1.3 }}>
+                        {experience.company}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
                         {experience.title}
                     </Typography>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: { xs: 'flex-start', sm: 'center' },
-                            flexDirection: { xs: 'column', sm: 'row' },
-                            gap: { xs: 0.5, sm: 2 },
-                            mt: 0.5,
-                        }}
-                    >
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Business
-                                sx={{ fontSize: 14, mr: 0.5, color: accent }}
-                            />
-                            <Typography
-                                variant="body2"
-                                sx={{ fontWeight: 600, color: accent }}
-                            >
-                                {experience.company}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <CalendarToday
-                                sx={{
-                                    fontSize: 12,
-                                    mr: 0.5,
-                                    color: 'text.secondary',
-                                }}
-                            />
-                            <Typography variant="caption" color="text.secondary">
-                                {experience.startDate} - {experience.endDate}
-                            </Typography>
-                        </Box>
-                    </Box>
                 </Box>
+            </CardActionArea>
+        </Card>
+    );
+};
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 0.5,
-                        flexShrink: 0,
-                        alignSelf: { xs: 'flex-end', sm: 'center' },
-                    }}
-                >
-                    {experience.link && (
-                        <IconButton
-                            component={Link}
-                            href={experience.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            size="small"
-                            aria-label={`Open ${experience.company} in a new tab`}
-                            sx={{ color: accent }}
-                        >
-                            <OpenInNew fontSize="small" />
-                        </IconButton>
-                    )}
-                    <IconButton
-                        onClick={() => onToggle(entryId)}
-                        size="small"
-                        aria-label={
-                            expanded
-                                ? `Collapse ${experience.title} details`
-                                : `Expand ${experience.title} details`
-                        }
-                        aria-expanded={expanded}
-                        sx={{ color: accent }}
-                    >
-                        {expanded ? <ExpandLess /> : <ExpandMore />}
-                    </IconButton>
-                </Box>
-            </Box>
-
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <Divider sx={{ my: 1.5 }} />
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                    <LocationOn
-                        sx={{ fontSize: 14, mr: 0.5, color: 'text.secondary' }}
-                    />
-                    <Typography variant="caption" color="text.secondary">
-                        {experience.location}
-                    </Typography>
-                </Box>
+const Detail = ({ experience, open }) => (
+    <Box sx={{ gridColumn: '1 / -1' }}>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ p: 2, border: (t) => `1px solid ${t.palette.divider}`, borderRadius: 1 }}>
                 <Typography
                     variant="body2"
                     color="text.secondary"
@@ -157,37 +87,40 @@ const ExperienceEntry = React.memo(({ experience, accent, entryId, expanded, onT
                 >
                     {experience.description}
                 </Typography>
-                <Stack
-                    direction="row"
-                    spacing={1}
-                    useFlexGap
-                    flexWrap="wrap"
-                    sx={{ gap: 1 }}
-                >
-                    {experience.skills.map((skill) => (
+                <Stack direction="row" useFlexGap flexWrap="wrap" sx={{ gap: 1 }}>
+                    {(experience.links || []).map((l) => (
                         <Chip
-                            key={skill}
-                            label={skill}
+                            key={l.url}
+                            component="a"
+                            href={l.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            clickable
+                            color="primary"
+                            variant="outlined"
                             size="small"
-                            sx={{ fontWeight: 500, fontSize: '0.75rem' }}
+                            label={l.label}
                         />
                     ))}
+                    {experience.skills.map((skill) => (
+                        <Chip key={skill} label={skill} size="small" sx={{ fontWeight: 500, fontSize: '0.75rem' }} />
+                    ))}
                 </Stack>
-            </Collapse>
-        </CardContent>
-    </Card>
-));
-
-ExperienceEntry.displayName = 'ExperienceEntry';
+            </Box>
+        </Collapse>
+    </Box>
+);
 
 const ExperienceCard = () => {
     const [expandedExperience, setExpandedExperience] = useState(null);
     const theme = useTheme();
+    const md = useMediaQuery(theme.breakpoints.up('md'));
+    const sm = useMediaQuery(theme.breakpoints.up('sm'));
+    const cols = md ? 3 : sm ? 2 : 1;
 
     const handleExpandClick = useCallback((id) => {
         setExpandedExperience((current) => (current === id ? null : id));
     }, []);
-
 
     const sortedExperiences = useMemo(
         () =>
@@ -197,6 +130,11 @@ const ExperienceCard = () => {
         [],
     );
 
+    // detail goes after the last tile of the open tile's row
+    const openRowEnd =
+        expandedExperience === null
+            ? -1
+            : Math.min((Math.floor(expandedExperience / cols) + 1) * cols, sortedExperiences.length) - 1;
 
     return (
         <Card
@@ -218,18 +156,26 @@ const ExperienceCard = () => {
                     icon={<Work />}
                 />
 
-                <Stack spacing={1.5}>
+                <Box
+                    sx={{
+                        display: 'grid',
+                        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+                        gap: 2,
+                    }}
+                >
                     {sortedExperiences.map((experience, index) => (
-                        <ExperienceEntry
-                            key={`${experience.company}-${experience.startDate}`}
-                            experience={experience}
-                            accent={theme.palette.primary.main}
-                            entryId={index}
-                            expanded={expandedExperience === index}
-                            onToggle={handleExpandClick}
-                        />
+                        <React.Fragment key={`${experience.company}-${experience.startDate}`}>
+                            <Tile
+                                experience={experience}
+                                open={expandedExperience === index}
+                                onToggle={() => handleExpandClick(index)}
+                            />
+                            {index === openRowEnd && (
+                                <Detail experience={sortedExperiences[expandedExperience]} open />
+                            )}
+                        </React.Fragment>
                     ))}
-                </Stack>
+                </Box>
             </CardContent>
         </Card>
     );
