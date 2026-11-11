@@ -88,7 +88,7 @@ const Detail = ({ experience, open }) => (
                     {experience.description}
                 </Typography>
                 <Stack direction="row" useFlexGap flexWrap="wrap" sx={{ gap: 1 }}>
-                    {(experience.links || []).map((l) => (
+                    {[...(experience.link ? [{ label: 'Website', url: experience.link }] : []), ...(experience.links || [])].map((l) => (
                         <Chip
                             key={l.url}
                             component="a"
