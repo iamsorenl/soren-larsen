@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Fab, Tooltip, Box, Typography, Fade, useTheme } from '@mui/material';
+import { Fab, Tooltip, Box, useTheme } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatPanel from './ChatPanel';
+import StarterCard from './StarterCard';
 import { useChat } from './useChat';
 import fabGlow from '../../images/marks/fab-glow.hdr.avif';
 
@@ -13,51 +14,42 @@ const NAV_SECTIONS = [
     'education',
     'contact',
 ];
-const PEEK_FLAG_KEY = 'chat-widget-peeked';
-const PEEK_DELAY_MS = 1200;
-const PEEK_DURATION_MS = 6000;
+const STARTER_DELAY_MS = 4000;
+const STARTER_FLAG_KEY = 'chatStarterDismissed';
 const WIGGLE_DURATION_MS = 700;
 
-const readStorage = (key) => {
+const readFlag = () => {
     try {
-        return localStorage.getItem(key);
+        return sessionStorage.getItem(STARTER_FLAG_KEY) === '1';
     } catch {
-        return null;
+        return false;
     }
 };
-const writeStorage = (key, value) => {
+const writeFlag = () => {
     try {
-        localStorage.setItem(key, value);
+        sessionStorage.setItem(STARTER_FLAG_KEY, '1');
     } catch {
-        // privacy mode / quota exceeded — silently skip
+        // storage blocked: the in-memory state below still hides the card
     }
 };
 
 function ChatWidget() {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-    const [showPeek, setShowPeek] = useState(false);
+    const [showStarter, setShowStarter] = useState(false);
+    const [starterDismissed, setStarterDismissed] = useState(readFlag);
     const [wiggle, setWiggle] = useState(false);
     const chat = useChat();
 
     const lastSectionRef = useRef(null);
     const wiggleTimerRef = useRef(null);
-    const peekTimersRef = useRef([]);
 
-    // First-visit peek: appears once, then never again on this device
+    // Starter card: shows once per session after a short delay
     useEffect(() => {
-        if (readStorage(PEEK_FLAG_KEY)) return undefined;
-        const showTimer = setTimeout(() => setShowPeek(true), PEEK_DELAY_MS);
-        const hideTimer = setTimeout(() => {
-            setShowPeek(false);
-            writeStorage(PEEK_FLAG_KEY, '1');
-        }, PEEK_DELAY_MS + PEEK_DURATION_MS);
-        peekTimersRef.current.push(showTimer, hideTimer);
-        return () => {
-            clearTimeout(showTimer);
-            clearTimeout(hideTimer);
-        };
-    }, []);
+        if (starterDismissed) return undefined;
+        const t = setTimeout(() => setShowStarter(true), STARTER_DELAY_MS);
+        return () => clearTimeout(t);
+    }, [starterDismissed]);
 
     // Section-change wiggle: each time the active section transitions, the
     // FAB does a brief shake. The initial section landing on load doesn't
@@ -95,16 +87,20 @@ function ChatWidget() {
         };
     }, []);
 
-    const dismissPeek = () => {
-        setShowPeek(false);
-        writeStorage(PEEK_FLAG_KEY, '1');
-        peekTimersRef.current.forEach(clearTimeout);
-        peekTimersRef.current = [];
+    const dismissStarter = () => {
+        setStarterDismissed(true);
+        setShowStarter(false);
+        writeFlag();
     };
 
     const handleOpen = () => {
-        dismissPeek();
+        dismissStarter();
         setOpen(true);
+    };
+
+    const handleStarterSelect = (prompt) => {
+        handleOpen();
+        chat.send(prompt);
     };
 
     const handleClose = () => {
@@ -116,58 +112,13 @@ function ChatWidget() {
         <>
             {!open && (
                 <>
-                    <Fade in={showPeek} timeout={350}>
-                        <Box
-                            component="button"
-                            type="button"
-                            onClick={handleOpen}
-                            aria-label="Open chat with Soren's assistant"
-                            sx={{
-                                position: 'fixed',
-                                bottom: 26,
-                                right: 84,
-                                zIndex: theme.zIndex.modal + 1,
-                                pointerEvents: showPeek ? 'auto' : 'none',
-                                backgroundColor: 'background.paper',
-                                border: (t) => `1px solid ${t.palette.divider}`,
-                                borderRadius: '14px',
-                                px: 2,
-                                py: 1.1,
-                                boxShadow: 4,
-                                cursor: 'pointer',
-                                font: 'inherit',
-                                color: 'inherit',
-                                transition: 'border-color 0.2s ease, transform 0.2s ease',
-                                '&:hover': {
-                                    borderColor: 'primary.main',
-                                    transform: 'translateX(-2px)',
-                                },
-                                '&::after': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    right: -6,
-                                    top: '50%',
-                                    transform: 'translateY(-50%) rotate(45deg)',
-                                    width: 10,
-                                    height: 10,
-                                    backgroundColor: 'background.paper',
-                                    borderRight: (t) => `1px solid ${t.palette.divider}`,
-                                    borderTop: (t) => `1px solid ${t.palette.divider}`,
-                                },
-                            }}
-                        >
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontWeight: 500,
-                                    color: 'text.primary',
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                Ask me about Soren →
-                            </Typography>
-                        </Box>
-                    </Fade>
+                    {showStarter && !starterDismissed && (
+                        <StarterCard
+                            onSelect={handleStarterSelect}
+                            onClose={dismissStarter}
+                            zIndex={theme.zIndex.modal + 1}
+                        />
+                    )}
 
                     <Box
                         component="img"
