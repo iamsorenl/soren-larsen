@@ -1,11 +1,13 @@
 import { corsHeaders, handlePreflight } from './cors.js';
 import { handleChat } from './chat.js';
 import { handleSummarize } from './summarize.js';
+import { handleNote } from './note.js';
 import { verifyTurnstile } from './turnstile.js';
 
 const ROUTES = {
   '/api/chat': { action: 'chat', handler: handleChat },
   '/api/summarize': { action: 'summarize', handler: handleSummarize },
+  '/api/note': { action: 'note', handler: handleNote },
 };
 
 export default {

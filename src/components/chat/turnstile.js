@@ -31,7 +31,7 @@ function loadScript() {
  * throwaway widget (invisible unless Cloudflare wants an interaction), waits
  * for its token, then removes it. Tokens are single-use, so every request
  * gets its own.
- * @param {'chat'|'summarize'} action - must match what the worker checks
+ * @param {'chat'|'summarize'|'note'} action - must match what the worker checks
  * @returns {Promise<string>}
  */
 export async function getTurnstileToken(action) {

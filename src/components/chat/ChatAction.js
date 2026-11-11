@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
+import NoteForm from './NoteForm';
 import contact from '../../data/contact.json';
 
 const SECTIONS = ['experience', 'projects', 'skills', 'education', 'contact'];
@@ -44,8 +45,10 @@ function ChatAction({ action }) {
     let body = null;
     switch (action?.type) {
         case 'contact':
-        case 'note': // TODO(task 8): NoteForm
             body = <ContactButtons />;
+            break;
+        case 'note':
+            body = <NoteForm />;
             break;
         case 'section':
             if (!SECTIONS.includes(action.section)) return null;

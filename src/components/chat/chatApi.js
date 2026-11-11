@@ -152,3 +152,15 @@ export async function summarize({ messages, priorSummary = null, signal }) {
     const json = await res.json();
     return json.summary || '';
 }
+
+export async function sendNote({ name, email, message }) {
+    const token = await turnstileToken('note');
+    const controller = chainedController();
+    const res = await withTimeout(
+        postJson('/api/note', { name, email, message }, controller.signal, token),
+        FIRST_BYTE_TIMEOUT_MS,
+        'Timed out sending the note',
+        () => controller.abort()
+    );
+    if (!res.ok) throw await mapErrorResponse(res);
+}

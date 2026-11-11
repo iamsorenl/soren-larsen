@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { checkRateLimit, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, GLOBAL_RATE_LIMIT_MAX } from '../src/rateLimit.js';
+import { checkNoteLimit, checkRateLimit, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, GLOBAL_RATE_LIMIT_MAX } from '../src/rateLimit.js';
 
 class MockKV {
   constructor() { this.store = new Map(); }
@@ -71,5 +71,24 @@ describe('checkRateLimit', () => {
     nowSpy.mockReturnValue(t0 + RATE_LIMIT_WINDOW_MS);
     const r = await checkRateLimit(kv, '10.9.9.10');
     expect(r.allowed).toBe(true);
+  });
+});
+
+describe('checkNoteLimit', () => {
+  it('allows 3 notes per hour per IP and blocks the 4th', async () => {
+    for (let i = 0; i < 3; i++) {
+      expect((await checkNoteLimit(kv, '5.6.7.8')).allowed).toBe(true);
+    }
+    const r = await checkNoteLimit(kv, '5.6.7.8');
+    expect(r.allowed).toBe(false);
+    expect(r.retryAfterSec).toBeGreaterThan(0);
+    expect((await checkNoteLimit(kv, '9.9.9.9')).allowed).toBe(true);
+  });
+
+  it('uses the note: key prefix and resets after an hour', async () => {
+    await checkNoteLimit(kv, '5.6.7.8');
+    expect(kv.store.has('note:5.6.7.8')).toBe(true);
+    await kv.put('note:5.6.7.8', JSON.stringify({ count: 3, windowStart: Date.now() - 3_600_001 }));
+    expect((await checkNoteLimit(kv, '5.6.7.8')).allowed).toBe(true);
   });
 });
