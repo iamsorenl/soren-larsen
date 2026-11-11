@@ -35,14 +35,11 @@ const TOOL_COLORS = {
 };
 const getToolColor = (tool) => TOOL_COLORS[tool] || '#666666';
 
-// projects.json descriptions are "summary\n- bullet\n- bullet". The summary
-// carries the pitch, so it stays visible; only the bullets collapse.
+// projects.json descriptions are "summary\nmore". The summary carries the
+// pitch, so it stays visible; everything after the first line collapses.
 const splitDescription = (description) => {
-    const [summary, ...bullets] = String(description).split('\n-');
-    return {
-        summary: summary.trim(),
-        detail: bullets.map((b) => `- ${b.trim()}`).join('\n'),
-    };
+    const [summary, ...rest] = String(description).split('\n');
+    return { summary: summary.trim(), detail: rest.join('\n').trim() };
 };
 
 // Card buttons, in display order. `demo`, `video` and `link` (GitHub) are

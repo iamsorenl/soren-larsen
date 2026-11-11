@@ -20,15 +20,15 @@ function projectTitles(projects) {
 }
 
 describe('experience retrieval', () => {
-  it('"most recent role" pins Levangie Laboratories', () => {
+  it('"most recent role" pins Self-Employed', () => {
     const sections = retrieveContext("What was Soren's most recent role?");
-    expect(companies(sections.experience)).toContain('Levangie Laboratories');
+    expect(companies(sections.experience)).toContain('Self-Employed');
   });
 
-  it('"what other roles has he had" returns more than just Levangie', () => {
+  it('"what other roles has he had" returns more than just the latest role', () => {
     const sections = retrieveContext('What other roles has he had?');
     const cos = companies(sections.experience);
-    expect(cos).toContain('Levangie Laboratories');
+    expect(cos).toContain('Causality');
     expect(cos.length).toBeGreaterThanOrEqual(3);
   });
 
@@ -37,7 +37,8 @@ describe('experience retrieval', () => {
     const cos = companies(sections.experience);
     expect(cos).toEqual(
       expect.arrayContaining([
-        'Levangie Laboratories',
+        'Self-Employed',
+        'Causality',
         'Gray Whale',
         'Onda Sports Inc.',
         'Baskin Engineering at UCSC',

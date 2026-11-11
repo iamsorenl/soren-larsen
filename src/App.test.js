@@ -62,7 +62,7 @@ describe('App', () => {
         render(<App />);
 
         // About: the card renders every paragraph of the bio, including the
-        // opening line that names the M.S. and the Levangie founding-engineer role.
+        // opening line that names the M.S. and the Causality founding-engineer role.
         const paragraphs = aboutData[0].about.split("\n\n");
         const aboutSnippet = paragraphs[0].slice(0, 20);
         await screen.findAllByText(new RegExp(escapeRegex(aboutSnippet), 'i'));

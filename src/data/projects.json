@@ -8,7 +8,7 @@
         "muiIcon": "Abc",
         "category": "sponsored",
         "subtitle": "M.S. NLP Capstone, Industry-Sponsored Graduate Capstone, Featured by Santa Cruz Works",
-        "description": "Industry-sponsored graduate capstone completed in partnership with CarbonBridge. Built an applied NLP system for scientific literature triage, extraction, and knowledge graph exploration to support research in sustainable fuel innovation.\n- Developed an open-source pipeline for extracting entities, relationships, and technical concepts from scientific literature\n- Integrated Docling and Qwen vision-language models for document parsing and information extraction\n- Built a React-based interface for graph exploration and AI-assisted literature review\n- Set up FastAPI, Dgraph, and containerized infrastructure to support continued use and future development\n- Documented architecture and technical decisions to enable project handoff to future contributors",
+        "description": "I led the build of a tool that pulls findings out of scientific papers, links them in a knowledge graph, and traces every answer back to its source. Built with CarbonBridge, a startup that uses microbes to turn methane into methanol.\nCarbonBridge's researchers were annotating papers by hand to keep up with their field. I sat with them to learn how they actually read, then led the build around that, from parsing messy PDFs to the graph view where they explore what each paper found. We handed it off fully documented so their team can keep building on it.",
         "tools": [
             "NLP",
             "Knowledge Graphs",
@@ -18,7 +18,8 @@
             "Dgraph",
             "Python",
             "AI"
-        ]
+        ],
+        "details": "- Developed an open-source pipeline for extracting entities, relationships, and technical concepts from scientific literature\n- Integrated Docling and Qwen vision-language models for document parsing and information extraction\n- Built a React-based interface for graph exploration and AI-assisted literature review\n- Set up FastAPI, Dgraph, and containerized infrastructure to support continued use and future development\n- Documented architecture and technical decisions to enable project handoff to future contributors"
     },
     {
         "title": "HomeHelper",
@@ -26,14 +27,15 @@
         "endDate": "June 2025",
         "muiIcon": "Handyman",
         "category": "sponsored",
-        "description": "Team project. A graduate multi-agent appliance-repair assistant built by six people, where I owned three of the seven inference-time components. Industry-sponsored, so the code stays private and there is no public repository to link. Happy to walk through the architecture.\n- Built the orchestrator, the Critic agent, and a synthetic self-practice environment that used repair corpora to improve the system through automated feedback\n- Built the video and image agent with a 4-bit vision-language model, Whisper transcription, and three-level caching\n- Built the React and WebSocket interface",
+        "description": "A multi-agent assistant that helps people fix their home appliances, built by a six-person team with an industry sponsor. The code is private, but I'm happy to walk through the architecture.\nYou show it the broken appliance and talk it through, and it walks you through the repair. I built the agent that coordinates the others, the one that checks their answers, and the part that watches your video and listens to you.",
         "tools": [
             "Python",
             "Vision-Language Models",
             "Whisper",
             "React",
             "WebSocket"
-        ]
+        ],
+        "details": "- Built the orchestrator, the Critic agent, and a synthetic self-practice environment that used repair corpora to improve the system through automated feedback\n- Built the video and image agent with a 4-bit vision-language model, Whisper transcription, and three-level caching\n- Built the React and WebSocket interface"
     },
     {
         "title": "Ranked AI League",
@@ -43,13 +45,14 @@
         "demo": "https://iamsorenl.github.io/arcade-soccer/",
         "muiIcon": "SportsSoccer",
         "category": "personal",
-        "description": "Built a browser soccer game with an AI-managed ranked ladder, where the match simulation runs server side so ranked results stay consistent.\n- Set up magic-link authentication and a Postgres database with row-level security and schema migrations\n- Moved the shared simulation engine into a Deno Edge Function that runs inside an RPC transaction\n- Personal project, built to learn Supabase end to end",
+        "description": "Built a browser soccer game with an AI-managed ranked ladder, where the match simulation runs server side so ranked results stay consistent.\nPlayers climb a ranked ladder, and every match is simulated on the server so nobody can fake a result. I built it to learn Supabase end to end, from sign in to the database rules that keep each player's data their own.",
         "tools": [
             "Supabase",
             "Postgres",
             "Deno",
             "TypeScript"
-        ]
+        ],
+        "details": "- Set up magic-link authentication and a Postgres database with row-level security and schema migrations\n- Moved the shared simulation engine into a Deno Edge Function that runs inside an RPC transaction\n- Personal project, built to learn Supabase end to end"
     },
     {
         "title": "EduMUSE",
@@ -59,7 +62,7 @@
         "video": "https://youtu.be/LAdN2gNdSyM",
         "muiIcon": "Abc",
         "category": "school",
-        "description": "Built an AI-powered educational system that turns study materials into interactive learning experiences through multi-agent orchestration, document interaction, and adaptive content generation.\n- Designed specialized agents for concept extraction, summarization, and quiz generation\n- Built a modular pipeline for comparing web search, LLM synthesis, and hybrid retrieval approaches\n- Developed a React-based interface with PDF upload, text selection, and real-time content generation\n- Integrated Flask-based backend services and PDF tooling to support downloadable assessments and summaries\n- Extended the system with podcast-style audio generation to support multimodal learning",
+        "description": "An AI study tool that turns course materials into interactive learning, with several agents working together to generate and adapt the content.\nDrop in a PDF and it pulls out the key concepts, writes summaries and quizzes, and can even turn the material into a podcast you can listen to.",
         "tools": [
             "AI",
             "NLP",
@@ -69,7 +72,8 @@
             "React",
             "Multi-agent Systems",
             "RAG"
-        ]
+        ],
+        "details": "- Designed specialized agents for concept extraction, summarization, and quiz generation\n- Built a modular pipeline for comparing web search, LLM synthesis, and hybrid retrieval approaches\n- Developed a React-based interface with PDF upload, text selection, and real-time content generation\n- Integrated Flask-based backend services and PDF tooling to support downloadable assessments and summaries\n- Extended the system with podcast-style audio generation to support multimodal learning"
     },
     {
         "title": "UCSC RAG Chatbot",
@@ -78,7 +82,7 @@
         "link": "https://github.com/shannonrumsey/UCSC_RAG",
         "muiIcon": "Abc",
         "category": "school",
-        "description": "Team project. Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services.\n- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)",
+        "description": "Team project. Built a retrieval-augmented chatbot to answer questions about the UCSC NLP Master's Program and related university services.\nAsk it anything about the NLP master's program and it answers from UCSC's own pages, with a second model checking each answer before you see it. Human graders rated 97 percent of its answers correct, and it shipped as an iOS app.",
         "tools": [
             "NLP",
             "Python",
@@ -89,7 +93,8 @@
             "ChromaDB",
             "Swift",
             "Firebase"
-        ]
+        ],
+        "details": "- Built a RAG pipeline using LangChain, ChromaDB, and LLaMA 3.2 over 77 scraped UCSC-affiliated web pages\n- Integrated Gemini 2.0 Flash as a post-response evaluator to check relevance, coherence, and bias before surfacing answers\n- Developed a Swift-based iOS app with Firebase for authentication, chat history, and real-time access\n- Evaluated the system on a custom 150-question benchmark, achieving 97% human-evaluated accuracy and 71% strict accuracy under Gemini-based evaluation\n- Compared performance across three LLaMA model sizes (1B, 3B, and 8B)"
     },
     {
         "title": "Personal Portfolio",
@@ -99,7 +104,7 @@
         "demo": "https://larsensoren.com",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "This site. React and MUI on Firebase, with a chat widget that answers questions about my work. The chat runs on a Cloudflare Worker and compacts its own context to stay inside the token budget. The build also injects static HTML into the page so crawlers and resume screeners that do not run JavaScript can still read everything.\n- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests",
+        "description": "This site, plus a chat widget that answers questions about my work from the same data you're reading.\nThe chat runs on a Cloudflare Worker and only pulls in the parts of my background your question is about. The page also builds a plain HTML copy so search engines and resume screeners can read everything.",
         "tools": [
             "React",
             "Node.js",
@@ -108,7 +113,8 @@
             "Firebase",
             "Material-UI",
             "Responsive Web Design"
-        ]
+        ],
+        "details": "- Built and deployed a responsive web portfolio to highlight projects, experience, and technical skills\n- Designed for smooth navigation and consistent UX across desktop and mobile devices\n- Added interactive elements including a dynamic photo gallery and direct links to live projects and repositories\n- Used the site as an evolving hub for presenting both technical work and creative interests"
     },
     {
         "title": "local-agent-bench",
@@ -117,14 +123,15 @@
         "link": "https://github.com/iamsorenl/local-agent-bench",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "I wanted to know if a model small enough to run on a laptop could drive a real tool using agent. I built one with web search, page reading and a calculator, then ran five open models through the same 15 tasks, three times each.\n- gpt-oss 20B passed 43 of 45 runs. Most of the others stalled at the same step, searching but never opening the page to read the answer\n- Every model resisted the prompt injection tasks, though only some went on to finish them\n- Tested whether one extra hint sentence in each tool description helps. It helped some models and hurt others\n- Fully local and free to run, and the results table is generated straight from the run logs",
+        "description": "Can a model small enough to run on a laptop drive a real agent? I ran five open models through the same research tasks, and only one reliably finished them.\nMost models stalled at the same step, searching the web and then never opening the page that had the answer. gpt-oss 20B was the one that kept going, and the whole benchmark runs locally for free.",
         "tools": [
             "Python",
             "LangGraph",
             "MCP",
             "Ollama",
             "LLM Evaluation"
-        ]
+        ],
+        "details": "- gpt-oss 20B passed 43 of 45 runs. Most of the others stalled at the same step, searching but never opening the page to read the answer\n- Every model resisted the prompt injection tasks, though only some went on to finish them\n- Tested whether one extra hint sentence in each tool description helps. It helped some models and hurt others\n- Fully local and free to run, and the results table is generated straight from the run logs"
     },
     {
         "title": "team-build",
@@ -133,13 +140,14 @@
         "link": "https://github.com/iamsorenl/team-build",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "A plugin for Claude Code and Codex that keeps a team in sync when everyone is driving their own coding agent on one repo. I built it after a hackathon where we kept redoing work because one person's discovery never reached anyone else's agent.\n- Shared decisions, API contracts and the team roster live in repo files that every agent reads\n- A simple routine picks one integrator, runs spikes before the work is split, and merges often\n- Hooks and a sync check work in both Claude Code and Codex",
+        "description": "A Claude Code and Codex plugin that keeps a team's coding agents in sync on one repo, so one person's discovery reaches everyone else's agent.\nI built it after a hackathon where we kept redoing each other's work. The team's decisions, the contracts between each person's parts, and who owns what all live in the repo, so every agent starts from the same page.",
         "tools": [
             "Claude Code",
             "Codex",
             "Python",
             "Agent Tooling"
-        ]
+        ],
+        "details": "- Shared decisions, API contracts and the team roster live in repo files that every agent reads\n- A simple routine picks one integrator, runs spikes before the work is split, and merges often\n- Hooks and a sync check work in both Claude Code and Codex"
     },
     {
         "title": "StockPulse",
@@ -149,7 +157,7 @@
         "demo": "https://t4brsvyq6qmnknw4lwquukjhhe0rsdqa.lambda-url.us-west-2.on.aws/",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "A live stock app that puts price trends and crowd sentiment on the same chart.\n- Candlestick charts with 20 and 50 day moving averages, plus markers on the days where sentiment and price agree or split\n- gpt-oss 20B on Groq scores sentiment from Reddit, ApeWisdom and news feeds\n- Runs on AWS Lambda as a container image, with DynamoDB for the cache and history and the API key in SSM. Every AWS resource is defined in Terraform\n- GitHub Actions deploys each merge to main, logging in to AWS through OIDC so no AWS keys are stored\n- Stays inside AWS's free tier: the app tracks its own usage and switches itself off at 80% of the free allowance. Per IP rate limits and a daily cap on model calls protect the Groq key",
+        "description": "A live stock app that puts price trends and crowd sentiment on the same chart.\nIt flags the days when the crowd and the price disagree. It runs on AWS for free and watches its own usage, switching itself off before it can cost me anything.",
         "tools": [
             "AWS Lambda",
             "Terraform",
@@ -159,7 +167,8 @@
             "Python",
             "DynamoDB",
             "Groq"
-        ]
+        ],
+        "details": "- Candlestick charts with 20 and 50 day moving averages, plus markers on the days where sentiment and price agree or split\n- gpt-oss 20B on Groq scores sentiment from Reddit, ApeWisdom and news feeds\n- Runs on AWS Lambda as a container image, with DynamoDB for the cache and history and the API key in SSM. Every AWS resource is defined in Terraform\n- GitHub Actions deploys each merge to main, logging in to AWS through OIDC so no AWS keys are stored\n- Stays inside AWS's free tier: the app tracks its own usage and switches itself off at 80% of the free allowance. Per IP rate limits and a daily cap on model calls protect the Groq key"
     },
     {
         "title": "SLAC Accelerator Fault Investigator",
@@ -175,13 +184,14 @@
         ],
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "Team project from the Flower Collaborative Agent Hackathon at Stanford, built on real data from the machines that power SLAC's particle accelerator.\n- Three agents each hold their own slice of instrument data and send back only a summary, so under 1 percent of the raw data gets shared\n- An orchestrator combines the summaries into a verdict for a human, and no tool can touch the equipment\n- I wrote the spec and the GitHub issues the team's coding agents built from\n- After the event I hosted the live demo from my fork so it stays up for free",
+        "description": "AI agents that investigate glitches in the machines that power SLAC's particle accelerator, each one reading only its own slice of real data. Built at the Flower agent hackathon at Stanford.\nEach agent stays with its own instruments and shares only a short summary, then a lead agent tells a human whether the beam was hit and what caused it. I wrote the plan our team's coding agents built from, and I keep the live demo running so you can replay a real investigation.",
         "tools": [
             "Python",
             "Flower",
             "FastAPI",
             "Multi-Agent Systems"
-        ]
+        ],
+        "details": "- Three agents each hold their own slice of instrument data and send back only a summary, so under 1 percent of the raw data gets shared\n- An orchestrator combines the summaries into a verdict for a human, and no tool can touch the equipment\n- I wrote the spec and the GitHub issues the team's coding agents built from\n- After the event I hosted the live demo from my fork so it stays up for free"
     },
     {
         "title": "Component Kits",
@@ -190,13 +200,14 @@
         "link": "https://github.com/iamsorenl/llm-kit",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "Four small open source libraries I pulled out of code I kept rewriting across projects.\n- llm-kit, LLM calls for Ollama and OpenAI compatible APIs plus JSON reply parsing, in TypeScript and Python\n- chat-ui, a React chat hook and panel with streaming and abort\n- gh-graphql, a GitHub GraphQL client with retries, rate limit waits and resumable paging\n- http-cache, a disk cached HTTP GET with atomic writes\n- Each one has tests, and my other projects now use them",
+        "description": "Four small open source libraries I pulled out of code I kept rewriting across projects.\nLLM calls, a chat UI, a GitHub client and a disk cache, each one tested and now used across my other projects.",
         "tools": [
             "TypeScript",
             "Python",
             "React",
             "Open Source"
-        ]
+        ],
+        "details": "- llm-kit, LLM calls for Ollama and OpenAI compatible APIs plus JSON reply parsing, in TypeScript and Python\n- chat-ui, a React chat hook and panel with streaming and abort\n- gh-graphql, a GitHub GraphQL client with retries, rate limit waits and resumable paging\n- http-cache, a disk cached HTTP GET with atomic writes\n- Each one has tests, and my other projects now use them"
     },
     {
         "title": "Sentinel: Cyber Incident Response Council",
@@ -205,13 +216,14 @@
         "link": "https://github.com/arpinero/UCSC-AI-Hackathon",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "Team project from the UCSC AI Hackathon at SF Tech Week, in the Local AI track. A council of local agents investigates a simulated cyber incident, argues over the response, and stops to ask a human when it should not decide alone. Everything ran on one ASUS GX10 with no cloud calls.\n- I built the Compliance agent, which works out which breach notification rules an incident triggers (GDPR, SEC, HIPAA, NIS2 and others) and how long is left on each deadline\n- The model judges and Python counts. Deadlines and the hard rules for escalating to a human are computed in code, not left to the model\n- It vetoes destructive actions under a legal hold on any host whose evidence has not been preserved yet\n- Passed 21 of 21 ATT&CK-based cases and 25 of 25 cases modeled on public breaches with gemma4 26B, picked after sweeping other local models on the same cases",
+        "description": "A council of local AI agents that investigates a cyber attack, argues over the response, and asks a human before any big call. Built at the UCSC AI Hackathon and run on one ASUS GX10 with no cloud calls.\nI built the Compliance agent, which knows which breach laws an attack triggers and how long the company has to report. It also blocks any move that would destroy evidence the company is legally required to keep.",
         "tools": [
             "Python",
             "Multi-Agent Systems",
             "Ollama",
             "Local LLMs"
-        ]
+        ],
+        "details": "- I built the Compliance agent, which works out which breach notification rules an incident triggers (GDPR, SEC, HIPAA, NIS2 and others) and how long is left on each deadline\n- The model judges and Python counts. Deadlines and the hard rules for escalating to a human are computed in code, not left to the model\n- It vetoes destructive actions under a legal hold on any host whose evidence has not been preserved yet\n- Passed 21 of 21 ATT&CK-based cases and 25 of 25 cases modeled on public breaches with gemma4 26B, picked after sweeping other local models on the same cases"
     },
     {
         "title": "repo-impact",
@@ -221,13 +233,14 @@
         "demo": "https://iamsorenl.github.io/repo-impact/",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "Point it at any GitHub repo and get a one-page dashboard of who moves the work forward, instead of who ships the most PRs.\n- PR count, commit count and lines changed score zero. Substantive reviews, changes to files other engineers also work in, and human-reviewed work count instead\n- Fetches every merged PR in the window one day at a time, so GitHub's 1,000 result search cap never drops any, and checks the counts match\n- Bots are left out of the scoring and the page reports how much review was automated. On PostHog over two weeks, 41 percent of merged PRs had only a bot approval\n- Every number on the page opens the formula and inputs behind it",
+        "description": "Point it at any GitHub repo and get a one-page dashboard of who moves the work forward, instead of who ships the most PRs.\nPR counts and lines of code score zero. Real reviews and work on shared code count instead, and every number opens the math behind it. On PostHog, 41 percent of merged PRs over two weeks were approved only by a bot.",
         "tools": [
             "Python",
             "GitHub GraphQL API",
             "Git",
             "Data Visualization"
-        ]
+        ],
+        "details": "- PR count, commit count and lines changed score zero. Substantive reviews, changes to files other engineers also work in, and human-reviewed work count instead\n- Fetches every merged PR in the window one day at a time, so GitHub's 1,000 result search cap never drops any, and checks the counts match\n- Bots are left out of the scoring and the page reports how much review was automated. On PostHog over two weeks, 41 percent of merged PRs had only a bot approval\n- Every number on the page opens the formula and inputs behind it"
     },
     {
         "title": "self-healing-scraper",
@@ -236,13 +249,14 @@
         "link": "https://github.com/iamsorenl/self-healing-scraper",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "A scraper that asks an LLM to write its CSS selectors once, then stays off the LLM until a site changes.\n- Normal runs use the saved selectors and make zero model calls\n- When a field breaks, only that field gets repaired, and the new selector is kept only if it passes the same checks as the old one\n- A per-run call budget caps model spend\n- The demo and tests run offline on saved pages with a recorded model answer, so no key or network is needed",
+        "description": "A scraper that asks an LLM to write its CSS selectors once, then stays off the LLM until a site changes.\nNormal runs make zero model calls. When a site changes, it repairs only the field that broke and keeps the fix only if it passes the same checks as before.",
         "tools": [
             "Python",
             "LLMs",
             "Web Scraping",
             "BeautifulSoup"
-        ]
+        ],
+        "details": "- Normal runs use the saved selectors and make zero model calls\n- When a field breaks, only that field gets repaired, and the new selector is kept only if it passes the same checks as the old one\n- A per-run call budget caps model spend\n- The demo and tests run offline on saved pages with a recorded model answer, so no key or network is needed"
     },
     {
         "title": "policy-tree",
@@ -251,7 +265,7 @@
         "link": "https://github.com/iamsorenl/policy-tree",
         "muiIcon": "Abc",
         "category": "personal",
-        "description": "Turns an insurer's published medical policy PDFs into rule trees that people can read and code can check, since prior authorization requests are judged against criteria written as prose.\n- Crawls a policy listing page, downloads each PDF, and cuts out the initial criteria section\n- An LLM turns the criteria into nested AND/OR rules, validated against a pydantic schema, with one retry that includes the validation error\n- Failed policies are stored with their error so they show up in the browser UI instead of disappearing\n- Works with OpenAI or any compatible server, including a local Ollama model, and the 33 tests run offline",
+        "description": "Insurers judge prior authorization requests against criteria written as prose. This turns their medical policy PDFs into rule trees that people can read and code can check.\nAn LLM turns each policy's criteria into rules, and any policy that fails is kept with its error so nothing quietly disappears. It works with OpenAI or a local model.",
         "tools": [
             "Python",
             "FastAPI",
@@ -259,6 +273,7 @@
             "SQLite",
             "LLMs",
             "PDF Extraction"
-        ]
+        ],
+        "details": "- Crawls a policy listing page, downloads each PDF, and cuts out the initial criteria section\n- An LLM turns the criteria into nested AND/OR rules, validated against a pydantic schema, with one retry that includes the validation error\n- Failed policies are stored with their error so they show up in the browser UI instead of disappearing\n- Works with OpenAI or any compatible server, including a local Ollama model, and the 33 tests run offline"
     }
 ]

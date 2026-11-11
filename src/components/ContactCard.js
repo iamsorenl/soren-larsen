@@ -19,6 +19,7 @@ import {
     Email,
     GitHub,
     LinkedIn,
+    X as XIcon,
     Send,
 } from '@mui/icons-material';
 import contactInfo from '../data/contact';
@@ -56,7 +57,7 @@ const ContactCard = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const { phone, email, github, linkedin } = contactInfo[0];
+    const { phone, email, github, linkedin, x } = contactInfo[0];
 
     const sectionAccent = theme.palette.primary.main;
 
@@ -123,6 +124,14 @@ ${formData.email}`;
             label: 'LinkedIn',
             value: 'linkedin.com/in/soren-larsen',
             href: linkedin,
+            accent: sectionAccent,
+            external: true,
+        },
+        {
+            icon: <XIcon fontSize="small" />,
+            label: 'X',
+            value: '@iamsorenl',
+            href: x,
             accent: sectionAccent,
             external: true,
         },
