@@ -89,17 +89,25 @@ const Hero = () => {
                 px: { xs: 2.5, sm: 3, md: 5 },
                 borderRadius: '16px',
                 display: 'grid',
-                gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) 340px' },
-                maxWidth: { md: 960 },
-                mx: 'auto',
+                gridTemplateColumns: 'minmax(0, 1fr)',
                 gap: { xs: 4, md: 5 },
-                alignItems: 'center',
                 background: isDark
                     ? 'linear-gradient(160deg, #0d1240 0%, #111827 100%)'
                     : 'linear-gradient(160deg, #eef0fb 0%, #f5f5f5 100%)',
                 border: `1px solid ${alpha(theme.palette.primary.main, isDark ? 0.22 : 0.3)}`,
             }}
         >
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) 340px' },
+                    maxWidth: { md: 960 },
+                    width: '100%',
+                    mx: 'auto',
+                    gap: { xs: 4, md: 5 },
+                    alignItems: 'center',
+                }}
+            >
             <Box>
                 <Typography
                     variant="overline"
@@ -308,6 +316,7 @@ const Hero = () => {
                         />
                     ))}
                 </Box>
+            </Box>
             </Box>
 
             <DemoStrip />

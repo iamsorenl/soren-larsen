@@ -11,6 +11,7 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { Work } from '@mui/icons-material';
 import experienceData from '../data/experience';
 import experienceImages from '../data/experienceImages';
@@ -40,33 +41,49 @@ const Tile = ({ experience, open, onToggle }) => {
             <CardActionArea
                 onClick={onToggle}
                 aria-expanded={open}
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
+                sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: { xs: 'row', sm: 'column' },
+                    alignItems: { xs: 'center', sm: 'stretch' },
+                    gap: { xs: 2, sm: 0 },
+                    p: { xs: 1.5, sm: 0 },
+                }}
             >
                 {src ? (
                     <Box
                         component="img"
                         src={src}
                         alt={experience.company}
-                        sx={{ width: '100%', height: 140, objectFit: 'cover' }}
+                        sx={{
+                            width: { xs: 72, sm: '100%' },
+                            height: { xs: 72, sm: 140 },
+                            flexShrink: 0,
+                            borderRadius: { xs: 1.5, sm: 0 },
+                            objectFit: 'cover',
+                        }}
                     />
                 ) : (
                     <Box
                         aria-hidden="true"
                         sx={{
-                            height: 140,
+                            width: { xs: 72, sm: '100%' },
+                            height: { xs: 72, sm: 140 },
+                            flexShrink: 0,
+                            borderRadius: { xs: 1.5, sm: 0 },
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            bgcolor: 'primary.main',
-                            color: 'primary.contrastText',
-                            fontSize: '2.5rem',
+                            bgcolor: (t) => alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.18 : 0.1),
+                            color: (t) => (t.palette.mode === 'dark' ? t.palette.primary.light : t.palette.primary.main),
+                            fontSize: { xs: '1.5rem', sm: '2.5rem' },
                             fontWeight: 700,
                         }}
                     >
                         {initials(experience.company)}
                     </Box>
                 )}
-                <Box sx={{ p: 2, flex: 1 }}>
+                <Box sx={{ p: { xs: 0, sm: 2 }, flex: 1, minWidth: 0 }}>
                     <Typography variant="subtitle1" component="h3" sx={{ fontWeight: 700, lineHeight: 1.3 }}>
                         {experience.company}
                     </Typography>
