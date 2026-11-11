@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { handleChat } from '../src/chat.js';
+import { buildSystemPrompt, estimateRequestTokens, MAX_PROMPT_TOKENS } from '../src/systemPrompt.js';
+import projects from '../src/data/projects.json';
 
 class MockKV {
   constructor() { this.store = new Map(); }
@@ -430,18 +432,40 @@ describe('follow-up retrieval', () => {
       body: JSON.stringify({ messages: [{ role: 'user', content: 'x' }] }),
     }), env);
 
-    it('show_contact sets X-Chat-Action and streams phase 2 text', async () => {
+    it('show_contact sets X-Chat-Action and streams the canned line with one Groq call', async () => {
       const spy = vi.spyOn(globalThis, 'fetch')
-        .mockResolvedValueOnce(mockGroqNamedToolCall('show_contact', {}))
-        .mockResolvedValueOnce(mockGroqStream('Here is how to reach him.'));
+        .mockResolvedValueOnce(mockGroqNamedToolCall('show_contact', {}));
       const res = await post({ ...baseEnv, RATE_LIMIT: new MockKV() });
       expect(res.status).toBe(200);
       expect(res.headers.get('X-Chat-Action')).toBe('{"type":"contact"}');
-      expect(await res.text()).toBe('Here is how to reach him.');
-      expect(spy).toHaveBeenCalledTimes(2);
-      const body = JSON.parse(spy.mock.calls[1][1].body);
-      expect(body.messages.at(-1).content).toBe('Shown to the visitor.');
+      expect(await res.text()).toBe("Here's how to reach Soren directly.");
+      expect(spy).toHaveBeenCalledTimes(1);
     });
+
+    it('streams a canned line per action type', async () => {
+      const demo = projects.find((p) => p.tab === 'play' && (p.demo || p.video));
+      const cases = [
+        ['open_demo', { title: demo.title }, `Here's ${demo.title}.`],
+        ['go_to_section', { section: 'skills' }, "Here's where that is on the page."],
+        ['leave_note', {}, "Leave Soren a note below and he'll reply by email."],
+      ];
+      for (const [name, args, text] of cases) {
+        vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockGroqNamedToolCall(name, args));
+        const res = await post({ ...baseEnv, RATE_LIMIT: new MockKV() });
+        expect(await res.text()).toBe(text);
+        vi.restoreAllMocks();
+      }
+    });
+
+    it.each(["What's he building now?", 'Show me his best demo', 'How do I reach him?'])(
+      'starter prompt %s leaves 300 tokens under budget',
+      (prompt) => {
+        const systemPrompt = buildSystemPrompt(null, prompt);
+        const used = estimateRequestTokens({ systemPrompt, messages: [{ role: 'user', content: prompt }] });
+        console.log('prompt tokens', prompt, used);
+        expect(MAX_PROMPT_TOKENS - used).toBeGreaterThanOrEqual(300);
+      }
+    );
 
     it('bad open_demo gives no header but still streams text', async () => {
       vi.spyOn(globalThis, 'fetch')

@@ -2,7 +2,7 @@ import { corsHeaders } from './cors.js';
 import { checkRateLimit, clientIp } from './rateLimit.js';
 import { buildSystemPrompt, estimateRequestTokens, MAX_PROMPT_TOKENS } from './systemPrompt.js';
 import { groqChatStream, groqChatStreamAuto, GroqUpstreamError } from './groq.js';
-import { TOOLS_SPEC, executeToolCall, resolveClientAction } from './tools.js';
+import { TOOLS_SPEC, executeToolCall, resolveClientAction, cannedActionReply } from './tools.js';
 import { MAX_MESSAGES, MAX_MESSAGE_CHARS, RETRIEVAL_USER_TURNS } from './constants.js';
 
 function jsonError(status, error, message, extraHeaders = {}) {
@@ -124,9 +124,20 @@ export async function handleChat(request, env) {
     const actionIdx = actions.findIndex(Boolean);
     const action = actionIdx >= 0 ? actions[actionIdx] : null;
     const toolCall = first.toolCalls[Math.max(actionIdx, 0)];
-    const toolResultContent = action
-      ? 'Shown to the visitor.'
-      : await executeToolCall(toolCall, env, latestUserMessage);
+    if (action) {
+      // A valid client action needs no second model call: the card is the
+      // answer, so stream a fixed line and save a whole Groq request.
+      return new Response(cannedActionReply(action), {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'no-store',
+          'X-Chat-Action': JSON.stringify(action),
+          ...cors,
+        },
+      });
+    }
+    const toolResultContent = await executeToolCall(toolCall, env, latestUserMessage);
 
     // Build augmented message list: original + assistant tool_call msg + tool result msg
     const toolCallId = toolCall.id || 'tc_0';
@@ -178,7 +189,6 @@ export async function handleChat(request, env) {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-store',
-        ...(action ? { 'X-Chat-Action': JSON.stringify(action) } : {}),
         ...cors,
       },
     });

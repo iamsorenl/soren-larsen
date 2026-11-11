@@ -22,9 +22,13 @@ function statusForErrorKind(kind) {
     return STATUS.ERROR;
 }
 
-// Strip local-only fields (id) before putting messages on the wire.
+// Strip local-only fields (id) before putting messages on the wire. The worker
+// rejects empty content, so a blank assistant turn (e.g. an aborted stream)
+// would wedge every later request; drop those.
 function toWire(messages) {
-    return messages.map(({ role, content }) => ({ role, content }));
+    return messages
+        .filter((m) => typeof m.content === 'string' && m.content.trim() !== '')
+        .map(({ role, content }) => ({ role, content }));
 }
 
 export function useChat() {
@@ -119,15 +123,14 @@ export function useChat() {
         // before React re-renders. The button's disabled state covers the UI;
         // this covers programmatic callers.
         if (abortRef.current) return;
-        // Rate-limit gate: the worker told us when we may retry via
-        // Retry-After. Don't burn requests before then.
-        if (retryUntilRef.current > Date.now()) return;
-        retryUntilRef.current = 0;
-
         const newUserMsg = { id: nextId(), role: 'user', content: trimmed };
 
-        // Local answer: no network call, no turnstile.
+        // Local answer: no network call, no turnstile, so the rate-limit gate
+        // below doesn't apply, and a fresh answer clears any stale error.
         if (trimmed === CONTACT_PROMPT) {
+            setErrorKind(null);
+            setStatus(STATUS.IDLE);
+            setRetryAfterSec(0);
             const next = [
                 ...messages,
                 newUserMsg,
@@ -137,6 +140,11 @@ export function useChat() {
             persist(next, summary);
             return;
         }
+
+        // Rate-limit gate: the worker told us when we may retry via
+        // Retry-After. Don't burn requests before then.
+        if (retryUntilRef.current > Date.now()) return;
+        retryUntilRef.current = 0;
 
         // Pre-send guard: a single message this large can never succeed — the
         // 413 recovery path summarizes prior turns, which can't shrink the new

@@ -59,7 +59,7 @@ function renderRichContent(content) {
     return out;
 }
 
-function ChatMessage({ role, content, isStreaming, action }) {
+function ChatMessage({ role, content, isStreaming, action, onNavigate }) {
     const theme = useTheme();
     const isUser = role === 'user';
     const showDots = !isUser && isStreaming && !content;
@@ -119,7 +119,7 @@ function ChatMessage({ role, content, isStreaming, action }) {
                         </>
                     )}
                 </Typography>
-                {!isUser && !isStreaming && action && <ChatAction action={action} />}
+                {!isUser && !isStreaming && action && <ChatAction action={action} onNavigate={onNavigate} />}
             </Box>
         </Box>
     );

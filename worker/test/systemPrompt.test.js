@@ -138,3 +138,12 @@ describe('SUMMARIZE_SYSTEM_PROMPT', () => {
     expect(SUMMARIZE_SYSTEM_PROMPT).toMatch(/concise|short|brief/i);
   });
 });
+
+describe('deflection rule', () => {
+  it('has the model call show_contact only, with no text first', () => {
+    const p = buildSystemPrompt(null);
+    expect(p).toContain('call show_contact and write no text before or');
+    expect(p).toContain('Never state a');
+    expect(p).not.toContain('great question for Soren directly');
+  });
+});

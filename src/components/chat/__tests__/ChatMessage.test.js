@@ -20,10 +20,10 @@ test('renders **bold** runs as bold text without the asterisks', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', 'https://larsensoren.com');
 });
 
-function renderAction(action) {
+function renderAction(action, onNavigate) {
     return render(
         <ThemeProvider theme={createTheme()}>
-            <ChatMessage role="assistant" content="hi" action={action} isStreaming={false} />
+            <ChatMessage role="assistant" content="hi" action={action} onNavigate={onNavigate} isStreaming={false} />
         </ThemeProvider>
     );
 }
@@ -51,13 +51,17 @@ test('demo action opens https url in a new tab; non-https renders nothing', () =
 test('section action scrolls and dispatches the tab event', () => {
     const el = document.createElement('div');
     el.id = 'projects';
-    el.scrollIntoView = jest.fn();
+    Object.defineProperty(el, 'offsetTop', { value: 500 });
     document.body.appendChild(el);
+    const scrollTo = jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
+    const onNavigate = jest.fn();
     const handler = jest.fn();
     window.addEventListener('portfolio:projects-tab', handler);
-    renderAction({ type: 'section', section: 'projects', tab: 'play' });
+    renderAction({ type: 'section', section: 'projects', tab: 'play' }, onNavigate);
     fireEvent.click(screen.getByRole('button', { name: 'Take me there' }));
-    expect(el.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
+    expect(scrollTo).toHaveBeenCalledWith({ top: 420, behavior: 'smooth' });
+    expect(onNavigate).toHaveBeenCalledTimes(1);
+    scrollTo.mockRestore();
     expect(handler.mock.calls[0][0].detail).toBe('play');
     window.removeEventListener('portfolio:projects-tab', handler);
     el.remove();

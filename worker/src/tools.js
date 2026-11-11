@@ -25,7 +25,8 @@ const ALLOWED_REPOS = new Set(
 
 const PLAY_PROJECTS = projects.filter((p) => p.tab === 'play');
 const SECTIONS = ['experience', 'projects', 'skills', 'education', 'contact'];
-const TABS = ['play', 'research', 'how'];
+// Only tabs that at least one project actually has (the hidden 'how' tab is not offered).
+const TABS = [...new Set(projects.map((p) => p.tab).filter(Boolean))];
 
 export const TOOLS_SPEC = [
   {
@@ -117,6 +118,18 @@ export function resolveClientAction(toolCall) {
     return url ? { type: 'demo', title: p.title, url } : null;
   }
   return null;
+}
+
+const CANNED_REPLIES = {
+  contact: () => "Here's how to reach Soren directly.",
+  demo: (a) => `Here's ${a.title}.`,
+  section: () => "Here's where that is on the page.",
+  note: () => "Leave Soren a note below and he'll reply by email.",
+};
+
+/** Fixed one-line reply for a resolved client action (replaces the phase-2 model call). */
+export function cannedActionReply(action) {
+  return CANNED_REPLIES[action.type](action);
 }
 
 /**

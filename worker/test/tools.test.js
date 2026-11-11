@@ -241,3 +241,13 @@ describe('resolveClientAction', () => {
     expect(resolveClientAction(null)).toBeNull();
   });
 });
+
+describe('go_to_section tab enum', () => {
+  it('only offers tabs that projects actually have', () => {
+    const spec = TOOLS_SPEC.find((t) => t.function.name === 'go_to_section');
+    const expected = [...new Set(projects.map((p) => p.tab).filter(Boolean))];
+    expect(spec.function.parameters.properties.tab.enum).toEqual(expected);
+    expect(expected).not.toContain('how');
+    expect(resolveClientAction({ function: { name: 'go_to_section', arguments: JSON.stringify({ section: 'projects', tab: 'how' }) } })).toBeNull();
+  });
+});

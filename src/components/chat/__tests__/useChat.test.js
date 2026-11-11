@@ -154,6 +154,38 @@ describe('basic send', () => {
     });
 });
 
+describe('wire filtering and local answers', () => {
+    test('empty assistant messages are not sent to the worker', async () => {
+        const spy = jest.spyOn(chatApi, 'streamChat').mockImplementation(() => fakeStream(['ok']));
+        seedSession([
+            { role: 'user', content: 'first' },
+            { role: 'assistant', content: '' },
+            { role: 'assistant', content: '   ' },
+        ]);
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('second'); });
+        expect(spy.mock.calls[0][0].messages).toEqual([
+            { role: 'user', content: 'first' },
+            { role: 'user', content: 'second' },
+        ]);
+    });
+
+    test("'How do I reach him?' ignores the rate-limit gate and clears the error", async () => {
+        const streamSpy = jest.spyOn(chatApi, 'streamChat').mockImplementation(() =>
+            throwingStream(new chatApi.ChatApiError('rateLimited', 'rl', 30))
+        );
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('hi'); });
+        await waitFor(() => expect(result.current.status).toBe('rateLimited'));
+
+        await act(async () => { await result.current.send('How do I reach him?'); });
+        expect(streamSpy).toHaveBeenCalledTimes(1);
+        expect(result.current.status).toBe('idle');
+        expect(result.current.errorKind).toBeNull();
+        expect(result.current.messages.at(-1).action).toEqual({ type: 'contact' });
+    });
+});
+
 describe('persistence', () => {
     test('persists on status transitions, not per streamed chunk', async () => {
         const saveSpy = jest.spyOn(sessionStore, 'saveSession');

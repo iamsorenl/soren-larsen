@@ -87,6 +87,16 @@ function compactExperience(e) {
   };
 }
 
+// `details` is long UI bullet copy that mostly repeats `description`; only
+// inline it when a query keyword actually hits it.
+function trimDetails(p, keywords) {
+  if (!p.details) return p;
+  const d = p.details.toLowerCase();
+  if (keywords.some((kw) => d.includes(kw))) return p;
+  const { details, ...rest } = p;
+  return rest;
+}
+
 function compactProject(p) {
   return {
     title: p.title,
@@ -138,9 +148,9 @@ export function retrieveContext(latestUserMessage) {
 
   if (isSectionRelevant(queryLower, 'projects')) {
     const detailed = new Set(topKEntries(projects, keywords, 2));
-    sections.projects = projects.map((p) => (detailed.has(p) ? p : compactProject(p)));
+    sections.projects = projects.map((p) => (detailed.has(p) ? trimDetails(p, keywords) : compactProject(p)));
   } else {
-    const matched = topKEntries(projects, keywords, 3);
+    const matched = topKEntries(projects, keywords, 3).map((p) => trimDetails(p, keywords));
     if (matched.length > 0) sections.projects = matched;
   }
 
@@ -173,7 +183,9 @@ RULES:
   them for why the last contract ended, years of experience and level, his
   strongest project, and what he is working on.
 - If asked about salary, visa or work authorization, personal opinions, or
-  anything else not in FACTS, reply "That's a great question for Soren directly." Then call show_contact.
+  anything else not in FACTS, call show_contact and write no text before or
+  after the call; the contact card says to ask Soren directly. Never state a
+  salary or work authorization status.
 - Call show_contact when asked how to reach him or for links.
 - Call open_demo when asked to see something he built.
 - Call go_to_section when asked where something is on the page.

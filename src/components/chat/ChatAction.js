@@ -37,11 +37,11 @@ function ContactButtons() {
 function goToSection({ section, tab }) {
     if (tab) window.dispatchEvent(new CustomEvent('portfolio:projects-tab', { detail: tab }));
     const el = document.getElementById(section);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
 }
 
 // The action comes from a response header: only known types render.
-function ChatAction({ action }) {
+function ChatAction({ action, onNavigate }) {
     let body = null;
     switch (action?.type) {
         case 'contact':
@@ -56,7 +56,11 @@ function ChatAction({ action }) {
                 <Button
                     size="small"
                     variant="outlined"
-                    onClick={() => goToSection({ section: action.section, tab: TABS.includes(action.tab) ? action.tab : undefined })}
+                    onClick={() => {
+                        goToSection({ section: action.section, tab: TABS.includes(action.tab) ? action.tab : undefined });
+                        // On mobile the panel covers the page.
+                        if (onNavigate) onNavigate();
+                    }}
                 >
                     Take me there
                 </Button>

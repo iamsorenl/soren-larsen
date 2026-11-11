@@ -140,6 +140,7 @@ function ChatPanel({ open, onClose, chat }) {
                                 role={m.role}
                                 content={m.content}
                                 action={m.action}
+                                onNavigate={onClose}
                                 isStreaming={chat.status === 'streaming' && i === chat.messages.length - 1 && m.role === 'assistant'}
                             />
                         ))
