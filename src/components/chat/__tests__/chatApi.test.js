@@ -273,3 +273,29 @@ test('a failed Turnstile challenge maps to kind "verification" without calling t
         .rejects.toMatchObject({ kind: 'verification' });
     expect(spy).not.toHaveBeenCalled();
 });
+
+test('streamChat calls onAction once with the parsed X-Chat-Action header before text', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue(
+        textStreamResponse(['hi'], 200, { 'X-Chat-Action': JSON.stringify({ type: 'contact' }) })
+    );
+    const order = [];
+    const onAction = jest.fn((a) => order.push(a));
+    for await (const chunk of streamChat({ messages: [{ role: 'user', content: 'x' }], onAction })) {
+        order.push(chunk);
+    }
+    expect(onAction).toHaveBeenCalledTimes(1);
+    expect(order).toEqual([{ type: 'contact' }, 'hi']);
+});
+
+test('streamChat ignores an unparseable X-Chat-Action header and still yields text', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue(
+        textStreamResponse(['hi'], 200, { 'X-Chat-Action': '{nope' })
+    );
+    const onAction = jest.fn();
+    const chunks = [];
+    for await (const chunk of streamChat({ messages: [{ role: 'user', content: 'x' }], onAction })) {
+        chunks.push(chunk);
+    }
+    expect(onAction).not.toHaveBeenCalled();
+    expect(chunks.join('')).toBe('hi');
+});

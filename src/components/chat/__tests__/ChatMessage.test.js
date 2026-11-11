@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ChatMessage from '../ChatMessage';
+import contact from '../../../data/contact.json';
 
 function renderMessage(content) {
     return render(
@@ -17,4 +18,53 @@ test('renders **bold** runs as bold text without the asterisks', () => {
     expect(screen.getByText('Founding Engineer').tagName).toBe('STRONG');
     expect(screen.getByText('Levangie').tagName).toBe('STRONG');
     expect(screen.getByRole('link')).toHaveAttribute('href', 'https://larsensoren.com');
+});
+
+function renderAction(action) {
+    return render(
+        <ThemeProvider theme={createTheme()}>
+            <ChatMessage role="assistant" content="hi" action={action} isStreaming={false} />
+        </ThemeProvider>
+    );
+}
+
+test('contact action renders 5 buttons with hrefs from contact.json and no phone', () => {
+    const { container } = renderAction({ type: 'contact' });
+    const hrefs = screen.getAllByRole('link').map((a) => a.getAttribute('href'));
+    expect(hrefs).toEqual([
+        `mailto:${contact[0].email}`, contact[0].linkedin, contact[0].x, contact[0].github, contact[0].resumeUrl,
+    ]);
+    expect(container.textContent).not.toContain(contact[0].phone);
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('target', '_blank');
+});
+
+test('demo action opens https url in a new tab; non-https renders nothing', () => {
+    const { unmount } = renderAction({ type: 'demo', title: 'Chat', url: 'https://example.com/d' });
+    const a = screen.getByRole('link', { name: 'Open Chat' });
+    expect(a).toHaveAttribute('target', '_blank');
+    expect(a).toHaveAttribute('href', 'https://example.com/d');
+    unmount();
+    renderAction({ type: 'demo', title: 'Bad', url: 'http://example.com/insecure' });
+    expect(screen.queryByRole('link', { name: /Open/ })).toBeNull();
+});
+
+test('section action scrolls and dispatches the tab event', () => {
+    const el = document.createElement('div');
+    el.id = 'projects';
+    el.scrollIntoView = jest.fn();
+    document.body.appendChild(el);
+    const handler = jest.fn();
+    window.addEventListener('portfolio:projects-tab', handler);
+    renderAction({ type: 'section', section: 'projects', tab: 'play' });
+    fireEvent.click(screen.getByRole('button', { name: 'Take me there' }));
+    expect(el.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
+    expect(handler.mock.calls[0][0].detail).toBe('play');
+    window.removeEventListener('portfolio:projects-tab', handler);
+    el.remove();
+});
+
+test('unknown action types render nothing', () => {
+    renderAction({ type: 'evil' });
+    expect(screen.queryByRole('button')).toBeNull();
+    expect(screen.queryByRole('link')).toBeNull();
 });

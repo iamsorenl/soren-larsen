@@ -48,7 +48,7 @@ describe('ChatPanel rendering', () => {
     test('empty state shows suggested prompt chips', () => {
         const chat = makeChat();
         render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
-        expect(screen.getByText(/What was Soren's most recent role\?/i)).toBeInTheDocument();
+        expect(screen.getByText(/What's he building now\?/i)).toBeInTheDocument();
     });
 
     test('populated state renders user + assistant bubbles', () => {
@@ -139,8 +139,8 @@ describe('ChatPanel interactions', () => {
     test('clicking a suggested prompt calls chat.send with that prompt', () => {
         const chat = makeChat();
         render(withTheme(<ChatPanel open onClose={jest.fn()} chat={chat} />));
-        fireEvent.click(screen.getByText(/most recent role/i));
-        expect(chat.send).toHaveBeenCalledWith("What was Soren's most recent role?");
+        fireEvent.click(screen.getByText(/building now/i));
+        expect(chat.send).toHaveBeenCalledWith("What's he building now?");
     });
 
     test('typing + clicking send calls chat.send and clears the draft', () => {

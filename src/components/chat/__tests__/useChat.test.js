@@ -573,3 +573,32 @@ describe('reset', () => {
         ]);
     });
 });
+
+describe('actions', () => {
+    test('an action from the stream is stored on the assistant message and persisted', async () => {
+        jest.spyOn(chatApi, 'streamChat').mockImplementation(({ onAction }) =>
+            (async function* () {
+                onAction({ type: 'section', section: 'projects' });
+                yield 'ok';
+            })()
+        );
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('show projects'); });
+        const last = result.current.messages[result.current.messages.length - 1];
+        expect(last.action).toEqual({ type: 'section', section: 'projects' });
+        const saved = JSON.parse(sessionStorage.getItem(SESSION_KEY));
+        expect(saved.messages[saved.messages.length - 1].action).toEqual({ type: 'section', section: 'projects' });
+    });
+
+    test("'How do I reach him?' is answered locally with a contact action and no network call", async () => {
+        const spy = jest.spyOn(chatApi, 'streamChat');
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('How do I reach him?'); });
+        expect(spy).not.toHaveBeenCalled();
+        expect(result.current.status).toBe('idle');
+        expect(result.current.messages.map(({ role, content, action }) => ({ role, content, action }))).toEqual([
+            { role: 'user', content: 'How do I reach him?', action: undefined },
+            { role: 'assistant', content: "Here's how to reach Soren.", action: { type: 'contact' } },
+        ]);
+    });
+});
