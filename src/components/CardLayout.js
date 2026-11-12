@@ -8,7 +8,6 @@ import ErrorBoundary from './ErrorBoundary';
 
 const ProjectCard = lazy(() => import('./ProjectCard'));
 const ExperienceCard = lazy(() => import('./ExperienceCard'));
-const SkillCard = lazy(() => import('./SkillCard'));
 const EducationCard = lazy(() => import('./EducationCard'));
 const ContactCard = lazy(() => import('./ContactCard'));
 
@@ -68,11 +67,6 @@ const CardLayout = () => {
             <Grid item xs={12} md={12} id="projects">
                 <Section label="projects">
                     <ProjectCard />
-                </Section>
-            </Grid>
-            <Grid item xs={12} md={12} id="skills">
-                <Section label="skills">
-                    <SkillCard />
                 </Section>
             </Grid>
             <Grid item xs={12} md={6} id="education">

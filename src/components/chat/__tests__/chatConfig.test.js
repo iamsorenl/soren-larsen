@@ -15,3 +15,9 @@ test('every error kind has copy, including badRequest', () => {
         expect(ERROR_COPY[kind].length).toBeGreaterThan(0);
     }
 });
+
+test('starter prompts invite the skills question now that the section is gone', () => {
+    const { STARTER_PROMPTS } = require('../chatConfig');
+    expect(STARTER_PROMPTS).toHaveLength(4);
+    expect(STARTER_PROMPTS).toContain('What does he work with?');
+});

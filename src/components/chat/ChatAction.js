@@ -4,7 +4,7 @@ import NoteForm from './NoteForm';
 import { goToSection } from '../../utils/goTo';
 import contact from '../../data/contact.json';
 
-const SECTIONS = ['experience', 'projects', 'skills', 'education', 'contact'];
+const SECTIONS = ['experience', 'projects', 'education', 'contact'];
 const TABS = ['play', 'research', 'how'];
 
 function ExternalButton({ href, children }) {

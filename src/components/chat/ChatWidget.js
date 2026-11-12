@@ -10,7 +10,6 @@ const NAV_SECTIONS = [
     'about',
     'experience',
     'projects',
-    'skills',
     'education',
     'contact',
 ];

@@ -6,7 +6,7 @@ export const TURNSTILE_SITEKEY = process.env.REACT_APP_TURNSTILE_SITEKEY || '0x4
 
 export const GREETING = "Hi — I'm Soren's Assistant. Here are a few things I can help with:";
 
-export const STARTER_PROMPTS = ["What's he building now?", 'Show me his best demo', 'How do I reach him?'];
+export const STARTER_PROMPTS = ["What's he building now?", 'Show me his best demo', 'What does he work with?', 'How do I reach him?'];
 
 // Answered locally (no network call) with a contact action.
 export const CONTACT_PROMPT = 'How do I reach him?';
