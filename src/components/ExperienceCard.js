@@ -72,13 +72,13 @@ const Tile = ({ experience, open, onToggle }) => {
     const src = experienceImages[experience.image];
     return (
         <Card
-            id={`exp-${experience.image || slug(experience.company)}`}
             sx={{
                 height: '100%',
                 border: (t) => `1px solid ${open ? t.palette.primary.main : t.palette.divider}`,
             }}
         >
             <CardActionArea
+                id={`exp-${experience.image || slug(experience.company)}`}
                 onClick={onToggle}
                 aria-expanded={open}
                 sx={{

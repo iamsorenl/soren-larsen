@@ -41,6 +41,7 @@ const CyclingMedia = ({ items, intervalMs = 6000, label, sx }) => {
             ref={ref}
             role="img"
             aria-label={label}
+            data-active-alt={items[index].alt}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onFocus={() => setPaused(true)}

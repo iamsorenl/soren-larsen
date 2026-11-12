@@ -9,18 +9,17 @@ beforeEach(() => {
 });
 afterEach(() => { delete window.matchMedia; });
 
-const tile = (company) => screen.getByRole('button', { name: new RegExp(company) }).closest('[id^="exp-"]');
+const tile = (company) => screen.getByRole('button', { name: new RegExp(company) });
 
 test('Gray Whale tile is anchored and cycles its surf ranch loop poster first', () => {
-    const { container } = render(<ExperienceCard />);
-    const gw = container.querySelector('#exp-gray-whale');
-    expect(gw).not.toBeNull();
-    expect(gw.querySelector('img').getAttribute('src')).toBe('/media/experience/gray-whale-loop.jpg');
+    render(<ExperienceCard />);
+    expect(tile('Gray Whale')).toHaveAttribute('id', 'exp-gray-whale');
+    expect(within(tile('Gray Whale')).getByAltText('Surfing the Gray Whale event at Surf Ranch')).toHaveAttribute('src', '/media/experience/gray-whale-loop.jpg');
 });
 
 test('Boardal tile shows its wave clip poster and two Instagram links when opened', () => {
     render(<ExperienceCard />);
-    expect(tile('Boardal').querySelector('img').getAttribute('src')).toBe('/media/experience/boardal-wave.jpg');
+    expect(within(tile('Boardal')).getByAltText('Soren surfing in a Boardal reel')).toHaveAttribute('src', '/media/experience/boardal-wave.jpg');
     fireEvent.click(screen.getByRole('button', { name: /Boardal/ }));
     const links = screen.getAllByRole('link', { name: /Instagram/ }).map((a) => a.getAttribute('href'));
     expect(links).toEqual([
@@ -41,8 +40,8 @@ test('Onda and Baskin keep monograms', () => {
 });
 
 test('no tile says Causality Labs', () => {
-    const { container } = render(<ExperienceCard />);
-    expect(container.textContent).not.toMatch(/Causality Labs/);
+    render(<ExperienceCard />);
+    expect(screen.queryByText(/Causality Labs/)).toBeNull();
 });
 
 test('Self-Employed tile draws the real GitHub contribution graph', () => {

@@ -16,3 +16,9 @@ test('no shipped media file is over the size cap', () => {
     });
     expect(big).toEqual([]);
 });
+
+test('no shipped video carries an audio track', () => {
+    const withAudio = collectMediaPaths().filter((p) => p.endsWith('.mp4') && fs.existsSync(pub(p))
+        && fs.readFileSync(pub(p)).includes(Buffer.from('soun')));
+    expect(withAudio).toEqual([]);
+});

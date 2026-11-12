@@ -32,3 +32,18 @@ test('zero-count days get the lowest shade, busiest day the highest', () => {
     expect(cells[0]).toHaveAttribute('data-level', '0');
     expect(cells[3]).toHaveAttribute('data-level', '4');
 });
+
+test('one very busy day does not flatten everyone else to the lowest shade', () => {
+    const skewed = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 157].map((count, i) => ({ date: `2026-02-${String(i + 1).padStart(2, '0')}`, count }));
+    render(<ContributionGraph days={skewed} total={235} />);
+    const levels = screen.getAllByTestId('day').map((c) => c.getAttribute('data-level'));
+    expect(new Set(levels)).toEqual(new Set(['1', '2', '3', '4']));
+});
+
+test('on phones the graph crops to the most recent weeks instead of shrinking to a sliver', () => {
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+        matches: query.includes('max-width'), media: query, addEventListener: jest.fn(), removeEventListener: jest.fn(), addListener: jest.fn(), removeListener: jest.fn(),
+    }));
+    render(<ContributionGraph days={days} total={42} />);
+    expect(screen.getByRole('img', { name: /GitHub contributions/ })).toHaveAttribute('preserveAspectRatio', 'xMaxYMid slice');
+});

@@ -9,10 +9,9 @@ test('four moments, each with at least one item', () => {
 });
 
 test('every target points at a real section and tab', () => {
-    moments.filter((m) => m.target).forEach(({ target }) => {
-        expect(SECTIONS).toContain(target.section);
-        if (target.tab) expect(['play', 'research']).toContain(target.tab);
-    });
+    const targets = moments.filter((m) => m.target).map((m) => m.target);
+    targets.forEach((t) => expect(SECTIONS).toContain(t.section));
+    targets.filter((t) => t.tab).forEach((t) => expect(['play', 'research']).toContain(t.tab));
 });
 
 test('no media is used twice, and none repeats a hero carousel photo', () => {

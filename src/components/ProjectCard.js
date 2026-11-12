@@ -380,7 +380,7 @@ const ProjectCard = () => {
                 {active.key === 'play' ? (
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
                         {active.items.map((project) => (
-                            <Box key={project.title} id={anchorId(project)}>
+                            <Box key={project.title} id={anchorId(project)} component="article" aria-label={project.title}>
                                 <DemoTile project={project} />
                                 <TileExtras project={project} accent={theme.palette.primary.main} />
                             </Box>
@@ -389,7 +389,7 @@ const ProjectCard = () => {
                 ) : (
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, alignItems: 'start' }}>
                         {active.items.map((project) => (
-                            <Stack key={project.title} id={anchorId(project)} spacing={1}>
+                            <Stack key={project.title} id={anchorId(project)} component="article" aria-label={project.title} spacing={1}>
                                 <ResearchMedia project={project} />
                                 <ProjectEntry
                                     project={project}

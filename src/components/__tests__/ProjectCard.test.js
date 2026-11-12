@@ -21,18 +21,18 @@ describe('ProjectCard tabs', () => {
     });
 
     test('Research tab: write-up link, no Explore yet, anchored cards', () => {
-        const { container } = render(<ProjectCard />);
+        render(<ProjectCard />);
         act(() => { window.dispatchEvent(new CustomEvent('portfolio:projects-tab', { detail: 'research' })); });
         const writeups = screen.getAllByRole('link', { name: 'Write-up' }).map((a) => a.getAttribute('href'));
         expect(writeups).toContain('/writeups/transformer-qa.pdf');
         expect(screen.queryByRole('link', { name: 'Explore' })).toBeNull();
-        ['project-no-ragrets', 'project-edumuse', 'project-ptb-transformer', 'project-transformer-qa', 'project-nmt']
-            .forEach((id) => expect(container.querySelector(`#${id}`)).not.toBeNull());
+        expect(screen.getAllByRole('article').map((a) => a.id)).toEqual(
+            ['project-no-ragrets', 'project-edumuse', 'project-ptb-transformer', 'project-transformer-qa', 'project-nmt']);
     });
 
     test('Play tab cards are anchored', () => {
-        const { container } = render(<ProjectCard />);
-        expect(container.querySelector('#project-slac')).not.toBeNull();
+        render(<ProjectCard />);
+        expect(screen.getByRole('article', { name: 'SLAC Accelerator Fault Investigator' })).toHaveAttribute('id', 'project-slac');
     });
 
     test('How it works tab hidden when no project has tab "how"', () => {
@@ -45,7 +45,7 @@ describe('ProjectCard tabs', () => {
         expect(screen.queryByText('No RAGrets')).toBeNull();
         act(() => screen.getByRole('tab', { name: 'Research' }).click());
         expect(screen.getByText('No RAGrets')).toBeTruthy();
-        const card = document.getElementById('project-no-ragrets');
+        const card = screen.getByRole('article', { name: 'No RAGrets' });
         expect(within(card).getByRole('link', { name: /Watch demo/ }).getAttribute('href')).toBe('https://youtu.be/2yX1e5xogUQ');
         expect(within(card).getByRole('link', { name: 'Watch No RAGrets' }).getAttribute('href')).toBe('https://youtu.be/2yX1e5xogUQ');
     });

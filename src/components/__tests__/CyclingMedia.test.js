@@ -22,7 +22,7 @@ const mockInView = () => {
         disconnect() {}
     };
 };
-const active = () => document.querySelector('[data-active="true"] img, [data-active="true"] video');
+const active = () => screen.getByRole('img', { name: 't' }).getAttribute('data-active-alt');
 
 afterEach(() => {
     jest.useRealTimers();
@@ -34,11 +34,11 @@ test('shows the first item, then the next after intervalMs, then wraps', () => {
     mockMatchMedia(false);
     jest.useFakeTimers();
     render(<CyclingMedia items={[img('a'), img('b')]} intervalMs={1000} label="t" />);
-    expect(active()).toHaveAttribute('alt', 'a');
+    expect(active()).toBe('a');
     act(() => jest.advanceTimersByTime(1000));
-    expect(active()).toHaveAttribute('alt', 'b');
+    expect(active()).toBe('b');
     act(() => jest.advanceTimersByTime(1000));
-    expect(active()).toHaveAttribute('alt', 'a');
+    expect(active()).toBe('a');
 });
 
 test('reduced motion: first still only, never advances, no video', () => {
@@ -47,23 +47,22 @@ test('reduced motion: first still only, never advances, no video', () => {
     jest.useFakeTimers();
     render(<CyclingMedia items={[vid('v'), img('b')]} intervalMs={1000} label="t" />);
     act(() => jest.advanceTimersByTime(10000));
-    expect(active()).toHaveAttribute('alt', 'v');
-    expect(active().tagName).toBe('IMG');
-    expect(document.querySelector('video')).toBeNull();
+    expect(active()).toBe('v');
+    expect(screen.queryByLabelText('v')).toBeNull(); // no <video>
 });
 
 test('video item shows its poster until in view (no IntersectionObserver in jsdom)', () => {
     mockMatchMedia(false);
     render(<CyclingMedia items={[vid('v')]} label="t" />);
     expect(screen.getByAltText('v')).toHaveAttribute('src', '/media/v.jpg');
-    expect(document.querySelector('video')).toBeNull();
+    expect(screen.queryByLabelText('v')).toBeNull(); // no <video>
 });
 
 test('video item plays muted once in view', () => {
     mockMatchMedia(false);
     mockInView();
     render(<CyclingMedia items={[vid('v')]} label="t" />);
-    const v = document.querySelector('video');
+    const v = screen.getByLabelText('v');
     expect(v).toHaveAttribute('src', '/media/v.mp4');
     expect(v.muted).toBe(true);
 });
