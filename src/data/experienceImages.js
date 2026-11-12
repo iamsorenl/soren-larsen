@@ -11,5 +11,6 @@ const experienceImages = {
         { type: 'image', src: '/media/experience/boardal-filter.jpg', alt: 'Filtering boards by volume in Boardal' },
     ],
     causality: 'causality-anim',
+    'self-employed': 'github-graph',
 };
 export default experienceImages;

@@ -44,3 +44,8 @@ test('no tile says Causality Labs', () => {
     const { container } = render(<ExperienceCard />);
     expect(container.textContent).not.toMatch(/Causality Labs/);
 });
+
+test('Self-Employed tile draws the real GitHub contribution graph', () => {
+    render(<ExperienceCard />);
+    expect(within(tile('Self-Employed')).getByRole('img', { name: /GitHub contributions in the last year/ })).toBeInTheDocument();
+});

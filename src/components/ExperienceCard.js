@@ -19,6 +19,8 @@ import { parseDate } from '../utils/dates';
 import SectionHeader from './SectionHeader';
 import CyclingMedia from './CyclingMedia';
 import CausalityAnim from './CausalityAnim';
+import ContributionGraph from './ContributionGraph';
+import contributions from '../data/contributions.json';
 
 const initials = (name) =>
     name
@@ -53,6 +55,13 @@ const TileMedia = ({ media, alt }) => {
         return (
             <Box sx={mediaBoxSx}>
                 <CausalityAnim />
+            </Box>
+        );
+    }
+    if (media === 'github-graph') {
+        return (
+            <Box sx={mediaBoxSx}>
+                <ContributionGraph days={contributions.days} total={contributions.total} />
             </Box>
         );
     }
