@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Button, Stack, Link } from '@mui/material';
+import { Card, CardContent, Typography, Button, Stack, Link } from '@mui/material';
 import { ContactMail, Email, LinkedIn, X as XIcon, EditNote } from '@mui/icons-material';
 import contactInfo from '../data/contact';
 import { FONT_DISPLAY } from '../theme';
