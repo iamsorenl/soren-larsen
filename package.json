@@ -24,7 +24,8 @@
     "predeploy": "npm run lint && npm run build",
     "deploy": "firebase deploy",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "sync:contributions": "python3 scripts/fetch_contributions.py"
   },
   "eslintConfig": {
     "extends": [

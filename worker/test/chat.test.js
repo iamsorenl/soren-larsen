@@ -446,7 +446,7 @@ describe('follow-up retrieval', () => {
       const demo = projects.find((p) => p.tab === 'play' && (p.demo || p.video));
       const cases = [
         ['open_demo', { title: demo.title }, `Here's ${demo.title}.`],
-        ['go_to_section', { section: 'skills' }, "Here's where that is on the page."],
+        ['go_to_section', { section: 'education' }, "Here's where that is on the page."],
         ['leave_note', {}, "Leave Soren a note below and he'll reply by email."],
       ];
       for (const [name, args, text] of cases) {
@@ -457,7 +457,7 @@ describe('follow-up retrieval', () => {
       }
     });
 
-    it.each(["What's he building now?", 'Show me his best demo', 'How do I reach him?'])(
+    it.each(["What's he building now?", 'Show me his best demo', 'What does he work with?', 'How do I reach him?'])(
       'starter prompt %s leaves 300 tokens under budget',
       (prompt) => {
         const systemPrompt = buildSystemPrompt(null, prompt);

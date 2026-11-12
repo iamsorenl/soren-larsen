@@ -1,352 +1,190 @@
-import React, { useState } from 'react';
-import {
-    Card,
-    CardContent,
-    Typography,
-    Box,
-    Button,
-    TextField,
-    Stack,
-    Alert,
-    Snackbar,
-    Avatar,
-    useTheme,
-    useMediaQuery,
-} from '@mui/material';
-import {
-    ContactMail,
-    Phone,
-    Email,
-    GitHub,
-    LinkedIn,
-    X as XIcon,
-    Send,
-} from '@mui/icons-material';
+import React, { useEffect, useRef, useState } from 'react';
+import { Box, Card, CardContent, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { ContactMail, Phone, Email, GitHub, LinkedIn, X as XIcon, EditNote } from '@mui/icons-material';
 import contactInfo from '../data/contact';
-import { FONT_MONO } from '../theme';
+import { FONT_DISPLAY, FONT_MONO } from '../theme';
+import { NOTE_PROMPT } from './chat/chatConfig';
 import SectionHeader from './SectionHeader';
+import PaperPlanes from './PaperPlanes';
 
-const SubHeading = ({ children, accent }) => (
-    <Typography
-        variant="overline"
-        sx={{
-            fontFamily: FONT_MONO,
-            color: accent,
-            letterSpacing: '0.14em',
-            fontSize: '0.7rem',
-            fontWeight: 600,
-            display: 'block',
-            mb: 1.5,
-        }}
-    >
-        {children}
-    </Typography>
-);
+const openNote = () => window.dispatchEvent(new CustomEvent('portfolio:open-chat', { detail: { prompt: NOTE_PROMPT } }));
+
+// Lets an address wrap only after @, / or - (e.g. "iamsorenl@ gmail.com"),
+// never mid-word.
+const softBreaks = (v) => v.split(/(?<=[@/-])/).flatMap((part, i) => (i ? [<wbr key={i} />, part] : [part]));
+
+// Example notes the bubble types out. Wording approved by Soren 2026-11-12.
+const BUBBLE_LINES = ['Hey Soren, loved the No RAGrets demo…', 'Are you open to talking about a role?', 'Want to grab coffee in SF?'];
+const BUBBLE_LABEL = 'click to write me a note';
+
+// Types each line, holds, deletes, moves on. Reduced motion: first line, still.
+const useTyped = (lines, reduced) => {
+    const [text, setText] = useState(reduced ? lines[0] : '');
+    useEffect(() => {
+        if (reduced) { setText(lines[0]); return undefined; }
+        let qi = 0;
+        let ci = 0;
+        let dir = 1;
+        const id = setInterval(() => {
+            const L = lines[qi];
+            if (dir === 1) { ci += 1; if (ci > L.length + 30) dir = -1; } else {
+                ci -= 2;
+                if (ci <= 0) { ci = 0; dir = 1; qi = (qi + 1) % lines.length; }
+            }
+            setText(L.slice(0, Math.min(ci, L.length)));
+        }, 60);
+        return () => clearInterval(id);
+    }, [lines, reduced]);
+    return text;
+};
 
 const ContactCard = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-    });
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertMessage, setAlertMessage] = useState('');
-    const [alertSeverity, setAlertSeverity] = useState('success');
-
-    const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const { phone, email, github, linkedin, x } = contactInfo[0];
+    const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
+    const typed = useTyped(BUBBLE_LINES, reduced);
+    const cardRef = useRef(null);
+    const [target, setTarget] = useState(null);
 
-    const sectionAccent = theme.palette.primary.main;
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!formData.name || !formData.email || !formData.message) {
-            setAlertMessage('Please fill in all required fields.');
-            setAlertSeverity('error');
-            setShowAlert(true);
-            return;
-        }
-
-        const subject = formData.subject || 'Contact from Portfolio Website';
-        const body = `Hi Soren,
-
-${formData.message}
-
-Best regards,
-${formData.name}
-${formData.email}`;
-
-        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoLink;
-
-        setAlertMessage('Opening your email client...');
-        setAlertSeverity('success');
-        setShowAlert(true);
-
-        setFormData({ name: '', email: '', subject: '', message: '' });
-    };
-
-    const contactMethods = [
-        {
-            icon: <Phone fontSize="small" />,
-            label: 'Phone',
-            value: phone,
-            href: `tel:${phone}`,
-            accent: sectionAccent,
-            external: false,
-        },
-        {
-            icon: <Email fontSize="small" />,
-            label: 'Email',
-            value: email,
-            href: `mailto:${email}`,
-            accent: sectionAccent,
-            external: false,
-        },
-        {
-            icon: <GitHub fontSize="small" />,
-            label: 'GitHub',
-            value: 'github.com/iamsorenl',
-            href: github,
-            accent: sectionAccent,
-            external: true,
-        },
-        {
-            icon: <LinkedIn fontSize="small" />,
-            label: 'LinkedIn',
-            value: 'linkedin.com/in/soren-larsen',
-            href: linkedin,
-            accent: sectionAccent,
-            external: true,
-        },
-        {
-            icon: <XIcon fontSize="small" />,
-            label: 'X',
-            value: '@iamsorenl',
-            href: x,
-            accent: sectionAccent,
-            external: true,
-        },
+    const tiles = [
+        { label: 'Phone', href: `tel:${phone.replace(/[^\d+]/g, '')}`, value: phone, icon: <Phone /> },
+        { label: 'Email', href: `mailto:${email}`, value: email, icon: <Email /> },
+        { label: 'GitHub', href: github, value: github.replace(/^https?:\/\//, ''), icon: <GitHub />, external: true },
+        { label: 'LinkedIn', href: linkedin, value: linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\//, '').replace(/\/$/, ''), icon: <LinkedIn />, external: true },
+        { label: 'X', href: x, value: `@${x.replace(/\/$/, '').split('/').pop()}`, icon: <XIcon />, external: true },
     ];
 
-    const fieldSx = {
-        '& .MuiInputLabel-root.Mui-focused': { color: 'primary.main' },
-        '& .MuiOutlinedInput-root': {
-            backgroundColor: isDark
-                ? 'rgba(255, 255, 255, 0.03)'
-                : 'rgba(0, 0, 0, 0.02)',
-            '& fieldset': { borderColor: 'divider' },
-            '&:hover fieldset': {
-                borderColor: isDark
-                    ? 'rgba(255, 255, 255, 0.4)'
-                    : 'rgba(0, 0, 0, 0.4)',
-            },
-            '&.Mui-focused fieldset': { borderColor: 'primary.main' },
-        },
-    };
-
-    const innerPanelSx = {
-        flex: 1,
-        p: 2.5,
-        borderRadius: '12px',
-        border: (t) => `1px solid ${t.palette.divider}`,
-        backgroundColor: 'background.paper',
-        display: 'flex',
-        flexDirection: 'column',
+    const aim = (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const c = cardRef.current.getBoundingClientRect();
+        setTarget({ x: r.left - c.left + r.width / 2, y: r.top - c.top + r.height / 2, rx: r.width * 0.7, ry: r.height * 0.75 });
     };
 
     return (
         <Card
+            ref={cardRef}
             sx={{
+                position: 'relative',
+                overflow: 'hidden',
                 backgroundColor: 'background.paper',
                 borderRadius: '16px',
                 height: '100%',
-                border: (t) =>
-                    `1px solid ${
-                        t.palette.mode === 'dark'
-                            ? 'rgba(255, 255, 255, 0.08)'
-                            : 'rgba(0, 0, 0, 0.08)'
-                    }`,
+                border: (t) => `1px solid ${t.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`,
             }}
         >
-            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                <SectionHeader
-                    eyebrow="Contact"
-                    title="Get in touch"
-                    icon={<ContactMail />}
-                />
+            <PaperPlanes target={target} />
+            <CardContent sx={{ position: 'relative', zIndex: 1, p: { xs: 3, md: 4 } }}>
+                <SectionHeader eyebrow="Contact" title="Get in touch" icon={<ContactMail />} />
+
+                <Typography
+                    component="h3"
+                    sx={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: { xs: '1.75rem', md: '2.5rem' }, lineHeight: 1.15, mt: 1 }}
+                >
+                    Want to build something together?
+                </Typography>
+                <Typography variant="body1" color="text.secondary" sx={{ mt: 1.5, maxWidth: 560 }}>
+                    Leave me a note and it goes straight to my inbox, or reach me wherever you like.
+                </Typography>
 
                 <Box
+                    component="ul"
+                    aria-label="Ways to reach me"
                     sx={{
-                        display: 'flex',
-                        flexDirection: isMobile ? 'column' : 'row',
-                        gap: 2,
-                        alignItems: 'stretch',
+                        listStyle: 'none',
+                        p: 0,
+                        m: 0,
+                        mt: 3,
+                        display: 'grid',
+                        gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', sm: 'repeat(5, minmax(0, 1fr))' },
+                        gap: 1.25,
                     }}
                 >
-                    {/* Get In Touch */}
-                    <Box sx={innerPanelSx}>
-                        <SubHeading accent={sectionAccent}>Direct</SubHeading>
-                        <Stack spacing={0.5}>
-                            {contactMethods.map((method) => (
-                                <Button
-                                    key={method.label}
+                    {tiles.map((t) => (
+                        <li key={t.label}>
+                            <Tooltip title={t.value} arrow placement="top" componentsProps={{ tooltip: { sx: { fontFamily: FONT_MONO } } }}>
+                                <Box
                                     component="a"
-                                    href={method.href}
-                                    target={method.external ? '_blank' : undefined}
-                                    rel={method.external ? 'noopener noreferrer' : undefined}
-                                    sx={{
-                                        width: '100%',
-                                        justifyContent: 'flex-start',
-                                        textTransform: 'none',
-                                        py: 1,
-                                        px: 1.25,
-                                        borderRadius: 1.5,
+                                    href={t.href}
+                                    target={t.external ? '_blank' : undefined}
+                                    rel={t.external ? 'noopener noreferrer' : undefined}
+                                    onMouseEnter={aim}
+                                    onFocus={aim}
+                                    onMouseLeave={() => setTarget(null)}
+                                    onBlur={() => setTarget(null)}
+                                    sx={(th) => ({
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        gap: 0.75,
+                                        py: 1.75,
+                                        px: 0.75,
+                                        height: '100%',
+                                        boxSizing: 'border-box',
+                                        borderRadius: '12px',
+                                        textDecoration: 'none',
                                         color: 'text.primary',
-                                        transition: 'all 0.2s ease',
-                                        '&:hover': {
-                                            backgroundColor: isDark
-                                                ? 'rgba(255, 255, 255, 0.05)'
-                                                : 'rgba(0, 0, 0, 0.04)',
-                                            transform: 'translateX(2px)',
-                                        },
-                                    }}
-                                >
-                                    <Avatar
-                                        sx={{
-                                            width: 32,
-                                            height: 32,
-                                            mr: 1.5,
-                                            backgroundColor: `${method.accent}22`,
-                                            color: method.accent,
-                                        }}
-                                    >
-                                        {method.icon}
-                                    </Avatar>
-                                    <Box sx={{ textAlign: 'left', minWidth: 0, flex: 1 }}>
-                                        <Typography
-                                            variant="caption"
-                                            sx={{
-                                                fontWeight: 600,
-                                                color: 'text.secondary',
-                                                textTransform: 'uppercase',
-                                                letterSpacing: 0.5,
-                                                lineHeight: 1.2,
-                                                display: 'block',
-                                            }}
-                                        >
-                                            {method.label}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                color: 'text.primary',
-                                                fontWeight: 500,
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap',
-                                            }}
-                                        >
-                                            {method.value}
-                                        </Typography>
-                                    </Box>
-                                </Button>
-                            ))}
-                        </Stack>
-                    </Box>
-
-                    {/* Send a Message */}
-                    <Box sx={innerPanelSx}>
-                        <SubHeading accent={sectionAccent}>Send a Message</SubHeading>
-                        <Box
-                            component="form"
-                            onSubmit={handleSubmit}
-                            aria-label="Contact form"
-                        >
-                            <Stack spacing={1.5}>
-                                <TextField
-                                    name="name"
-                                    label="Your Name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    required
-                                    fullWidth
-                                    size="small"
-                                    sx={fieldSx}
-                                />
-                                <TextField
-                                    name="email"
-                                    label="Your Email"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    required
-                                    fullWidth
-                                    size="small"
-                                    sx={fieldSx}
-                                />
-                                <TextField
-                                    name="subject"
-                                    label="Subject (Optional)"
-                                    value={formData.subject}
-                                    onChange={handleInputChange}
-                                    fullWidth
-                                    size="small"
-                                    sx={fieldSx}
-                                />
-                                <TextField
-                                    name="message"
-                                    label="Your Message"
-                                    value={formData.message}
-                                    onChange={handleInputChange}
-                                    required
-                                    fullWidth
-                                    multiline
-                                    rows={3}
-                                    size="small"
-                                    sx={fieldSx}
-                                />
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    startIcon={<Send />}
-                                    fullWidth
-                                    sx={{
-                                        py: 1.25,
+                                        fontSize: 13,
                                         fontWeight: 600,
-                                        textTransform: 'none',
-                                        mt: 0.5,
-                                    }}
+                                        bgcolor: 'background.paper',
+                                        border: `1px solid ${alpha(th.palette.primary.main, 0.3)}`,
+                                        transition: reduced ? 'none' : 'transform .18s, background-color .18s, border-color .18s, box-shadow .18s',
+                                        '& svg': { color: th.palette.mode === 'dark' ? 'primary.light' : 'primary.main' },
+                                        '&:hover, &:focus-visible': {
+                                            transform: reduced ? 'none' : 'translateY(-3px)',
+                                            borderColor: 'primary.main',
+                                            bgcolor: alpha(th.palette.primary.main, 0.14),
+                                            boxShadow: `0 6px 20px ${alpha(th.palette.primary.main, 0.25)}`,
+                                            outline: 'none',
+                                        },
+                                    })}
                                 >
-                                    Send Message
-                                </Button>
-                            </Stack>
+                                    {t.icon}
+                                    {t.label}
+                                    <Box
+                                        component="span"
+                                        sx={{ display: 'none', fontFamily: FONT_MONO, fontSize: 11, fontWeight: 400, color: 'text.secondary', overflowWrap: 'anywhere', textAlign: 'center', '@media (hover: none)': { display: 'block' } }}
+                                    >
+                                        {softBreaks(t.value)}
+                                    </Box>
+                                </Box>
+                            </Tooltip>
+                        </li>
+                    ))}
+                </Box>
+
+                <Box sx={{ position: 'relative', height: 110, mt: 2 }}>
+                    <Box
+                        component="button"
+                        type="button"
+                        onClick={openNote}
+                        aria-label="Write me a note"
+                        sx={(th) => ({
+                            position: 'absolute',
+                            left: 0,
+                            bottom: 22,
+                            maxWidth: '100%',
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                            font: 'inherit',
+                            fontSize: 14,
+                            color: 'text.primary',
+                            bgcolor: th.palette.mode === 'dark' ? '#1f2457' : alpha(th.palette.primary.main, 0.08),
+                            border: `1px solid ${alpha(th.palette.primary.main, 0.4)}`,
+                            borderRadius: '14px 14px 14px 4px',
+                            px: 1.75,
+                            py: 1.25,
+                            transition: 'border-color .2s',
+                            '&:hover, &:focus-visible': { borderColor: 'primary.main', outline: 'none' },
+                            '@keyframes caret': { '50%': { opacity: 0 } },
+                        })}
+                    >
+                        <span aria-hidden="true">{typed}</span>
+                        <Box component="span" aria-hidden="true" sx={{ display: 'inline-block', width: 7, height: 15, ml: 0.25, verticalAlign: -2, bgcolor: 'primary.main', animation: reduced ? 'none' : 'caret 1s steps(1) infinite' }} />
+                        <Box component="small" aria-hidden="true" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, fontSize: 10, color: 'text.secondary', mt: 0.5 }}>
+                            <EditNote sx={{ fontSize: 12 }} /> {BUBBLE_LABEL}
                         </Box>
                     </Box>
                 </Box>
-
-                <Snackbar
-                    open={showAlert}
-                    autoHideDuration={6000}
-                    onClose={() => setShowAlert(false)}
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                >
-                    <Alert
-                        onClose={() => setShowAlert(false)}
-                        severity={alertSeverity}
-                        sx={{ width: '100%' }}
-                    >
-                        {alertMessage}
-                    </Alert>
-                </Snackbar>
             </CardContent>
         </Card>
     );

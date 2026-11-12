@@ -110,6 +110,16 @@ describe('ChatWidget starter card', () => {
         expect(screen.getByText(chipName)).toBeInTheDocument();
     });
 
+    test('never auto-opens on phones', () => {
+        window.matchMedia = jest.fn().mockImplementation((query) => ({
+            matches: query.includes('max-width:599.95px'), media: query, addEventListener: jest.fn(), removeEventListener: jest.fn(), addListener: jest.fn(), removeListener: jest.fn(),
+        }));
+        render(withTheme(<ChatWidget />));
+        advance(10000);
+        expect(screen.queryByText(chipName)).not.toBeInTheDocument();
+        delete window.matchMedia;
+    });
+
     test('close button hides and does not return after remount', () => {
         const { unmount } = render(withTheme(<ChatWidget />));
         advance(4100);
@@ -120,6 +130,13 @@ describe('ChatWidget starter card', () => {
         render(withTheme(<ChatWidget />));
         advance(10000);
         expect(screen.queryByText(chipName)).not.toBeInTheDocument();
+    });
+
+    test('a portfolio:open-chat event opens the panel and sends its prompt', () => {
+        render(withTheme(<ChatWidget />));
+        act(() => { window.dispatchEvent(new CustomEvent('portfolio:open-chat', { detail: { prompt: 'Leave Soren a note' } })); });
+        expect(send).toHaveBeenCalledWith('Leave Soren a note');
+        expect(screen.getByText("Soren's Assistant")).toBeInTheDocument();
     });
 
     test('clicking a chip opens the panel and sends that prompt', () => {

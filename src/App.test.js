@@ -53,7 +53,7 @@ describe('App', () => {
         };
         await expectPresent(/Projects/i);
         await expectPresent(/Experience/i);
-        await expectPresent(/Technical Skills/i);
+        expect(screen.queryByText(/Technical Skills/i)).toBeNull();
         await expectPresent(/Education/i);
         await expectPresent(/Contact/i);
     });

@@ -147,3 +147,25 @@ describe('deflection rule', () => {
     expect(p).not.toContain('great question for Soren directly');
   });
 });
+
+describe('UI-only data stays out of the prompt', () => {
+  it.each(["What's he building now?", 'Tell me about the transformer QA project', 'Where did he study?'])(
+    '%s has no media paths, previews or chart data',
+    (q) => {
+      const sp = buildSystemPrompt(null, q);
+      expect(sp).not.toMatch(/\/media\/|"preview"|"results"|"muiIcon"|diplomaFile/);
+    }
+  );
+});
+
+describe('education coursework gating', () => {
+  it.each(["What classes did he take in his master's?", 'What did he study?'])(
+    'includes coursework for school questions: %s',
+    (q) => {
+      expect(retrieveContext(q).education.some((e) => e.relevantCoursework)).toBe(true);
+    }
+  );
+  it('leaves coursework out of unrelated questions', () => {
+    expect(retrieveContext('How do I reach him?').education.some((e) => e.relevantCoursework)).toBe(false);
+  });
+});

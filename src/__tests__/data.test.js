@@ -9,12 +9,13 @@ import highlights from '../data/highlights.json';
 const fs = require('fs');
 const path = require('path');
 
-test('play tab has exactly the four demos in order', () => {
-  expect(projects.filter(p => p.tab === 'play').map(p => p.title)).toEqual([
-    'SLAC Accelerator Fault Investigator', 'Sentinel: Cyber Incident Response Council', 'StockPulse', 'Ranked AI League']);
+test('play and hackathon tabs hold the four demos in order', () => {
+  expect(projects.filter(p => p.tab === 'play').map(p => p.title)).toEqual(['StockPulse', 'Ranked AI League']);
+  expect(projects.filter(p => p.tab === 'hackathon').map(p => p.title)).toEqual([
+    'SLAC Accelerator Fault Investigator', 'Sentinel: Cyber Incident Response Council']);
 });
-test('every play project has a demo or video', () => {
-  projects.filter(p => p.tab === 'play').forEach(p => expect(p.demo || p.video).toBeTruthy());
+test('every play and hackathon project has a demo or video', () => {
+  projects.filter(p => p.tab === 'play' || p.tab === 'hackathon').forEach(p => expect(p.demo || p.video).toBeTruthy());
 });
 test('preview files exist and are under 300 KB', () => {
   projects.filter(p => p.preview).forEach(p => [p.preview.poster, p.preview.video].filter(Boolean).forEach(f => {

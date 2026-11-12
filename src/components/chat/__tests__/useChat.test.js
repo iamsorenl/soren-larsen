@@ -633,4 +633,12 @@ describe('actions', () => {
             { role: 'assistant', content: "Here's how to reach Soren.", action: { type: 'contact' } },
         ]);
     });
+
+    test("'Leave Soren a note' is answered locally with the note form and no network call", async () => {
+        const spy = jest.spyOn(chatApi, 'streamChat');
+        const { result } = renderHook(() => useChat());
+        await act(async () => { await result.current.send('Leave Soren a note'); });
+        expect(spy).not.toHaveBeenCalled();
+        expect(result.current.messages.at(-1).action).toEqual({ type: 'note' });
+    });
 });

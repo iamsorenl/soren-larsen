@@ -23,8 +23,9 @@ const ALLOWED_REPOS = new Set(
     .filter(Boolean)
 );
 
-const PLAY_PROJECTS = projects.filter((p) => p.tab === 'play');
-const SECTIONS = ['experience', 'projects', 'skills', 'education', 'contact'];
+// Tiles with a live demo or video: the Play and Hackathons tabs.
+const PLAY_PROJECTS = projects.filter((p) => p.tab === 'play' || p.tab === 'hackathon');
+const SECTIONS = ['experience', 'projects', 'education', 'contact'];
 // Only tabs that at least one project actually has (the hidden 'how' tab is not offered).
 const TABS = [...new Set(projects.map((p) => p.tab).filter(Boolean))];
 

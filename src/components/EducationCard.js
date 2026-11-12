@@ -4,10 +4,9 @@ import {
     CardContent,
     Typography,
     Box,
-    Chip,
-    IconButton,
+    Button,
     Link,
-    Tooltip,
+    Chip,
     Grid,
     Accordion,
     AccordionSummary,
@@ -24,11 +23,50 @@ import {
 } from '@mui/icons-material';
 import educationData from '../data/education';
 import SectionHeader from './SectionHeader';
+import CyclingMedia from './CyclingMedia';
 
-const getStatus = (diploma) => {
-    if (diploma === 'in progress') return { text: 'In Progress', color: 'warning' };
-    return { text: 'Completed', color: 'success' };
-};
+// Press mention under a degree. Thumbnail is the article's own image.
+const PressCard = ({ press }) => (
+    <Box
+        component="a"
+        href={press.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{
+            display: 'flex',
+            gap: 1.5,
+            alignItems: 'center',
+            mx: 2.5,
+            mb: 1.5,
+            pt: 1.25,
+            textDecoration: 'none',
+            color: 'text.primary',
+            borderTop: (t) => `1px solid ${t.palette.divider}`,
+            '&:hover .press-title, &:focus-visible .press-title': { color: 'primary.main' },
+        }}
+    >
+        {press.image && (
+            <Box component="img" src={press.image} alt="" loading="lazy" sx={{ width: 72, height: 48, objectFit: 'cover', objectPosition: '50% 20%', borderRadius: '6px', flexShrink: 0 }} />
+        )}
+        <Box sx={{ minWidth: 0 }}>
+            <Typography component="span" sx={{ display: 'block', fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', color: 'primary.main' }}>
+                PRESS · {press.outlet.toUpperCase()}
+            </Typography>
+            <Typography component="span" className="press-title" sx={{ display: 'block', fontSize: 14, fontWeight: 600, my: 0.25, transition: 'color 0.2s' }}>
+                {press.title}
+            </Typography>
+            <Typography component="span" sx={{ display: 'block', fontSize: 12, color: 'text.secondary' }}>
+                {press.blurb || `${press.author} · ${press.date}`} ↗
+            </Typography>
+        </Box>
+    </Box>
+);
+
+// Small outlined link buttons, same look as the project cards'.
+const btnSx = (accent) => ({
+    textTransform: 'none', fontWeight: 600, fontSize: '0.72rem', py: 0.4, px: 1, minWidth: 0, whiteSpace: 'nowrap',
+    borderColor: accent, color: accent, '&:hover': { borderColor: accent, backgroundColor: `${accent}14` },
+});
 
 const EducationCard = () => {
     const theme = useTheme();
@@ -54,9 +92,8 @@ const EducationCard = () => {
                     icon={<School />}
                 />
 
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     {educationData.map((education, index) => {
-                        const status = getStatus(education.diploma);
                         const accent = theme.palette.primary.main;
                         const hasExpandableContent =
                             education.description ||
@@ -64,26 +101,29 @@ const EducationCard = () => {
                                 education.relevantCoursework.length > 0);
 
                         return (
-                            <Accordion
+                            <Box
                                 key={`${education.school}-${education.degree || index}`}
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: education.media ? '220px minmax(0, 1fr)' : 'minmax(0, 1fr)' },
+                                    borderRadius: '10px',
+                                    overflow: 'hidden',
+                                    border: (t) => `1px solid ${t.palette.divider}`,
+                                }}
+                            >
+                            {education.media && (
+                                <Box data-testid="degree-photo" sx={{ aspectRatio: { xs: '16 / 9', sm: 'auto' }, minHeight: { sm: 170 } }}>
+                                    <CyclingMedia items={education.media} label={`${education.degree} photos`} />
+                                </Box>
+                            )}
+                            <Box sx={{ minWidth: 0 }}>
+                            <Accordion
+                                defaultExpanded={!education.press}
                                 disableGutters
                                 elevation={0}
                                 sx={{
-                                    backgroundColor: 'background.paper',
-                                    border: (t) => `1px solid ${t.palette.divider}`,
-                                    borderRadius: '8px !important',
+                                    backgroundColor: 'transparent',
                                     '&:before': { display: 'none' },
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                    '&::after': {
-                                        content: '""',
-                                        position: 'absolute',
-                                        left: 0,
-                                        top: 0,
-                                        bottom: 0,
-                                        width: '4px',
-                                        backgroundColor: accent,
-                                    },
                                 }}
                             >
                                 <AccordionSummary
@@ -167,35 +207,26 @@ const EducationCard = () => {
                                             flexShrink: 0,
                                         }}
                                     >
-                                        <Chip
-                                            label={status.text}
-                                            size="small"
-                                            color={status.color}
-                                            sx={{
-                                                fontWeight: 500,
-                                                fontSize: '0.7rem',
-                                                display: { xs: 'none', sm: 'inline-flex' },
-                                            }}
-                                        />
                                         {education.link && (
-                                            <Tooltip title="Visit institution website" arrow>
-                                                <IconButton
+                                                <Button
+                                                    variant="outlined"
+                                                    size="small"
                                                     component={Link}
                                                     href={education.link}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    size="small"
-                                                    aria-label={`Open ${education.school} website`}
+                                                    aria-label={`Open ${education.school} program site`}
                                                     onClick={(e) => e.stopPropagation()}
-                                                    sx={{ color: accent }}
+                                                    startIcon={<OpenInNew fontSize="small" />}
+                                                    sx={btnSx(accent)}
                                                 >
-                                                    <OpenInNew fontSize="small" />
-                                                </IconButton>
-                                            </Tooltip>
+                                                    Program site
+                                                </Button>
                                         )}
                                         {education.diploma === 'yes' && (
-                                            <Tooltip title="View diploma" arrow>
-                                                <IconButton
+                                                <Button
+                                                    variant="outlined"
+                                                    size="small"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         const pdfFile =
@@ -205,13 +236,12 @@ const EducationCard = () => {
                                                                 : '/CertifiedElectronicDiploma.pdf';
                                                         window.open(pdfFile, '_blank');
                                                     }}
-                                                    size="small"
                                                     aria-label={`View ${education.degree || education.school} diploma`}
-                                                    sx={{ color: accent }}
+                                                    startIcon={<Description fontSize="small" />}
+                                                    sx={btnSx(accent)}
                                                 >
-                                                    <Description fontSize="small" />
-                                                </IconButton>
-                                            </Tooltip>
+                                                    Diploma
+                                                </Button>
                                         )}
                                     </Box>
                                 </AccordionSummary>
@@ -274,6 +304,9 @@ const EducationCard = () => {
                                         </AccordionDetails>
                                     )}
                             </Accordion>
+                            {education.press && <PressCard press={education.press} />}
+                            </Box>
+                            </Box>
                         );
                     })}
                 </Box>

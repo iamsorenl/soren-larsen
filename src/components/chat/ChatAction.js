@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import NoteForm from './NoteForm';
+import { goToSection } from '../../utils/goTo';
 import contact from '../../data/contact.json';
 
-const SECTIONS = ['experience', 'projects', 'skills', 'education', 'contact'];
+const SECTIONS = ['experience', 'projects', 'education', 'contact'];
 const TABS = ['play', 'research', 'how'];
 
 function ExternalButton({ href, children }) {
@@ -34,11 +35,6 @@ function ContactButtons() {
     );
 }
 
-function goToSection({ section, tab }) {
-    if (tab) window.dispatchEvent(new CustomEvent('portfolio:projects-tab', { detail: tab }));
-    const el = document.getElementById(section);
-    if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
-}
 
 // The action comes from a response header: only known types render.
 function ChatAction({ action, onNavigate }) {

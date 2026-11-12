@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { streamChat, summarize, ChatApiError } from './chatApi';
 import { loadSession, saveSession, clearSession } from './sessionStore';
 import { planCompaction, estimateMessageTokens } from './compaction';
-import { MAX_USER_MESSAGE_TOKENS, CONTACT_PROMPT } from './chatConfig';
+import { MAX_USER_MESSAGE_TOKENS, CONTACT_PROMPT, NOTE_PROMPT } from './chatConfig';
 
 const STATUS = {
     IDLE: 'idle',
@@ -30,6 +30,12 @@ function toWire(messages) {
         .filter((m) => typeof m.content === 'string' && m.content.trim() !== '')
         .map(({ role, content }) => ({ role, content }));
 }
+
+// Prompts answered without a network call.
+const LOCAL_ANSWERS = {
+    [CONTACT_PROMPT]: { content: "Here's how to reach Soren.", action: { type: 'contact' } },
+    [NOTE_PROMPT]: { content: "Leave Soren a note below and he'll reply by email.", action: { type: 'note' } },
+};
 
 export function useChat() {
     // Load the persisted session exactly once per mount.
@@ -127,15 +133,12 @@ export function useChat() {
 
         // Local answer: no network call, no turnstile, so the rate-limit gate
         // below doesn't apply, and a fresh answer clears any stale error.
-        if (trimmed === CONTACT_PROMPT) {
+        const local = LOCAL_ANSWERS[trimmed];
+        if (local) {
             setErrorKind(null);
             setStatus(STATUS.IDLE);
             setRetryAfterSec(0);
-            const next = [
-                ...messages,
-                newUserMsg,
-                { id: nextId(), role: 'assistant', content: "Here's how to reach Soren.", action: { type: 'contact' } },
-            ];
+            const next = [...messages, newUserMsg, { id: nextId(), role: 'assistant', ...local }];
             setMessages(next);
             persist(next, summary);
             return;

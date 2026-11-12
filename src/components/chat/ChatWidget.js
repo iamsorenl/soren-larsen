@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Fab, Tooltip, Box, useTheme } from '@mui/material';
+import { Fab, Tooltip, Box, useTheme, useMediaQuery } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatPanel from './ChatPanel';
 import StarterCard from './StarterCard';
@@ -10,7 +10,6 @@ const NAV_SECTIONS = [
     'about',
     'experience',
     'projects',
-    'skills',
     'education',
     'contact',
 ];
@@ -44,12 +43,14 @@ function ChatWidget() {
     const lastSectionRef = useRef(null);
     const wiggleTimerRef = useRef(null);
 
-    // Starter card: shows once per session after a short delay
+    // Starter card: shows once per session after a short delay. Not on phones,
+    // where it would cover most of the page; the FAB is enough there.
+    const phone = useMediaQuery('(max-width:599.95px)');
     useEffect(() => {
-        if (starterDismissed) return undefined;
+        if (starterDismissed || phone) return undefined;
         const t = setTimeout(() => setShowStarter(true), STARTER_DELAY_MS);
         return () => clearTimeout(t);
-    }, [starterDismissed]);
+    }, [starterDismissed, phone]);
 
     // Section-change wiggle: each time the active section transitions, the
     // FAB does a brief shake. The initial section landing on load doesn't
@@ -102,6 +103,15 @@ function ChatWidget() {
         handleOpen();
         chat.send(prompt);
     };
+
+    // Other parts of the page (Contact's "Leave me a note") open the chat with a prompt.
+    useEffect(() => {
+        const onOpenChat = (e) => {
+            if (e.detail && e.detail.prompt) handleStarterSelect(e.detail.prompt);
+        };
+        window.addEventListener('portfolio:open-chat', onOpenChat);
+        return () => window.removeEventListener('portfolio:open-chat', onOpenChat);
+    });
 
     const handleClose = () => {
         chat.cancel();

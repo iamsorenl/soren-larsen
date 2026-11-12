@@ -234,6 +234,7 @@ describe('resolveClientAction', () => {
   it('rejects bad input', () => {
     expect(resolveClientAction(call('open_demo', { title: 'policy-tree' }))).toBeNull();
     expect(resolveClientAction(call('go_to_section', { section: 'blog' }))).toBeNull();
+    expect(resolveClientAction(call('go_to_section', { section: 'skills' }))).toBeNull(); // section removed in pass 3
     expect(resolveClientAction(call('go_to_section', { section: 'projects', tab: 'nope' }))).toBeNull();
     expect(resolveClientAction(call('fetch_repo_readme', {}))).toBeNull();
     expect(resolveClientAction({ function: { name: 'show_contact', arguments: '{bad' } })).toEqual({ type: 'contact' });
