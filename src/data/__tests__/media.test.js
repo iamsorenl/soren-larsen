@@ -39,3 +39,18 @@ test('no media file is used in two places', () => {
     expect(dupes).toEqual([]);
     expect(heroPhotos).toHaveLength(9);
 });
+
+// iPhones decode H.264 in hardware and show nothing above level ~5.2
+// (boardal-ride.mp4 shipped at 6.2 and was a black tile on iOS).
+test('every site video is H.264 level 4.2 or lower so iPhones can play it', () => {
+  const walk = (d) => fs.readdirSync(d, { withFileTypes: true })
+    .flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
+  const vids = walk(pub('')).filter((f) => f.endsWith('.mp4'));
+  expect(vids.length).toBeGreaterThan(0);
+  const tooHigh = vids.filter((f) => {
+    const buf = fs.readFileSync(f);
+    const at = buf.indexOf('avcC');
+    return at < 0 || buf[at + 7] > 42; // avcC: version, profile, compat, level
+  }).map((f) => path.relative(pub(''), f));
+  expect(tooHigh).toEqual([]);
+});
