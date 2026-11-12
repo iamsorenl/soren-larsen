@@ -300,7 +300,7 @@
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
         "writeup": "/writeups/ptb-transformer.pdf",
-        "results": { "metric": "Test perplexity, lower is better", "bars": [["Baseline", 83.35], ["Smaller, tuned", 39.11], ["Larger", 134.72]] },
+        "results": { "metric": "Test perplexity, lower is better", "lowerIsBetter": true, "bars": [["Baseline", 83.35], ["Smaller, tuned", 39.11], ["Larger", 134.72]] },
         "muiIcon": "Abc",
         "category": "school",
         "description": "I built a transformer language model with my own attention layers and trained it on the Penn Treebank for my NLP master's.\nThe smaller tuned model won. It cut test perplexity from 83.35 to 39.11, and the larger model got worse at 134.72.",

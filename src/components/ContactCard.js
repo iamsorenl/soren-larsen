@@ -30,7 +30,7 @@ const ContactCard = () => {
             }}
         >
             <WaveLine />
-            <CardContent sx={{ position: 'relative', p: { xs: 3, md: 4 }, pb: { xs: 10, md: 12 } }}>
+            <CardContent sx={{ position: 'relative', p: { xs: 3, md: 4 }, '&:last-child': { pb: { xs: 10, md: 11 } } }}>
                 <SectionHeader eyebrow="Contact" title="Get in touch" icon={<ContactMail />} />
 
                 <Typography

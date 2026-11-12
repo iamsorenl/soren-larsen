@@ -18,3 +18,14 @@ test('the max value gets the longest bar', () => {
     expect(Number(b.getAttribute('data-pct'))).toBe(100);
     expect(Number(a.getAttribute('data-pct'))).toBeLessThan(100);
 });
+
+test('when lower is better, the smallest value is the highlighted one', () => {
+    render(<ResultChart results={{ metric: 'Test perplexity', lowerIsBetter: true, bars: [['Baseline', 83.35], ['Smaller, tuned', 39.11], ['Larger', 134.72]] }} />);
+    const bars = screen.getAllByTestId('bar');
+    expect(bars.map((b) => b.getAttribute('data-best'))).toEqual(['false', 'true', 'false']);
+});
+
+test('when higher is better, the largest value is the highlighted one', () => {
+    render(<ResultChart results={results} />);
+    expect(screen.getAllByTestId('bar').map((b) => b.getAttribute('data-best'))).toEqual(['false', 'true']);
+});

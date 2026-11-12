@@ -67,7 +67,7 @@ const EducationCard = () => {
                         return (
                             <Box key={`${education.school}-${education.degree || index}`}>
                             {education.media && (
-                                <Box sx={{ aspectRatio: '16 / 9', borderRadius: '8px', overflow: 'hidden', mb: 1 }}>
+                                <Box sx={{ aspectRatio: { xs: '16 / 9', md: 'auto' }, height: { md: 340 }, borderRadius: '8px', overflow: 'hidden', mb: 1 }}>
                                     <CyclingMedia items={education.media} label={education.media[0].alt} />
                                 </Box>
                             )}

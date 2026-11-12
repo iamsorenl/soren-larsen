@@ -4,7 +4,9 @@ import { alpha } from '@mui/material/styles';
 
 // Horizontal bars from a write-up's real numbers: { metric, bars: [[label, value], ...] }.
 const ResultChart = ({ results }) => {
-    const max = Math.max(...results.bars.map(([, v]) => v));
+    const values = results.bars.map(([, v]) => v);
+    const max = Math.max(...values);
+    const best = results.lowerIsBetter ? Math.min(...values) : max;
     return (
         <Box
             sx={{
@@ -28,12 +30,13 @@ const ResultChart = ({ results }) => {
                             <Box
                                 data-testid="bar"
                                 data-pct={pct}
+                                data-best={String(value === best)}
                                 sx={{
                                     height: 12,
                                     width: `${pct}%`,
                                     maxWidth: 'calc(100% - 52px)',
                                     borderRadius: 1,
-                                    bgcolor: (t) => alpha(t.palette.primary.main, value === max ? 0.9 : 0.45),
+                                    bgcolor: (t) => alpha(t.palette.primary.main, value === best ? 0.9 : 0.45),
                                 }}
                             />
                             <Typography variant="caption" sx={{ fontWeight: 700 }}>

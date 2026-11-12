@@ -124,7 +124,7 @@ const ResearchMedia = ({ project }) => {
     if (project.preview) return <DemoTile project={project} showTitle={false} />;
     if (project.results) {
         return (
-            <Box sx={{ aspectRatio: '16 / 9', borderRadius: '12px', overflow: 'hidden', border: (t) => `1px solid ${t.palette.divider}` }}>
+            <Box sx={{ minHeight: 180, display: 'flex', flexDirection: 'column', '& > *': { flex: 1 }, borderRadius: '12px', overflow: 'hidden', border: (t) => `1px solid ${t.palette.divider}` }}>
                 <ResultChart results={project.results} />
             </Box>
         );

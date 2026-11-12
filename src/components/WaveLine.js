@@ -21,7 +21,7 @@ const WaveLine = () => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                height: 120,
+                height: 64,
                 overflow: 'hidden',
                 pointerEvents: 'none',
                 color: (t) => alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.35 : 0.25),
