@@ -1,9 +1,10 @@
 import projects from './projects.json';
 import experienceImages from './experienceImages';
 import moments from './moments.json';
+import education from './education.json';
 
 // Every data file that references files in public/. Add new ones here.
-const SOURCES = [projects, experienceImages, moments];
+const SOURCES = [projects, experienceImages, moments, education];
 
 const PATH_RE = /"(\/(?:media|images|previews|writeups)\/[^"]+)"/g;
 

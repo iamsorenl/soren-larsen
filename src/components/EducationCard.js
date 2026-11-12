@@ -24,6 +24,7 @@ import {
 } from '@mui/icons-material';
 import educationData from '../data/education';
 import SectionHeader from './SectionHeader';
+import CyclingMedia from './CyclingMedia';
 
 const getStatus = (diploma) => {
     if (diploma === 'in progress') return { text: 'In Progress', color: 'warning' };
@@ -64,8 +65,13 @@ const EducationCard = () => {
                                 education.relevantCoursework.length > 0);
 
                         return (
+                            <Box key={`${education.school}-${education.degree || index}`}>
+                            {education.media && (
+                                <Box sx={{ aspectRatio: '16 / 9', borderRadius: '8px', overflow: 'hidden', mb: 1 }}>
+                                    <CyclingMedia items={education.media} label={education.media[0].alt} />
+                                </Box>
+                            )}
                             <Accordion
-                                key={`${education.school}-${education.degree || index}`}
                                 disableGutters
                                 elevation={0}
                                 sx={{
@@ -274,6 +280,7 @@ const EducationCard = () => {
                                         </AccordionDetails>
                                     )}
                             </Accordion>
+                            </Box>
                         );
                     })}
                 </Box>

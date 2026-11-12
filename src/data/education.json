@@ -14,6 +14,18 @@
             "Conversational Agents",
             "Advanced Machine Learning for Natural Language Processing",
             "Projects in Artificial Intelligence"
+        ],
+        "media": [
+            {
+                "type": "image",
+                "src": "/media/education/hooding.jpg",
+                "alt": "Soren receiving his master's hood at the UCSC Silicon Valley campus"
+            },
+            {
+                "type": "image",
+                "src": "/media/education/poster-talk.jpg",
+                "alt": "Soren explaining his research poster"
+            }
         ]
     },
     {
@@ -37,6 +49,13 @@
             "Mobile Applications",
             "Natural Language Processing",
             "Programming Abstractions: Python"
+        ],
+        "media": [
+            {
+                "type": "image",
+                "src": "/media/education/redwoods.jpg",
+                "alt": "Soren in his graduation stole in the UCSC redwoods"
+            }
         ]
     }
 ]
