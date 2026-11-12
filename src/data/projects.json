@@ -5,6 +5,7 @@
         "endDate": "December 2025",
         "link": "https://github.com/No-RAGrets-Research/No-RAGrets-Master",
         "video": "https://youtu.be/2yX1e5xogUQ",
+        "preview": { "poster": "/media/projects/no-ragrets.jpg", "video": "/media/projects/no-ragrets.mp4" },
         "muiIcon": "Abc",
         "category": "sponsored",
         "subtitle": "M.S. NLP Capstone, Industry-Sponsored Graduate Capstone, Featured by Santa Cruz Works",
@@ -40,6 +41,7 @@
     },
     {
         "title": "SLAC Accelerator Fault Investigator",
+        "slug": "slac",
         "preview": { "poster": "/previews/slac.jpg", "video": "/previews/slac.mp4" },
         "startDate": "September 2026",
         "endDate": "September 2026",
@@ -49,6 +51,10 @@
             {
                 "label": "Flower Hub",
                 "url": "https://flower.ai/apps/iamsorenl/slac-investigator/"
+            },
+            {
+                "label": "What is an X-ray laser? (SLAC)",
+                "url": "https://www.youtube.com/watch?v=kUeraeIkTmo"
             }
         ],
         "muiIcon": "Abc",
@@ -69,6 +75,8 @@
         "endDate": "June 2025",
         "link": "https://github.com/iamsorenl/EduMUSE",
         "video": "https://youtu.be/LAdN2gNdSyM",
+        "preview": { "poster": "/media/projects/edumuse.jpg", "video": "/media/projects/edumuse.mp4" },
+        "tab": "research",
         "muiIcon": "Abc",
         "category": "school",
         "description": "An AI study tool that turns course materials into interactive learning, with several agents working together to generate and adapt the content.\nDrop in a PDF and it pulls out the key concepts, writes summaries and quizzes, and can even turn the material into a podcast you can listen to.",
@@ -160,6 +168,7 @@
     },
     {
         "title": "Sentinel: Cyber Incident Response Council",
+        "preview": { "poster": "/media/projects/sentinel.jpg" },
         "startDate": "October 2026",
         "endDate": "October 2026",
         "link": "https://github.com/arpinero/UCSC-AI-Hackathon",
@@ -282,5 +291,47 @@
             "PDF Extraction"
         ],
         "details": "- Crawls a policy listing page, downloads each PDF, and cuts out the initial criteria section\n- An LLM turns the criteria into nested AND/OR rules, validated against a pydantic schema, with one retry that includes the validation error\n- Failed policies are stored with their error so they show up in the browser UI instead of disappearing\n- Works with OpenAI or any compatible server, including a local Ollama model, and the 33 tests run offline"
+    },
+    {
+        "title": "Transformer language model on Penn Treebank",
+        "slug": "ptb-transformer",
+        "tab": "research",
+        "startDate": "November 2024",
+        "endDate": "November 2024",
+        "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
+        "writeup": "/writeups/ptb-transformer.pdf",
+        "results": { "metric": "Test perplexity, lower is better", "bars": [["Baseline", 83.35], ["Smaller, tuned", 39.11], ["Larger", 134.72]] },
+        "muiIcon": "Abc",
+        "category": "school",
+        "description": "I built a transformer language model with my own attention layers and trained it on the Penn Treebank for my NLP master's.\nThe smaller tuned model won. It cut test perplexity from 83.35 to 39.11, and the larger model got worse at 134.72.",
+        "tools": ["Python", "PyTorch", "Transformers"]
+    },
+    {
+        "title": "Transformer QA: robustness and domain adaptation",
+        "slug": "transformer-qa",
+        "tab": "research",
+        "startDate": "February 2025",
+        "endDate": "February 2025",
+        "link": "https://github.com/iamsorenl/Transformer_QA",
+        "writeup": "/writeups/transformer-qa.pdf",
+        "results": { "metric": "Test F1 on COVID-QA, higher is better", "bars": [["Baseline", 43.79], ["LoRA", 54.33]] },
+        "muiIcon": "Abc",
+        "category": "school",
+        "description": "I tested how a RoBERTa model trained on SQuAD 2.0 holds up on tricky and out of domain questions, then adapted it to COVID research papers.\nFine tuning it with LoRA on COVID-QA raised test F1 from 43.79 to 54.33 without retraining the whole model.",
+        "tools": ["Python", "PyTorch", "Hugging Face", "LoRA"]
+    },
+    {
+        "title": "Neural machine translation, French to English",
+        "slug": "nmt",
+        "tab": "research",
+        "startDate": "January 2025",
+        "endDate": "January 2025",
+        "link": "https://github.com/iamsorenl/Neural-Machine-Translation",
+        "writeup": "/writeups/nmt.pdf",
+        "results": { "metric": "Test BLEU, higher is better", "bars": [["Transformer, BPE", 28.19], ["Transformer, whole words", 32.82], ["CNN, BPE", 26.88], ["CNN, whole words", 30.79]] },
+        "muiIcon": "Abc",
+        "category": "school",
+        "description": "I trained Transformer and CNN models with Fairseq to translate French to English, once with words split into BPE subword pieces and once with whole words.\nWhole words won for both models, and the Transformer went from 28.19 to 32.82 BLEU on the test set.",
+        "tools": ["Python", "Fairseq", "PyTorch"]
     }
 ]

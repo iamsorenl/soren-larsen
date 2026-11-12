@@ -147,3 +147,13 @@ describe('deflection rule', () => {
     expect(p).not.toContain('great question for Soren directly');
   });
 });
+
+describe('UI-only data stays out of the prompt', () => {
+  it.each(["What's he building now?", 'Tell me about the transformer QA project', 'Where did he study?'])(
+    '%s has no media paths, previews or chart data',
+    (q) => {
+      const sp = buildSystemPrompt(null, q);
+      expect(sp).not.toMatch(/\/media\/|"preview"|"results"|"muiIcon"|diplomaFile/);
+    }
+  );
+});

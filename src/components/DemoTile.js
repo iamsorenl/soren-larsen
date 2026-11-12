@@ -4,7 +4,7 @@ import { alpha } from '@mui/material/styles';
 import { PlayArrow } from '@mui/icons-material';
 import { FONT_DISPLAY } from '../theme';
 
-const DemoTile = ({ project, compact = false }) => {
+const DemoTile = ({ project, compact = false, showTitle = true }) => {
     const { title, demo, video, preview } = project;
     const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
     const ref = useRef(null);
@@ -34,6 +34,7 @@ const DemoTile = ({ project, compact = false }) => {
             component="a"
             ref={ref}
             href={demo || video}
+            aria-label={showTitle ? undefined : `${demo ? "Play" : "Watch"} ${title}`}
             target="_blank"
             rel="noopener noreferrer"
             sx={{
@@ -92,7 +93,7 @@ const DemoTile = ({ project, compact = false }) => {
                     component="span"
                     sx={{ fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: '0.875rem', lineHeight: 1.25 }}
                 >
-                    {title}
+                    {showTitle ? title : ''}
                 </Typography>
                 <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', fontSize: '0.75rem', flexShrink: 0 }}>
                     <PlayArrow sx={{ fontSize: 16 }} aria-hidden="true" />

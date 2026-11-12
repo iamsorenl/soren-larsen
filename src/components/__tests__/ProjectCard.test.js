@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, within } from '@testing-library/react';
 import ProjectCard from '../ProjectCard';
 import contact from '../../data/contact.json';
 
@@ -15,6 +15,26 @@ describe('ProjectCard tabs', () => {
         expect(screen.getAllByText(/^(Play|Watch)$/)).toHaveLength(4);
     });
 
+    test('SLAC tile shows the explainer video link', () => {
+        render(<ProjectCard />);
+        expect(screen.getByRole('link', { name: /What is an X-ray laser/ }).getAttribute('href')).toMatch(/kUeraeIkTmo/);
+    });
+
+    test('Research tab: write-up link, no Explore yet, anchored cards', () => {
+        const { container } = render(<ProjectCard />);
+        act(() => { window.dispatchEvent(new CustomEvent('portfolio:projects-tab', { detail: 'research' })); });
+        const writeups = screen.getAllByRole('link', { name: 'Write-up' }).map((a) => a.getAttribute('href'));
+        expect(writeups).toContain('/writeups/transformer-qa.pdf');
+        expect(screen.queryByRole('link', { name: 'Explore' })).toBeNull();
+        ['project-no-ragrets', 'project-edumuse', 'project-ptb-transformer', 'project-transformer-qa', 'project-nmt']
+            .forEach((id) => expect(container.querySelector(`#${id}`)).not.toBeNull());
+    });
+
+    test('Play tab cards are anchored', () => {
+        const { container } = render(<ProjectCard />);
+        expect(container.querySelector('#project-slac')).not.toBeNull();
+    });
+
     test('How it works tab hidden when no project has tab "how"', () => {
         render(<ProjectCard />);
         expect(screen.queryByRole('tab', { name: 'How it works' })).toBeNull();
@@ -25,7 +45,9 @@ describe('ProjectCard tabs', () => {
         expect(screen.queryByText('No RAGrets')).toBeNull();
         act(() => screen.getByRole('tab', { name: 'Research' }).click());
         expect(screen.getByText('No RAGrets')).toBeTruthy();
-        expect(screen.getByRole('link', { name: /Watch demo/ }).getAttribute('href')).toMatch(/youtu/);
+        const card = document.getElementById('project-no-ragrets');
+        expect(within(card).getByRole('link', { name: /Watch demo/ }).getAttribute('href')).toBe('https://youtu.be/2yX1e5xogUQ');
+        expect(within(card).getByRole('link', { name: 'Watch No RAGrets' }).getAttribute('href')).toBe('https://youtu.be/2yX1e5xogUQ');
     });
 
     test('More on GitHub links to contact github', () => {

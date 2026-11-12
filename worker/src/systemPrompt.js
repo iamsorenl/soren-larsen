@@ -95,20 +95,30 @@ function compactExperience(e) {
 
 // `details` is long UI bullet copy that mostly repeats `description`; only
 // inline it when a query keyword actually hits it.
+// Keys that only drive the site's UI (media, icons, anchors, charts). The
+// description already states the numbers a chart shows.
+const UI_ONLY_KEYS = ['preview', 'photo', 'muiIcon', 'slug', 'results', 'media', 'diplomaFile'];
+const withoutUi = (o) => Object.fromEntries(Object.entries(o).filter(([k]) => !UI_ONLY_KEYS.includes(k)));
+
 function trimDetails(p, keywords) {
-  if (!p.details) return p;
-  const d = p.details.toLowerCase();
-  if (keywords.some((kw) => d.includes(kw))) return p;
-  const { details, ...rest } = p;
+  const facts = withoutUi(p);
+  if (!facts.details) return facts;
+  const d = facts.details.toLowerCase();
+  if (keywords.some((kw) => d.includes(kw))) return facts;
+  const { details, ...rest } = facts;
   return rest;
 }
 
+// "Nov 2024 to Dec 2025", or one date when they match. One short string
+// instead of two keys keeps the always-on project list cheap.
+const shortDate = (d) => String(d).replace(/^([A-Za-z]{3})[A-Za-z]* (\d{4})$/, '$1 $2');
+
 function compactProject(p) {
+  const [start, end] = [shortDate(p.startDate), shortDate(p.endDate)];
   return {
     title: p.title,
     subtitle: p.subtitle,
-    startDate: p.startDate,
-    endDate: p.endDate,
+    dates: start === end ? start : `${start} to ${end}`,
     link: p.link,
   };
 }
@@ -139,7 +149,7 @@ export function retrieveContext(latestUserMessage) {
   sections.contact = contact;
   sections.highlights = highlights;
   sections.skills = compactSkills(skills);
-  sections.education = education;
+  sections.education = education.map(withoutUi);
 
   if (isSectionRelevant(queryLower, 'experience')) {
     // Full detail for the current role plus the best keyword match; every other

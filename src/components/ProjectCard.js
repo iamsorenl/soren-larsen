@@ -15,10 +15,11 @@ import {
     useTheme,
     useMediaQuery,
 } from '@mui/material';
-import { GitHub, ExpandMore, ExpandLess, Code, Launch, PlayArrow } from '@mui/icons-material';
+import { GitHub, ExpandMore, ExpandLess, Code, Launch, PlayArrow, Description, Science } from '@mui/icons-material';
 import projectsData from '../data/projects';
 import contactInfo from '../data/contact';
 import DemoTile from './DemoTile';
+import ResultChart from './ResultChart';
 import SectionHeader from './SectionHeader';
 
 const TOOL_COLORS = {
@@ -48,9 +49,11 @@ const splitDescription = (description) => {
 // Card buttons, in display order. `demo`, `video` and `link` (GitHub) are
 // shorthands; anything else goes in `links: [{ "label", "url" }]`.
 const projectLinks = (project) => [
+    project.explore && { label: 'Explore', url: project.explore, icon: <Science fontSize="small" />, primary: true },
     project.demo && { label: 'Live demo', url: project.demo, icon: <Launch fontSize="small" />, primary: true },
     project.video && { label: 'Watch demo', url: project.video, icon: <PlayArrow fontSize="small" /> },
     ...(project.links || []).map((l) => ({ ...l, icon: <Launch fontSize="small" /> })),
+    project.writeup && { label: 'Write-up', url: project.writeup, icon: <Description fontSize="small" /> },
     project.link && { label: 'View on GitHub', url: project.link, icon: <GitHub fontSize="small" /> },
 ].filter(Boolean);
 
@@ -84,6 +87,50 @@ const LinkButton = ({ href, icon, primary, accent, children }) => (
         {children}
     </Button>
 );
+
+// Optional photo and extra links shown under a play tile. The tile itself is
+// one big link, so these can't live inside it.
+const TileExtras = ({ project, accent }) => {
+    const { photo, links = [] } = project;
+    if (!photo && links.length === 0) return null;
+    return (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1, flexWrap: 'wrap' }}>
+            {photo && (
+                <Link href={photo.src} target="_blank" rel="noopener noreferrer" sx={{ lineHeight: 0 }}>
+                    <Box
+                        component="img"
+                        src={photo.src}
+                        alt={photo.alt}
+                        loading="lazy"
+                        sx={{ width: 64, height: 48, objectFit: 'cover', borderRadius: '6px', display: 'block' }}
+                    />
+                </Link>
+            )}
+            {links.map(({ label, url }) => (
+                <LinkButton key={url} href={url} icon={<Launch fontSize="small" />} accent={accent}>
+                    {label}
+                </LinkButton>
+            ))}
+        </Box>
+    );
+};
+
+// Card anchor ids, used by hero moments and chat "take me there".
+const anchorId = (project) =>
+    `project-${project.slug || project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+
+// Research media above the entry: the video preview, or a chart of the write-up's results.
+const ResearchMedia = ({ project }) => {
+    if (project.preview) return <DemoTile project={project} showTitle={false} />;
+    if (project.results) {
+        return (
+            <Box sx={{ aspectRatio: '16 / 9', borderRadius: '12px', overflow: 'hidden', border: (t) => `1px solid ${t.palette.divider}` }}>
+                <ResultChart results={project.results} />
+            </Box>
+        );
+    }
+    return null;
+};
 
 const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile }) => {
     const { summary, detail } = splitDescription(project.description);
@@ -333,23 +380,28 @@ const ProjectCard = () => {
                 {active.key === 'play' ? (
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
                         {active.items.map((project) => (
-                            <DemoTile key={project.title} project={project} />
+                            <Box key={project.title} id={anchorId(project)}>
+                                <DemoTile project={project} />
+                                <TileExtras project={project} accent={theme.palette.primary.main} />
+                            </Box>
                         ))}
                     </Box>
                 ) : (
-                    <Stack spacing={1.25}>
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, alignItems: 'start' }}>
                         {active.items.map((project) => (
-                            <ProjectEntry
-                                key={project.title}
-                                project={project}
-                                accent={theme.palette.primary.main}
-                                entryId={project.title}
-                                expanded={expandedProject === project.title}
-                                onToggle={handleExpandClick}
-                                isMobile={isMobile}
-                            />
+                            <Stack key={project.title} id={anchorId(project)} spacing={1}>
+                                <ResearchMedia project={project} />
+                                <ProjectEntry
+                                    project={project}
+                                    accent={theme.palette.primary.main}
+                                    entryId={project.title}
+                                    expanded={expandedProject === project.title}
+                                    onToggle={handleExpandClick}
+                                    isMobile={isMobile}
+                                />
+                            </Stack>
                         ))}
-                    </Stack>
+                    </Box>
                 )}
 
                 <Button
