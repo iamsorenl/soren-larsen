@@ -14,7 +14,8 @@ import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
 import { FONT_DISPLAY, FONT_MONO } from '../theme';
 import GlowMark from './GlowMark';
-import DemoStrip from './DemoStrip';
+import MomentStrip from './MomentStrip';
+import { goToSection } from '../utils/goTo';
 
 import headshot1 from '../images/Headshot1.jpg';
 import headshot2 from '../images/Headshot2.jpg';
@@ -42,6 +43,14 @@ const IMAGE_URLS = [
     frontierTower,
 ];
 const INTERVAL_MS = 8000;
+
+// Carousel photos that lead somewhere when tapped.
+const PHOTO_TARGETS = {
+    [slugfest]: {
+        label: 'SlugFest talk, see No RAGrets',
+        target: { section: 'projects', tab: 'research', anchor: 'project-no-ragrets' },
+    },
+};
 
 const scrollToContact = (event) => {
     event.preventDefault();
@@ -275,8 +284,18 @@ const Hero = () => {
                         }}
                     />
                 </Fade>
+                {PHOTO_TARGETS[IMAGE_URLS[imgIndex]] && (
+                    <Button
+                        size="small"
+                        onClick={() => goToSection(PHOTO_TARGETS[IMAGE_URLS[imgIndex]].target)}
+                        aria-label={PHOTO_TARGETS[IMAGE_URLS[imgIndex]].label}
+                        sx={{ mt: 1 }}
+                    >
+                        See No RAGrets →
+                    </Button>
+                )}
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', mt: 2, gap: 1 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center', mt: 2, gap: 0.25 }}>
                     {IMAGE_URLS.map((_, i) => (
                         <Box
                             key={i}
@@ -319,7 +338,7 @@ const Hero = () => {
             </Box>
             </Box>
 
-            <DemoStrip />
+            <MomentStrip />
         </Box>
     );
 };

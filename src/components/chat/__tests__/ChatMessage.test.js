@@ -51,7 +51,7 @@ test('demo action opens https url in a new tab; non-https renders nothing', () =
 test('section action scrolls and dispatches the tab event', () => {
     const el = document.createElement('div');
     el.id = 'projects';
-    Object.defineProperty(el, 'offsetTop', { value: 500 });
+    el.getBoundingClientRect = () => ({ top: 500 });
     document.body.appendChild(el);
     const scrollTo = jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
     const onNavigate = jest.fn();
