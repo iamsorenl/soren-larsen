@@ -6,7 +6,7 @@
         "link": "https://nlp.ucsc.edu",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma2.pdf",
-        "description": "UC Santa Cruz's intensive NLP master's, taught at its Silicon Valley campus and built around industry-sponsored capstones. Mine was No RAGrets, built with CarbonBridge.",
+        "description": "UC Santa Cruz's intensive master's in natural language processing, taught at its Silicon Valley campus and built around industry-sponsored capstones with real companies. Mine was No RAGrets, built with CarbonBridge. It pairs classic computational linguistics with modern deep learning, from statistical models to transformers, retrieval and agents. I studied under Ian Lane, Jeffrey Flanigan, Yi Zhang, Beth Ann Hockey, Amita Misra and Jalal Mahmud.",
         "relevantCoursework": [
             "Natural Language Processing",
             "Deep Learning for Natural Language Processing",
@@ -19,14 +19,33 @@
             {
                 "type": "image",
                 "src": "/media/education/hooding.jpg",
-                "alt": "Soren receiving his master's hood at the UCSC Silicon Valley campus"
+                "pos": "45% 50%",
+                "zoom": 1.5,
+                "alt": "Soren in his graduation sash holding his master's certificate at the UCSC Silicon Valley campus"
+            },
+            {
+                "type": "image",
+                "src": "/media/education/poster-presentation.jpg",
+                "pos": "100% 56%",
+                "zoom": 1.18,
+                "alt": "Soren presenting his master's research poster"
             },
             {
                 "type": "image",
                 "src": "/media/education/poster-talk.jpg",
+                "pos": "48.8% 66.9%",
                 "alt": "Soren explaining his research poster"
             }
-        ]
+        ],
+        "press": {
+            "outlet": "Santa Cruz Works",
+            "title": "How a Chance Encounter Became a Game-Changing Research Partnership",
+            "author": "Doug Erickson",
+            "date": "May 7, 2025",
+            "url": "https://www.santacruzworks.org/news/how-a-chance-encounter-became-a-game-changing-research-partnershi",
+            "image": "/media/education/press-santa-cruz-works.jpg",
+            "blurb": "May 2025 · how the CarbonBridge capstone started"
+        }
     },
     {
         "school": "University of California Santa Cruz",
@@ -35,7 +54,7 @@
         "link": "https://admissions.ucsc.edu/programs/computer-science",
         "diploma": "yes",
         "diplomaFile": "CertifiedElectronicDiploma.pdf",
-        "description": "Computer science at UC Santa Cruz's Baskin School of Engineering. The NLP course I took here is what sent me back for the master's.",
+        "description": "Computer science at UC Santa Cruz's Baskin School of Engineering, the school where I went on to advise engineering students and later teach AI. I built everything from systems and algorithms to full-stack and mobile apps, and upper-division AI and NLP coursework sparked the interest I came back for in the NLP master's.",
         "relevantCoursework": [
             "Data Structures and Algorithms",
             "Intro to Algorithm Analysis",
@@ -53,8 +72,10 @@
         "media": [
             {
                 "type": "image",
-                "src": "/media/education/redwoods.jpg",
-                "alt": "Soren in his graduation stole in the UCSC redwoods"
+                "src": "/media/education/bs-grad.jpg",
+                "pos": "61.7% 53.6%",
+                "zoom": 1.04,
+                "alt": "Soren in his cap and gown on a campus sculpture at UC Santa Cruz"
             }
         ]
     }

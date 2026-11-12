@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     Box,
     Stack,
     Typography,
     Button,
-    Avatar,
-    Fade,
     useTheme,
     useMediaQuery,
 } from '@mui/material';
@@ -14,43 +12,67 @@ import { Description, ContactMail, GitHub } from '@mui/icons-material';
 import contact from '../data/contact';
 import { FONT_DISPLAY, FONT_MONO } from '../theme';
 import GlowMark from './GlowMark';
-import MomentStrip from './MomentStrip';
-import { goToSection } from '../utils/goTo';
+import CyclingMedia from './CyclingMedia';
+import about from '../data/about.json';
+import heroPhotos from '../data/heroPhotos';
 
-import headshot1 from '../images/Headshot1.jpg';
-import headshot2 from '../images/Headshot2.jpg';
-import turtle from '../images/Turtle.jpg';
-import surf from '../images/Surf.jpg';
-import halfdome from '../images/HalfDome.jpg';
-import expressive from '../images/Expressive.JPG';
-import peru from '../images/Peru.JPG';
-import slugfest from '../images/SlugFest.JPG';
-import caffeineHack from '../images/caffeine_hack.jpeg';
-import posterPresentation from '../images/Poster_Presentation.JPG';
-import frontierTower from '../images/FrontierTower.jpg';
-
-const IMAGE_URLS = [
-    headshot1,
-    expressive,
-    halfdome,
-    headshot2,
-    turtle,
-    peru,
-    slugfest,
-    surf,
-    caffeineHack,
-    posterPresentation,
-    frontierTower,
-];
 const INTERVAL_MS = 8000;
+const BIO = about[0].about.split('\n\n');
 
-// Carousel photos that lead somewhere when tapped.
-const PHOTO_TARGETS = {
-    [slugfest]: {
-        label: 'SlugFest talk, see No RAGrets',
-        target: { section: 'projects', tab: 'research', anchor: 'project-no-ragrets' },
-    },
+// Ambient swell lines in the hero's empty side margins (lg+). Each line is a
+// seamless 400px wave tile slid left by one period with a CSS transform, so it
+// loops without JS. Masked out of the center so the copy stays clean.
+const PERIOD = 400;
+const SWELLS = [
+    { top: '18%', amp: 10, dur: 38, op: 0.35 },
+    { top: '34%', amp: 14, dur: 52, op: 0.25 },
+    { top: '52%', amp: 9, dur: 30, op: 0.4 },
+    { top: '68%', amp: 16, dur: 64, op: 0.22 },
+    { top: '84%', amp: 11, dur: 44, op: 0.3 },
+];
+const waveTile = (amp, color) => {
+    const h = amp * 2 + 4;
+    const m = h / 2;
+    const d = `M0 ${m} C100 ${m - amp} 100 ${m - amp} 200 ${m} S300 ${m + amp} 400 ${m}`;
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${PERIOD}' height='${h}'><path d='${d}' fill='none' stroke='${color}' stroke-width='1.5'/></svg>`;
+    return { url: `url("data:image/svg+xml,${encodeURIComponent(svg)}")`, h };
 };
+
+const SwellLines = ({ color, reduced }) => (
+    <Box
+        aria-hidden="true"
+        data-testid="hero-swells"
+        sx={{
+            display: { xs: 'none', lg: 'block' },
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            overflow: 'hidden',
+            maskImage: 'linear-gradient(to right, #000 0%, transparent 28%, transparent 72%, #000 100%)',
+            '@keyframes swellDrift': { from: { transform: 'translateX(0)' }, to: { transform: `translateX(-${PERIOD}px)` } },
+        }}
+    >
+        {SWELLS.map((w) => {
+            const t = waveTile(w.amp, color);
+            return (
+                <Box
+                    key={w.top}
+                    sx={{
+                        position: 'absolute',
+                        top: w.top,
+                        left: 0,
+                        width: `calc(100% + ${PERIOD}px)`,
+                        height: t.h,
+                        backgroundImage: t.url,
+                        backgroundRepeat: 'repeat-x',
+                        opacity: w.op,
+                        animation: reduced ? 'none' : `swellDrift ${w.dur}s linear infinite`,
+                    }}
+                />
+            );
+        })}
+    </Box>
+);
 
 const scrollToContact = (event) => {
     event.preventDefault();
@@ -60,34 +82,12 @@ const scrollToContact = (event) => {
     }
 };
 
-const TAGLINE =
-    'An AI and full-stack engineer in Santa Cruz, working on AI agents, developer tools, and applied NLP.';
-
 const Hero = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
     const outlinedColor = theme.palette.primary.main;
-
-    const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
-
-    const [imgIndex, setImgIndex] = useState(0);
-    const [carouselPaused, setCarouselPaused] = useState(false);
-    useEffect(() => {
-        // No auto-advance for users who prefer reduced motion, and pause the
-        // rotation while the image area is hovered or focused.
-        if (prefersReducedMotion || carouselPaused) {
-            return undefined;
-        }
-        const id = setInterval(
-            () => setImgIndex((i) => (i + 1) % IMAGE_URLS.length),
-            INTERVAL_MS,
-        );
-        return () => clearInterval(id);
-    }, [prefersReducedMotion, carouselPaused]);
-
-    const pauseCarousel = () => setCarouselPaused(true);
-    const resumeCarousel = () => setCarouselPaused(false);
 
     return (
         <Box
@@ -104,8 +104,11 @@ const Hero = () => {
                     ? 'linear-gradient(160deg, #0d1240 0%, #111827 100%)'
                     : 'linear-gradient(160deg, #eef0fb 0%, #f5f5f5 100%)',
                 border: `1px solid ${alpha(theme.palette.primary.main, isDark ? 0.22 : 0.3)}`,
+                position: 'relative',
+                overflow: 'hidden',
             }}
         >
+            <SwellLines color={isDark ? theme.palette.primary.light : theme.palette.primary.main} reduced={reduced} />
             <Box
                 sx={{
                     display: 'grid',
@@ -115,6 +118,7 @@ const Hero = () => {
                     mx: 'auto',
                     gap: { xs: 4, md: 5 },
                     alignItems: 'center',
+                    position: 'relative',
                 }}
             >
             <Box>
@@ -181,17 +185,22 @@ const Hero = () => {
                     Product Engineer
                 </Typography>
 
-                <Typography
-                    variant="body1"
-                    sx={{
-                        mt: 2.5,
-                        maxWidth: 560,
-                        color: 'text.secondary',
-                        lineHeight: 1.6,
-                    }}
-                >
-                    {TAGLINE}
-                </Typography>
+                <Box sx={{ mt: 2.5, maxWidth: 600 }}>
+                    {BIO.map((para, i) => (
+                        <Typography
+                            key={para}
+                            variant="body1"
+                            sx={{
+                                color: 'text.secondary',
+                                lineHeight: 1.6,
+                                mt: i ? 1.25 : 0,
+                                ...(i === BIO.length - 1 && i > 1 && { fontStyle: 'italic' }),
+                            }}
+                        >
+                            {para}
+                        </Typography>
+                    ))}
+                </Box>
 
                 <Stack
                     direction="row"
@@ -253,92 +262,20 @@ const Hero = () => {
             </Box>
 
             <Box
-                onMouseEnter={pauseCarousel}
-                onMouseLeave={resumeCarousel}
-                onFocus={pauseCarousel}
-                onBlur={resumeCarousel}
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
                     width: '100%',
+                    maxWidth: isMobile ? 280 : 340,
+                    height: isMobile ? 320 : 400,
                     justifySelf: 'center',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    border: `4px solid ${alpha(theme.palette.primary.main, isDark ? 0.35 : 0.3)}`,
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.22)',
                 }}
             >
-                <Fade in key={imgIndex} timeout={prefersReducedMotion ? 0 : 1200}>
-                    <Avatar
-                        src={IMAGE_URLS[imgIndex]}
-                        imgProps={{
-                            loading: imgIndex === 0 ? 'eager' : 'lazy',
-                            decoding: 'async',
-                            alt: 'Soren Larsen',
-                        }}
-                        variant="rounded"
-                        sx={{
-                            width: '100%',
-                            maxWidth: isMobile ? 280 : 340,
-                            height: isMobile ? 320 : 400,
-                            borderRadius: '16px',
-                            border: `4px solid ${alpha(theme.palette.primary.main, isDark ? 0.35 : 0.3)}`,
-                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.22)',
-                        }}
-                    />
-                </Fade>
-                {PHOTO_TARGETS[IMAGE_URLS[imgIndex]] && (
-                    <Button
-                        size="small"
-                        onClick={() => goToSection(PHOTO_TARGETS[IMAGE_URLS[imgIndex]].target)}
-                        aria-label={PHOTO_TARGETS[IMAGE_URLS[imgIndex]].label}
-                        sx={{ mt: 1 }}
-                    >
-                        See No RAGrets →
-                    </Button>
-                )}
-
-                <Box sx={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center', mt: 2, gap: 0.25 }}>
-                    {IMAGE_URLS.map((_, i) => (
-                        <Box
-                            key={i}
-                            component="button"
-                            onClick={() => setImgIndex(i)}
-                            aria-label={`Show photo ${i + 1} of ${IMAGE_URLS.length}`}
-                            sx={{
-                                width: 24,
-                                height: 24,
-                                padding: 0,
-                                border: 'none',
-                                background: 'none',
-                                cursor: 'pointer',
-                                display: 'grid',
-                                placeItems: 'center',
-                                '&::after': {
-                                    content: '""',
-                                    width: 8,
-                                    height: 8,
-                                    borderRadius: '50%',
-                                    backgroundColor:
-                                        i === imgIndex
-                                            ? isDark
-                                                ? 'rgba(255,255,255,0.85)'
-                                                : 'primary.main'
-                                            : isDark
-                                              ? 'rgba(255,255,255,0.28)'
-                                              : alpha(theme.palette.primary.main, 0.4),
-                                    transition: 'background-color 0.3s ease',
-                                },
-                                '&:focus-visible': {
-                                    outline: '2px solid',
-                                    outlineColor: isDark ? 'primary.light' : 'primary.main',
-                                    outlineOffset: 2,
-                                },
-                            }}
-                        />
-                    ))}
-                </Box>
+                <CyclingMedia items={heroPhotos} intervalMs={INTERVAL_MS} label="Photos of Soren" counter tooltip />
             </Box>
             </Box>
-
-            <MomentStrip />
         </Box>
     );
 };

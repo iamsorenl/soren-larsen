@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import ExperienceCard from '../ExperienceCard';
 import experienceData from '../../data/experience';
 
@@ -11,14 +11,14 @@ jest.mock('../../data/experience', () => ({
     __esModule: true,
     default: [
         { company: 'Boardal', title: 'Dev', location: 'X', startDate: 'April 2024', endDate: 'Present', description: 'Boardal desc', skills: ['React'] },
-        { company: 'Self-Employed', title: 'AI Engineer', location: 'X', startDate: 'September 2026', endDate: 'Present', description: 'Self desc\nline two', skills: ['Python'], link: 'https://example.com/site', links: [{ label: 'Repo', url: 'https://example.com/r' }] },
+        { company: 'Self-Employed', title: 'AI Engineer', location: 'X', startDate: 'September 2026', endDate: 'Present', description: 'Self desc\n\nline two', skills: ['Python'], link: 'https://example.com/site', links: [{ label: 'Repo', url: 'https://example.com/r' }] },
         { company: 'Pic Co', title: 'Eng', location: 'X', startDate: 'May 2025', endDate: 'Present', description: 'Pic desc', skills: [], image: 'pic' },
     ],
 }));
 
 test('renders one tile per job in date order', () => {
     render(<ExperienceCard />);
-    const names = screen.getAllByRole('button').map((b) => b.textContent);
+    const names = screen.getAllByRole('article').map((a) => a.getAttribute('aria-label'));
     expect(names[0]).toMatch(/Self-Employed/);
     expect(names[names.length - 1]).toMatch(/Boardal/);
     expect(names).toHaveLength(experienceData.length);
@@ -31,20 +31,30 @@ test('tile without image shows monogram, with image shows img', () => {
     expect(screen.getAllByRole('img')).toHaveLength(1);
 });
 
-test('clicking a tile reveals description and links', () => {
+test('clicking a tile opens a dialog with paragraphs, links and a skills line', () => {
     render(<ExperienceCard />);
-    expect(screen.queryByText(/Self desc/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /Self-Employed/ }));
-    expect(screen.getByText(/Self desc/)).toBeInTheDocument();
-    const link = screen.getByRole('link', { name: 'Repo' });
+    const dialog = screen.getByRole('dialog', { name: 'Self-Employed' });
+    expect(within(dialog).getByText('Self desc')).toBeInTheDocument();
+    expect(within(dialog).getByText('line two')).toBeInTheDocument();
+    const link = within(dialog).getByRole('link', { name: 'Repo' });
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-    expect(screen.getByText('Python')).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: /Boardal/ }));
-    expect(screen.queryByText(/Self desc/)).not.toBeInTheDocument();
+    expect(within(dialog).getByText('Python')).toBeInTheDocument();
 });
 
-test('company link renders as first Website chip opening in a new tab', () => {
+test('Escape and the X both close the dialog', async () => {
+    render(<ExperienceCard />);
+    fireEvent.click(screen.getByRole('button', { name: /Self-Employed/ }));
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: /Boardal/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+});
+
+test('company link renders as the first Website button opening in a new tab', () => {
     render(<ExperienceCard />);
     fireEvent.click(screen.getByRole('button', { name: /Self-Employed/ }));
     const chips = screen.getAllByRole('link');

@@ -75,11 +75,12 @@
     },
     {
         "company": "Onda Sports Inc.",
-        "title": "ML/AI Engineer",
+        "title": "AI Engineer & Product Consultant",
         "location": "Remote",
         "startDate": "May 2025",
         "endDate": "September 2025",
         "link": "https://getonda.com/",
+        "image": "onda",
         "description": "Every surfer knows the feeling of driving to a spot the forecast called good and finding it way over their head. Onda is an AI surf app built to fix that, matching each surfer to the right conditions using live NOAA and buoy data.\n\nI owned the AI Surf Assistant through launch and caught it making the same mistake, pushing surfers past their ability. I redesigned it to respect each surfer's level and verified the fix against a fixed test set.",
         "skills": [
             "Python",
@@ -101,6 +102,7 @@
         "startDate": "September 2024",
         "endDate": "December 2025",
         "link": "https://engineering.ucsc.edu/",
+        "image": "baskin",
         "description": "I taught more than 150 UC Santa Cruz students how AI works and how to design software for real businesses.\n\nIn Artificial Intelligence, I took them from search algorithms and game playing to machine learning and neural networks, and kept the autograders and Pacman codebase behind the course running. In Business Information Systems and Systems Analysis and Design, I taught students to think like product engineers, turning a messy business problem into requirements, UML models, a SQL database and an agile plan, then coaching their project teams until the design held up.",
         "skills": [
             "Artificial Intelligence (AI)",
@@ -140,15 +142,6 @@
         "category": "professional",
         "details": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders and the only engineer on the app, and I carried the technical side. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and shipped the iOS releases. Toward the end I built a custom GPT wired to the Google Sheets API so the marketing interns could write personalized outreach from customer records and track who had been contacted.",
         "image": "boardal",
-        "links": [
-            {
-                "label": "Surf tip reel (Instagram)",
-                "url": "https://www.instagram.com/reel/C-BmIEKyAQh/"
-            },
-            {
-                "label": "App demo reel (Instagram)",
-                "url": "https://www.instagram.com/reel/DACZSzDSRT1/"
-            }
-        ]
+        "links": [{ "label": "Instagram", "url": "https://www.instagram.com/boardal.app/" }]
     }
 ]

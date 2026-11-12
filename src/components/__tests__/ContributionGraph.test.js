@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import ContributionGraph from '../ContributionGraph';
 
 beforeEach(() => {
@@ -46,4 +46,44 @@ test('on phones the graph crops to the most recent weeks instead of shrinking to
     }));
     render(<ContributionGraph days={days} total={42} />);
     expect(screen.getByRole('img', { name: /GitHub contributions/ })).toHaveAttribute('preserveAspectRatio', 'xMaxYMid slice');
+});
+
+const inView = () => {
+    window.IntersectionObserver = class {
+        constructor(cb) { this.cb = cb; }
+        observe(el) { this.cb([{ isIntersecting: true, target: el }]); }
+        disconnect() {}
+    };
+};
+
+test('ocean: a swell line is drawn and there is no counter text', () => {
+    const { container } = render(<ContributionGraph days={days} total={42} />);
+    expect(screen.getByTestId('swell')).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/contributions/);
+});
+
+test('ocean moves once in view, and pausing stops it', () => {
+    inView();
+    const raf = jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => 1);
+    jest.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {});
+    render(<ContributionGraph days={days} total={42} />);
+    expect(raf).toHaveBeenCalled();
+    raf.mockClear();
+    fireEvent.click(screen.getByRole('button', { name: 'Pause slideshow' }));
+    expect(raf).not.toHaveBeenCalled();
+    jest.restoreAllMocks();
+    delete window.IntersectionObserver;
+});
+
+test('reduced motion: the ocean is static', () => {
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+        matches: query.includes('reduced-motion'), media: query, addEventListener: jest.fn(), removeEventListener: jest.fn(), addListener: jest.fn(), removeListener: jest.fn(),
+    }));
+    inView();
+    const raf = jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => 1);
+    render(<ContributionGraph days={days} total={42} />);
+    expect(raf).not.toHaveBeenCalled();
+    expect(screen.queryByRole('button', { name: 'Pause slideshow' })).toBeNull();
+    jest.restoreAllMocks();
+    delete window.IntersectionObserver;
 });

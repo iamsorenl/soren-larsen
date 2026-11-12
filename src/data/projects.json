@@ -6,6 +6,10 @@
         "link": "https://github.com/No-RAGrets-Research/No-RAGrets-Master",
         "video": "https://youtu.be/2yX1e5xogUQ",
         "preview": { "poster": "/media/projects/no-ragrets.jpg", "video": "/media/projects/no-ragrets.mp4" },
+        "slides": [
+            {"type": "image", "src": "/media/projects/no-ragrets-poster-team.jpg", "pos": "66.4% 64.3%", "zoom": 1.42, "alt": "The No RAGrets team with their research poster"},
+            {"type": "image", "src": "/media/projects/slugfest.jpg", "pos": "50.1% 73%", "alt": "Soren presenting No RAGrets at SlugFest"}
+        ],
         "muiIcon": "Abc",
         "category": "sponsored",
         "subtitle": "M.S. NLP Capstone, Industry-Sponsored Graduate Capstone, Featured by Santa Cruz Works",
@@ -43,6 +47,9 @@
         "title": "SLAC Accelerator Fault Investigator",
         "slug": "slac",
         "preview": { "poster": "/previews/slac.jpg", "video": "/previews/slac.mp4" },
+        "slides": [
+            {"type": "image", "src": "/media/moments/hackathon-table.jpg", "pos": "14.7% 56.1%", "zoom": 1.13, "alt": "Soren and two teammates at a hackathon table"}
+        ],
         "startDate": "September 2026",
         "endDate": "September 2026",
         "link": "https://github.com/iamsorenl/slac-investigator",
@@ -67,7 +74,7 @@
             "Multi-Agent Systems"
         ],
         "details": "- Three agents each hold their own slice of instrument data and send back only a summary, so under 1 percent of the raw data gets shared\n- An orchestrator combines the summaries into a verdict for a human, and no tool can touch the equipment\n- I wrote the spec and the GitHub issues the team's coding agents built from\n- After the event I hosted the live demo from my fork so it stays up for free",
-        "tab": "play"
+        "tab": "hackathon"
     },
     {
         "title": "EduMUSE",
@@ -168,7 +175,10 @@
     },
     {
         "title": "Sentinel: Cyber Incident Response Council",
-        "preview": { "poster": "/media/projects/sentinel.jpg" },
+        "preview": { "poster": "/media/projects/sentinel.jpg", "video": "/media/projects/sentinel.mp4", "pos": "39% 27.9%" },
+        "slides": [
+            {"type": "image", "src": "/media/projects/sentinel-team.jpg", "pos": "52.4% 0%", "alt": "Selfie of the Sentinel hackathon team"}
+        ],
         "startDate": "October 2026",
         "endDate": "October 2026",
         "link": "https://github.com/arpinero/UCSC-AI-Hackathon",
@@ -182,7 +192,7 @@
             "Local LLMs"
         ],
         "details": "- I built the Compliance agent, which works out which breach notification rules an incident triggers (GDPR, SEC, HIPAA, NIS2 and others) and how long is left on each deadline\n- The model judges and Python counts. Deadlines and the hard rules for escalating to a human are computed in code, not left to the model\n- It vetoes destructive actions under a legal hold on any host whose evidence has not been preserved yet\n- Passed 21 of 21 ATT&CK-based cases and 25 of 25 cases modeled on public breaches with gemma4 26B, picked after sweeping other local models on the same cases",
-        "tab": "play",
+        "tab": "hackathon",
         "video": "https://www.youtube.com/watch?v=4D9yiXNAT0k"
     },
     {
@@ -300,7 +310,7 @@
         "endDate": "November 2024",
         "link": "https://github.com/iamsorenl/Language-Modeling-on-Penn-Treebank",
         "writeup": "/writeups/ptb-transformer.pdf",
-        "results": { "metric": "Test perplexity, lower is better", "lowerIsBetter": true, "bars": [["Baseline", 83.35], ["Smaller, tuned", 39.11], ["Larger", 134.72]] },
+        "results": { "headline": "The biggest model did worst, with test perplexity of 134.7 against the baseline's 83.4.", "metric": "Test perplexity, roughly how many words the model is torn between. Lower is better.", "lowerIsBetter": true, "bars": [["Baseline", 83.35], ["Smaller, faster", 39.11], ["Larger", 134.72]] },
         "muiIcon": "Abc",
         "category": "school",
         "description": "I built a transformer language model with my own attention layers and trained it on the Penn Treebank for my NLP master's.\nThe smaller tuned model won. It cut test perplexity from 83.35 to 39.11, and the larger model got worse at 134.72.",
@@ -314,7 +324,7 @@
         "endDate": "February 2025",
         "link": "https://github.com/iamsorenl/Transformer_QA",
         "writeup": "/writeups/transformer-qa.pdf",
-        "results": { "metric": "Test F1 on COVID-QA, higher is better", "bars": [["Baseline", 43.79], ["LoRA", 54.33]] },
+        "results": { "headline": "RoBERTa was 98% sure UC Santa Cruz was founded in 2050.", "metric": "How sure the model was of its answer, in percent, on passages I edited or filled with nonsense.", "bars": [["Fake 2050 founding", 98.01], ["Fake Jedi home", 5.54], ["Nonsense text", 0.02]] },
         "muiIcon": "Abc",
         "category": "school",
         "description": "I tested how a RoBERTa model trained on SQuAD 2.0 holds up on tricky and out of domain questions, then adapted it to COVID research papers.\nFine tuning it with LoRA on COVID-QA raised test F1 from 43.79 to 54.33 without retraining the whole model.",
@@ -328,7 +338,7 @@
         "endDate": "January 2025",
         "link": "https://github.com/iamsorenl/Neural-Machine-Translation",
         "writeup": "/writeups/nmt.pdf",
-        "results": { "metric": "Test BLEU, higher is better", "bars": [["Transformer, BPE", 28.19], ["Transformer, whole words", 32.82], ["CNN, BPE", 26.88], ["CNN, whole words", 30.79]] },
+        "results": { "headline": "Whole words needed about 7 times the vocabulary and still won by 4.6 BLEU.", "metric": "Test BLEU, higher is better.", "groups": [{ "label": "Transformer", "bars": [["BPE pieces", 28.19], ["Whole words", 32.82]] }, { "label": "CNN", "bars": [["BPE pieces", 26.88], ["Whole words", 30.79]] }] },
         "muiIcon": "Abc",
         "category": "school",
         "description": "I trained Transformer and CNN models with Fairseq to translate French to English, once with words split into BPE subword pieces and once with whole words.\nWhole words won for both models, and the Transformer went from 28.19 to 32.82 BLEU on the test set.",

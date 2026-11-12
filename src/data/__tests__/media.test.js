@@ -22,3 +22,20 @@ test('no shipped video carries an audio track', () => {
         && fs.readFileSync(pub(p)).includes(Buffer.from('soun')));
     expect(withAudio).toEqual([]);
 });
+
+test('no media file is used in two places', () => {
+    // eslint-disable-next-line global-require
+    const heroPhotos = require('../heroPhotos').default;
+    const experienceImages = require('../experienceImages').default;
+    const projects = require('../projects.json');
+    const education = require('../education.json');
+    const srcs = [
+        ...heroPhotos.map((m) => m.src),
+        ...Object.values(experienceImages).filter(Array.isArray).flat().map((m) => m.src),
+        ...projects.flatMap((p) => [p.preview && (p.preview.video || p.preview.poster), ...(p.slides || []).map((m) => m.src)]),
+        ...education.flatMap((e) => (e.media || []).map((m) => m.src)),
+    ].filter(Boolean);
+    const dupes = srcs.filter((s, i) => srcs.indexOf(s) !== i);
+    expect(dupes).toEqual([]);
+    expect(heroPhotos).toHaveLength(9);
+});

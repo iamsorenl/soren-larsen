@@ -28,7 +28,7 @@ function extractKeywords(query) {
 // Presentation-only fields (media paths, site-local media links) are not facts: keep them out of the prompt and scoring.
 const stringifyFacts = (v) =>
   JSON.stringify(v, (k, x) =>
-    k === 'preview' || k === 'image' ? undefined : k === 'links' && Array.isArray(x) ? x.filter((l) => !l.url.startsWith('/')) : x
+    k === 'preview' || k === 'slides' || k === 'image' ? undefined : k === 'links' && Array.isArray(x) ? x.filter((l) => !l.url.startsWith('/')) : x
   );
 
 function scoreEntry(entry, keywords) {
@@ -71,7 +71,7 @@ const SECTION_TOPIC_KEYWORDS = {
     'school', 'schools', 'university', 'universities', 'college', 'colleges',
     'degree', 'degrees', 'education', 'academic', 'gpa', 'ucsc',
     'santa cruz', 'masters', 'bachelor', 'graduate', 'graduated', 'studied',
-    'study', 'coursework',
+    'study', 'coursework', 'course', 'courses', 'class', 'classes', 'master',
   ],
 };
 
@@ -97,7 +97,7 @@ function compactExperience(e) {
 // inline it when a query keyword actually hits it.
 // Keys that only drive the site's UI (media, icons, anchors, charts). The
 // description already states the numbers a chart shows.
-const UI_ONLY_KEYS = ['preview', 'photo', 'muiIcon', 'slug', 'results', 'media', 'diplomaFile'];
+const UI_ONLY_KEYS = ['preview', 'slides', 'press', 'photo', 'muiIcon', 'slug', 'results', 'media', 'diplomaFile'];
 const withoutUi = (o) => Object.fromEntries(Object.entries(o).filter(([k]) => !UI_ONLY_KEYS.includes(k)));
 
 function trimDetails(p, keywords) {
@@ -132,7 +132,8 @@ function compactSkills(s) {
 // Retrieves the entries to inline for a given query.
 //
 // Strategy:
-// - about / contact / highlights / education: always included (small).
+// - about / contact / highlights / education: always included (small);
+//   education coursework only when the question is about school.
 // - skills: always included, names only.
 // - experience: always pin the most recent role in full. If the question
 //   topically targets experience ("roles", "work history", etc.), every other
@@ -149,7 +150,13 @@ export function retrieveContext(latestUserMessage) {
   sections.contact = contact;
   sections.highlights = highlights;
   sections.skills = compactSkills(skills);
-  sections.education = education.map(withoutUi);
+  // Coursework lists only ride along when the question is about school.
+  const eduRelevant = isSectionRelevant(queryLower, 'education');
+  sections.education = education.map((e) => {
+    const facts = withoutUi(e);
+    if (!eduRelevant) delete facts.relevantCoursework;
+    return facts;
+  });
 
   if (isSectionRelevant(queryLower, 'experience')) {
     // Full detail for the current role plus the best keyword match; every other

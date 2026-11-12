@@ -33,8 +33,10 @@ test('explore links, when present, point at GitHub Pages', () => {
 test('NLP cards carry a write-up and real results', () => {
     research.filter((p) => p.results).forEach((p) => {
         expect(p.writeup).toMatch(/^\/writeups\/.+\.pdf$/);
-        expect(p.results.bars.length).toBeGreaterThan(1);
+        const bars = p.results.groups ? p.results.groups.flatMap((g) => g.bars) : p.results.bars;
+        expect(bars.length).toBeGreaterThan(1);
+        expect(p.results.headline).toBeTruthy();
     });
     const qa = research.find((p) => p.slug === 'transformer-qa');
-    expect(qa.results.bars).toEqual([['Baseline', 43.79], ['LoRA', 54.33]]);
+    expect(qa.results.bars).toEqual([['Fake 2050 founding', 98.01], ['Fake Jedi home', 5.54], ['Nonsense text', 0.02]]);
 });

@@ -29,3 +29,32 @@ test('when higher is better, the largest value is the highlighted one', () => {
     render(<ResultChart results={results} />);
     expect(screen.getAllByTestId('bar').map((b) => b.getAttribute('data-best'))).toEqual(['false', 'true']);
 });
+
+const grouped = {
+    headline: 'Whole words won for both models',
+    metric: 'Test BLEU, higher is better',
+    groups: [
+        { label: 'Transformer', bars: [['BPE pieces', 28.19], ['Whole words', 32.82]] },
+        { label: 'CNN', bars: [['BPE pieces', 26.88], ['Whole words', 30.79]] },
+    ],
+};
+
+test('groups show their labels, a headline, and share one scale', () => {
+    render(<ResultChart results={grouped} />);
+    expect(screen.getByText('Whole words won for both models')).toBeInTheDocument();
+    expect(screen.getByText('Transformer')).toBeInTheDocument();
+    expect(screen.getByText('CNN')).toBeInTheDocument();
+    const pcts = screen.getAllByTestId('bar').map((b) => Number(b.getAttribute('data-pct')));
+    expect(pcts).toEqual([86, 100, 82, 94]);
+});
+
+test('a two-bar group shows the gain of the second over the first', () => {
+    render(<ResultChart results={grouped} />);
+    expect(screen.getByText('+4.63')).toBeInTheDocument();
+    expect(screen.getByText('+3.91')).toBeInTheDocument();
+});
+
+test('when lower is better, the gain is the drop', () => {
+    render(<ResultChart results={{ lowerIsBetter: true, metric: 'm', groups: [{ bars: [['Before', 83.35], ['After', 39.11]] }] }} />);
+    expect(screen.getByText('−44.24')).toBeInTheDocument();
+});

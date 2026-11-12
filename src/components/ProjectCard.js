@@ -88,51 +88,25 @@ const LinkButton = ({ href, icon, primary, accent, children }) => (
     </Button>
 );
 
-// Optional photo and extra links shown under a play tile. The tile itself is
-// one big link, so these can't live inside it.
-const TileExtras = ({ project, accent }) => {
-    const { photo, links = [] } = project;
-    if (!photo && links.length === 0) return null;
-    return (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1, flexWrap: 'wrap' }}>
-            {photo && (
-                <Link href={photo.src} target="_blank" rel="noopener noreferrer" sx={{ lineHeight: 0 }}>
-                    <Box
-                        component="img"
-                        src={photo.src}
-                        alt={photo.alt}
-                        loading="lazy"
-                        sx={{ width: 64, height: 48, objectFit: 'cover', borderRadius: '6px', display: 'block' }}
-                    />
-                </Link>
-            )}
-            {links.map(({ label, url }) => (
-                <LinkButton key={url} href={url} icon={<Launch fontSize="small" />} accent={accent}>
-                    {label}
-                </LinkButton>
-            ))}
-        </Box>
-    );
-};
-
 // Card anchor ids, used by hero moments and chat "take me there".
 const anchorId = (project) =>
     `project-${project.slug || project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
 
-// Research media above the entry: the video preview, or a chart of the write-up's results.
+// Research media at the top of its card: the video preview, or a chart of the
+// write-up's results. Flush with the card (no own border or corners).
 const ResearchMedia = ({ project }) => {
-    if (project.preview) return <DemoTile project={project} showTitle={false} />;
-    if (project.results) {
-        return (
-            <Box sx={{ minHeight: 180, display: 'flex', flexDirection: 'column', '& > *': { flex: 1 }, borderRadius: '12px', overflow: 'hidden', border: (t) => `1px solid ${t.palette.divider}` }}>
-                <ResultChart results={project.results} />
-            </Box>
-        );
-    }
-    return null;
+    const media = project.preview
+        ? <DemoTile project={project} showTitle={false} flush />
+        : project.results && <ResultChart results={project.results} />;
+    if (!media) return null;
+    return (
+        <Box sx={{ minHeight: 180, display: 'flex', flexDirection: 'column', '& > *': { flex: 1 }, borderBottom: (t) => `1px solid ${t.palette.divider}` }}>
+            {media}
+        </Box>
+    );
 };
 
-const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile }) => {
+const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle, isMobile, media }) => {
     const { summary, detail } = splitDescription(project.description);
     return (
     <Card
@@ -142,6 +116,7 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
             transition: 'all 0.2s ease',
             position: 'relative',
             overflow: 'hidden',
+            height: '100%',
             '&::before': {
                 content: '""',
                 position: 'absolute',
@@ -150,9 +125,11 @@ const ProjectEntry = React.memo(({ project, accent, entryId, expanded, onToggle,
                 bottom: 0,
                 width: '4px',
                 backgroundColor: accent,
+                zIndex: 3,
             },
         }}
     >
+        {media}
         <CardContent sx={{ py: 1.75, px: { xs: 2, sm: 3 }, pl: { xs: 2.5, sm: 4 }, '&:last-child': { pb: 1.75 } }}>
             <Box
                 sx={{
@@ -314,8 +291,9 @@ ProjectEntry.displayName = 'ProjectEntry';
 
 const TABS = [
     { key: 'play', label: 'Play with it' },
+    { key: 'hackathon', label: 'Hackathons' },
     { key: 'how', label: 'How it works' },
-    { key: 'research', label: 'Research' },
+    { key: 'research', label: "Master's work" },
 ];
 
 const ProjectCard = () => {
@@ -368,30 +346,29 @@ const ProjectCard = () => {
                 <Tabs
                     value={active.key}
                     onChange={(_, v) => setTab(v)}
-                    variant="scrollable"
+                    variant={isMobile ? 'fullWidth' : 'scrollable'}
                     scrollButtons="auto"
                     sx={{ mb: 2, borderBottom: (t) => `1px solid ${t.palette.divider}` }}
                 >
                     {tabs.map((t) => (
-                        <Tab key={t.key} value={t.key} label={t.label} sx={{ textTransform: 'none', fontWeight: 600 }} />
+                        <Tab key={t.key} value={t.key} label={t.label} sx={{ textTransform: 'none', fontWeight: 600, minWidth: 0, px: { xs: 1, sm: 2 }, lineHeight: 1.25 }} />
                     ))}
                 </Tabs>
 
-                {active.key === 'play' ? (
+                {active.key === 'play' || active.key === 'hackathon' ? (
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
                         {active.items.map((project) => (
                             <Box key={project.title} id={anchorId(project)} component="article" aria-label={project.title}>
                                 <DemoTile project={project} />
-                                <TileExtras project={project} accent={theme.palette.primary.main} />
                             </Box>
                         ))}
                     </Box>
                 ) : (
-                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, alignItems: 'start' }}>
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
                         {active.items.map((project) => (
-                            <Stack key={project.title} id={anchorId(project)} component="article" aria-label={project.title} spacing={1}>
-                                <ResearchMedia project={project} />
+                            <Box key={project.title} id={anchorId(project)} component="article" aria-label={project.title}>
                                 <ProjectEntry
+                                    media={<ResearchMedia project={project} />}
                                     project={project}
                                     accent={theme.palette.primary.main}
                                     entryId={project.title}
@@ -399,7 +376,7 @@ const ProjectCard = () => {
                                     onToggle={handleExpandClick}
                                     isMobile={isMobile}
                                 />
-                            </Stack>
+                            </Box>
                         ))}
                     </Box>
                 )}
@@ -409,9 +386,10 @@ const ProjectCard = () => {
                     href={contactInfo[0].github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    size="small"
+                    size="large"
+                    variant="outlined"
                     startIcon={<GitHub />}
-                    sx={{ mt: 2, textTransform: 'none', fontWeight: 600 }}
+                    sx={{ mt: 3, px: 3, textTransform: 'none', fontWeight: 600, fontSize: '1rem' }}
                 >
                     More on GitHub
                 </Button>

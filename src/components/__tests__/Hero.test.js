@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import Hero from '../Hero';
+import about from '../../data/about.json';
 
 beforeEach(() => {
     window.matchMedia = jest.fn().mockImplementation((query) => ({
@@ -10,18 +11,35 @@ beforeEach(() => {
 });
 afterEach(() => { delete window.matchMedia; });
 
-test('the SlugFest photo jumps to No RAGrets in Research', () => {
-    const seen = [];
-    const onTab = (e) => seen.push(e.detail);
-    window.addEventListener('portfolio:projects-tab', onTab);
+test('bio paragraphs from about.json render in the hero', () => {
     render(<Hero />);
-    fireEvent.click(screen.getByRole('button', { name: 'Show photo 7 of 11' }));
-    fireEvent.click(screen.getByRole('button', { name: /SlugFest talk, see No RAGrets/i }));
-    window.removeEventListener('portfolio:projects-tab', onTab);
-    expect(seen).toEqual(['research']);
+    expect(screen.getByText(about[0].about.split('\n\n')[0])).toBeInTheDocument();
 });
 
-test('other carousel photos are not buttons', () => {
+test('one carousel with a "1 / 9" counter and no dots', () => {
     render(<Hero />);
-    expect(screen.queryByRole('button', { name: /see No RAGrets/i })).toBeNull();
+    expect(screen.getByText('1 / 9')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Show photo/ })).toBeNull();
+});
+
+test('no photo is a link; the only carousel buttons are controls', () => {
+    render(<Hero />);
+    const carousel = screen.getByRole('group', { name: 'Photos of Soren' });
+    expect(within(carousel).queryByRole('link')).toBeNull();
+    const names = within(carousel).getAllByRole('button').map((b) => b.getAttribute('aria-label'));
+    expect(names.sort()).toEqual(['Next', 'Pause slideshow', 'Previous']);
+});
+
+test('each photo has its own alt text', () => {
+    render(<Hero />);
+    const alts = screen.getAllByRole('img', { hidden: true }).map((i) => i.getAttribute('alt')).filter(Boolean);
+    expect(alts).toHaveLength(9);
+    expect(alts).not.toContain('Soren Larsen');
+    expect(new Set(alts).size).toBe(9);
+});
+
+test('no moment strip under the hero', () => {
+    render(<Hero />);
+    expect(screen.queryByTestId('moment-strip')).toBeNull();
+    expect(screen.queryByText(/Developer Camp/)).toBeNull();
 });

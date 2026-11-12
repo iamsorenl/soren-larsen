@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Fab, Tooltip, Box, useTheme } from '@mui/material';
+import { Fab, Tooltip, Box, useTheme, useMediaQuery } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatPanel from './ChatPanel';
 import StarterCard from './StarterCard';
@@ -43,12 +43,14 @@ function ChatWidget() {
     const lastSectionRef = useRef(null);
     const wiggleTimerRef = useRef(null);
 
-    // Starter card: shows once per session after a short delay
+    // Starter card: shows once per session after a short delay. Not on phones,
+    // where it would cover most of the page; the FAB is enough there.
+    const phone = useMediaQuery('(max-width:599.95px)');
     useEffect(() => {
-        if (starterDismissed) return undefined;
+        if (starterDismissed || phone) return undefined;
         const t = setTimeout(() => setShowStarter(true), STARTER_DELAY_MS);
         return () => clearTimeout(t);
-    }, [starterDismissed]);
+    }, [starterDismissed, phone]);
 
     // Section-change wiggle: each time the active section transitions, the
     // FAB does a brief shake. The initial section landing on load doesn't

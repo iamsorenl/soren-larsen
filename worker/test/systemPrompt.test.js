@@ -157,3 +157,15 @@ describe('UI-only data stays out of the prompt', () => {
     }
   );
 });
+
+describe('education coursework gating', () => {
+  it.each(["What classes did he take in his master's?", 'What did he study?'])(
+    'includes coursework for school questions: %s',
+    (q) => {
+      expect(retrieveContext(q).education.some((e) => e.relevantCoursework)).toBe(true);
+    }
+  );
+  it('leaves coursework out of unrelated questions', () => {
+    expect(retrieveContext('How do I reach him?').education.some((e) => e.relevantCoursework)).toBe(false);
+  });
+});

@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Hero from './Hero';
-import AboutCard from './AboutCard';
 import CardLayout from './CardLayout';
 import CopyrightCard from './Copyright';
 
@@ -12,9 +11,6 @@ function Body() {
             <Grid container spacing={2} sx={{ mb: 1, mt: 1 }}>
                 <Grid item xs={12} id="about">
                     <Hero />
-                </Grid>
-                <Grid item xs={12}>
-                    <AboutCard />
                 </Grid>
                 <Grid item xs={12}>
                     <CardLayout />
