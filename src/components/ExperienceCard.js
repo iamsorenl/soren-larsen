@@ -17,6 +17,8 @@ import experienceData from '../data/experience';
 import experienceImages from '../data/experienceImages';
 import { parseDate } from '../utils/dates';
 import SectionHeader from './SectionHeader';
+import CyclingMedia from './CyclingMedia';
+import CausalityAnim from './CausalityAnim';
 
 const initials = (name) =>
     name
@@ -29,10 +31,39 @@ const initials = (name) =>
 // "September 2026" -> "Sep 2026"; "Present" stays as is.
 const abbrev = (d) => d.replace(/^([A-Za-z]{3})[A-Za-z]* (\d{4})$/, '$1 $2');
 
+const mediaBoxSx = {
+    width: { xs: 72, sm: '100%' },
+    height: { xs: 72, sm: 140 },
+    flexShrink: 0,
+    borderRadius: { xs: 1.5, sm: 0 },
+    overflow: 'hidden',
+};
+
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const TileMedia = ({ media, alt }) => {
+    if (Array.isArray(media)) {
+        return (
+            <Box sx={mediaBoxSx}>
+                <CyclingMedia items={media} label={alt} />
+            </Box>
+        );
+    }
+    if (media === 'causality-anim') {
+        return (
+            <Box sx={mediaBoxSx}>
+                <CausalityAnim />
+            </Box>
+        );
+    }
+    return <Box component="img" src={media} alt={alt} sx={{ ...mediaBoxSx, objectFit: 'cover' }} />;
+};
+
 const Tile = ({ experience, open, onToggle }) => {
     const src = experienceImages[experience.image];
     return (
         <Card
+            id={`exp-${experience.image || slug(experience.company)}`}
             sx={{
                 height: '100%',
                 border: (t) => `1px solid ${open ? t.palette.primary.main : t.palette.divider}`,
@@ -51,18 +82,7 @@ const Tile = ({ experience, open, onToggle }) => {
                 }}
             >
                 {src ? (
-                    <Box
-                        component="img"
-                        src={src}
-                        alt={experience.company}
-                        sx={{
-                            width: { xs: 72, sm: '100%' },
-                            height: { xs: 72, sm: 140 },
-                            flexShrink: 0,
-                            borderRadius: { xs: 1.5, sm: 0 },
-                            objectFit: 'cover',
-                        }}
-                    />
+                    <TileMedia media={src} alt={experience.company} />
                 ) : (
                     <Box
                         aria-hidden="true"
