@@ -69,12 +69,12 @@ const CardLayout = () => {
                     <ProjectCard />
                 </Section>
             </Grid>
-            <Grid item xs={12} md={6} id="education">
+            <Grid item xs={12} md={12} id="education">
                 <Section label="education">
                     <EducationCard />
                 </Section>
             </Grid>
-            <Grid item xs={12} md={6} id="contact">
+            <Grid item xs={12} md={12} id="contact">
                 <Section label="contact">
                     <ContactCard />
                 </Section>

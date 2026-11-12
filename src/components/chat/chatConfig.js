@@ -11,6 +11,10 @@ export const STARTER_PROMPTS = ["What's he building now?", 'Show me his best dem
 // Answered locally (no network call) with a contact action.
 export const CONTACT_PROMPT = 'How do I reach him?';
 
+// Also answered locally, with the note form. Sent by the Contact section's
+// "Leave me a note" button through the portfolio:open-chat event.
+export const NOTE_PROMPT = 'Leave Soren a note';
+
 // Chat-history compaction. Token-based, not turn-based: short banter shouldn't
 // trigger an unnecessary summarize and a single long paste shouldn't be allowed
 // to coast past a turn-count threshold. Estimator is chars/4 (English).

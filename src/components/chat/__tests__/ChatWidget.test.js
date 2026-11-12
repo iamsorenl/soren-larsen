@@ -122,6 +122,13 @@ describe('ChatWidget starter card', () => {
         expect(screen.queryByText(chipName)).not.toBeInTheDocument();
     });
 
+    test('a portfolio:open-chat event opens the panel and sends its prompt', () => {
+        render(withTheme(<ChatWidget />));
+        act(() => { window.dispatchEvent(new CustomEvent('portfolio:open-chat', { detail: { prompt: 'Leave Soren a note' } })); });
+        expect(send).toHaveBeenCalledWith('Leave Soren a note');
+        expect(screen.getByText("Soren's Assistant")).toBeInTheDocument();
+    });
+
     test('clicking a chip opens the panel and sends that prompt', () => {
         render(withTheme(<ChatWidget />));
         advance(4100);

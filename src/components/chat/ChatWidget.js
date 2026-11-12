@@ -102,6 +102,15 @@ function ChatWidget() {
         chat.send(prompt);
     };
 
+    // Other parts of the page (Contact's "Leave me a note") open the chat with a prompt.
+    useEffect(() => {
+        const onOpenChat = (e) => {
+            if (e.detail && e.detail.prompt) handleStarterSelect(e.detail.prompt);
+        };
+        window.addEventListener('portfolio:open-chat', onOpenChat);
+        return () => window.removeEventListener('portfolio:open-chat', onOpenChat);
+    });
+
     const handleClose = () => {
         chat.cancel();
         setOpen(false);
