@@ -13,7 +13,7 @@
         "muiIcon": "Abc",
         "category": "sponsored",
         "subtitle": "M.S. NLP Capstone, Industry-Sponsored Graduate Capstone, Featured by Santa Cruz Works",
-        "description": "I led the build of a tool that pulls findings out of scientific papers, links them in a knowledge graph, and traces every answer back to its source. Built with CarbonBridge, a startup that uses microbes to turn methane into methanol.\nCarbonBridge's researchers were annotating papers by hand to keep up with their field. I sat with them to learn how they actually read, then led the build around that, from parsing messy PDFs to the graph view where they explore what each paper found. We handed it off fully documented so their team can keep building on it.",
+        "description": "I led the build of a tool that pulls findings out of scientific papers, links them in a knowledge graph, and traces every answer back to its source. Built with CarbonBridge, a startup that uses microbes to turn methane into methanol.\nCarbonBridge's researchers were annotating papers by hand to keep up with their field. I sat with them to learn how they actually read, then led the build around that, from parsing messy PDFs to the graph view where they explore what each paper found. On our calls, review dropped from 30 to 60 minutes a paper by hand to about 5 to 10 with the tool. We handed it off fully documented so their team can keep building on it.",
         "tools": [
             "NLP",
             "Knowledge Graphs",
