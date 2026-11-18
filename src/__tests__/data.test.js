@@ -23,8 +23,8 @@ test('preview files exist and are under 300 KB', () => {
     expect(size).toBeLessThanOrEqual(300 * 1024);
   }));
 });
-test('about has the four approved facts', () => {
-  expect(about[0].contractEnd).toMatch(/^He was brought on to take Causality's platform/);
+test('about has the approved facts and never explains why a role ended', () => {
+  expect(about[0].contractEnd).toBeUndefined();
   ['experienceSummary', 'strongestProject', 'now'].forEach(k => expect(about[0][k]).toBeTruthy());
 });
 test('skills include AWS, Terraform, DynamoDB', () => {
