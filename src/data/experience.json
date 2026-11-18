@@ -52,7 +52,7 @@
         "startDate": "June 2025",
         "endDate": "January 2026",
         "link": "https://graywhale.ai/",
-        "description": "Gray Whale builds the optimization layer between AI models and your application stack, called \"pre-thinking,\" based on $35M in DARPA-funded research and a new Large Interaction Model.\n\nThe engineering team built their tools on the agent framework I made, my benchmarks tested the model, and my prototypes showed up in demos for customers and in projects at the Developer Camp hackathon I hosted.",
+        "description": "Gray Whale builds the optimization layer between AI models and your application stack, called \"pre-thinking,\" based on $35M in DARPA-funded research and a new Large Interaction Model.\n\nThe engineering team built their tools on the agent framework I made, benchmarks I helped build tested the model, and my prototypes showed up in customer demos and in projects at the Developer Camp hackathon I co-hosted with Dom Sagolla.",
         "skills": [
             "Python",
             "LangGraph",
@@ -71,7 +71,7 @@
                 "url": "/videos/gray-whale-surf-ranch-720p.mp4"
             }
         ],
-        "details": "Gray Whale is an enterprise AI company building Large Interaction Models. I built the agent framework the other three engineers used to connect their tools and specialized agents, benchmarked the model, and hosted the Developer Camp hackathon, where I built the formatter people used to get their own data onto the platform. I also built a native audio-filter plugin that ran speech to text on device with whisper.cpp. I stayed on afterward for light product testing and advisory work."
+        "details": "Gray Whale is an enterprise AI company building Large Interaction Models. I built the agent framework the other three engineers used to connect their tools and specialized agents, helped benchmark the model, and co-hosted the Developer Camp hackathon with Dom Sagolla, where I built the formatter people used to get their own data onto the platform. I also built a native audio-filter plugin that ran speech to text on device with whisper.cpp. I stayed on afterward for light product testing and advisory work."
     },
     {
         "company": "Onda Sports Inc.",
@@ -93,7 +93,7 @@
             "Natural Language Processing (NLP)"
         ],
         "category": "professional",
-        "details": "Onda is a surf forecasting app. I owned the production chatbot inside a codebase the rest of the team built, and I set up the LangSmith tracing that let us see what the model was actually doing. The traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset."
+        "details": "Onda is a surf forecasting app. I owned the production chatbot inside a codebase the rest of the team built, and I set up the LangSmith tracing that let us see what the model was actually doing. The traces showed it was treating a surfer's self-reported skill as a target instead of a ceiling, so I redesigned it to cap recommendations at stated ability and checked the change against a fixed dataset. I also made it faster and cheaper per call by trimming the context window, which had been resending the whole conversation after every reply."
     },
     {
         "company": "Baskin Engineering at UCSC",
@@ -124,7 +124,7 @@
         "startDate": "April 2024",
         "endDate": "June 2025",
         "link": "https://boardal.app/",
-        "description": "Surfboards and gear get buried on general marketplace sites, so sellers get no views and surfers can't find the board they want. Boardal built a marketplace just for surf, and more than 20,000 surfers signed up.\n\nAs the first hire after the two founders, I built the app alongside one of them, including the saved search alerts that tell surfers the moment the board they want is listed, and shipped every iOS release.",
+        "description": "Surfboards and gear get buried on general marketplace sites, so sellers get no views and surfers can't find the board they want. Boardal built a marketplace just for surf, and more than 20,000 surfers signed up.\n\nAs the first hire after the two founders, I built the app alongside one of them, including the saved search alerts that tell surfers the moment the board they want is listed, and shipped features across 13 App Store releases.",
         "skills": [
             "Flutter",
             "Firebase",
@@ -140,7 +140,7 @@
             "Full-Stack Development"
         ],
         "category": "professional",
-        "details": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders and the only engineer on the app, and I carried the technical side. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and shipped the iOS releases. Toward the end I built a custom GPT wired to the Google Sheets API so the marketing interns could write personalized outreach from customer records and track who had been contacted.",
+        "details": "Boardal is a mobile marketplace with more than 20,000 registered users. I was the first hire after the two founders and the only engineer besides a cofounder, who shared the technical work with me. I built saved search alerts with push delivery that brought people back, reworked the chat architecture, and reviewed each App Store release with the cofounder. Toward the end I built a custom GPT wired to the Google Sheets API so the marketing interns could write personalized outreach from customer records and track who had been contacted.",
         "image": "boardal",
         "links": [{ "label": "Instagram", "url": "https://www.instagram.com/boardal.app/" }]
     }
