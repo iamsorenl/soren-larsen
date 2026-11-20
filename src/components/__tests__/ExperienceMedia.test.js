@@ -70,11 +70,6 @@ test('no tile says Causality Labs', () => {
     expect(screen.queryByText(/Causality Labs/)).toBeNull();
 });
 
-test('Self-Employed tile draws the real GitHub contribution graph', () => {
-    render(<ExperienceCard />);
-    expect(within(tile('Self-Employed')).getByRole('img', { name: /GitHub contributions in the last year/ })).toBeInTheDocument();
-});
-
 test('Causality draws the decision path: main, gray, dashed red, green to a dashed end', () => {
     render(<ExperienceCard />);
     const anim = within(tile('Causality')).getByTestId('causality-anim');

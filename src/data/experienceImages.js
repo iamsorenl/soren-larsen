@@ -19,7 +19,6 @@ const experienceImages = {
     boardal: 'boardal-squares',
     causality: 'causality-anim',
     baskin: 'slug-anim',
-    'self-employed': 'github-graph',
 };
 
 // Two square clips for the Boardal tile (riding first; phones show only it).
