@@ -1,26 +1,5 @@
 [
     {
-        "company": "Self-Employed",
-        "title": "AI Engineer",
-        "location": "Santa Cruz, CA",
-        "startDate": "September 2026",
-        "endDate": "Present",
-        "link": "https://github.com/iamsorenl",
-        "description": "I build open source tools for AI agents and test where they break, then publish what I find.\n\nMy agent benchmark ran five laptop-sized models through 450 runs, and only one reliably finished research tasks. Most of the others searched the web and stopped before opening the page to read the answer. I also built team-build, a plugin that keeps a team's Claude Code and Codex agents in sync on one repo through a shared decision log on GitHub.",
-        "skills": [
-            "LLM Evaluation",
-            "Agentic AI Development",
-            "MCP",
-            "Claude Code",
-            "Python",
-            "LangGraph",
-            "Ollama",
-            "Open-Source Software"
-        ],
-        "category": "professional",
-        "image": "self-employed"
-    },
-    {
         "company": "Causality",
         "title": "Founding Engineer",
         "location": "Remote",

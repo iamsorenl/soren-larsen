@@ -135,7 +135,8 @@ function compactSkills(s) {
 // - about / contact / highlights / education: always included (small);
 //   education coursework only when the question is about school.
 // - skills: always included, names only.
-// - experience: always pin the most recent role in full. If the question
+// - experience: always pin the most recent role (full when on-topic or a
+//   keyword hits it, else headline only). If the question
 //   topically targets experience ("roles", "work history", etc.), every other
 //   role is included in headline-only form so list-style questions still see
 //   the complete set; the best keyword match is kept in full.
@@ -164,9 +165,10 @@ export function retrieveContext(latestUserMessage) {
     const detailed = new Set([experience[0], ...topKEntries(experience.slice(1), keywords, 1)]);
     sections.experience = experience.map((e) => (detailed.has(e) ? e : compactExperience(e)));
   } else {
-    const recentExperience = experience.slice(0, 1);
-    const matchedExperience = topKEntries(experience.slice(1), keywords, 2);
-    sections.experience = [...recentExperience, ...matchedExperience];
+    // Off-topic questions get the latest role as a headline (about.now covers
+    // "what is he doing now"); it goes in full only when a keyword hits it.
+    const matched = topKEntries(experience, keywords, 2);
+    sections.experience = matched.includes(experience[0]) ? matched : [compactExperience(experience[0]), ...matched];
   }
 
   if (isSectionRelevant(queryLower, 'projects')) {
@@ -205,7 +207,7 @@ RULES:
 - ABOUT[0] also has experienceSummary, strongestProject and now. Use them for
   years of experience and level, his strongest project, and what he is working on.
 - If asked about salary, visa or work authorization, why any job or contract
-  ended, personal opinions, or
+  ended, who his consulting is for or what it involves, personal opinions, or
   anything else not in FACTS, call show_contact and write no text before or
   after the call; the contact card says to ask Soren directly. Never state a
   salary or work authorization status.

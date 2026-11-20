@@ -20,9 +20,9 @@ function projectTitles(projects) {
 }
 
 describe('experience retrieval', () => {
-  it('"most recent role" pins Self-Employed', () => {
+  it('"most recent role" pins Causality', () => {
     const sections = retrieveContext("What was Soren's most recent role?");
-    expect(companies(sections.experience)).toContain('Self-Employed');
+    expect(companies(sections.experience)).toContain('Causality');
   });
 
   it('"what other roles has he had" returns more than just the latest role', () => {
@@ -37,7 +37,6 @@ describe('experience retrieval', () => {
     const cos = companies(sections.experience);
     expect(cos).toEqual(
       expect.arrayContaining([
-        'Self-Employed',
         'Causality',
         'Gray Whale',
         'Onda Sports Inc.',
