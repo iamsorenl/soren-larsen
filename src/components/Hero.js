@@ -223,6 +223,17 @@ const Hero = () => {
                     </Button>
                     <Button
                         component="a"
+                        href="/SorenLarsenCV.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        variant="outlined"
+                        startIcon={<Description />}
+                        sx={{ px: 3, color: outlinedColor, borderColor: outlinedColor, '&:hover': { borderColor: outlinedColor } }}
+                    >
+                        Full CV
+                    </Button>
+                    <Button
+                        component="a"
                         href="#contact"
                         onClick={scrollToContact}
                         variant="outlined"
